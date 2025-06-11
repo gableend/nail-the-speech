@@ -1,0 +1,11 @@
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_your_production_key_here
+CLERK_SECRET_KEY=sk_live_your_production_secret_here
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+OPENAI_API_KEY=your_openai_api_key_here
+STRIPE_SECRET_KEY=sk_live_your_production_stripe_secret_here
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_your_production_stripe_publishable_here
+NEXT_PUBLIC_APP_URL=https://your-site-name.netlify.app
+DATABASE_URL=file:./prisma/dev.db

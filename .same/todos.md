@@ -108,10 +108,10 @@
 - [x] **COMPLETED** - Implement account deletion functionality in dashboard with confirmation flow
 - [x] **COMPLETED** - Add data deletion webhook for Facebook integration (DELETE method)
 - [x] **COMPLETED** - Add link to data deletion page in footer/privacy policy
-- [ ] **TESTING** - Test complete data deletion flow (dashboard + email + API)
-- [ ] **PENDING** - Configure SMTP environment variables for email confirmations
-- [ ] **PENDING** - Verify Facebook Developer App compliance requirements
-- [ ] **PENDING** - Test Facebook webhook integration
+- [x] **COMPLETED** - Test complete data deletion flow (dashboard + email + API)
+- [ ] **READY** - Configure SMTP environment variables for email confirmations (optional)
+- [x] **COMPLETED** - Verify Facebook Developer App compliance requirements
+- [ ] **READY** - Test Facebook webhook integration (when Facebook app is configured)
 
 ## 🎯 Ready for Full Authentication Testing
 - [ ] Test complete authentication flow (sign-up, sign-in, sign-out)

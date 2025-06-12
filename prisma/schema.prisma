@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Speech {
+  id            String   @id @default(cuid())
+  title         String
+  content       String
+  role          String
+  tone          String
+  length        String
+  wordCount     Int?
+  estimatedTime Int?     // in minutes
+  isAIGenerated Boolean  @default(true)
+  formData      String   // JSON string of form data
+  userId        String?  // Clerk user ID, null for anonymous speeches
+  isCompleted   Boolean  @default(true) // false for draft speeches
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

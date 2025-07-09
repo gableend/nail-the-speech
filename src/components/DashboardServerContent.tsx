@@ -11,24 +11,47 @@ import { UserButton } from '@clerk/nextjs';
 import DashboardClient from '@/components/DashboardClient';
 
 export default async function DashboardServerContent() {
+  console.log('🔍 [DASHBOARD] DashboardServerContent starting...');
+
   try {
     // More robust server-side auth with better error handling
     let userId = null;
     let authError = null;
 
+    console.log('🔍 [DASHBOARD] Attempting server-side auth...');
+
     try {
       const authResult = await auth();
       userId = authResult.userId;
+      console.log('🔍 [DASHBOARD] Server-side auth result:', {
+        hasUserId: !!userId,
+        userIdLength: userId?.length || 0,
+        authKeys: Object.keys(authResult || {})
+      });
     } catch (error) {
-      console.error('Server-side auth failed:', error);
+      console.error('❌ [DASHBOARD] Server-side auth failed:', error);
       authError = error;
 
       // Check if this is a Clerk middleware issue
-      if (error instanceof Error && error.message.includes('clerkMiddleware')) {
-        console.log('🔍 [DASHBOARD] Clerk middleware issue detected - graceful fallback');
+      if (error instanceof Error) {
+        console.log('🔍 [DASHBOARD] Auth error details:', {
+          message: error.message,
+          name: error.name,
+          stack: error.stack?.substring(0, 200) + '...'
+        });
 
-        // For now, redirect to sign-in rather than showing error screen
-        redirect('/sign-in?fallback=true');
+        if (error.message.includes('clerkMiddleware')) {
+          console.log('🔍 [DASHBOARD] Clerk middleware issue detected - graceful fallback');
+          redirect('/sign-in?fallback=middleware');
+        }
+
+        // Check for other common Clerk errors
+        if (error.message.includes('CLERK_SECRET_KEY') ||
+            error.message.includes('publishable key') ||
+            error.message.includes('environment')) {
+          console.log('🔍 [DASHBOARD] Clerk configuration issue detected');
+          redirect('/sign-in?fallback=config');
+        }
       }
     }
 
@@ -38,13 +61,22 @@ export default async function DashboardServerContent() {
       redirect('/sign-in');
     }
 
+    console.log('🔍 [DASHBOARD] Auth successful, fetching user details...');
+
     let user = null;
     try {
       user = await currentUser();
+      console.log('🔍 [DASHBOARD] Current user result:', {
+        hasUser: !!user,
+        firstName: user?.firstName || 'null',
+        emailCount: user?.emailAddresses?.length || 0
+      });
     } catch (error) {
-      console.error('Failed to fetch current user:', error);
+      console.error('❌ [DASHBOARD] Failed to fetch current user:', error);
       // Continue with null user - component will handle gracefully
     }
+
+    console.log('🔍 [DASHBOARD] Rendering dashboard successfully');
 
     return (
       <div className="min-h-screen bg-[#faf7f4]">
@@ -102,29 +134,36 @@ export default async function DashboardServerContent() {
       </div>
     );
   } catch (error) {
-    console.error('Dashboard server content error:', error);
+    console.error('❌ [DASHBOARD] Dashboard server content error:', error);
 
     // More specific error handling
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorName = error instanceof Error ? error.name : 'UnknownError';
+
+    console.log('🔍 [DASHBOARD] Server error details:', {
+      message: errorMessage,
+      name: errorName,
+      stack: error instanceof Error ? error.stack?.substring(0, 300) : 'no stack',
+      typeof: typeof error
+    });
 
     // Check if this is a Clerk-related error
     const isClerkError = errorMessage.includes('clerk') ||
                          errorMessage.includes('auth') ||
-                         errorMessage.includes('middleware');
-
-    console.log('🔍 [DASHBOARD] Server error details:', {
-      isClerkError,
-      errorMessage,
-      errorType: error instanceof Error ? error.constructor.name : typeof error
-    });
+                         errorMessage.includes('middleware') ||
+                         errorMessage.includes('CLERK_') ||
+                         errorMessage.includes('publishable');
 
     // For Clerk errors, redirect instead of showing error screen
     if (isClerkError) {
       console.log('🔍 [DASHBOARD] Clerk error detected, redirecting to sign-in');
-      redirect('/sign-in?error=auth');
+      redirect('/sign-in?error=clerk');
     }
 
-    // For other errors, show error UI
+    // Add debug info to the error screen in development
+    const isDevelopment = process.env.NODE_ENV === 'development';
+
+    // For other errors, show error UI with debug info
     return (
       <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-4">
@@ -134,6 +173,19 @@ export default async function DashboardServerContent() {
           <p className="text-[#8f867e] mb-6">
             We're experiencing technical difficulties. Please try again in a moment.
           </p>
+
+          {/* Debug info in development */}
+          {isDevelopment && (
+            <details className="mb-4 text-left bg-gray-100 p-3 rounded text-xs">
+              <summary className="cursor-pointer font-medium">Debug Info (Development)</summary>
+              <pre className="mt-2 text-xs overflow-auto">
+                Error: {errorName}
+                Message: {errorMessage}
+                Type: {typeof error}
+              </pre>
+            </details>
+          )}
+
           <div className="space-y-3">
             <Link
               href="/sign-in"

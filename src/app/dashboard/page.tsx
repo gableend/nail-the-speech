@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import DashboardServerContent from '@/components/DashboardServerContent';
+import ClientAuthDebug from '@/components/ClientAuthDebug';
 
 // Force dynamic rendering since this page uses Clerk auth
 export const dynamic = 'force-dynamic';
@@ -10,7 +11,7 @@ function DashboardLoading() {
   return (
     <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#da5389] mx-auto mb-4"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#da5389] mx-auto mb-4" />
         <p className="text-[#8f867e]">Loading dashboard...</p>
       </div>
     </div>
@@ -39,8 +40,11 @@ function DashboardError() {
 
 export default function DashboardPage() {
   return (
-    <Suspense fallback={<DashboardLoading />}>
-      <DashboardServerContent />
-    </Suspense>
+    <>
+      <ClientAuthDebug />
+      <Suspense fallback={<DashboardLoading />}>
+        <DashboardServerContent />
+      </Suspense>
+    </>
   );
 }

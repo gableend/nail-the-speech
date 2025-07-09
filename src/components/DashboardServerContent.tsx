@@ -12,9 +12,29 @@ import DashboardClient from '@/components/DashboardClient';
 
 export default async function DashboardServerContent() {
   try {
-    const { userId } = await auth();
+    // More robust server-side auth with better error handling
+    let userId = null;
+    let authError = null;
 
+    try {
+      const authResult = await auth();
+      userId = authResult.userId;
+    } catch (error) {
+      console.error('Server-side auth failed:', error);
+      authError = error;
+
+      // Check if this is a Clerk middleware issue
+      if (error instanceof Error && error.message.includes('clerkMiddleware')) {
+        console.log('🔍 [DASHBOARD] Clerk middleware issue detected - graceful fallback');
+
+        // For now, redirect to sign-in rather than showing error screen
+        redirect('/sign-in?fallback=true');
+      }
+    }
+
+    // If no userId and no specific Clerk error, redirect to sign-in
     if (!userId) {
+      console.log('🔍 [DASHBOARD] No userId found, redirecting to sign-in');
       redirect('/sign-in');
     }
 
@@ -84,25 +104,35 @@ export default async function DashboardServerContent() {
   } catch (error) {
     console.error('Dashboard server content error:', error);
 
-    // Check if this is a specific auth error
-    const isAuthError = error instanceof Error && (
-      error.message.includes('auth') ||
-      error.message.includes('session') ||
-      error.message.includes('clerk')
-    );
+    // More specific error handling
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
 
-    // Return error UI with more specific information
+    // Check if this is a Clerk-related error
+    const isClerkError = errorMessage.includes('clerk') ||
+                         errorMessage.includes('auth') ||
+                         errorMessage.includes('middleware');
+
+    console.log('🔍 [DASHBOARD] Server error details:', {
+      isClerkError,
+      errorMessage,
+      errorType: error instanceof Error ? error.constructor.name : typeof error
+    });
+
+    // For Clerk errors, redirect instead of showing error screen
+    if (isClerkError) {
+      console.log('🔍 [DASHBOARD] Clerk error detected, redirecting to sign-in');
+      redirect('/sign-in?error=auth');
+    }
+
+    // For other errors, show error UI
     return (
       <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-4">
           <h1 className="text-2xl font-bold text-[#181615] mb-4">
-            {isAuthError ? 'Authentication Sync Issue' : 'Dashboard Error'}
+            Dashboard Temporarily Unavailable
           </h1>
           <p className="text-[#8f867e] mb-6">
-            {isAuthError
-              ? 'Your account was created successfully, but there\'s a brief sync delay. Please try signing in again.'
-              : 'There was an issue loading your dashboard. Please sign in again.'
-            }
+            We're experiencing technical difficulties. Please try again in a moment.
           </p>
           <div className="space-y-3">
             <Link

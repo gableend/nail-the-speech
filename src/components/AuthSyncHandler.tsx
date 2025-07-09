@@ -8,23 +8,6 @@ interface AuthSyncHandlerProps {
   children: React.ReactNode;
 }
 
-interface DebugInfo {
-  timestamp: string;
-  loadingTime: string;
-  isLoaded: boolean;
-  isSignedIn: boolean;
-  hasUser: boolean;
-  userId: string;
-  userEmail: string;
-  isMigrating: boolean;
-  migrationComplete: boolean;
-  showSyncMessage: boolean;
-  migrationAttempts: number;
-  emergencyBypass: boolean;
-  pathname: string;
-  anonUserId: string | null;
-}
-
 const MIGRATION_STORAGE_KEY = 'migration_status';
 const MAX_DAILY_ATTEMPTS = 3;
 
@@ -71,88 +54,20 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
   const [migrationAttempts, setMigrationAttempts] = useState(0);
   const [emergencyBypass, setEmergencyBypass] = useState(false);
   const [loadingStartTime] = useState(Date.now());
-  const [debugInfo, setDebugInfo] = useState<DebugInfo>({
-    timestamp: '',
-    loadingTime: '',
-    isLoaded: false,
-    isSignedIn: false,
-    hasUser: false,
-    userId: '',
-    userEmail: '',
-    isMigrating: false,
-    migrationComplete: false,
-    showSyncMessage: false,
-    migrationAttempts: 0,
-    emergencyBypass: false,
-    pathname: '',
-    anonUserId: null,
-  });
 
   useEffect(() => {
-    // COMPREHENSIVE DEBUG LOGGING
-    const currentTime = Date.now();
-    const loadingTime = currentTime - loadingStartTime;
-
-    const debugData: DebugInfo = {
-      timestamp: new Date().toISOString(),
-      loadingTime: `${loadingTime}ms`,
-      isLoaded: isLoaded ?? false,
-      isSignedIn: isSignedIn ?? false,
-      hasUser: !!user,
-      userId: user?.id || 'null',
-      userEmail: user?.emailAddresses?.[0]?.emailAddress || 'null',
-      isMigrating,
-      migrationComplete,
-      showSyncMessage,
-      migrationAttempts,
-      emergencyBypass,
-      pathname: typeof window !== 'undefined' ? window.location.pathname : 'unknown',
-      anonUserId: getAnonymousUserId(),
-    };
-
-    setDebugInfo(debugData);
-
-    console.log('🔍 [AUTH-SYNC-DEBUG]', {
-      ...debugData,
-      component: 'AuthSyncHandler useEffect'
-    });
-
     const handleAuthSync = async () => {
-      console.log('🔍 [AUTH-SYNC-DEBUG] handleAuthSync called', {
-        isLoaded,
-        isSignedIn,
-        hasUser: !!user,
-        migrationComplete,
-        isMigrating,
-        emergencyBypass
-      });
-
       // Wait for Clerk to fully load
-      if (!isLoaded) {
-        console.log('🔍 [AUTH-SYNC-DEBUG] Clerk not loaded yet, waiting...');
-        return;
-      }
-
-      console.log('🔍 [AUTH-SYNC-DEBUG] Clerk is loaded!', {
-        isSignedIn,
-        hasUser: !!user,
-        userId: user?.id
-      });
+      if (!isLoaded) return;
 
       // If user is signed in and we haven't migrated yet
       if (isSignedIn && user && !migrationComplete && !isMigrating && !emergencyBypass) {
-        console.log('🔍 [AUTH-SYNC-DEBUG] User is authenticated, checking for migration...');
-
         const anonUserId = getAnonymousUserId();
-        console.log('🔍 [AUTH-SYNC-DEBUG] Anonymous user ID:', anonUserId);
 
         // Check if we have an anonymous user to migrate
         if (anonUserId) {
-          console.log('🔍 [AUTH-SYNC-DEBUG] Found anonymous user to migrate');
-
           // Check migration status from session storage (emergency safety)
           const migrationStatus = getMigrationStatus(user.id);
-          console.log('🔍 [AUTH-SYNC-DEBUG] Migration status:', migrationStatus);
 
           // Emergency bypass: if too many attempts or marked as failed, skip migration
           if (migrationStatus.attempts >= MAX_DAILY_ATTEMPTS || migrationStatus.failed) {
@@ -195,58 +110,29 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
               setEmergencyBypass(true);
               setMigrationComplete(true);
             }
-
-            // Don't break the user experience - continue anyway
           } finally {
             setIsMigrating(false);
           }
         } else {
-          console.log('🔍 [AUTH-SYNC-DEBUG] No anonymous user to migrate, setting migration complete');
           // No anonymous user to migrate
           setMigrationComplete(true);
         }
-      } else {
-        console.log('🔍 [AUTH-SYNC-DEBUG] Auth sync conditions not met:', {
-          isSignedIn,
-          hasUser: !!user,
-          migrationComplete,
-          isMigrating,
-          emergencyBypass
-        });
       }
     };
 
-    // Show sync message only if there's a real problem - increased timeout and better detection
+    // Show sync message only if there's a real problem
     const syncTimeout = setTimeout(() => {
       const loadingTime = Date.now() - loadingStartTime;
 
-      console.log('🔍 [AUTH-SYNC-DEBUG] Sync timeout triggered', {
-        loadingTime,
-        isLoaded,
-        isMigrating,
-        showSyncMessage
-      });
-
-      // Only show sync message if:
-      // 1. Clerk hasn't loaded after 5 seconds (was 2 seconds)
-      // 2. AND we're not currently migrating
-      // 3. AND we haven't already shown the message
-      if (!isLoaded && !isMigrating && !showSyncMessage && loadingTime > 5000) {
-        console.log('⚠️ [AUTH-SYNC] Clerk taking longer than expected to load, showing sync message');
+      // Only show sync message if Clerk hasn't loaded after 10 seconds (increased from 5)
+      if (!isLoaded && !isMigrating && !showSyncMessage && loadingTime > 10000) {
+        console.log('⚠️ [AUTH-SYNC] Clerk taking exceptionally long to load, showing sync message');
         setShowSyncMessage(true);
-      } else {
-        console.log('🔍 [AUTH-SYNC-DEBUG] Not showing sync message:', {
-          isLoaded,
-          isMigrating,
-          showSyncMessage,
-          loadingTime
-        });
       }
-    }, 5000); // Increased from 2000ms to 5000ms
+    }, 10000); // Increased to 10 seconds to reduce false positives
 
     // Hide sync message once loaded
     if (isLoaded && showSyncMessage) {
-      console.log('🔍 [AUTH-SYNC-DEBUG] Hiding sync message - Clerk is now loaded');
       setShowSyncMessage(false);
     }
 
@@ -257,49 +143,28 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
 
   // Show sync message only if Clerk is really having problems
   if (showSyncMessage && !isLoaded && !isMigrating) {
-    console.log('🔍 [AUTH-SYNC-DEBUG] Rendering sync message screen');
-
     return (
       <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center">
         <div className="max-w-md mx-auto text-center p-8">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#da5389] mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-[#181615] mb-2">
-            Authentication Sync Issue
+            Authentication Taking Longer Than Expected
           </h2>
           <p className="text-[#8f867e] mb-4">
-            Your account was created successfully, but there's a brief sync delay. Please try signing in again.
+            Please wait a moment or try refreshing the page.
           </p>
-
-          {/* DEBUG INFO FOR TROUBLESHOOTING */}
-          <details className="mb-4 text-left bg-gray-100 p-3 rounded text-xs">
-            <summary className="cursor-pointer font-medium">Debug Info (click to expand)</summary>
-            <pre className="mt-2 text-xs overflow-auto">
-              {JSON.stringify(debugInfo, null, 2)}
-            </pre>
-          </details>
-
           <div className="space-y-3">
             <button
               onClick={() => window.location.reload()}
               className="bg-[#da5389] hover:bg-[#da5389]/90 text-white px-6 py-3 rounded-full font-medium w-full"
             >
-              Refresh & Try Again
+              Refresh Page
             </button>
             <button
               onClick={() => window.location.href = '/'}
               className="text-[#8f867e] hover:text-[#da5389] px-6 py-2 rounded-full font-medium w-full"
             >
               ← Back to Home
-            </button>
-            <button
-              onClick={() => {
-                setShowSyncMessage(false);
-                setEmergencyBypass(true);
-                setMigrationComplete(true);
-              }}
-              className="text-red-600 hover:text-red-800 px-6 py-2 rounded-full font-medium w-full text-sm"
-            >
-              Skip Sync & Continue (Debug)
             </button>
           </div>
         </div>
@@ -309,8 +174,6 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
 
   // Show migration progress if migrating
   if (isMigrating) {
-    console.log('🔍 [AUTH-SYNC-DEBUG] Rendering migration screen');
-
     return (
       <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center">
         <div className="max-w-md mx-auto text-center p-8">
@@ -338,8 +201,6 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
       </div>
     );
   }
-
-  console.log('🔍 [AUTH-SYNC-DEBUG] Rendering normal children');
 
   // Render children normally
   return <>{children}</>;

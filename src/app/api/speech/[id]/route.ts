@@ -4,9 +4,10 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  console.log('🔍 [SPEECH API] Fetching speech for edit:', params.id);
+  const resolvedParams = await params;
+  console.log('🔍 [SPEECH API] Fetching speech for edit:', resolvedParams.id);
 
   try {
     // Check auth
@@ -21,12 +22,12 @@ export async function GET(
       );
     }
 
-    console.log(`📚 [SPEECH API] Fetching speech ${params.id} for user: ${userId}`);
+    console.log(`📚 [SPEECH API] Fetching speech ${resolvedParams.id} for user: ${userId}`);
 
     // Find the speech
     const speech = await prisma.speech.findFirst({
       where: {
-        id: params.id,
+        id: resolvedParams.id,
         userId: userId // Ensure user can only access their own speeches
       }
     });

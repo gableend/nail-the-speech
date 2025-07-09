@@ -1493,28 +1493,7 @@ function GeneratorContent() {
                     </button>
                   )}
 
-                  {/* Paywall message for users who have exceeded free edits */}
-                  {speechGenerated && editCount >= MAX_FREE_EDITS && !isGenerating && (
-                    <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5 border border-[#da5389]/20 rounded-lg p-6 mt-6">
-                      <h3 className="text-lg font-semibold text-[#181615] mb-2">🔒 Unlock Unlimited Editing</h3>
-                      <p className="text-[#8f867e] mb-4">
-                        You've used your {MAX_FREE_EDITS} free edits. Upgrade to Enrichment to continue editing and unlock premium features:
-                      </p>
-                      <ul className="text-sm text-[#8f867e] mb-4 space-y-1">
-                        <li>• Unlimited speech regeneration</li>
-                        <li>• Enhanced personality details</li>
-                        <li>• Premium customization options</li>
-                        <li>• Advanced tone controls</li>
-                        <li>• Speech length selection</li>
-                      </ul>
-                      <button
-                        onClick={() => setCurrentStep(3)}
-                        className="bg-[#da5389] hover:bg-[#da5389]/90 text-white px-6 py-3 rounded-full font-semibold"
-                      >
-                        💎 Upgrade to Enrichment
-                      </button>
-                    </div>
-                  )}
+                  {/* Paywall message for users who have exceeded free edits - REMOVED DUPLICATE */}
                 </div>
 
                 {/* Helpful Tips */}

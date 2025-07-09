@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light mode colors - The Knot inspired warm palette */
+    --background: 251 247 244; /* warm cream #fbf7f4 */
+    --foreground: 17 17 15; /* very dark brown #11110f */
+
+    --card: 255 255 255; /* white cards */
+    --card-foreground: 17 17 15; /* very dark brown */
+
+    --popover: 255 255 255; /* white */
+    --popover-foreground: 17 17 15; /* very dark brown */
+
+    --primary: 232 79 152; /* The Knot pink #e84f98 */
+    --primary-foreground: 255 255 255; /* white */
+
+    --secondary: 248 244 240; /* slightly warmer cream */
+    --secondary-foreground: 17 17 15; /* very dark brown */
+
+    --muted: 240 235 230; /* warm muted background */
+    --muted-foreground: 138 132 124; /* muted brown */
+
+    --accent: 246 172 10; /* warm gold #f6ac0a */
+    --accent-foreground: 17 17 15; /* very dark brown */
+
+    --destructive: 217 112 119; /* soft red */
+    --destructive-foreground: 255 255 255; /* white */
+
+    --border: 232 225 216; /* warm border */
+    --input: 255 255 255; /* white */
+    --ring: 232 79 152; /* The Knot pink */
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark mode colors - Sophisticated warm dark */
+    --background: 26 22 20; /* dark warm background #1a1614 */
+    --foreground: 251 247 244; /* warm light text */
+
+    --card: 58 52 44; /* medium warm slate */
+    --card-foreground: 251 247 244; /* warm light text */
+
+    --popover: 58 52 44; /* medium warm slate */
+    --popover-foreground: 251 247 244; /* warm light text */
+
+    --primary: 232 79 152; /* The Knot pink */
+    --primary-foreground: 255 255 255; /* white */
+
+    --secondary: 42 36 31; /* dark warm slate */
+    --secondary-foreground: 251 247 244; /* warm light text */
+
+    --muted: 58 52 44; /* medium warm slate */
+    --muted-foreground: 207 202 193; /* light warm text */
+
+    --accent: 246 172 10; /* warm gold */
+    --accent-foreground: 26 22 20; /* dark warm background */
+
+    --destructive: 217 112 119; /* soft red */
+    --destructive-foreground: 255 255 255; /* white */
+
+    --border: 58 52 44; /* dark warm border */
+    --input: 58 52 44; /* dark warm input */
+    --ring: 246 172 10; /* warm gold ring */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  /* The Knot inspired gradients */
+  .gradient-primary {
+    background: linear-gradient(135deg, rgb(232 79 152) 0%, rgb(225 29 72) 100%);
+  }
+
+  .gradient-secondary {
+    background: linear-gradient(135deg, rgb(246 172 10) 0%, rgb(251 191 36) 100%);
+  }
+
+  .gradient-warm {
+    background: linear-gradient(135deg, rgb(255 255 255) 0%, rgb(251 247 244) 100%);
+  }
+
+  .dark .gradient-warm {
+    background: linear-gradient(135deg, rgb(26 22 20) 0%, rgb(42 36 31) 100%);
+  }
+
+  .gradient-romantic {
+    background: linear-gradient(135deg, rgb(232 79 152) 0%, rgb(225 158 210) 100%);
+  }
+
+  .gradient-sage {
+    background: linear-gradient(135deg, rgb(97 143 127) 0%, rgb(134 164 148) 100%);
+  }
+
+  /* Smooth transitions */
+  .transition-theme {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* Darker placeholder text */
+  .darker-placeholder::placeholder {
+    color: #6b7280 !important;
+    opacity: 1;
+  }
+
+  .darker-placeholder::-webkit-input-placeholder {
+    color: #6b7280 !important;
+  }
+
+  .darker-placeholder::-moz-placeholder {
+    color: #6b7280 !important;
+    opacity: 1;
+  }
+
+  .darker-placeholder:-ms-input-placeholder {
+    color: #6b7280 !important;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

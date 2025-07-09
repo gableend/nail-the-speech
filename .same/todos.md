@@ -1,5 +1,18 @@
 # Nail The Speech - Development Todos
 
+## 🚨 CURRENT TASK - Prisma Cloud Database Migration
+
+**ISSUE**: SQLite doesn't work in Netlify serverless environment causing 500 errors
+**SOLUTION**: Migrate to Prisma Cloud Database for persistent data storage
+
+### Steps:
+- [x] **COMPLETED** - User has set up Prisma account
+- [ ] **IN PROGRESS** - Connect to Prisma Data Platform and create cloud database
+- [ ] **PENDING** - Update DATABASE_URL environment variable in Netlify
+- [ ] **PENDING** - Run database migration to cloud database
+- [ ] **PENDING** - Test user-speeches API with cloud database
+- [ ] **PENDING** - Verify dashboard loads speeches correctly
+
 ## ✅ Completed Features
 
 ### Core Application

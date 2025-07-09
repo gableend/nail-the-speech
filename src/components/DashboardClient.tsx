@@ -14,6 +14,10 @@ import {
   Settings,
   Trash2,
   AlertTriangle,
+  Star,
+  CheckCircle,
+  X,
+  Check,
 } from 'lucide-react';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
@@ -21,12 +25,14 @@ import Link from 'next/link';
 interface Speech {
   id: string;
   title: string;
+  customTitle: string | null;
   role: string;
   tone: string;
   length: string;
   wordCount: number | null;
   estimatedTime: number | null;
   isCompleted: boolean;
+  isFinal: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -62,6 +68,12 @@ export default function DashboardClient() {
   const [error, setError] = useState<string | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // Speech management state
+  const [editingTitle, setEditingTitle] = useState<string | null>(null);
+  const [editTitleValue, setEditTitleValue] = useState('');
+  const [updatingSpeeches, setUpdatingSpeeches] = useState<Set<string>>(new Set());
+  const [deletingSpeeches, setDeletingSpeeches] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const fetchSpeeches = async () => {
@@ -111,6 +123,121 @@ export default function DashboardClient() {
     } finally {
       setDeleteLoading(false);
       setShowDeleteConfirm(false);
+    }
+  };
+
+  // Speech management functions
+  const handleStartEditTitle = (speech: Speech) => {
+    setEditingTitle(speech.id);
+    setEditTitleValue(speech.customTitle || speech.title);
+  };
+
+  const handleCancelEditTitle = () => {
+    setEditingTitle(null);
+    setEditTitleValue('');
+  };
+
+  const handleSaveTitle = async (speechId: string) => {
+    if (!editTitleValue.trim()) return;
+
+    setUpdatingSpeeches(prev => new Set(prev).add(speechId));
+    try {
+      const response = await fetch(`/api/speech/${speechId}/update`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customTitle: editTitleValue.trim()
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update speech title');
+      }
+
+      // Update local state
+      setSpeeches(prev => prev.map(speech =>
+        speech.id === speechId
+          ? { ...speech, customTitle: editTitleValue.trim() }
+          : speech
+      ));
+
+      setEditingTitle(null);
+      setEditTitleValue('');
+    } catch (err) {
+      console.error('Error updating speech title:', err);
+      alert('Failed to update speech title. Please try again.');
+    } finally {
+      setUpdatingSpeeches(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(speechId);
+        return newSet;
+      });
+    }
+  };
+
+  const handleToggleFinal = async (speechId: string, currentFinalStatus: boolean) => {
+    setUpdatingSpeeches(prev => new Set(prev).add(speechId));
+    try {
+      const response = await fetch(`/api/speech/${speechId}/update`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          isFinal: !currentFinalStatus
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update speech status');
+      }
+
+      // Update local state
+      setSpeeches(prev => prev.map(speech =>
+        speech.id === speechId
+          ? { ...speech, isFinal: !currentFinalStatus }
+          : speech
+      ));
+    } catch (err) {
+      console.error('Error updating speech status:', err);
+      alert('Failed to update speech status. Please try again.');
+    } finally {
+      setUpdatingSpeeches(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(speechId);
+        return newSet;
+      });
+    }
+  };
+
+  const handleDeleteSpeech = async (speechId: string) => {
+    if (!confirm('Are you sure you want to delete this speech? This action cannot be undone.')) {
+      return;
+    }
+
+    setDeletingSpeeches(prev => new Set(prev).add(speechId));
+    try {
+      const response = await fetch(`/api/speech/${speechId}/delete`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete speech');
+      }
+
+      // Update local state
+      setSpeeches(prev => prev.filter(speech => speech.id !== speechId));
+    } catch (err) {
+      console.error('Error deleting speech:', err);
+      alert('Failed to delete speech. Please try again.');
+    } finally {
+      setDeletingSpeeches(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(speechId);
+        return newSet;
+      });
     }
   };
 
@@ -174,6 +301,7 @@ export default function DashboardClient() {
 
   const completedSpeeches = speeches.filter(s => s.isCompleted);
   const draftSpeeches = speeches.filter(s => !s.isCompleted);
+  const finalSpeeches = speeches.filter(s => s.isFinal);
   const totalSpeakingTime = speeches.reduce((acc, speech) => acc + (speech.estimatedTime || 0), 0);
 
   return (
@@ -212,11 +340,11 @@ export default function DashboardClient() {
 
         <Card>
           <CardContent className="p-6 text-center">
-            <div className="h-8 w-8 bg-[#da5389]/10 rounded-full flex items-center justify-center mx-auto mb-2">
-              <span className="text-[#da5389] font-bold text-sm">✨</span>
+            <Star className="h-8 w-8 text-green-600 mx-auto mb-2" />
+            <div className="text-2xl font-bold text-[#181615]">
+              {finalSpeeches.length}
             </div>
-            <div className="text-2xl font-bold text-[#181615]">Free</div>
-            <div className="text-sm text-[#8f867e]">Current Plan</div>
+            <div className="text-sm text-[#8f867e]">Final Speeches</div>
           </CardContent>
         </Card>
       </div>
@@ -265,9 +393,53 @@ export default function DashboardClient() {
                         <div className="flex items-start space-x-4">
                           <div className="text-4xl">{getRoleEmoji(speech.role)}</div>
                           <div className="flex-1">
-                            <h3 className="text-lg font-semibold text-[#181615] mb-1">
-                              {speech.title}
-                            </h3>
+                            {/* Editable Title */}
+                            <div className="flex items-center gap-2 mb-1">
+                              {editingTitle === speech.id ? (
+                                <div className="flex items-center gap-2 flex-1">
+                                  <input
+                                    type="text"
+                                    value={editTitleValue}
+                                    onChange={(e) => setEditTitleValue(e.target.value)}
+                                    className="flex-1 px-2 py-1 border border-gray-300 rounded text-lg font-semibold"
+                                    onKeyDown={(e) => {
+                                      if (e.key === 'Enter') handleSaveTitle(speech.id);
+                                      if (e.key === 'Escape') handleCancelEditTitle();
+                                    }}
+                                    autoFocus
+                                  />
+                                  <button
+                                    onClick={() => handleSaveTitle(speech.id)}
+                                    disabled={updatingSpeeches.has(speech.id)}
+                                    className="p-1 text-green-600 hover:text-green-800"
+                                  >
+                                    <Check className="h-4 w-4" />
+                                  </button>
+                                  <button
+                                    onClick={handleCancelEditTitle}
+                                    className="p-1 text-gray-600 hover:text-gray-800"
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </button>
+                                </div>
+                              ) : (
+                                <>
+                                  <h3
+                                    className="text-lg font-semibold text-[#181615] cursor-pointer hover:text-[#da5389] transition-colors"
+                                    onClick={() => handleStartEditTitle(speech)}
+                                  >
+                                    {speech.customTitle || speech.title}
+                                  </h3>
+                                  {speech.isFinal && (
+                                    <Badge className="bg-green-100 text-green-700 border-green-300">
+                                      <Star className="h-3 w-3 mr-1" />
+                                      Final
+                                    </Badge>
+                                  )}
+                                </>
+                              )}
+                            </div>
+
                             <div className="flex items-center space-x-4 text-sm text-[#8f867e] mb-3">
                               <span>{getRoleTitle(speech.role)}</span>
                               <span>•</span>
@@ -297,7 +469,7 @@ export default function DashboardClient() {
                           </div>
                         </div>
 
-                        <div className="flex space-x-2">
+                        <div className="flex flex-wrap gap-2">
                           {speech.isCompleted ? (
                             <>
                               <Button variant="outline" size="sm" className="rounded-full">
@@ -310,14 +482,60 @@ export default function DashboardClient() {
                                   Edit
                                 </Button>
                               </Link>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className={`rounded-full ${speech.isFinal ? 'bg-green-50 border-green-300 text-green-700' : ''}`}
+                                onClick={() => handleToggleFinal(speech.id, speech.isFinal)}
+                                disabled={updatingSpeeches.has(speech.id)}
+                              >
+                                {updatingSpeeches.has(speech.id) ? (
+                                  <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full mr-1" />
+                                ) : speech.isFinal ? (
+                                  <CheckCircle className="h-4 w-4 mr-1" />
+                                ) : (
+                                  <Star className="h-4 w-4 mr-1" />
+                                )}
+                                {speech.isFinal ? 'Unmark Final' : 'Mark Final'}
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="rounded-full text-red-600 border-red-300 hover:bg-red-50"
+                                onClick={() => handleDeleteSpeech(speech.id)}
+                                disabled={deletingSpeeches.has(speech.id)}
+                              >
+                                {deletingSpeeches.has(speech.id) ? (
+                                  <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full mr-1" />
+                                ) : (
+                                  <Trash2 className="h-4 w-4 mr-1" />
+                                )}
+                                Delete
+                              </Button>
                             </>
                           ) : (
-                            <Link href="/generator?step=2">
-                              <Button size="sm" className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full">
-                                <Edit className="h-4 w-4 mr-1" />
-                                Continue
+                            <>
+                              <Link href="/generator?step=2">
+                                <Button size="sm" className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full">
+                                  <Edit className="h-4 w-4 mr-1" />
+                                  Continue
+                                </Button>
+                              </Link>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="rounded-full text-red-600 border-red-300 hover:bg-red-50"
+                                onClick={() => handleDeleteSpeech(speech.id)}
+                                disabled={deletingSpeeches.has(speech.id)}
+                              >
+                                {deletingSpeeches.has(speech.id) ? (
+                                  <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full mr-1" />
+                                ) : (
+                                  <Trash2 className="h-4 w-4 mr-1" />
+                                )}
+                                Delete
                               </Button>
-                            </Link>
+                            </>
                           )}
                         </div>
                       </div>

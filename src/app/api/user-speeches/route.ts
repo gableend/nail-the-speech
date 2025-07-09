@@ -60,12 +60,14 @@ export async function GET() {
       select: {
         id: true,
         title: true,
+        customTitle: true,
         role: true,
         tone: true,
         length: true,
         wordCount: true,
         estimatedTime: true,
         isCompleted: true,
+        isFinal: true,
         createdAt: true,
         updatedAt: true
       }

@@ -84,6 +84,8 @@ function GeneratorContent() {
   // Regeneration with instructions state
   const [regenerationInstructions, setRegenerationInstructions] = useState("");
   const [selectedPill, setSelectedPill] = useState<string | null>(null);
+  const [showProModal, setShowProModal] = useState(false);
+
   const [formData, setFormData] = useState<FormData>({
     // Role Selection (if needed)
     selectedRole: roleFromUrl || "",
@@ -280,7 +282,7 @@ function GeneratorContent() {
         relationshipToGroom: "He's my husband and soulmate",
         tone: "sentimental",
         lengthPreference: "medium",
-        greatStoryMemory: "Daniel and I met at a bookstore where we both reached for the same copy of our favorite novel. Instead of letting me have it, he suggested we grab coffee and discuss why we both loved the book so much. Three hours later, we were still talking, and I realized I wanted to hear all her stories and share all of mine for the rest of my life.",
+        greatStoryMemory: "Daniel and I met at a bookstore where we both reached for the same copy of our favorite novel. Instead of letting me have it, he suggested we grab coffee and discuss why we both loved the book so much. Three hours later, we were still talking, and I realized I wanted to hear all his stories and share all of mine for the rest of my life.",
         howLongKnown: "5 years",
         sharedHobbiesJokes: "We love cooking together, though Daniel insists on dancing while chopping vegetables",
         groomIn3Words: "patient, romantic, hilarious",
@@ -433,8 +435,8 @@ function GeneratorContent() {
   // New function for Step 2: Generate speech outline with streaming and stay on page
   const handleGenerateSpeech = async (customInstructions?: string) => {
     if (editCount >= MAX_FREE_EDITS) {
-      // Show paywall message
-      alert(`You've used your ${MAX_FREE_EDITS} free edits. Upgrade to Pro for unlimited edits and enhanced features!`);
+      // Show Pro upgrade modal
+      setShowProModal(true);
       return;
     }
 
@@ -907,8 +909,6 @@ function GeneratorContent() {
                   </div>
                 </div>
 
-
-
                 <div>
                   <label className="block text-base font-medium text-[#181615] mb-2">
                     Tell us a moment worth sharing—funny, meaningful, or both *
@@ -933,8 +933,6 @@ function GeneratorContent() {
                 </div>
               </div>
             )}
-
-
 
             {/* Section 3: Pro Features (Premium - Adds Personality & Emotional Depth) */}
             {currentStep === 3 && (
@@ -1442,17 +1440,10 @@ function GeneratorContent() {
                       <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5 border border-[#da5389]/20 rounded-lg p-6">
                         <h3 className="text-lg font-semibold text-[#181615] mb-2">🔒 Unlock Unlimited Editing</h3>
                         <p className="text-[#8f867e] mb-4">
-                          You've used your {MAX_FREE_EDITS} free edits. Upgrade to Pro to continue editing and unlock premium features:
+                          You've used your {MAX_FREE_EDITS} free edits. Upgrade to Pro to continue editing with unlimited regenerations.
                         </p>
-                        <ul className="text-sm text-[#8f867e] mb-4 space-y-1">
-                          <li>• Unlimited speech regeneration with custom instructions</li>
-                          <li>• Enhanced personality details</li>
-                          <li>• Premium customization options</li>
-                          <li>• Advanced tone controls</li>
-                          <li>• Speech length selection</li>
-                        </ul>
                         <button
-                          onClick={() => setCurrentStep(3)}
+                          onClick={() => setShowProModal(true)}
                           className="bg-[#da5389] hover:bg-[#da5389]/90 text-white px-6 py-3 rounded-full font-semibold"
                         >
                           💎 Upgrade to Pro
@@ -1627,6 +1618,153 @@ function GeneratorContent() {
             </div>
           </div>
         </div>
+
+        {/* Pro Upgrade Modal */}
+        {showProModal && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+              {/* Modal Header */}
+              <div className="bg-gradient-to-r from-[#da5389] to-[#e9a41a] text-white p-6 rounded-t-2xl">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                      <span className="text-2xl">💎</span>
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold">Upgrade to Pro</h2>
+                      <p className="text-white/90 text-sm">Unlock unlimited editing & premium features</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowProModal(false)}
+                    className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                  >
+                    <span className="text-white text-lg">×</span>
+                  </button>
+                </div>
+
+                {/* Current Usage */}
+                <div className="bg-white/20 rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-white/90">Free Edits Used</span>
+                    <span className="font-bold">{editCount}/{MAX_FREE_EDITS}</span>
+                  </div>
+                  <div className="w-full bg-white/20 rounded-full h-2 mt-2">
+                    <div
+                      className="bg-white rounded-full h-2 transition-all duration-300"
+                      style={{ width: `${(editCount / MAX_FREE_EDITS) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-6">
+                {/* Pro Features */}
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold text-[#181615] mb-4">What You Get with Pro:</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
+                        <span className="text-green-600 text-sm">✓</span>
+                      </div>
+                      <div>
+                        <div className="font-medium text-[#181615]">Unlimited Speech Regeneration</div>
+                        <div className="text-sm text-[#8f867e]">Refine your speech with unlimited custom instructions</div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
+                        <span className="text-green-600 text-sm">✓</span>
+                      </div>
+                      <div>
+                        <div className="font-medium text-[#181615]">Enhanced Personality Details</div>
+                        <div className="text-sm text-[#8f867e]">Add rich personal touches and deeper customization</div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
+                        <span className="text-green-600 text-sm">✓</span>
+                      </div>
+                      <div>
+                        <div className="font-medium text-[#181615]">Advanced Tone Controls</div>
+                        <div className="text-sm text-[#8f867e]">Fine-tune humor level and speech style perfectly</div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
+                        <span className="text-green-600 text-sm">✓</span>
+                      </div>
+                      <div>
+                        <div className="font-medium text-[#181615]">Speech Length Selection</div>
+                        <div className="text-sm text-[#8f867e]">Choose from short (2 min), medium (4 min), or long (6 min)</div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
+                        <span className="text-green-600 text-sm">✓</span>
+                      </div>
+                      <div>
+                        <div className="font-medium text-[#181615]">Premium Customization</div>
+                        <div className="text-sm text-[#8f867e]">Special toasts, shout-outs, and ending messages</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pricing */}
+                <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5 border border-[#da5389]/20 rounded-lg p-4 mb-6">
+                  <div className="text-center">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <span className="text-2xl font-bold text-[#181615]">$9.99</span>
+                      <span className="text-lg text-[#8f867e] line-through">$19.99</span>
+                      <span className="bg-[#da5389] text-white text-xs px-2 py-1 rounded-full font-medium">50% OFF</span>
+                    </div>
+                    <div className="text-sm text-[#8f867e]">One-time payment • Lifetime access</div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="space-y-3">
+                  <button
+                    onClick={() => {
+                      // TODO: Implement actual payment flow
+                      setCurrentStep(3);
+                      setShowProModal(false);
+                    }}
+                    className="w-full bg-gradient-to-r from-[#da5389] to-[#e9a41a] hover:from-[#da5389]/90 hover:to-[#e9a41a]/90 text-white px-6 py-4 rounded-full font-semibold text-lg shadow-lg transition-all duration-200"
+                  >
+                    💎 Upgrade to Pro Now
+                  </button>
+                  <button
+                    onClick={() => setShowProModal(false)}
+                    className="w-full text-[#8f867e] hover:text-[#181615] py-3 text-sm transition-colors"
+                  >
+                    Maybe later
+                  </button>
+                </div>
+
+                {/* Trust Badges */}
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="flex items-center justify-center gap-6 text-xs text-[#8f867e]">
+                    <div className="flex items-center gap-1">
+                      <span>🔒</span>
+                      <span>Secure Payment</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span>↩️</span>
+                      <span>30-Day Refund</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span>✨</span>
+                      <span>Instant Access</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1397,7 +1397,7 @@ function GeneratorContent() {
                 <div className="text-center">
                   {!speechGenerated && !isGenerating && (
                     <button
-                      onClick={handleGenerateSpeech}
+                      onClick={() => handleGenerateSpeech()}
                       disabled={!isStepValid()}
                       className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 ${
                         !isStepValid()

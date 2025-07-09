@@ -96,8 +96,8 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
     const debugData: DebugInfo = {
       timestamp: new Date().toISOString(),
       loadingTime: `${loadingTime}ms`,
-      isLoaded,
-      isSignedIn,
+      isLoaded: isLoaded ?? false,
+      isSignedIn: isSignedIn ?? false,
       hasUser: !!user,
       userId: user?.id || 'null',
       userEmail: user?.emailAddresses?.[0]?.emailAddress || 'null',

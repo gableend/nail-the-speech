@@ -1,35 +1,11 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-
-// Emergency logging - catch any import or initialization errors
-console.log('🚨 [EMERGENCY] API route file loaded, attempting imports...');
-
-let prisma: any;
-try {
-  console.log('🚨 [EMERGENCY] Attempting to import prisma...');
-  const { prisma: prismaImport } = require("@/lib/prisma");
-  prisma = prismaImport;
-  console.log('✅ [EMERGENCY] Prisma imported successfully');
-} catch (importError) {
-  console.error('💥 [EMERGENCY] Failed to import prisma:', {
-    error: importError instanceof Error ? importError.message : importError,
-    stack: importError instanceof Error ? importError.stack : 'No stack trace'
-  });
-}
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   console.log('🔍 [USER SPEECHES API] Starting API call...');
 
   try {
-    // Check if prisma was imported successfully
-    if (!prisma) {
-      console.error('💥 [USER SPEECHES API] Prisma not available - import failed');
-      return NextResponse.json(
-        { error: "Database connection failed", details: "Prisma import failed" },
-        { status: 500 }
-      );
-    }
-
     // Check auth first
     console.log('🔍 [USER SPEECHES API] Attempting auth()...');
     let authResult;

@@ -381,32 +381,42 @@ function GeneratorContent() {
         throw new Error('No response stream available');
       }
 
+      let buffer = '';
+
       while (true) {
         const { done, value } = await reader.read();
 
         if (done) break;
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
+        // Add new chunk to buffer
+        buffer += decoder.decode(value, { stream: true });
+
+        // Process complete lines from buffer
+        const lines = buffer.split('\n');
+        // Keep incomplete line in buffer
+        buffer = lines.pop() || '';
 
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             try {
-              const data = JSON.parse(line.slice(6));
+              const jsonStr = line.slice(6).trim();
+              if (jsonStr) {
+                const data = JSON.parse(jsonStr);
 
-              if (data.type === 'chunk') {
-                setGeneratedSpeech(data.fullContent);
-              } else if (data.type === 'complete') {
-                setGeneratedSpeech(data.speech);
-                setSpeechGenerated(true);
-                setIsGenerating(false);
+                if (data.type === 'chunk') {
+                  setGeneratedSpeech(data.fullContent);
+                } else if (data.type === 'complete') {
+                  setGeneratedSpeech(data.speech);
+                  setSpeechGenerated(true);
+                  setIsGenerating(false);
 
-                // Increment edit count if this is a regeneration
-                if (speechGenerated) {
-                  setEditCount(prev => prev + 1);
+                  // Increment edit count if this is a regeneration
+                  if (speechGenerated) {
+                    setEditCount(prev => prev + 1);
+                  }
+                } else if (data.type === 'error') {
+                  throw new Error(data.error);
                 }
-              } else if (data.type === 'error') {
-                throw new Error(data.error);
               }
             } catch (parseError) {
               console.warn('Failed to parse streaming data:', parseError);
@@ -454,27 +464,37 @@ function GeneratorContent() {
         throw new Error('No response stream available');
       }
 
+      let buffer = '';
+
       while (true) {
         const { done, value } = await reader.read();
 
         if (done) break;
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
+        // Add new chunk to buffer
+        buffer += decoder.decode(value, { stream: true });
+
+        // Process complete lines from buffer
+        const lines = buffer.split('\n');
+        // Keep incomplete line in buffer
+        buffer = lines.pop() || '';
 
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             try {
-              const data = JSON.parse(line.slice(6));
+              const jsonStr = line.slice(6).trim();
+              if (jsonStr) {
+                const data = JSON.parse(jsonStr);
 
-              if (data.type === 'chunk') {
-                setGeneratedSpeech(data.fullContent);
-              } else if (data.type === 'complete') {
-                setGeneratedSpeech(data.speech);
-                setSpeechGenerated(true);
-                setIsGenerating(false);
-              } else if (data.type === 'error') {
-                throw new Error(data.error);
+                if (data.type === 'chunk') {
+                  setGeneratedSpeech(data.fullContent);
+                } else if (data.type === 'complete') {
+                  setGeneratedSpeech(data.speech);
+                  setSpeechGenerated(true);
+                  setIsGenerating(false);
+                } else if (data.type === 'error') {
+                  throw new Error(data.error);
+                }
               }
             } catch (parseError) {
               console.warn('Failed to parse streaming data:', parseError);

@@ -304,7 +304,7 @@ export default function DashboardClient() {
                                 <Download className="h-4 w-4 mr-1" />
                                 Download
                               </Button>
-                              <Link href="/generator">
+                              <Link href="/generator?step=2">
                                 <Button variant="outline" size="sm" className="rounded-full">
                                   <Edit className="h-4 w-4 mr-1" />
                                   Edit
@@ -312,7 +312,7 @@ export default function DashboardClient() {
                               </Link>
                             </>
                           ) : (
-                            <Link href="/generator">
+                            <Link href="/generator?step=2">
                               <Button size="sm" className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full">
                                 <Edit className="h-4 w-4 mr-1" />
                                 Continue

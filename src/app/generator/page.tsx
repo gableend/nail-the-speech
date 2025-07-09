@@ -61,10 +61,11 @@ function GeneratorContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Check if user came from a specific role link or generic CTA
+  // Check if user came from a specific role link, generic CTA, or edit link
   const roleFromUrl = searchParams.get('role');
+  const stepFromUrl = searchParams.get('step');
   const needsRoleSelection = !roleFromUrl;
-  const initialStep = needsRoleSelection ? 0 : 1;
+  const initialStep = stepFromUrl ? parseInt(stepFromUrl) : (needsRoleSelection ? 0 : 1);
   const totalSteps = needsRoleSelection ? 4 : 3;
 
   const [currentStep, setCurrentStep] = useState(initialStep);
@@ -80,8 +81,8 @@ function GeneratorContent() {
   const MAX_FREE_EDITS = 2;
 
   // Regeneration with instructions state
-  const [showRegenerationOptions, setShowRegenerationOptions] = useState(false);
   const [regenerationInstructions, setRegenerationInstructions] = useState("");
+  const [selectedPill, setSelectedPill] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>({
     // Role Selection (if needed)
     selectedRole: roleFromUrl || "",
@@ -355,43 +356,44 @@ function GeneratorContent() {
 
   // Generate contextual regeneration suggestions based on user's speech
   const getRegenerationSuggestions = () => {
-    const suggestions = [];
+    const directSuggestions = []; // These can be used directly
+    const contextualSuggestions = []; // These need more info from user
 
-    // Tone-based suggestions
+    // Direct suggestions (can be used as-is)
     if (formData.tone === 'light-funny') {
-      suggestions.push("Make it more heartfelt", "Add more humor", "Include a gentle roast");
+      directSuggestions.push("Make it more heartfelt", "Add more humor");
     } else if (formData.tone === 'sentimental') {
-      suggestions.push("Add some light humor", "Make it more emotional", "Focus on happy memories");
+      directSuggestions.push("Add some light humor", "Make it more emotional");
     } else if (formData.tone === 'balanced') {
-      suggestions.push("Make it funnier", "Make it more touching", "Add personal details");
+      directSuggestions.push("Make it funnier", "Make it more touching");
     } else if (formData.tone === 'clean-roast') {
-      suggestions.push("Add more playful teasing", "Include heartfelt moments", "Make it more clever");
+      directSuggestions.push("Add more playful teasing", "Make it more clever");
     }
 
-    // Length-based suggestions
-    suggestions.push("Make it shorter", "Make it longer", "Add more details");
+    // Length-based (direct)
+    directSuggestions.push("Make it shorter", "Make it longer");
 
-    // Role-specific suggestions
+    // Content-focused (direct)
+    directSuggestions.push("Focus more on the couple together", "Add more about the groom");
+
+    // Contextual suggestions (need more info)
+    contextualSuggestions.push("Add a specific story", "Include a particular memory", "Mention someone special");
+
+    // Role-specific contextual suggestions
     if (formData.selectedRole === 'best-man') {
-      suggestions.push("Add more friendship stories", "Include advice for marriage", "Mention the bachelor party");
+      contextualSuggestions.push("Add friendship details", "Include specific advice");
     } else if (formData.selectedRole === 'maid-of-honor') {
-      suggestions.push("Add more sisterly moments", "Include bride's best qualities", "Mention getting ready together");
+      contextualSuggestions.push("Add sisterly moments", "Include specific qualities");
     } else if (formData.selectedRole === 'father-of-bride') {
-      suggestions.push("Add childhood memories", "Include parental advice", "Mention letting her go");
+      contextualSuggestions.push("Add childhood memory", "Include parental wisdom");
     } else if (formData.selectedRole === 'mother-of-bride') {
-      suggestions.push("Add mother-daughter moments", "Include pride and joy", "Mention watching her grow");
+      contextualSuggestions.push("Add mother-daughter moment", "Include proud memory");
     }
 
-    // Content-focused suggestions
-    suggestions.push(
-      "Focus more on the couple together",
-      "Add more about the groom",
-      "Include wedding planning stories",
-      "Mention their future together",
-      "Add a memorable quote"
-    );
-
-    return suggestions.slice(0, 8); // Limit to 8 suggestions
+    return {
+      direct: directSuggestions.slice(0, 6),
+      contextual: contextualSuggestions.slice(0, 4)
+    };
   };
 
   // New function for Step 2: Generate speech outline with streaming and stay on page
@@ -1237,78 +1239,149 @@ function GeneratorContent() {
                       </div>
                     </div>
 
-                    {/* Regeneration Options */}
+                    {/* Regeneration Options - Always show when speech is generated */}
                     {editCount < MAX_FREE_EDITS && (
                       <div className="bg-[#faf7f4] rounded-lg p-6 border border-[#e8e1d8]">
-                        <div className="flex items-center justify-between mb-4">
-                          <h4 className="font-semibold text-[#181615] flex items-center">
+                        <div className="mb-4">
+                          <h4 className="font-semibold text-[#181615] flex items-center mb-2">
                             <span className="text-lg mr-2">🔄</span>
                             Improve Your Speech
                           </h4>
-                          <button
-                            onClick={() => setShowRegenerationOptions(!showRegenerationOptions)}
-                            className="text-sm text-[#da5389] hover:text-[#da5389]/80 font-medium"
-                          >
-                            {showRegenerationOptions ? 'Hide Options' : 'Show Options'}
-                          </button>
+                          <div className="text-xs text-[#8f867e]">
+                            {editCount + 1}/{MAX_FREE_EDITS} edits remaining
+                          </div>
                         </div>
 
-                        {showRegenerationOptions && (
-                          <div className="space-y-4">
-                            {/* Suggestion Pills */}
-                            <div>
-                              <label className="block text-sm font-medium text-[#181615] mb-3">
-                                Quick improvements:
-                              </label>
-                              <div className="flex flex-wrap gap-2">
-                                {getRegenerationSuggestions().map((suggestion, index) => (
-                                  <button
-                                    key={`suggestion-${index}`}
-                                    onClick={() => setRegenerationInstructions(suggestion)}
-                                    className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                                      regenerationInstructions === suggestion
-                                        ? 'bg-[#da5389] text-white'
-                                        : 'bg-white border border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
-                                    }`}
-                                  >
-                                    {suggestion}
-                                  </button>
-                                ))}
-                              </div>
+                        <div className="space-y-4">
+                          {/* Selected Pill Display */}
+                          {selectedPill && (
+                            <div className="bg-white/50 border border-[#e8e1d8] rounded-lg p-3">
+                              <div className="text-sm text-[#8f867e] mb-1">Selected improvement:</div>
+                              <div className="text-sm font-medium text-[#8f867e] italic">"{selectedPill}"</div>
                             </div>
+                          )}
 
-                            {/* Custom Instructions */}
-                            <div>
-                              <label className="block text-sm font-medium text-[#181615] mb-2">
-                                Or tell us exactly what to change:
-                              </label>
-                              <textarea
-                                value={regenerationInstructions}
-                                onChange={(e) => setRegenerationInstructions(e.target.value)}
-                                placeholder="e.g., Make it funnier, add more details about our college days, include a specific memory..."
-                                rows={3}
-                                className="w-full p-3 border border-[#e8e1d8] rounded-lg text-[#181615] placeholder-[#8f867e] focus:border-[#da5389] focus:outline-none focus:ring-1 focus:ring-[#da5389]"
-                              />
+                          {/* Direct Action Pills */}
+                          <div>
+                            <label className="block text-sm font-medium text-[#181615] mb-3">
+                              Quick improvements:
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                              {getRegenerationSuggestions().direct.map((suggestion, index) => (
+                                <button
+                                  key={`direct-${index}`}
+                                  onClick={() => {
+                                    handleGenerateSpeech(suggestion);
+                                  }}
+                                  disabled={isGenerating}
+                                  className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                                    isGenerating
+                                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                      : 'bg-white border border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-[#da5389]/5'
+                                  }`}
+                                >
+                                  {suggestion}
+                                </button>
+                              ))}
                             </div>
+                          </div>
 
-                            {/* Regenerate Button */}
-                            <div className="flex items-center justify-between">
-                              <div className="text-xs text-[#8f867e]">
-                                {editCount + 1}/{MAX_FREE_EDITS} edits remaining
-                              </div>
+                          {/* Contextual Pills (need more info) */}
+                          <div>
+                            <label className="block text-sm font-medium text-[#181615] mb-3">
+                              Add specific details:
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                              {getRegenerationSuggestions().contextual.map((suggestion, index) => (
+                                <button
+                                  key={`contextual-${index}`}
+                                  onClick={() => {
+                                    setSelectedPill(suggestion);
+                                    setRegenerationInstructions("");
+                                  }}
+                                  disabled={isGenerating}
+                                  className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                                    selectedPill === suggestion
+                                      ? 'bg-[#da5389] text-white'
+                                      : isGenerating
+                                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                      : 'bg-white border border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-[#da5389]/5'
+                                  }`}
+                                >
+                                  {suggestion} →
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Custom Instructions */}
+                          <div>
+                            <label className="block text-sm font-medium text-[#181615] mb-2">
+                              {selectedPill ? `Provide details for "${selectedPill}":` : "Or describe your own changes:"}
+                            </label>
+                            <textarea
+                              value={regenerationInstructions}
+                              onChange={(e) => setRegenerationInstructions(e.target.value)}
+                              placeholder={
+                                selectedPill
+                                  ? selectedPill === "Add a specific story"
+                                    ? "Describe the story you want to include..."
+                                    : selectedPill === "Include a particular memory"
+                                    ? "Tell us about the memory you want to add..."
+                                    : selectedPill === "Mention someone special"
+                                    ? "Who should be mentioned and how?"
+                                    : `Provide details for: ${selectedPill}...`
+                                  : "e.g., Make it funnier, add more details about our college days, include a specific memory..."
+                              }
+                              rows={3}
+                              className="w-full p-3 border border-[#e8e1d8] rounded-lg text-[#181615] placeholder-[#8f867e] focus:border-[#da5389] focus:outline-none focus:ring-1 focus:ring-[#da5389]"
+                            />
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="flex items-center justify-between gap-3">
+                            {selectedPill && (
                               <button
                                 onClick={() => {
-                                  if (regenerationInstructions.trim()) {
-                                    handleGenerateSpeech(regenerationInstructions);
+                                  setSelectedPill(null);
+                                  setRegenerationInstructions("");
+                                }}
+                                className="text-sm text-[#8f867e] hover:text-[#da5389]"
+                              >
+                                Clear selection
+                              </button>
+                            )}
+
+                            <div className="flex gap-2 ml-auto">
+                              <button
+                                onClick={() => handleGenerateSpeech()}
+                                disabled={isGenerating}
+                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                                  isGenerating
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'bg-gray-100 text-[#181615] hover:bg-gray-200'
+                                }`}
+                              >
+                                🔄 Simple Regenerate
+                              </button>
+
+                              <button
+                                onClick={() => {
+                                  const instruction = selectedPill && regenerationInstructions.trim()
+                                    ? `${selectedPill}: ${regenerationInstructions}`
+                                    : regenerationInstructions.trim();
+
+                                  if (instruction) {
+                                    handleGenerateSpeech(instruction);
                                     setRegenerationInstructions("");
-                                    setShowRegenerationOptions(false);
+                                    setSelectedPill(null);
                                   } else {
                                     handleGenerateSpeech();
                                   }
                                 }}
-                                disabled={isGenerating}
+                                disabled={isGenerating || (selectedPill && !regenerationInstructions.trim())}
                                 className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                                  isGenerating
+                                  isGenerating || (selectedPill && !regenerationInstructions.trim())
                                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                     : 'bg-[#e9a41a] hover:bg-[#e9a41a]/90 text-white shadow-md hover:shadow-lg'
                                 }`}
@@ -1320,37 +1393,13 @@ function GeneratorContent() {
                                   </>
                                 ) : (
                                   <>
-                                    ✨ Regenerate with Changes
+                                    ✨ Regenerate with {selectedPill || regenerationInstructions.trim() ? 'Changes' : 'Instructions'}
                                   </>
                                 )}
                               </button>
                             </div>
                           </div>
-                        )}
-
-                        {/* Simple Regenerate Button when options are hidden */}
-                        {!showRegenerationOptions && (
-                          <button
-                            onClick={() => handleGenerateSpeech()}
-                            disabled={isGenerating}
-                            className={`w-full px-6 py-3 rounded-full text-base font-semibold transition-all duration-200 ${
-                              isGenerating
-                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                : 'bg-[#e9a41a] hover:bg-[#e9a41a]/90 text-white shadow-lg hover:shadow-xl'
-                            }`}
-                          >
-                            {isGenerating ? (
-                              <>
-                                <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block mr-2" />
-                                Regenerating...
-                              </>
-                            ) : (
-                              <>
-                                🔄 Regenerate Speech ({MAX_FREE_EDITS - editCount} edits left)
-                              </>
-                            )}
-                          </button>
-                        )}
+                        </div>
                       </div>
                     )}
 

@@ -31,7 +31,7 @@ function getMigrationStatus(userId: string) {
   return { attempts: 0, lastAttempt: 0, failed: false };
 }
 
-function setMigrationStatus(userId: string, attempts: number, failed: boolean = false) {
+function setMigrationStatus(userId: string, attempts: number, failed = false) {
   if (typeof window === 'undefined') return;
 
   try {

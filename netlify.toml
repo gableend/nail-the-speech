@@ -2,7 +2,7 @@
   remote_images = ["https://source.unsplash.com/.*", "https://images.unsplash.com/.*", "https://ext.same-assets.com/.*", "https://ugc.same-assets.com/.*"]
 
 [build]
-  command = "npm install && npm run build:netlify"
+  command = "npm ci --legacy-peer-deps && npm run build:netlify"
   publish = ".next"
 
 [build.environment]
@@ -11,6 +11,8 @@
   NPM_CONFIG_FUND = "false"
   NPM_CONFIG_AUDIT = "false"
   NPM_FLAGS = "--legacy-peer-deps"
+  NETLIFY_SKIP_PREBUILD = "true"
+  FORCE_CI = "true"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

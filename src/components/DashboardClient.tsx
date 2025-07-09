@@ -304,7 +304,7 @@ export default function DashboardClient() {
                                 <Download className="h-4 w-4 mr-1" />
                                 Download
                               </Button>
-                              <Link href="/generator?step=2">
+                              <Link href={`/generator?step=2&speechId=${speech.id}`}>
                                 <Button variant="outline" size="sm" className="rounded-full">
                                   <Edit className="h-4 w-4 mr-1" />
                                   Edit

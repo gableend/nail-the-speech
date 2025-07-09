@@ -27,7 +27,7 @@ interface FormData {
   lengthPreference: string;
   greatStoryMemory: string;
 
-  // Section 2: Enrichment (Optional – Adds Personality & Emotional Depth)
+  // Section 2: Pro Features (Optional – Adds Personality & Emotional Depth)
   howLongKnown: string;
   sharedHobbiesJokes: string;
   groomIn3Words: string;
@@ -64,7 +64,8 @@ function GeneratorContent() {
   // Check if user came from a specific role link, generic CTA, or edit link
   const roleFromUrl = searchParams.get('role');
   const stepFromUrl = searchParams.get('step');
-  const needsRoleSelection = !roleFromUrl;
+  const speechIdFromUrl = searchParams.get('speechId');
+  const needsRoleSelection = !roleFromUrl && !speechIdFromUrl;
   const initialStep = stepFromUrl ? parseInt(stepFromUrl) : (needsRoleSelection ? 0 : 1);
   const totalSteps = needsRoleSelection ? 4 : 3;
 
@@ -96,7 +97,7 @@ function GeneratorContent() {
     lengthPreference: "",
     greatStoryMemory: "",
 
-    // Section 2: Enrichment (Optional – Adds Personality & Emotional Depth)
+    // Section 2: Pro Features (Optional – Adds Personality & Emotional Depth)
     howLongKnown: "",
     sharedHobbiesJokes: "",
     groomIn3Words: "",
@@ -115,6 +116,39 @@ function GeneratorContent() {
   useEffect(() => {
     // Ensure anonymous user ID is created for tracking
     getOrCreateAnonymousUserId();
+
+    // If editing an existing speech, load it
+    if (speechIdFromUrl) {
+      const loadSpeechForEdit = async () => {
+        try {
+          console.log('🔄 Loading speech for edit:', speechIdFromUrl);
+          const response = await fetch(`/api/speech/${speechIdFromUrl}`);
+          if (response.ok) {
+            const speechData = await response.json();
+            console.log('✅ Speech loaded for edit:', speechData);
+
+            // Parse the stored form data and set it
+            if (speechData.formData) {
+              const parsedFormData = JSON.parse(speechData.formData);
+              setFormData(parsedFormData);
+            }
+
+            // Set the generated speech
+            setGeneratedSpeech(speechData.content);
+            setSpeechGenerated(true);
+
+            console.log('🎯 Speech loaded and ready for editing');
+          } else {
+            console.error('❌ Failed to load speech for edit');
+          }
+        } catch (error) {
+          console.error('❌ Error loading speech for edit:', error);
+        }
+      };
+
+      loadSpeechForEdit();
+      return; // Skip the normal restore logic when editing
+    }
 
     const restoreData = localStorage.getItem('restoreFormData');
     if (restoreData) {
@@ -138,7 +172,7 @@ function GeneratorContent() {
           if (parsedData.yourName && parsedData.groomName && parsedData.brideName &&
               parsedData.relationshipToGroom && parsedData.tone && parsedData.lengthPreference &&
               parsedData.greatStoryMemory) {
-            setCurrentStep(needsRoleSelection ? 2 : 1); // Default to enrichment step
+            setCurrentStep(needsRoleSelection ? 2 : 1); // Default to pro step
           } else if (parsedData.selectedRole) {
             setCurrentStep(needsRoleSelection ? 1 : 0); // Essentials step
           }
@@ -400,7 +434,7 @@ function GeneratorContent() {
   const handleGenerateSpeech = async (customInstructions?: string) => {
     if (editCount >= MAX_FREE_EDITS) {
       // Show paywall message
-      alert(`You've used your ${MAX_FREE_EDITS} free edits. Upgrade to Enrichment for unlimited edits and enhanced features!`);
+      alert(`You've used your ${MAX_FREE_EDITS} free edits. Upgrade to Pro for unlimited edits and enhanced features!`);
       return;
     }
 
@@ -706,7 +740,7 @@ function GeneratorContent() {
                       {step === 0 && <><User className="h-4 w-4 inline mr-1" />Role</>}
                       {step === 1 && '🎯 Essentials'}
                       {step === 2 && '📝 Your Speech'}
-                      {step === 3 && '💎 Enrichment'}
+                      {step === 3 && '💎 Pro'}
                     </div>
                     <div className={`text-sm mt-1 ${
                       step <= currentStep ? 'text-[#8f867e]' : 'text-[#d1ccc4]'
@@ -714,7 +748,7 @@ function GeneratorContent() {
                       {step === 0 && 'Required'}
                       {step === 1 && 'Required'}
                       {step === 2 && 'Generate'}
-                      {step === 3 && 'Premium'}
+                      {step === 3 && 'Pro'}
                     </div>
                   </div>
 
@@ -738,14 +772,14 @@ function GeneratorContent() {
                 {currentStep === 0 && "Choose Your Role"}
                 {currentStep === 1 && "Essentials"}
                 {currentStep === 2 && "Your Speech Outline"}
-                {currentStep === 3 && "Enrichment"}
+                {currentStep === 3 && "Pro"}
               </CardTitle>
             </div>
             <p className="text-sm text-[#8f867e]">
               {currentStep === 0 && "Select your role in the wedding to personalize your speech"}
               {currentStep === 1 && "Required fields for your speech foundation"}
               {currentStep === 2 && "Generate your basic speech and make edits"}
-              {currentStep === 3 && "💎 Upgrade to add personality & premium features"}
+              {currentStep === 3 && "💎 Upgrade to Pro to add personality & premium features"}
             </p>
           </CardHeader>
           <CardContent className="p-8 relative z-10">
@@ -902,12 +936,12 @@ function GeneratorContent() {
 
 
 
-            {/* Section 3: Enrichment (Premium - Adds Personality & Emotional Depth) */}
+            {/* Section 3: Pro Features (Premium - Adds Personality & Emotional Depth) */}
             {currentStep === 3 && (
               <div className="space-y-6">
                 <div className="bg-gradient-to-r from-[#da5389]/10 to-[#e9a41a]/10 rounded-lg p-6 mb-6 border border-[#da5389]/30">
                   <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-[#181615] mb-1">💎 Enrichment - Premium Features</h3>
+                    <h3 className="text-lg font-semibold text-[#181615] mb-1">💎 Pro - Premium Features</h3>
                     <p className="text-base text-[#8f867e]">
                       Add personality and emotional depth to make your speech truly memorable
                     </p>
@@ -1106,7 +1140,7 @@ function GeneratorContent() {
                       Generate Your Enhanced Speech
                     </h4>
                     <p className="text-[#8f867e] text-sm mb-4">
-                      Include all the enrichment details above to create a more personalized and memorable speech.
+                      Include all the pro details above to create a more personalized and memorable speech.
                     </p>
                     <Button
                       onClick={handleSubmit}
@@ -1408,7 +1442,7 @@ function GeneratorContent() {
                       <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5 border border-[#da5389]/20 rounded-lg p-6">
                         <h3 className="text-lg font-semibold text-[#181615] mb-2">🔒 Unlock Unlimited Editing</h3>
                         <p className="text-[#8f867e] mb-4">
-                          You've used your {MAX_FREE_EDITS} free edits. Upgrade to Enrichment to continue editing and unlock premium features:
+                          You've used your {MAX_FREE_EDITS} free edits. Upgrade to Pro to continue editing and unlock premium features:
                         </p>
                         <ul className="text-sm text-[#8f867e] mb-4 space-y-1">
                           <li>• Unlimited speech regeneration with custom instructions</li>
@@ -1421,7 +1455,7 @@ function GeneratorContent() {
                           onClick={() => setCurrentStep(3)}
                           className="bg-[#da5389] hover:bg-[#da5389]/90 text-white px-6 py-3 rounded-full font-semibold"
                         >
-                          💎 Upgrade to Enrichment
+                          💎 Upgrade to Pro
                         </button>
                       </div>
                     )}
@@ -1569,7 +1603,7 @@ function GeneratorContent() {
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
                   >
-                    Next - enhance your speech 💎
+                    Next - upgrade to Pro 💎
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 )}

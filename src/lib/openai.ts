@@ -12,7 +12,7 @@ interface SpeechFormData {
   tone: string;
   greatStoryMemory: string;
 
-  // Section 2: Enrichment
+  // Section 2: Pro Features
   howLongKnown: string;
   sharedHobbiesJokes: string;
   groomIn3Words: string;
@@ -200,7 +200,7 @@ ${greatStoryMemory}
 
 ADDITIONAL CONTEXT:`;
 
-  // Add enrichment details if provided
+  // Add pro feature details if provided
   if (howLongKnown) prompt += `\n- Known ${groomName} for: ${howLongKnown}`;
   if (groomIn3Words) prompt += `\n- ${groomName} in 3 words: ${groomIn3Words}`;
   if (whatYouAdmire) prompt += `\n- What I admire about ${groomName}: ${whatYouAdmire}`;

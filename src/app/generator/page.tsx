@@ -186,7 +186,7 @@ function GeneratorContent() {
         console.error('Failed to restore form data:', error);
       }
     }
-  }, [needsRoleSelection]);
+  }, [needsRoleSelection, speechIdFromUrl]);
 
   const updateFormData = (field: keyof FormData, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));

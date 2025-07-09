@@ -42,7 +42,7 @@ export async function PATCH(
     }
 
     // Build update data
-    const updateData: any = {};
+    const updateData: { customTitle?: string | null; isFinal?: boolean } = {};
     if (customTitle !== undefined) {
       updateData.customTitle = customTitle.trim() || null;
     }

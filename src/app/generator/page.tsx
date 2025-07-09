@@ -1379,9 +1379,9 @@ function GeneratorContent() {
                                     handleGenerateSpeech();
                                   }
                                 }}
-                                disabled={isGenerating || (selectedPill && !regenerationInstructions.trim())}
+                                disabled={isGenerating || (!!selectedPill && !regenerationInstructions.trim())}
                                 className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                                  isGenerating || (selectedPill && !regenerationInstructions.trim())
+                                  isGenerating || (!!selectedPill && !regenerationInstructions.trim())
                                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                     : 'bg-[#e9a41a] hover:bg-[#e9a41a]/90 text-white shadow-md hover:shadow-lg'
                                 }`}

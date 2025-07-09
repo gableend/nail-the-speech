@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev -H 0.0.0.0 --turbopack",
-    "build": "npx prisma generate && next build",
-    "build:netlify": "npx prisma generate && next build",
+    "build": "next build",
+    "build:netlify": "next build",
     "start": "next start",
     "lint": "biome lint --write && tsc --noEmit",
     "format": "biome format --write",

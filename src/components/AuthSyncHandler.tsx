@@ -8,6 +8,23 @@ interface AuthSyncHandlerProps {
   children: React.ReactNode;
 }
 
+interface DebugInfo {
+  timestamp: string;
+  loadingTime: string;
+  isLoaded: boolean;
+  isSignedIn: boolean;
+  hasUser: boolean;
+  userId: string;
+  userEmail: string;
+  isMigrating: boolean;
+  migrationComplete: boolean;
+  showSyncMessage: boolean;
+  migrationAttempts: number;
+  emergencyBypass: boolean;
+  pathname: string;
+  anonUserId: string | null;
+}
+
 const MIGRATION_STORAGE_KEY = 'migration_status';
 const MAX_DAILY_ATTEMPTS = 3;
 
@@ -54,14 +71,29 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
   const [migrationAttempts, setMigrationAttempts] = useState(0);
   const [emergencyBypass, setEmergencyBypass] = useState(false);
   const [loadingStartTime] = useState(Date.now());
-  const [debugInfo, setDebugInfo] = useState<any>({});
+  const [debugInfo, setDebugInfo] = useState<DebugInfo>({
+    timestamp: '',
+    loadingTime: '',
+    isLoaded: false,
+    isSignedIn: false,
+    hasUser: false,
+    userId: '',
+    userEmail: '',
+    isMigrating: false,
+    migrationComplete: false,
+    showSyncMessage: false,
+    migrationAttempts: 0,
+    emergencyBypass: false,
+    pathname: '',
+    anonUserId: null,
+  });
 
   useEffect(() => {
     // COMPREHENSIVE DEBUG LOGGING
     const currentTime = Date.now();
     const loadingTime = currentTime - loadingStartTime;
 
-    const debugData = {
+    const debugData: DebugInfo = {
       timestamp: new Date().toISOString(),
       loadingTime: `${loadingTime}ms`,
       isLoaded,

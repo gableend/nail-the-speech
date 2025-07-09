@@ -32,16 +32,24 @@ interface SpeechOptions {
   isPremium?: boolean;
   model?: 'gpt-3.5-turbo' | 'gpt-4';
   maxTokens?: number;
+  regenerationInstructions?: string | null;
+  isRegeneration?: boolean;
 }
 
 export async function generateWeddingSpeechStream(
   formData: SpeechFormData,
   options: SpeechOptions = {}
 ) {
-  const { isPremium = false, model = 'gpt-3.5-turbo', maxTokens = 1000 } = options;
+  const {
+    isPremium = false,
+    model = 'gpt-3.5-turbo',
+    maxTokens = 1000,
+    regenerationInstructions = null,
+    isRegeneration = false
+  } = options;
 
-  // Build the prompt based on form data
-  const prompt = buildSpeechPrompt(formData, isPremium);
+  // Build the prompt based on form data and regeneration instructions
+  const prompt = buildSpeechPrompt(formData, isPremium, regenerationInstructions);
 
   try {
     // Create OpenAI client fresh each time to avoid build-time issues
@@ -145,7 +153,7 @@ export async function generateWeddingSpeech(
   }
 }
 
-function buildSpeechPrompt(formData: SpeechFormData, isPremium: boolean): string {
+function buildSpeechPrompt(formData: SpeechFormData, isPremium: boolean, regenerationInstructions?: string | null): string {
   const {
     selectedRole,
     yourName,
@@ -206,6 +214,16 @@ ADDITIONAL CONTEXT:`;
     if (includeShoutOuts) prompt += `\n- Mention these people: ${includeShoutOuts}`;
     if (humorLevel && humorLevel !== 'none') prompt += `\n- Humor level: ${humorLevel}`;
     if (includeToastClosing) prompt += "\n- End with a traditional toast";
+  }
+
+  // Add regeneration instructions if this is a regeneration
+  if (regenerationInstructions) {
+    prompt += `
+
+SPECIFIC CHANGES REQUESTED:
+${regenerationInstructions}
+
+Please incorporate these changes while maintaining the overall quality and structure of the speech.`;
   }
 
   prompt += `

@@ -58,7 +58,9 @@ export async function POST(request: NextRequest) {
       hasStory: !!formData.greatStoryMemory,
       fieldsCount: Object.keys(formData).length,
       userLoggedIn: !!userId,
-      userId: userId || 'anonymous'
+      userId: userId || 'anonymous',
+      isRegeneration: !!formData.isRegeneration,
+      hasCustomInstructions: !!formData.regenerationInstructions
     });
 
     // Validate required fields for speech generation
@@ -107,14 +109,18 @@ export async function POST(request: NextRequest) {
     const speechOptions = {
       isPremium,
       model: 'gpt-3.5-turbo' as const,
-      maxTokens: 1000
+      maxTokens: 1000,
+      regenerationInstructions: formData.regenerationInstructions || null,
+      isRegeneration: formData.isRegeneration || false
     };
 
     console.log('🤖 [SPEECH STREAM API] Starting OpenAI streaming generation with options:', {
       model: speechOptions.model,
       isPremium: speechOptions.isPremium,
       maxTokens: speechOptions.maxTokens,
-      dataCompleteness: determineDataCompleteness(formData)
+      dataCompleteness: determineDataCompleteness(formData),
+      isRegeneration: speechOptions.isRegeneration,
+      hasCustomInstructions: !!speechOptions.regenerationInstructions
     });
 
     // Create readable stream for streaming response

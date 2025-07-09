@@ -78,6 +78,10 @@ function GeneratorContent() {
   const [speechGenerated, setSpeechGenerated] = useState(false);
   const [speechError, setSpeechError] = useState<string>("");
   const MAX_FREE_EDITS = 2;
+
+  // Regeneration with instructions state
+  const [showRegenerationOptions, setShowRegenerationOptions] = useState(false);
+  const [regenerationInstructions, setRegenerationInstructions] = useState("");
   const [formData, setFormData] = useState<FormData>({
     // Role Selection (if needed)
     selectedRole: roleFromUrl || "",
@@ -349,8 +353,49 @@ function GeneratorContent() {
     }
   };
 
+  // Generate contextual regeneration suggestions based on user's speech
+  const getRegenerationSuggestions = () => {
+    const suggestions = [];
+
+    // Tone-based suggestions
+    if (formData.tone === 'light-funny') {
+      suggestions.push("Make it more heartfelt", "Add more humor", "Include a gentle roast");
+    } else if (formData.tone === 'sentimental') {
+      suggestions.push("Add some light humor", "Make it more emotional", "Focus on happy memories");
+    } else if (formData.tone === 'balanced') {
+      suggestions.push("Make it funnier", "Make it more touching", "Add personal details");
+    } else if (formData.tone === 'clean-roast') {
+      suggestions.push("Add more playful teasing", "Include heartfelt moments", "Make it more clever");
+    }
+
+    // Length-based suggestions
+    suggestions.push("Make it shorter", "Make it longer", "Add more details");
+
+    // Role-specific suggestions
+    if (formData.selectedRole === 'best-man') {
+      suggestions.push("Add more friendship stories", "Include advice for marriage", "Mention the bachelor party");
+    } else if (formData.selectedRole === 'maid-of-honor') {
+      suggestions.push("Add more sisterly moments", "Include bride's best qualities", "Mention getting ready together");
+    } else if (formData.selectedRole === 'father-of-bride') {
+      suggestions.push("Add childhood memories", "Include parental advice", "Mention letting her go");
+    } else if (formData.selectedRole === 'mother-of-bride') {
+      suggestions.push("Add mother-daughter moments", "Include pride and joy", "Mention watching her grow");
+    }
+
+    // Content-focused suggestions
+    suggestions.push(
+      "Focus more on the couple together",
+      "Add more about the groom",
+      "Include wedding planning stories",
+      "Mention their future together",
+      "Add a memorable quote"
+    );
+
+    return suggestions.slice(0, 8); // Limit to 8 suggestions
+  };
+
   // New function for Step 2: Generate speech outline with streaming and stay on page
-  const handleGenerateSpeech = async () => {
+  const handleGenerateSpeech = async (customInstructions?: string) => {
     if (editCount >= MAX_FREE_EDITS) {
       // Show paywall message
       alert(`You've used your ${MAX_FREE_EDITS} free edits. Upgrade to Enrichment for unlimited edits and enhanced features!`);
@@ -362,12 +407,18 @@ function GeneratorContent() {
       setSpeechError("");
       setGeneratedSpeech(""); // Clear previous speech to show streaming
 
+      const requestData = {
+        ...formData,
+        regenerationInstructions: customInstructions || null,
+        isRegeneration: !!customInstructions || speechGenerated
+      };
+
       const response = await fetch('/api/generate-speech-stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(requestData),
       });
 
       if (!response.ok) {
@@ -445,12 +496,18 @@ function GeneratorContent() {
       setSpeechError("");
       setGeneratedSpeech(""); // Clear any previous speech
 
+      const requestData = {
+        ...formData,
+        regenerationInstructions: null,
+        isRegeneration: false
+      };
+
       const response = await fetch('/api/generate-speech-stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(requestData),
       });
 
       if (!response.ok) {
@@ -1180,25 +1237,145 @@ function GeneratorContent() {
                       </div>
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                      {editCount < MAX_FREE_EDITS ? (
-                        <button
-                          onClick={handleGenerateSpeech}
-                          disabled={isGenerating}
-                          className="px-6 py-3 rounded-full text-base font-semibold transition-all duration-200 bg-[#e9a41a] hover:bg-[#e9a41a]/90 text-white shadow-lg hover:shadow-xl"
-                        >
-                          ✨ Regenerate Speech ({MAX_FREE_EDITS - editCount} edits left)
-                        </button>
-                      ) : (
+                    {/* Regeneration Options */}
+                    {editCount < MAX_FREE_EDITS && (
+                      <div className="bg-[#faf7f4] rounded-lg p-6 border border-[#e8e1d8]">
+                        <div className="flex items-center justify-between mb-4">
+                          <h4 className="font-semibold text-[#181615] flex items-center">
+                            <span className="text-lg mr-2">🔄</span>
+                            Improve Your Speech
+                          </h4>
+                          <button
+                            onClick={() => setShowRegenerationOptions(!showRegenerationOptions)}
+                            className="text-sm text-[#da5389] hover:text-[#da5389]/80 font-medium"
+                          >
+                            {showRegenerationOptions ? 'Hide Options' : 'Show Options'}
+                          </button>
+                        </div>
+
+                        {showRegenerationOptions && (
+                          <div className="space-y-4">
+                            {/* Suggestion Pills */}
+                            <div>
+                              <label className="block text-sm font-medium text-[#181615] mb-3">
+                                Quick improvements:
+                              </label>
+                              <div className="flex flex-wrap gap-2">
+                                {getRegenerationSuggestions().map((suggestion, index) => (
+                                  <button
+                                    key={`suggestion-${index}`}
+                                    onClick={() => setRegenerationInstructions(suggestion)}
+                                    className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                                      regenerationInstructions === suggestion
+                                        ? 'bg-[#da5389] text-white'
+                                        : 'bg-white border border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                                    }`}
+                                  >
+                                    {suggestion}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Custom Instructions */}
+                            <div>
+                              <label className="block text-sm font-medium text-[#181615] mb-2">
+                                Or tell us exactly what to change:
+                              </label>
+                              <textarea
+                                value={regenerationInstructions}
+                                onChange={(e) => setRegenerationInstructions(e.target.value)}
+                                placeholder="e.g., Make it funnier, add more details about our college days, include a specific memory..."
+                                rows={3}
+                                className="w-full p-3 border border-[#e8e1d8] rounded-lg text-[#181615] placeholder-[#8f867e] focus:border-[#da5389] focus:outline-none focus:ring-1 focus:ring-[#da5389]"
+                              />
+                            </div>
+
+                            {/* Regenerate Button */}
+                            <div className="flex items-center justify-between">
+                              <div className="text-xs text-[#8f867e]">
+                                {editCount + 1}/{MAX_FREE_EDITS} edits remaining
+                              </div>
+                              <button
+                                onClick={() => {
+                                  if (regenerationInstructions.trim()) {
+                                    handleGenerateSpeech(regenerationInstructions);
+                                    setRegenerationInstructions("");
+                                    setShowRegenerationOptions(false);
+                                  } else {
+                                    handleGenerateSpeech();
+                                  }
+                                }}
+                                disabled={isGenerating}
+                                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                                  isGenerating
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'bg-[#e9a41a] hover:bg-[#e9a41a]/90 text-white shadow-md hover:shadow-lg'
+                                }`}
+                              >
+                                {isGenerating ? (
+                                  <>
+                                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block mr-2" />
+                                    Regenerating...
+                                  </>
+                                ) : (
+                                  <>
+                                    ✨ Regenerate with Changes
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Simple Regenerate Button when options are hidden */}
+                        {!showRegenerationOptions && (
+                          <button
+                            onClick={() => handleGenerateSpeech()}
+                            disabled={isGenerating}
+                            className={`w-full px-6 py-3 rounded-full text-base font-semibold transition-all duration-200 ${
+                              isGenerating
+                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                : 'bg-[#e9a41a] hover:bg-[#e9a41a]/90 text-white shadow-lg hover:shadow-xl'
+                            }`}
+                          >
+                            {isGenerating ? (
+                              <>
+                                <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block mr-2" />
+                                Regenerating...
+                              </>
+                            ) : (
+                              <>
+                                🔄 Regenerate Speech ({MAX_FREE_EDITS - editCount} edits left)
+                              </>
+                            )}
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Upgrade message for users who have exceeded free edits */}
+                    {editCount >= MAX_FREE_EDITS && (
+                      <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5 border border-[#da5389]/20 rounded-lg p-6">
+                        <h3 className="text-lg font-semibold text-[#181615] mb-2">🔒 Unlock Unlimited Editing</h3>
+                        <p className="text-[#8f867e] mb-4">
+                          You've used your {MAX_FREE_EDITS} free edits. Upgrade to Enrichment to continue editing and unlock premium features:
+                        </p>
+                        <ul className="text-sm text-[#8f867e] mb-4 space-y-1">
+                          <li>• Unlimited speech regeneration with custom instructions</li>
+                          <li>• Enhanced personality details</li>
+                          <li>• Premium customization options</li>
+                          <li>• Advanced tone controls</li>
+                          <li>• Speech length selection</li>
+                        </ul>
                         <button
                           onClick={() => setCurrentStep(3)}
-                          className="px-6 py-3 rounded-full text-base font-semibold bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-lg"
+                          className="bg-[#da5389] hover:bg-[#da5389]/90 text-white px-6 py-3 rounded-full font-semibold"
                         >
-                          💎 Upgrade to Enrichment for Unlimited Edits
+                          💎 Upgrade to Enrichment
                         </button>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </div>
                 )}
 

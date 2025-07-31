@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
@@ -6,7 +7,6 @@ import { headers } from "next/headers";
 export async function POST(request: NextRequest) {
   try {
     console.log('🔍 [STRIPE WEBHOOK] Received webhook request...');
-
     const body = await request.text();
     const headersList = await headers();
     const signature = headersList.get('stripe-signature');
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
     // Handle successful payment
     if (event.type === 'checkout.session.completed') {
-      const session = event.data.object as any;
+      const session = event.data.object as Stripe.Checkout.Session;
       const userId = session.metadata?.userId;
 
       if (!userId) {
@@ -80,7 +80,6 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ received: true });
-
   } catch (error: unknown) {
     console.error('💥 [STRIPE WEBHOOK] Error processing webhook:', error);
     return NextResponse.json(

@@ -15,7 +15,7 @@ export async function GET() {
         hasUserId: !!authResult.userId,
         userIdLength: authResult.userId?.length || 0
       });
-    } catch (authError) {
+    } catch (authError: unknown) {
       console.error('❌ [USER SPEECHES API] Auth failed:', authError);
       return NextResponse.json(
         { error: "Authentication failed", details: authError instanceof Error ? authError.message : 'Unknown auth error' },
@@ -40,7 +40,7 @@ export async function GET() {
     try {
       await prisma.$connect();
       console.log('✅ [USER SPEECHES API] Database connected successfully');
-    } catch (dbError) {
+    } catch (dbError: unknown) {
       console.error('❌ [USER SPEECHES API] Database connection failed:', dbError);
       return NextResponse.json(
         { error: "Database connection failed", details: dbError instanceof Error ? dbError.message : 'Unknown DB error' },
@@ -77,7 +77,7 @@ export async function GET() {
 
     return NextResponse.json({ speeches });
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("💥 [USER SPEECHES API] Unexpected error:", {
       error: error instanceof Error ? error.message : error,
       stack: error instanceof Error ? error.stack : 'No stack trace',

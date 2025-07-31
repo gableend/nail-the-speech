@@ -43,6 +43,3 @@ next-env.d.ts
 # package managers
 bun.lockb
 .bun/
-
-# clerk configuration (can include secrets)
-/.clerk/

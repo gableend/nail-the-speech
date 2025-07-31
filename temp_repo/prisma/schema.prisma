@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AnonymousUser {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  speeches  Speech[]
+
+  @@map("anonymous_users")
+}
+
+model Speech {
+  id            String   @id @default(cuid())
+  title         String   // Auto-generated title
+  customTitle   String?  // User-defined custom title
+  content       String
+  role          String
+  tone          String
+  length        String
+  wordCount     Int?
+  estimatedTime Int?     // in minutes
+  isAIGenerated Boolean  @default(true)
+  formData      String   // JSON string of form data
+  regenCount    Int      @default(0) // Track regeneration count for paywall
+  userId        String?  // Clerk user ID (set after auth)
+  anonUserId    String?  // Anonymous user ID (set before auth)
+  isCompleted   Boolean  @default(true) // false for draft speeches
+  isFinal       Boolean  @default(false) // Mark as "Final" version
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  anonymousUser AnonymousUser? @relation(fields: [anonUserId], references: [id], onDelete: Cascade)
+
+  @@map("speeches")
+}

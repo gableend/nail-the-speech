@@ -31,6 +31,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
+import ProUpgradePrompt from '@/components/ProUpgradePrompt';
+import { useProStatus } from '@/hooks/useProStatus';
 
 interface Speech {
   id: string;
@@ -73,12 +75,14 @@ const getRoleEmoji = (role: string) => {
 
 export default function DashboardClient() {
   const { user } = useUser();
+  const { isProUser, loading: proStatusLoading } = useProStatus();
   const [speeches, setSpeeches] = useState<Speech[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showProBanner, setShowProBanner] = useState(true);
 
   // Speech management state
   const [editingTitle, setEditingTitle] = useState<string | null>(null);
@@ -508,21 +512,21 @@ export default function DashboardClient() {
         </Card>
       </div>
 
+      {/* Pro Upgrade Banner for non-pro users */}
+      {!proStatusLoading && !isProUser && showProBanner && (
+        <ProUpgradePrompt
+          variant="banner"
+          showCloseButton={true}
+          onClose={() => setShowProBanner(false)}
+          context="dashboard"
+        />
+      )}
+
       {/* Main Content Tabs */}
       <Tabs defaultValue="speeches" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 max-w-[400px] bg-gray-100 p-1">
-          <TabsTrigger
-            value="speeches"
-            className="text-gray-700 font-medium data-[state=active]:bg-white data-[state=active]:text-[#181615] data-[state=active]:shadow-sm hover:text-gray-900 transition-all"
-          >
-            Your Speeches
-          </TabsTrigger>
-          <TabsTrigger
-            value="settings"
-            className="text-gray-700 font-medium data-[state=active]:bg-white data-[state=active]:text-[#181615] data-[state=active]:shadow-sm hover:text-gray-900 transition-all"
-          >
-            Account Settings
-          </TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
+          <TabsTrigger value="speeches">Your Speeches</TabsTrigger>
+          <TabsTrigger value="settings">Account Settings</TabsTrigger>
         </TabsList>
 
         <TabsContent value="speeches">

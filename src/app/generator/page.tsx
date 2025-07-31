@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import { countWords, estimateReadingTime } from "@/lib/openai";
 import VoiceInput from "@/components/VoiceInput";
 import { getOrCreateAnonymousUserId } from "@/lib/clientAnonymousUser";
+import ProUpgradePrompt from "@/components/ProUpgradePrompt";
+import { useProStatus } from "@/hooks/useProStatus";
 
 interface FormData {
   // Role Selection (if needed)
@@ -65,6 +67,9 @@ function GeneratorContent() {
   const roleFromUrl = searchParams.get('role');
   const stepFromUrl = searchParams.get('step');
   const speechIdFromUrl = searchParams.get('speechId');
+  const paymentSuccess = searchParams.get('success') === 'true';
+  const paymentCanceled = searchParams.get('canceled') === 'true';
+  const sessionId = searchParams.get('session_id');
   const needsRoleSelection = !roleFromUrl && !speechIdFromUrl;
   const initialStep = stepFromUrl ? Number.parseInt(stepFromUrl) : (needsRoleSelection ? 0 : 1);
   const totalSteps = needsRoleSelection ? 4 : 3;
@@ -85,6 +90,9 @@ function GeneratorContent() {
   const [regenerationInstructions, setRegenerationInstructions] = useState("");
   const [selectedPill, setSelectedPill] = useState<string | null>(null);
   const [showProModal, setShowProModal] = useState(false);
+  const { isProUser, loading: proStatusLoading } = useProStatus();
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(paymentSuccess);
+  const [showPaymentCanceled, setShowPaymentCanceled] = useState(paymentCanceled);
 
   const [formData, setFormData] = useState<FormData>({
     // Role Selection (if needed)
@@ -327,6 +335,12 @@ function GeneratorContent() {
   };
 
   const nextStep = () => {
+    // If trying to access step 3 (Pro features) without pro status, show upgrade modal
+    if (currentStep === 2 && !isProUser && !proStatusLoading) {
+      setShowProModal(true);
+      return;
+    }
+
     if (currentStep < totalSteps) {
       setCurrentStep(prev => prev + 1);
     }
@@ -678,6 +692,52 @@ function GeneratorContent() {
       </nav>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+
+        {/* Payment Success Notification */}
+        {showPaymentSuccess && (
+          <div className="mb-6 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm">✓</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-green-800">Payment Successful!</div>
+                  <div className="text-sm text-green-700">You now have access to all Pro features. You can now access step 3 to add premium details!</div>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowPaymentSuccess(false)}
+                className="text-green-600 hover:text-green-800"
+              >
+                <span className="text-lg">×</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Payment Canceled Notification */}
+        {showPaymentCanceled && (
+          <div className="mb-6 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm">!</span>
+                </div>
+                <div>
+                  <div className="font-semibold text-yellow-800">Payment Canceled</div>
+                  <div className="text-sm text-yellow-700">No worries! You can upgrade to Pro anytime to unlock premium features.</div>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowPaymentCanceled(false)}
+                className="text-yellow-600 hover:text-yellow-800"
+              >
+                <span className="text-lg">×</span>
+              </button>
+            </div>
+          </div>
+        )}
         {/* Progress Header */}
         <div className="mb-8">
           <div className="text-center mb-6">
@@ -1562,8 +1622,24 @@ function GeneratorContent() {
                   </Button>
                 )}
 
-                {/* Next button for steps 2+ */}
-                {currentStep >= 2 && currentStep < totalSteps && (
+                {/* Upgrade to Pro button for step 2 */}
+                {currentStep === 2 && !isProUser && (
+                  <Button
+                    onClick={() => setShowProModal(true)}
+                    disabled={!isStepValid()}
+                    className={`shadow-lg rounded-full transition-all duration-200 ${
+                      isStepValid()
+                        ? 'bg-gradient-to-r from-[#da5389] to-[#e9a41a] hover:from-[#da5389]/90 hover:to-[#e9a41a]/90 text-white'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
+                  >
+                    💎 Upgrade to Pro - Add Premium Features
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                )}
+
+                {/* Next button for pro users on step 2 */}
+                {currentStep === 2 && isProUser && (
                   <Button
                     onClick={nextStep}
                     disabled={!isStepValid()}
@@ -1573,7 +1649,7 @@ function GeneratorContent() {
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
                   >
-                    Next - upgrade to Pro 💎
+                    Next - Add Pro Features ✨
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 )}
@@ -1621,149 +1697,14 @@ function GeneratorContent() {
 
         {/* Pro Upgrade Modal */}
         {showProModal && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-              {/* Modal Header */}
-              <div className="bg-gradient-to-r from-[#da5389] to-[#e9a41a] text-white p-6 rounded-t-2xl">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                      <span className="text-2xl">💎</span>
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-bold">Upgrade to Pro</h2>
-                      <p className="text-white/90 text-sm">Unlock unlimited editing & premium features</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setShowProModal(false)}
-                    className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                  >
-                    <span className="text-white text-lg">×</span>
-                  </button>
-                </div>
-
-                {/* Current Usage */}
-                <div className="bg-white/20 rounded-lg p-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-white/90">Free Edits Used</span>
-                    <span className="font-bold">{editCount}/{MAX_FREE_EDITS}</span>
-                  </div>
-                  <div className="w-full bg-white/20 rounded-full h-2 mt-2">
-                    <div
-                      className="bg-white rounded-full h-2 transition-all duration-300"
-                      style={{ width: `${(editCount / MAX_FREE_EDITS) * 100}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Modal Content */}
-              <div className="p-6">
-                {/* Pro Features */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-[#181615] mb-4">What You Get with Pro:</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-green-600 text-sm">✓</span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-[#181615]">Unlimited Speech Regeneration</div>
-                        <div className="text-sm text-[#8f867e]">Refine your speech with unlimited custom instructions</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-green-600 text-sm">✓</span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-[#181615]">Enhanced Personality Details</div>
-                        <div className="text-sm text-[#8f867e]">Add rich personal touches and deeper customization</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-green-600 text-sm">✓</span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-[#181615]">Advanced Tone Controls</div>
-                        <div className="text-sm text-[#8f867e]">Fine-tune humor level and speech style perfectly</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-green-600 text-sm">✓</span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-[#181615]">Speech Length Selection</div>
-                        <div className="text-sm text-[#8f867e]">Choose from short (2 min), medium (4 min), or long (6 min)</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
-                        <span className="text-green-600 text-sm">✓</span>
-                      </div>
-                      <div>
-                        <div className="font-medium text-[#181615]">Premium Customization</div>
-                        <div className="text-sm text-[#8f867e]">Special toasts, shout-outs, and ending messages</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Pricing */}
-                <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5 border border-[#da5389]/20 rounded-lg p-4 mb-6">
-                  <div className="text-center">
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                      <span className="text-2xl font-bold text-[#181615]">$9.99</span>
-                      <span className="text-lg text-[#8f867e] line-through">$19.99</span>
-                      <span className="bg-[#da5389] text-white text-xs px-2 py-1 rounded-full font-medium">50% OFF</span>
-                    </div>
-                    <div className="text-sm text-[#8f867e]">One-time payment • Lifetime access</div>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="space-y-3">
-                  <button
-                    onClick={() => {
-                      // TODO: Implement actual payment flow
-                      setCurrentStep(3);
-                      setShowProModal(false);
-                    }}
-                    className="w-full bg-gradient-to-r from-[#da5389] to-[#e9a41a] hover:from-[#da5389]/90 hover:to-[#e9a41a]/90 text-white px-6 py-4 rounded-full font-semibold text-lg shadow-lg transition-all duration-200"
-                  >
-                    💎 Upgrade to Pro Now
-                  </button>
-                  <button
-                    onClick={() => setShowProModal(false)}
-                    className="w-full text-[#8f867e] hover:text-[#181615] py-3 text-sm transition-colors"
-                  >
-                    Maybe later
-                  </button>
-                </div>
-
-                {/* Trust Badges */}
-                <div className="mt-6 pt-6 border-t border-gray-200">
-                  <div className="flex items-center justify-center gap-6 text-xs text-[#8f867e]">
-                    <div className="flex items-center gap-1">
-                      <span>🔒</span>
-                      <span>Secure Payment</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span>↩️</span>
-                      <span>30-Day Refund</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span>✨</span>
-                      <span>Instant Access</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ProUpgradePrompt
+            variant="modal"
+            showCloseButton={true}
+            onClose={() => setShowProModal(false)}
+            context="generator"
+            currentEditCount={editCount}
+            maxEditCount={MAX_FREE_EDITS}
+          />
         )}
       </div>
     </div>

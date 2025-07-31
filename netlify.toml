@@ -5,6 +5,12 @@
   command = "npm ci --legacy-peer-deps && npx prisma migrate deploy && npm run build"
   publish = ".next"
 
+# Force override dashboard settings
+[build.environment]
+  NODE_VERSION = "18"
+  NETLIFY_USE_NPM = "true"
+  NPM_CONFIG_LEGACY_PEER_DEPS = "true"
+
 [build.environment]
   NODE_VERSION = "18"
   NETLIFY_USE_NPM = "true"
@@ -13,14 +19,6 @@
   NPM_FLAGS = "--legacy-peer-deps"
   NETLIFY_SKIP_PREBUILD = "true"
   FORCE_CI = "true"
-  # Explicitly disable other package managers
-  NETLIFY_USE_YARN = "false"
-  NETLIFY_USE_PNPM = "false"
-  # Additional npm-specific settings
-  NPM_CONFIG_LEGACY_PEER_DEPS = "true"
-  NPM_CONFIG_PROGRESS = "false"
-  # Force package manager detection
-  PACKAGE_MANAGER = "npm"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

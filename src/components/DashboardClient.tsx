@@ -21,6 +21,7 @@ import {
   File,
   FileImage,
   FileSpreadsheet,
+  RefreshCw,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -75,6 +76,7 @@ export default function DashboardClient() {
   const [speeches, setSpeeches] = useState<Speech[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -85,23 +87,53 @@ export default function DashboardClient() {
   const [deletingSpeeches, setDeletingSpeeches] = useState<Set<string>>(new Set());
   const [exportingSpeech, setExportingSpeech] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchSpeeches = async () => {
-      try {
-        const response = await fetch('/api/user-speeches');
-        if (!response.ok) {
-          throw new Error('Failed to fetch speeches');
-        }
-        const data = await response.json();
-        setSpeeches(data.speeches);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load speeches');
-        console.error('Error fetching speeches:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchSpeeches = async (showLoadingState = true) => {
+    if (showLoadingState) {
+      setLoading(true);
+    }
+    setError(null);
 
+    try {
+      console.log('🔍 [DASHBOARD] Fetching speeches...');
+      const response = await fetch('/api/user-speeches', {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+
+      if (!response.ok) {
+        let errorMessage = 'Failed to fetch speeches';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorData.details || errorMessage;
+        } catch {
+          // If response isn't JSON, use status text
+          errorMessage = `Server error: ${response.status} ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
+      }
+
+      const data = await response.json();
+      console.log('✅ [DASHBOARD] Successfully fetched speeches:', data.speeches?.length || 0);
+
+      if (!data.speeches || !Array.isArray(data.speeches)) {
+        throw new Error('Invalid response format from server');
+      }
+
+      setSpeeches(data.speeches);
+      setRetryCount(0); // Reset retry count on success
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load speeches';
+      console.error('❌ [DASHBOARD] Error fetching speeches:', err);
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchSpeeches();
   }, []);
 
@@ -282,41 +314,70 @@ export default function DashboardClient() {
   if (loading) {
     return (
       <div className="space-y-6">
+        {/* Loading header */}
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="animate-pulse">
+            <div className="h-6 w-6 bg-gray-200 rounded-full" />
+          </div>
+          <div className="text-[#8f867e]">Loading your speeches...</div>
+        </div>
+
         {/* Loading skeleton for stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((i) => (
+          {[
+            { icon: '📄', label: 'Completed Speeches' },
+            { icon: '✏️', label: 'Drafts' },
+            { icon: '⏱️', label: 'Total Speaking Time' },
+            { icon: '⭐', label: 'Final Speeches' }
+          ].map((stat, i) => (
             <Card key={i}>
               <CardContent className="p-6 text-center">
                 <div className="animate-pulse">
-                  <div className="h-8 w-8 bg-gray-200 rounded mx-auto mb-2"></div>
-                  <div className="h-6 w-8 bg-gray-200 rounded mx-auto mb-1"></div>
-                  <div className="h-4 w-20 bg-gray-200 rounded mx-auto"></div>
+                  <div className="text-2xl mb-2">{stat.icon}</div>
+                  <div className="h-8 w-12 bg-gray-200 rounded mx-auto mb-2" />
+                  <div className="h-4 bg-gray-200 rounded" />
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
 
+        {/* Loading tabs */}
+        <div className="animate-pulse">
+          <div className="grid w-full grid-cols-2 max-w-[400px] h-10 bg-gray-200 rounded-lg mb-6" />
+        </div>
+
         {/* Loading skeleton for speeches */}
         <div>
           <div className="flex justify-between items-center mb-6">
-            <div className="h-8 w-32 bg-gray-200 rounded animate-pulse"></div>
-            <div className="h-10 w-24 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-8 w-40 bg-gray-200 rounded animate-pulse" />
+            <div className="h-10 w-32 bg-gray-200 rounded animate-pulse" />
           </div>
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <Card key={i}>
+              <Card key={i} className="animate-pulse">
                 <CardContent className="p-6">
-                  <div className="animate-pulse flex items-start space-x-4">
-                    <div className="h-12 w-12 bg-gray-200 rounded"></div>
-                    <div className="flex-1 space-y-2">
-                      <div className="h-6 w-3/4 bg-gray-200 rounded"></div>
-                      <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
-                      <div className="h-4 w-1/3 bg-gray-200 rounded"></div>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-start space-x-4 flex-1">
+                      <div className="h-12 w-12 bg-gray-200 rounded" />
+                      <div className="flex-1 space-y-3">
+                        <div className="h-6 w-3/4 bg-gray-200 rounded" />
+                        <div className="flex space-x-4">
+                          <div className="h-4 w-20 bg-gray-200 rounded" />
+                          <div className="h-4 w-24 bg-gray-200 rounded" />
+                          <div className="h-4 w-16 bg-gray-200 rounded" />
+                        </div>
+                        <div className="flex space-x-4">
+                          <div className="h-4 w-16 bg-gray-200 rounded" />
+                          <div className="h-4 w-20 bg-gray-200 rounded" />
+                        </div>
+                      </div>
                     </div>
                     <div className="flex space-x-2">
-                      <div className="h-8 w-20 bg-gray-200 rounded"></div>
-                      <div className="h-8 w-16 bg-gray-200 rounded"></div>
+                      <div className="h-8 w-16 bg-gray-200 rounded-full" />
+                      <div className="h-8 w-12 bg-gray-200 rounded-full" />
+                      <div className="h-8 w-20 bg-gray-200 rounded-full" />
+                      <div className="h-8 w-16 bg-gray-200 rounded-full" />
                     </div>
                   </div>
                 </CardContent>
@@ -324,15 +385,75 @@ export default function DashboardClient() {
             ))}
           </div>
         </div>
+
+        {/* Loading footer message */}
+        <div className="text-center text-sm text-[#8f867e] animate-pulse">
+          Fetching your speeches from the cloud...
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-12">
-        <div className="text-red-500 mb-4">Error loading speeches: {error}</div>
-        <Button onClick={() => window.location.reload()}>Try Again</Button>
+      <div className="space-y-6">
+        <Card className="border-red-200 bg-red-50">
+          <CardContent className="p-8 text-center">
+            <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-red-800 mb-2">Unable to Load Speeches</h3>
+            <p className="text-red-700 mb-6">
+              {error.includes('500') || error.includes('Server error')
+                ? 'Our servers are experiencing issues. Please try again in a moment.'
+                : error.includes('Failed to fetch') || error.includes('Network')
+                ? 'Check your internet connection and try again.'
+                : error
+              }
+            </p>
+            <div className="flex gap-3 justify-center">
+              <Button
+                onClick={() => {
+                  setRetryCount(prev => prev + 1);
+                  fetchSpeeches();
+                }}
+                disabled={loading}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                {loading ? (
+                  <>
+                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
+                    Retrying...
+                  </>
+                ) : (
+                  <>
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    Try Again
+                  </>
+                )}
+              </Button>
+              <Link href="/generator">
+                <Button variant="outline" className="border-red-300 text-red-700 hover:bg-red-50">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create New Speech
+                </Button>
+              </Link>
+            </div>
+            {retryCount > 2 && (
+              <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <p className="text-sm text-yellow-800">
+                  Still having trouble? Try refreshing the page or contact support if the issue persists.
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => window.location.reload()}
+                  className="mt-2 border-yellow-300 text-yellow-700"
+                >
+                  Refresh Page
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     );
   }

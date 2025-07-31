@@ -66,7 +66,7 @@ function GeneratorContent() {
   const stepFromUrl = searchParams.get('step');
   const speechIdFromUrl = searchParams.get('speechId');
   const needsRoleSelection = !roleFromUrl && !speechIdFromUrl;
-  const initialStep = stepFromUrl ? parseInt(stepFromUrl) : (needsRoleSelection ? 0 : 1);
+  const initialStep = stepFromUrl ? Number.parseInt(stepFromUrl) : (needsRoleSelection ? 0 : 1);
   const totalSteps = needsRoleSelection ? 4 : 3;
 
   const [currentStep, setCurrentStep] = useState(initialStep);

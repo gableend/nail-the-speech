@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import DashboardServerContent from '@/components/DashboardServerContent';
+import { DashboardErrorBoundary } from '@/components/ErrorBoundary';
 import ClientAuthDebug from '@/components/ClientAuthDebug';
 
 // Force dynamic rendering since this page uses Clerk auth
@@ -42,9 +43,11 @@ export default function DashboardPage() {
   return (
     <>
       <ClientAuthDebug />
-      <Suspense fallback={<DashboardLoading />}>
-        <DashboardServerContent />
-      </Suspense>
+      <DashboardErrorBoundary>
+        <Suspense fallback={<DashboardLoading />}>
+          <DashboardServerContent />
+        </Suspense>
+      </DashboardErrorBoundary>
     </>
   );
 }

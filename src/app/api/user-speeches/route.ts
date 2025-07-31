@@ -8,7 +8,7 @@ export async function GET() {
   try {
     // Check auth first
     console.log('🔍 [USER SPEECHES API] Attempting auth()...');
-    let authResult: any;
+    let authResult: { userId: string | null };
     try {
       authResult = await auth();
       console.log('🔍 [USER SPEECHES API] Auth result:', {
@@ -60,27 +60,22 @@ export async function GET() {
       select: {
         id: true,
         title: true,
+        customTitle: true,
         role: true,
         tone: true,
         length: true,
         wordCount: true,
         estimatedTime: true,
         isCompleted: true,
+        isFinal: true,
         createdAt: true,
         updatedAt: true
       }
     });
 
-    // Add default values for potentially missing fields
-    const speechesWithDefaults = speeches.map(speech => ({
-      ...speech,
-      customTitle: null,
-      isFinal: false
-    }));
+    console.log(`✅ [USER SPEECHES API] Found ${speeches.length} speeches for user`);
 
-    console.log(`✅ [USER SPEECHES API] Found ${speechesWithDefaults.length} speeches for user`);
-
-    return NextResponse.json({ speeches: speechesWithDefaults });
+    return NextResponse.json({ speeches });
 
   } catch (error) {
     console.error("💥 [USER SPEECHES API] Unexpected error:", {

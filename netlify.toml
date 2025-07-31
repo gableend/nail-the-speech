@@ -13,6 +13,14 @@
   NPM_FLAGS = "--legacy-peer-deps"
   NETLIFY_SKIP_PREBUILD = "true"
   FORCE_CI = "true"
+  # Explicitly disable other package managers
+  NETLIFY_USE_YARN = "false"
+  NETLIFY_USE_PNPM = "false"
+  # Additional npm-specific settings
+  NPM_CONFIG_LEGACY_PEER_DEPS = "true"
+  NPM_CONFIG_PROGRESS = "false"
+  # Force package manager detection
+  PACKAGE_MANAGER = "npm"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

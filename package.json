@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0 --turbopack",
     "build": "next build",
-    "build:netlify": "next build",
+    "build:netlify": "npm ci --legacy-peer-deps && next build",
     "start": "next start",
     "lint": "biome lint --write && tsc --noEmit",
     "format": "biome format --write",

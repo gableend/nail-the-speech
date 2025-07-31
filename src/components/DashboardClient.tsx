@@ -18,9 +18,9 @@ import {
   X,
   Check,
   DownloadCloud,
-  FiletypeTxt,
-  FiletypePdf,
-  FiletypeDocx,
+  File,
+  FileImage,
+  FileSpreadsheet,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -523,15 +523,15 @@ export default function DashboardClient() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
                                   <DropdownMenuItem onClick={() => handleExport(speech.id, 'txt')}>
-                                    <FiletypeTxt className="h-4 w-4 mr-2" />
+                                    <File className="h-4 w-4 mr-2" />
                                     TXT
                                   </DropdownMenuItem>
                                   <DropdownMenuItem onClick={() => handleExport(speech.id, 'pdf')}>
-                                    <FiletypePdf className="h-4 w-4 mr-2" />
+                                    <FileImage className="h-4 w-4 mr-2" />
                                     PDF
                                   </DropdownMenuItem>
                                   <DropdownMenuItem onClick={() => handleExport(speech.id, 'docx')}>
-                                    <FiletypeDocx className="h-4 w-4 mr-2" />
+                                    <FileSpreadsheet className="h-4 w-4 mr-2" />
                                     DOCX
                                   </DropdownMenuItem>
                                 </DropdownMenuContent>

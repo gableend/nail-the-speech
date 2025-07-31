@@ -510,9 +510,19 @@ export default function DashboardClient() {
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="speeches" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
-          <TabsTrigger value="speeches">Your Speeches</TabsTrigger>
-          <TabsTrigger value="settings">Account Settings</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 max-w-[400px] bg-gray-100 p-1">
+          <TabsTrigger
+            value="speeches"
+            className="text-gray-700 font-medium data-[state=active]:bg-white data-[state=active]:text-[#181615] data-[state=active]:shadow-sm hover:text-gray-900 transition-all"
+          >
+            Your Speeches
+          </TabsTrigger>
+          <TabsTrigger
+            value="settings"
+            className="text-gray-700 font-medium data-[state=active]:bg-white data-[state=active]:text-[#181615] data-[state=active]:shadow-sm hover:text-gray-900 transition-all"
+          >
+            Account Settings
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="speeches">

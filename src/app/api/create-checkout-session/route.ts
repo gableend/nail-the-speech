@@ -63,7 +63,7 @@ export async function POST(request: Request) {
           quantity: 1,
         },
       ],
-      customer_email: prefillEmail, // Pre-fill if provided
+      ...(prefillEmail ? { customer_email: prefillEmail } : {}), // Pre-fill if provided
       billing_address_collection: 'auto',
       customer_creation: 'always', // Always create a Stripe customer
       metadata,

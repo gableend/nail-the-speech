@@ -88,7 +88,9 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
             return;
           }
 
-          console.log(`🔄 [AUTH-SYNC] Starting data migration attempt ${migrationAttempts + 1}/3`);
+          // Save the anonUserId NOW before anything clears it
+          const savedAnonId = getAnonymousUserId();
+          console.log(`🔄 [AUTH-SYNC] Starting data migration attempt ${migrationAttempts + 1}/3, anonId: ${savedAnonId}`);
           setIsMigrating(true);
           setMigrationAttempts(prev => prev + 1);
 
@@ -113,33 +115,46 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
           } finally {
             setIsMigrating(false);
           }
+
+          // Use the saved anonId for claim (cookie may have been cleared by migrateAnonymousData)
+          try {
+            const claimRes = await fetch('/api/claim-pending-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ clientAnonUserId: savedAnonId }),
+            });
+            const claimData = await claimRes.json();
+            console.log('🔍 [AUTH-SYNC] Claim response:', claimData);
+            if (claimData.claimed) {
+              console.log('✅ [AUTH-SYNC] Pending payment claimed — user upgraded to Pro');
+            }
+            if (claimData.speechesMigrated > 0) {
+              console.log(`✅ [AUTH-SYNC] Migrated ${claimData.speechesMigrated} anonymous speeches`);
+              clearAnonymousUserId();
+            }
+          } catch (claimError) {
+            console.error('⚠️ [AUTH-SYNC] Claim error:', claimError);
+          }
         } else {
           // No anonymous user to migrate
           setMigrationComplete(true);
-        }
 
-        // Always check for pending payments and migrate anonymous speeches (server-side)
-        // Pass both client-side anonUserId (uuid v4) and let server also check httpOnly cookie (cuid)
-        try {
-          const clientAnonId = getAnonymousUserId();
-          const claimRes = await fetch('/api/claim-pending-payment', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ clientAnonUserId: clientAnonId }),
-          });
-          const claimData = await claimRes.json();
-          console.log('🔍 [AUTH-SYNC] Claim response:', claimData);
-          if (claimData.claimed) {
-            console.log('✅ [AUTH-SYNC] Pending payment claimed — user upgraded to Pro');
+          // Still check for pending payments (user may have paid then signed in)
+          try {
+            const claimRes = await fetch('/api/claim-pending-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ clientAnonUserId: null }),
+            });
+            const claimData = await claimRes.json();
+            console.log('🔍 [AUTH-SYNC] Claim response:', claimData);
+            if (claimData.claimed) {
+              console.log('✅ [AUTH-SYNC] Pending payment claimed — user upgraded to Pro');
+            }
+          } catch (claimError) {
+            console.error('⚠️ [AUTH-SYNC] Failed to check pending payments:', claimError);
           }
-          if (claimData.speechesMigrated > 0) {
-            console.log(`✅ [AUTH-SYNC] Migrated ${claimData.speechesMigrated} anonymous speeches`);
-            clearAnonymousUserId(); // Clear client-side cookie after successful migration
-          }
-        } catch (claimError) {
-          console.error('⚠️ [AUTH-SYNC] Failed to check pending payments:', claimError);
         }
-      }
     };
 
     // Show sync message only if there's a real problem

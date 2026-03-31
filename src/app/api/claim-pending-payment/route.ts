@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { cookies } from "next/headers";
 
 /**
  * Called after a user signs up or signs in.
- * Checks if there's a pending payment for their email and upgrades them to Pro.
+ * 1. Claims any pending payment for their email → upgrades to Pro
+ * 2. Migrates anonymous speeches (httpOnly cookie) → links to user account
  */
 export async function POST() {
   try {
@@ -16,63 +18,89 @@ export async function POST() {
     const user = await currentUser();
     const email = user?.emailAddresses?.[0]?.emailAddress?.toLowerCase();
 
-    if (!email) {
-      return NextResponse.json({ claimed: false, reason: "no_email" });
+    let claimed = false;
+    let speechesMigrated = 0;
+
+    // --- 1. Claim pending payment ---
+    if (email) {
+      console.log(`🔍 [CLAIM] Checking pending payments for: ${email}`);
+
+      const pendingPayment = await prisma.pendingPayment.findFirst({
+        where: { email, claimed: false },
+        orderBy: { createdAt: "desc" },
+      });
+
+      if (pendingPayment) {
+        console.log(`💰 [CLAIM] Found pending payment for ${email}, upgrading to Pro`);
+
+        await prisma.$transaction([
+          prisma.user.upsert({
+            where: { id: userId },
+            create: {
+              id: userId,
+              email,
+              isProUser: true,
+              stripeCustomerId: pendingPayment.stripeCustomerId,
+              stripeSessionId: pendingPayment.stripeSessionId,
+            },
+            update: {
+              email,
+              isProUser: true,
+              stripeCustomerId: pendingPayment.stripeCustomerId,
+              stripeSessionId: pendingPayment.stripeSessionId,
+            },
+          }),
+          prisma.pendingPayment.update({
+            where: { id: pendingPayment.id },
+            data: { claimed: true, claimedByUserId: userId },
+          }),
+        ]);
+
+        claimed = true;
+        console.log(`✅ [CLAIM] User ${userId} upgraded to Pro via pending payment`);
+      }
     }
 
-    console.log(`🔍 [CLAIM PAYMENT] Checking pending payments for: ${email}`);
+    // --- 2. Migrate anonymous speeches (server-side, reads httpOnly cookie) ---
+    try {
+      const cookieStore = await cookies();
+      const anonUserId = cookieStore.get("anonUserId")?.value;
 
-    // Find unclaimed pending payment for this email
-    const pendingPayment = await prisma.pendingPayment.findFirst({
-      where: {
-        email: email,
-        claimed: false,
-      },
-      orderBy: { createdAt: "desc" },
+      if (anonUserId) {
+        console.log(`🔄 [CLAIM] Migrating anonymous speeches from ${anonUserId} to ${userId}`);
+
+        const result = await prisma.speech.updateMany({
+          where: { anonUserId },
+          data: { userId, anonUserId: null },
+        });
+
+        speechesMigrated = result.count;
+        console.log(`✅ [CLAIM] Migrated ${speechesMigrated} speeches`);
+
+        // Clean up anonymous user record
+        try {
+          await prisma.anonymousUser.delete({ where: { id: anonUserId } });
+        } catch {
+          // Anonymous user record may not exist — that's fine
+        }
+
+        // Clear the anonymous cookie
+        cookieStore.delete("anonUserId");
+      }
+    } catch (migrationError) {
+      console.error("⚠️ [CLAIM] Speech migration error (non-fatal):", migrationError);
+    }
+
+    return NextResponse.json({
+      claimed,
+      isProUser: claimed,
+      speechesMigrated,
     });
 
-    if (!pendingPayment) {
-      console.log(`ℹ️ [CLAIM PAYMENT] No pending payment found for: ${email}`);
-      return NextResponse.json({ claimed: false, reason: "no_pending_payment" });
-    }
-
-    console.log(`💰 [CLAIM PAYMENT] Found pending payment for ${email}, upgrading to Pro`);
-
-    // Upgrade user to Pro and mark payment as claimed
-    await prisma.$transaction([
-      prisma.user.upsert({
-        where: { id: userId },
-        create: {
-          id: userId,
-          email: email,
-          isProUser: true,
-          stripeCustomerId: pendingPayment.stripeCustomerId,
-          stripeSessionId: pendingPayment.stripeSessionId,
-        },
-        update: {
-          email: email,
-          isProUser: true,
-          stripeCustomerId: pendingPayment.stripeCustomerId,
-          stripeSessionId: pendingPayment.stripeSessionId,
-        },
-      }),
-      prisma.pendingPayment.update({
-        where: { id: pendingPayment.id },
-        data: {
-          claimed: true,
-          claimedByUserId: userId,
-        },
-      }),
-    ]);
-
-    console.log(`✅ [CLAIM PAYMENT] User ${userId} upgraded to Pro via pending payment`);
-
-    return NextResponse.json({ claimed: true, isProUser: true });
-
   } catch (error: unknown) {
-    console.error("💥 [CLAIM PAYMENT] Error:", error);
+    console.error("💥 [CLAIM] Error:", error);
     return NextResponse.json(
-      { error: "Failed to claim payment", details: error instanceof Error ? error.message : "Unknown error" },
+      { error: "Failed to process claim", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }

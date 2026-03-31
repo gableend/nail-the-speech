@@ -47,7 +47,7 @@ export default function Page() {
                 <span className="font-medium">Speech history</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-[#e9a41a] rounded-full flex-shrink-0"></span>
+                <span className="w-2 h-2 bg-[#da5389] rounded-full flex-shrink-0"></span>
                 <span className="font-medium">Draft management</span>
               </div>
               <div className="flex items-center space-x-2">

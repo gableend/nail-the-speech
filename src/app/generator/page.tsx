@@ -678,7 +678,7 @@ function GeneratorContent() {
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#da5389]/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-[#e9a41a]/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-[#da5389]/5 rounded-full blur-3xl" />
       </div>
       {/* Navigation */}
       <nav className="bg-white/95 backdrop-blur-md border-b border-[#e8e1d8]/50 sticky top-0 z-50 relative">
@@ -706,8 +706,8 @@ function GeneratorContent() {
                 onClick={toggleDemoMode}
                 className={`text-xs px-2 py-1 rounded-full border transition-all duration-200 ${
                   demoMode
-                    ? 'bg-[#e9a41a] text-white border-[#e9a41a]'
-                    : 'bg-white text-[#8f867e] border-[#e8e1d8] hover:border-[#e9a41a] hover:text-[#e9a41a]'
+                    ? 'bg-[#da5389] text-white border-[#da5389]'
+                    : 'bg-white text-[#8f867e] border-[#e8e1d8] hover:border-[#da5389] hover:text-[#da5389]'
                 }`}
                 title={demoMode ? "Click to clear demo data" : "Click to fill with demo data"}
               >
@@ -751,20 +751,20 @@ function GeneratorContent() {
 
         {/* Payment Canceled Notification */}
         {showPaymentCanceled && (
-          <div className="mb-6 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg p-4">
+          <div className="mb-6 bg-gradient-to-r from-orange-50 to-rose-50 border border-orange-200 rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-orange-400 rounded-full flex items-center justify-center">
                   <span className="text-white text-sm">!</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-yellow-800">Payment Canceled</div>
-                  <div className="text-sm text-yellow-700">No worries! You can upgrade to Pro anytime to unlock premium features.</div>
+                  <div className="font-semibold text-orange-800">Payment Canceled</div>
+                  <div className="text-sm text-orange-700">No worries! You can upgrade to Pro anytime to unlock premium features.</div>
                 </div>
               </div>
               <button
                 onClick={() => setShowPaymentCanceled(false)}
-                className="text-yellow-600 hover:text-yellow-800"
+                className="text-orange-600 hover:text-orange-800"
               >
                 <span className="text-lg">×</span>
               </button>
@@ -792,7 +792,7 @@ function GeneratorContent() {
 
         {/* Step Progress Bar */}
         <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm mb-8 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#da5389]/5 to-[#da5389]/5" />
           <CardContent className="p-8 relative">
             <div className={`grid gap-6 items-center ${needsRoleSelection ? 'grid-cols-7' : 'grid-cols-3'} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
               {(needsRoleSelection ? [0, 1, 2, 3] : [1, 2, 3]).map((step, index) => (
@@ -1030,7 +1030,7 @@ function GeneratorContent() {
             {/* Section 3: Pro Features (Premium - Adds Personality & Emotional Depth) */}
             {currentStep === 3 && (
               <div className="space-y-6">
-                <div className="bg-gradient-to-r from-[#da5389]/10 to-[#e9a41a]/10 rounded-lg p-6 mb-6 border border-[#da5389]/30">
+                <div className="bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/10 rounded-lg p-6 mb-6 border border-[#da5389]/30">
                   <div className="mb-4">
                     <h3 className="text-lg font-semibold text-[#181615] mb-1">💎 Pro - Premium Features</h3>
                     <p className="text-base text-[#8f867e]">
@@ -1225,7 +1225,7 @@ function GeneratorContent() {
                 </div>
 
                 {/* Generate Enhanced Speech CTA */}
-                <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5 border border-[#da5389]/20 rounded-lg p-6">
+                <div className="bg-gradient-to-r from-[#da5389]/5 to-[#da5389]/5 border border-[#da5389]/20 rounded-lg p-6">
                   <div className="text-center">
                     <h4 className="text-lg font-semibold text-[#181615] mb-2">
                       Generate Your Enhanced Speech
@@ -1319,8 +1319,8 @@ function GeneratorContent() {
                         <div className="text-2xl font-bold text-[#da5389]">{countWords(generatedSpeech)}</div>
                         <div className="text-sm font-medium text-[#8f867e]">Words</div>
                       </div>
-                      <div className="bg-gradient-to-br from-[#e9a41a]/10 to-[#e9a41a]/5 rounded-lg p-4 text-center">
-                        <div className="text-2xl font-bold text-[#e9a41a]">{estimateReadingTime(generatedSpeech)}</div>
+                      <div className="bg-gradient-to-br from-[#da5389]/10 to-[#da5389]/5 rounded-lg p-4 text-center">
+                        <div className="text-2xl font-bold text-[#da5389]">{estimateReadingTime(generatedSpeech)}</div>
                         <div className="text-sm font-medium text-[#8f867e]">Minutes</div>
                       </div>
                       <div className="bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg p-4 text-center">
@@ -1525,7 +1525,7 @@ function GeneratorContent() {
                                 className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                                   isGenerating || (!!selectedPill && !regenerationInstructions.trim())
                                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                    : 'bg-[#e9a41a] hover:bg-[#e9a41a]/90 text-white shadow-md hover:shadow-lg'
+                                    : 'bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-md hover:shadow-lg'
                                 }`}
                               >
                                 {isGenerating ? (
@@ -1665,7 +1665,7 @@ function GeneratorContent() {
                     disabled={!isStepValid()}
                     className={`shadow-lg rounded-full transition-all duration-200 ${
                       isStepValid()
-                        ? 'bg-gradient-to-r from-[#da5389] to-[#e9a41a] hover:from-[#da5389]/90 hover:to-[#e9a41a]/90 text-white'
+                        ? 'bg-gradient-to-r from-[#da5389] to-[#da5389] hover:from-[#da5389]/90 hover:to-[#da5389]/90 text-white'
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
                   >

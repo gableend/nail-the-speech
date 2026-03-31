@@ -49,7 +49,7 @@ export default function Page() {
                 <span className="font-medium">Free to start</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-[#e9a41a] rounded-full flex-shrink-0"></span>
+                <span className="w-2 h-2 bg-[#da5389] rounded-full flex-shrink-0"></span>
                 <span className="font-medium">AI-powered</span>
               </div>
               <div className="flex items-center space-x-2">

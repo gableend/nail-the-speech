@@ -440,15 +440,15 @@ export default function DashboardClient() {
               </Link>
             </div>
             {retryCount > 2 && (
-              <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <p className="text-sm text-yellow-800">
+              <div className="mt-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                <p className="text-sm text-orange-800">
                   Still having trouble? Try refreshing the page or contact support if the issue persists.
                 </p>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => window.location.reload()}
-                  className="mt-2 border-yellow-300 text-yellow-700"
+                  className="mt-2 border-orange-300 text-orange-700"
                 >
                   Refresh Page
                 </Button>
@@ -491,7 +491,7 @@ export default function DashboardClient() {
 
         <Card>
           <CardContent className="p-6 text-center">
-            <Edit className="h-8 w-8 text-[#e9a41a] mx-auto mb-2" />
+            <Edit className="h-8 w-8 text-[#da5389] mx-auto mb-2" />
             <div className="text-2xl font-bold text-[#181615]">
               {draftSpeeches.length}
             </div>
@@ -640,7 +640,7 @@ export default function DashboardClient() {
                                 </div>
                               </div>
                             ) : (
-                              <Badge variant="outline" className="text-yellow-600 border-yellow-600">
+                              <Badge variant="outline" className="text-orange-600 border-orange-600">
                                 Draft - Incomplete
                               </Badge>
                             )}

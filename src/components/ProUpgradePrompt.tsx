@@ -153,10 +153,10 @@ export default function ProUpgradePrompt({
 
   if (variant === 'banner') {
     return (
-      <div className="bg-gradient-to-r from-[#da5389]/10 to-[#e9a41a]/10 border border-[#da5389]/20 rounded-lg p-4 mb-6">
+      <div className="bg-gradient-to-r from-[#da5389]/10 to-[#e84f98]/10 border border-[#da5389]/20 rounded-lg p-4 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-[#da5389] to-[#e9a41a] rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-r from-[#da5389] to-[#e84f98] rounded-full flex items-center justify-center">
               <Crown className="h-4 w-4 text-white" />
             </div>
             <div>
@@ -170,7 +170,7 @@ export default function ProUpgradePrompt({
               onClick={handleUpgrade}
               disabled={loading}
               size="sm"
-              className="bg-gradient-to-r from-[#da5389] to-[#e9a41a] hover:from-[#da5389]/90 hover:to-[#e9a41a]/90 text-white"
+              className="bg-gradient-to-r from-[#da5389] to-[#e84f98] hover:from-[#da5389]/90 hover:to-[#e84f98]/90 text-white"
             >
               {loading ? (
                 <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
@@ -195,7 +195,7 @@ export default function ProUpgradePrompt({
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
           {/* Modal Header */}
-          <div className="bg-gradient-to-r from-[#da5389] to-[#e9a41a] text-white p-6 rounded-t-2xl">
+          <div className="bg-gradient-to-r from-[#da5389] to-[#e84f98] text-white p-6 rounded-t-2xl">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -254,7 +254,7 @@ export default function ProUpgradePrompt({
             </div>
 
             {/* Pricing */}
-            <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5 border border-[#da5389]/20 rounded-lg p-4 mb-6">
+            <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e84f98]/5 border border-[#da5389]/20 rounded-lg p-4 mb-6">
               <div className="text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <span className="text-2xl font-bold text-[#181615]">$9.99</span>
@@ -270,7 +270,7 @@ export default function ProUpgradePrompt({
               <Button
                 onClick={handleUpgrade}
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-[#da5389] to-[#e9a41a] hover:from-[#da5389]/90 hover:to-[#e9a41a]/90 text-white px-6 py-4 rounded-full font-semibold text-lg shadow-lg transition-all duration-200"
+                className="w-full bg-gradient-to-r from-[#da5389] to-[#e84f98] hover:from-[#da5389]/90 hover:to-[#e84f98]/90 text-white px-6 py-4 rounded-full font-semibold text-lg shadow-lg transition-all duration-200"
               >
                 {loading ? (
                   <>
@@ -322,7 +322,7 @@ export default function ProUpgradePrompt({
     return (
       <div className="text-center py-6 px-4">
         <div className="flex items-center justify-center gap-2 mb-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-[#da5389] to-[#e9a41a] rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-r from-[#da5389] to-[#e84f98] rounded-full flex items-center justify-center">
             <Crown className="h-5 w-5 text-white" />
           </div>
         </div>
@@ -349,7 +349,7 @@ export default function ProUpgradePrompt({
         <Button
           onClick={handleUpgrade}
           disabled={loading}
-          className="bg-gradient-to-r from-[#da5389] to-[#e9a41a] hover:from-[#da5389]/90 hover:to-[#e9a41a]/90 text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg"
+          className="bg-gradient-to-r from-[#da5389] to-[#e84f98] hover:from-[#da5389]/90 hover:to-[#e84f98]/90 text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg"
         >
           {loading ? (
             <>
@@ -384,11 +384,11 @@ export default function ProUpgradePrompt({
 
   // Default card variant
   return (
-    <Card className="border-[#da5389]/20 bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5">
+    <Card className="border-[#da5389]/20 bg-gradient-to-r from-[#da5389]/5 to-[#e84f98]/5">
       <CardContent className="p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-[#da5389] to-[#e9a41a] rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-[#da5389] to-[#e84f98] rounded-full flex items-center justify-center">
               <Crown className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -423,7 +423,7 @@ export default function ProUpgradePrompt({
           <Button
             onClick={handleUpgrade}
             disabled={loading}
-            className="bg-gradient-to-r from-[#da5389] to-[#e9a41a] hover:from-[#da5389]/90 hover:to-[#e9a41a]/90 text-white"
+            className="bg-gradient-to-r from-[#da5389] to-[#e84f98] hover:from-[#da5389]/90 hover:to-[#e84f98]/90 text-white"
           >
             {loading ? (
               <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />

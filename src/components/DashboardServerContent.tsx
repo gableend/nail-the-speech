@@ -89,7 +89,7 @@ export default async function DashboardServerContent() {
                   <span className="text-3xl">🎤</span>
                   <span className="font-bold text-2xl text-[#181615]">Nail The Speech</span>
                 </Link>
-                <Badge className="bg-[#fffaf7] text-[#e9a41a] border-[#e9a41a]">
+                <Badge className="bg-[#fffaf7] text-[#da5389] border-[#da5389]">
                   <Users className="h-4 w-4 mr-1" />
                   Dashboard
                 </Badge>

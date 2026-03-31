@@ -216,7 +216,7 @@ function ResultContent() {
               <Link href="/" className="flex items-center space-x-2">
                 <span className="font-bold text-2xl text-[#181615]">Nail The Speech</span>
               </Link>
-              <Badge className="bg-[#fffaf7] text-[#e9a41a] border-[#e9a41a]">
+              <Badge className="bg-[#fffaf7] text-[#da5389] border-[#da5389]">
                 <CheckCircle className="h-4 w-4 mr-1" />
                 Speech Generated
               </Badge>

@@ -78,7 +78,7 @@ export default function HomePage() {
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#181615] leading-[1.1] tracking-tight">
                 Nail your wedding speech.{" "}
                 <span className="text-[#da5389]">No stress.</span>{" "}
-                <span className="text-[#e9a41a]">Just magic.</span>
+                <span className="text-[#da5389]">Just magic.</span>
               </h1>
 
               {/* Get Started Button */}
@@ -106,8 +106,8 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-sm border border-[#e8e1d8]">
-                  <div className="w-10 h-10 bg-[#e9a41a]/10 rounded-full flex items-center justify-center">
-                    <Clock className="h-5 w-5 text-[#e9a41a]" />
+                  <div className="w-10 h-10 bg-[#da5389]/10 rounded-full flex items-center justify-center">
+                    <Clock className="h-5 w-5 text-[#da5389]" />
                   </div>
                   <div>
                     <div className="text-lg font-semibold text-[#181615]">Ready</div>

@@ -118,12 +118,16 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
           setMigrationComplete(true);
         }
 
-        // Always check for pending payments (e.g. user paid before signing up)
+        // Always check for pending payments and migrate anonymous speeches (server-side)
         try {
           const claimRes = await fetch('/api/claim-pending-payment', { method: 'POST' });
           const claimData = await claimRes.json();
+          console.log('🔍 [AUTH-SYNC] Claim response:', claimData);
           if (claimData.claimed) {
             console.log('✅ [AUTH-SYNC] Pending payment claimed — user upgraded to Pro');
+          }
+          if (claimData.speechesMigrated > 0) {
+            console.log(`✅ [AUTH-SYNC] Migrated ${claimData.speechesMigrated} anonymous speeches`);
           }
         } catch (claimError) {
           console.error('⚠️ [AUTH-SYNC] Failed to check pending payments:', claimError);

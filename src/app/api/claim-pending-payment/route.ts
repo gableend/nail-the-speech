@@ -62,15 +62,17 @@ export async function POST() {
     }
 
     // --- 2. Migrate anonymous speeches (server-side, reads httpOnly cookie) ---
+    let anonUserIdFound: string | null = null;
     try {
       const cookieStore = await cookies();
-      const anonUserId = cookieStore.get("anonUserId")?.value;
+      anonUserIdFound = cookieStore.get("anonUserId")?.value ?? null;
+      console.log(`🔍 [CLAIM] Anonymous cookie value: ${anonUserIdFound || 'not found'}`);
 
-      if (anonUserId) {
-        console.log(`🔄 [CLAIM] Migrating anonymous speeches from ${anonUserId} to ${userId}`);
+      if (anonUserIdFound) {
+        console.log(`🔄 [CLAIM] Migrating anonymous speeches from ${anonUserIdFound} to ${userId}`);
 
         const result = await prisma.speech.updateMany({
-          where: { anonUserId },
+          where: { anonUserId: anonUserIdFound },
           data: { userId, anonUserId: null },
         });
 
@@ -79,23 +81,33 @@ export async function POST() {
 
         // Clean up anonymous user record
         try {
-          await prisma.anonymousUser.delete({ where: { id: anonUserId } });
+          await prisma.anonymousUser.delete({ where: { id: anonUserIdFound } });
         } catch {
           // Anonymous user record may not exist — that's fine
         }
-
-        // Clear the anonymous cookie
-        cookieStore.delete("anonUserId");
       }
     } catch (migrationError) {
       console.error("⚠️ [CLAIM] Speech migration error (non-fatal):", migrationError);
     }
 
-    return NextResponse.json({
+    // Build response — clear the anonymous cookie via Set-Cookie header
+    const response = NextResponse.json({
       claimed,
       isProUser: claimed,
       speechesMigrated,
+      anonUserIdFound: anonUserIdFound ?? null,
     });
+
+    // Clear anonymous cookie via response header (safer than cookies().delete() in Route Handlers)
+    if (anonUserIdFound) {
+      response.cookies.set("anonUserId", "", {
+        maxAge: 0,
+        path: "/",
+        httpOnly: true,
+      });
+    }
+
+    return response;
 
   } catch (error: unknown) {
     console.error("💥 [CLAIM] Error:", error);

@@ -131,7 +131,9 @@ export default function ProUpgradePrompt({
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create checkout session');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Checkout API error:', errorData);
+        throw new Error(errorData.details || 'Failed to create checkout session');
       }
 
       const { url } = await response.json();

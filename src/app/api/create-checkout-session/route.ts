@@ -82,10 +82,14 @@ export async function POST(request: Request) {
 
   } catch (error: unknown) {
     console.error("💥 [CHECKOUT SESSION] Error creating checkout session:", error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const stripeError = (error as { type?: string; code?: string })?.type || '';
+    console.error("💥 [CHECKOUT SESSION] Error details:", errorMessage, "Type:", stripeError);
     return NextResponse.json(
       {
         error: "Failed to create checkout session",
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: errorMessage,
+        stripeErrorType: stripeError,
       },
       { status: 500 }
     );

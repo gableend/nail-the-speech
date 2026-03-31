@@ -123,6 +123,57 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // --- 3. Fallback: if no speeches migrated yet, find recent orphaned speeches ---
+    // The speech may have been saved with a server-side cuid that doesn't match
+    // any cookie we can read. As a last resort, find anonymous speeches created
+    // in the last 24 hours that have no userId, and claim them for this user.
+    if (speechesMigrated === 0) {
+      try {
+        const userSpeechCount = await prisma.speech.count({ where: { userId } });
+
+        if (userSpeechCount === 0) {
+          const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
+          // Find speeches with an anonUserId but no userId, created recently
+          const orphanedSpeeches = await prisma.speech.findMany({
+            where: {
+              userId: null,
+              anonUserId: { not: null },
+              createdAt: { gte: cutoff },
+            },
+            select: { id: true, anonUserId: true },
+            orderBy: { createdAt: "desc" },
+            take: 5,
+          });
+
+          if (orphanedSpeeches.length > 0) {
+            console.log(`🔍 [CLAIM] Found ${orphanedSpeeches.length} recent orphaned speeches, claiming for user ${userId}`);
+
+            const orphanedIds = orphanedSpeeches.map(s => s.id);
+            const orphanedAnonIds = [...new Set(orphanedSpeeches.map(s => s.anonUserId).filter(Boolean))];
+
+            const result = await prisma.speech.updateMany({
+              where: { id: { in: orphanedIds } },
+              data: { userId, anonUserId: null },
+            });
+
+            speechesMigrated += result.count;
+            console.log(`✅ [CLAIM] Claimed ${result.count} orphaned speeches`);
+
+            // Clean up anonymous user records
+            for (const anonId of orphanedAnonIds) {
+              try {
+                if (anonId) await prisma.anonymousUser.delete({ where: { id: anonId } });
+              } catch {
+                // Not found — fine
+              }
+            }
+          }
+        }
+      } catch (fallbackError) {
+        console.error("⚠️ [CLAIM] Orphan speech fallback error:", fallbackError);
+      }
+    }
+
     console.log(`📊 [CLAIM] Final: claimed=${claimed}, speechesMigrated=${speechesMigrated}`);
 
     // Build response — clear cookies

@@ -531,6 +531,14 @@ function GeneratorContent() {
                   fullSpeechRef.current = data.speech;
                   incrementSpeechGenerationCount();
 
+                  // Verify speech was saved to DB
+                  if (data.speechId) {
+                    console.log('✅ [GENERATOR] Speech saved to DB:', data.speechId);
+                  } else {
+                    console.error('❌ [GENERATOR] Speech NOT saved to DB (speechId null) — DB save failed silently');
+                  }
+                  console.log('📊 [GENERATOR] Complete:', { speechId: data.speechId, isProUser: data.isProUser, wordCount: data.wordCount });
+
                   if (data.isProUser) {
                     // Pro user: show full speech
                     setGeneratedSpeech(data.speech);
@@ -625,6 +633,14 @@ function GeneratorContent() {
                 } else if (data.type === 'complete') {
                   fullSpeechRef.current = data.speech;
                   incrementSpeechGenerationCount();
+
+                  // Verify speech was saved to DB
+                  if (data.speechId) {
+                    console.log('✅ [GENERATOR-S2] Speech saved to DB:', data.speechId);
+                  } else {
+                    console.error('❌ [GENERATOR-S2] Speech NOT saved to DB (speechId null) — DB save failed silently');
+                  }
+                  console.log('📊 [GENERATOR-S2] Complete:', { speechId: data.speechId, isProUser: data.isProUser, wordCount: data.wordCount });
 
                   if (data.isProUser) {
                     setGeneratedSpeech(data.speech);

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
@@ -6,13 +6,27 @@ import { cookies } from "next/headers";
 /**
  * Called after a user signs up or signs in.
  * 1. Claims any pending payment for their email → upgrades to Pro
- * 2. Migrates anonymous speeches (httpOnly cookie) → links to user account
+ * 2. Migrates anonymous speeches → links to user account
+ *
+ * There are TWO anonymous user systems (legacy):
+ *   - Server-side: httpOnly cookie with cuid ID (used by generate-speech-stream)
+ *   - Client-side: non-httpOnly cookie with uuid v4 (used by client code)
+ * We try BOTH IDs to ensure speech migration works.
  */
-export async function POST() {
+export async function POST(request: NextRequest) {
   try {
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    }
+
+    // Read client-side anonUserId from request body
+    let clientAnonUserId: string | null = null;
+    try {
+      const body = await request.json().catch(() => ({}));
+      clientAnonUserId = body.clientAnonUserId || null;
+    } catch {
+      // No body — that's fine
     }
 
     const user = await currentUser();
@@ -61,45 +75,66 @@ export async function POST() {
       }
     }
 
-    // --- 2. Migrate anonymous speeches (server-side, reads httpOnly cookie) ---
-    let anonUserIdFound: string | null = null;
+    // --- 2. Migrate anonymous speeches ---
+    // Collect all possible anonymous user IDs to try
+    const anonIdsToTry: string[] = [];
+
+    // Try httpOnly cookie (server-side cuid)
     try {
       const cookieStore = await cookies();
-      anonUserIdFound = cookieStore.get("anonUserId")?.value ?? null;
-      console.log(`🔍 [CLAIM] Anonymous cookie value: ${anonUserIdFound || 'not found'}`);
+      const serverAnonId = cookieStore.get("anonUserId")?.value;
+      if (serverAnonId) {
+        anonIdsToTry.push(serverAnonId);
+        console.log(`🔍 [CLAIM] Server cookie anonUserId: ${serverAnonId}`);
+      }
+    } catch {
+      console.log('🔍 [CLAIM] Could not read server cookies');
+    }
 
-      if (anonUserIdFound) {
-        console.log(`🔄 [CLAIM] Migrating anonymous speeches from ${anonUserIdFound} to ${userId}`);
+    // Try client-side anonUserId (uuid v4, passed in request body)
+    if (clientAnonUserId && !anonIdsToTry.includes(clientAnonUserId)) {
+      anonIdsToTry.push(clientAnonUserId);
+      console.log(`🔍 [CLAIM] Client anonUserId: ${clientAnonUserId}`);
+    }
 
+    console.log(`🔍 [CLAIM] Trying ${anonIdsToTry.length} anonymous IDs for migration`);
+
+    // Try each anonymous ID
+    for (const anonId of anonIdsToTry) {
+      try {
         const result = await prisma.speech.updateMany({
-          where: { anonUserId: anonUserIdFound },
+          where: { anonUserId: anonId },
           data: { userId, anonUserId: null },
         });
 
-        speechesMigrated = result.count;
-        console.log(`✅ [CLAIM] Migrated ${speechesMigrated} speeches`);
+        if (result.count > 0) {
+          speechesMigrated += result.count;
+          console.log(`✅ [CLAIM] Migrated ${result.count} speeches from anonId: ${anonId}`);
 
-        // Clean up anonymous user record
-        try {
-          await prisma.anonymousUser.delete({ where: { id: anonUserIdFound } });
-        } catch {
-          // Anonymous user record may not exist — that's fine
+          // Clean up anonymous user record
+          try {
+            await prisma.anonymousUser.delete({ where: { id: anonId } });
+          } catch {
+            // Record may not exist — that's fine
+          }
         }
+      } catch (err) {
+        console.error(`⚠️ [CLAIM] Migration error for anonId ${anonId}:`, err);
       }
-    } catch (migrationError) {
-      console.error("⚠️ [CLAIM] Speech migration error (non-fatal):", migrationError);
     }
 
-    // Build response — clear the anonymous cookie via Set-Cookie header
+    console.log(`📊 [CLAIM] Final: claimed=${claimed}, speechesMigrated=${speechesMigrated}`);
+
+    // Build response — clear cookies
     const response = NextResponse.json({
       claimed,
       isProUser: claimed,
       speechesMigrated,
-      anonUserIdFound: anonUserIdFound ?? null,
+      anonIdsTried: anonIdsToTry,
     });
 
-    // Clear anonymous cookie via response header (safer than cookies().delete() in Route Handlers)
-    if (anonUserIdFound) {
+    // Clear the httpOnly anonymous cookie
+    if (anonIdsToTry.length > 0) {
       response.cookies.set("anonUserId", "", {
         maxAge: 0,
         path: "/",

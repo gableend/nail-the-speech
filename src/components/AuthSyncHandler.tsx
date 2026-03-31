@@ -119,8 +119,14 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
         }
 
         // Always check for pending payments and migrate anonymous speeches (server-side)
+        // Pass both client-side anonUserId (uuid v4) and let server also check httpOnly cookie (cuid)
         try {
-          const claimRes = await fetch('/api/claim-pending-payment', { method: 'POST' });
+          const clientAnonId = getAnonymousUserId();
+          const claimRes = await fetch('/api/claim-pending-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ clientAnonUserId: clientAnonId }),
+          });
           const claimData = await claimRes.json();
           console.log('🔍 [AUTH-SYNC] Claim response:', claimData);
           if (claimData.claimed) {
@@ -128,6 +134,7 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
           }
           if (claimData.speechesMigrated > 0) {
             console.log(`✅ [AUTH-SYNC] Migrated ${claimData.speechesMigrated} anonymous speeches`);
+            clearAnonymousUserId(); // Clear client-side cookie after successful migration
           }
         } catch (claimError) {
           console.error('⚠️ [AUTH-SYNC] Failed to check pending payments:', claimError);

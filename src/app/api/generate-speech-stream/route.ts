@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
     const formData = await request.json();
 
     // If no authenticated user, use the client-sent anonymous user ID
+    console.log('👤 [SPEECH STREAM API] userId check:', { userId, hasClientAnonId: !!formData.clientAnonUserId, clientAnonId: formData.clientAnonUserId });
     if (!userId) {
       anonUserId = formData.clientAnonUserId || null;
       console.log('👤 [SPEECH STREAM API] Using client anonymous ID:', { anonUserId });
@@ -215,8 +216,12 @@ export async function POST(request: NextRequest) {
             savedSpeechId = savedSpeech.id;
 
             console.log('✅ [SPEECH STREAM API] Speech saved to database successfully', { speechId: savedSpeechId });
-          } catch (dbError) {
-            console.error("❌ [SPEECH STREAM API] Error saving speech to database:", dbError);
+          } catch (dbError: unknown) {
+            const errMsg = dbError instanceof Error ? dbError.message : String(dbError);
+            const errStack = dbError instanceof Error ? dbError.stack : '';
+            console.error("❌ [SPEECH STREAM API] Error saving speech to database:", errMsg);
+            console.error("❌ [SPEECH STREAM API] DB error stack:", errStack);
+            console.error("❌ [SPEECH STREAM API] Speech data that failed:", JSON.stringify({ userId, anonUserId, title: speechData.title }));
           }
 
           // Send completion message with speechId and Pro status

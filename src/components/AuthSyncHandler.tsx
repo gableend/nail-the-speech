@@ -155,6 +155,7 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
             console.error('⚠️ [AUTH-SYNC] Failed to check pending payments:', claimError);
           }
         }
+      }
     };
 
     // Show sync message only if there's a real problem

@@ -110,13 +110,6 @@ export async function POST(request: NextRequest) {
         if (result.count > 0) {
           speechesMigrated += result.count;
           console.log(`✅ [CLAIM] Migrated ${result.count} speeches from anonId: ${anonId}`);
-
-          // Clean up anonymous user record
-          try {
-            await prisma.anonymousUser.delete({ where: { id: anonId } });
-          } catch {
-            // Record may not exist — that's fine
-          }
         }
       } catch (err) {
         console.error(`⚠️ [CLAIM] Migration error for anonId ${anonId}:`, err);
@@ -159,14 +152,7 @@ export async function POST(request: NextRequest) {
             speechesMigrated += result.count;
             console.log(`✅ [CLAIM] Claimed ${result.count} orphaned speeches`);
 
-            // Clean up anonymous user records
-            for (const anonId of orphanedAnonIds) {
-              try {
-                if (anonId) await prisma.anonymousUser.delete({ where: { id: anonId } });
-              } catch {
-                // Not found — fine
-              }
-            }
+            // Anonymous user records no longer used (FK removed)
           }
         }
       } catch (fallbackError) {

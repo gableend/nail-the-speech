@@ -22,14 +22,6 @@ model User {
   @@map("users")
 }
 
-model AnonymousUser {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  speeches  Speech[]
-
-  @@map("anonymous_users")
-}
-
 model PendingPayment {
   id               String   @id @default(cuid())
   email            String
@@ -57,14 +49,11 @@ model Speech {
   formData      String   // JSON string of form data
   regenCount    Int      @default(0) // Track regeneration count for paywall
   userId        String?  // Clerk user ID (set after auth)
-  anonUserId    String?  // Anonymous user ID (set before auth)
+  anonUserId    String?  // Client-generated anonymous user ID (set before auth)
   isCompleted   Boolean  @default(true) // false for draft speeches
   isFinal       Boolean  @default(false) // Mark as "Final" version
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-
-  // Relations
-  anonymousUser AnonymousUser? @relation(fields: [anonUserId], references: [id], onDelete: Cascade)
 
   @@map("speeches")
 }

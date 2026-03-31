@@ -474,7 +474,8 @@ function GeneratorContent() {
       const requestData = {
         ...formData,
         regenerationInstructions: customInstructions || null,
-        isRegeneration: !!customInstructions || speechGenerated
+        isRegeneration: !!customInstructions || speechGenerated,
+        clientAnonUserId: getOrCreateAnonymousUserId(),
       };
 
       const response = await fetch('/api/generate-speech-stream', {

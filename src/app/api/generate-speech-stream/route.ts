@@ -2,7 +2,6 @@ import type { NextRequest } from "next/server";
 import { generateWeddingSpeechStream } from "@/lib/openai";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { getOrCreateAnonymousUser } from "@/lib/anonymousUser";
 import { checkProStatusForRequest, countUserSpeeches } from "@/lib/userStatus";
 
 function determineDataCompleteness(formData: Record<string, unknown>): 'minimal' | 'enriched' | 'premium' {
@@ -32,7 +31,7 @@ export async function POST(request: NextRequest) {
   console.log('🎤 [SPEECH STREAM API] Speech generation stream request received');
 
   try {
-    // Get user authentication info or anonymous user ID
+    // Get user authentication info
     let userId = null;
     let anonUserId = null;
 
@@ -44,13 +43,13 @@ export async function POST(request: NextRequest) {
       console.log('👤 [SPEECH STREAM API] No authenticated user, using anonymous mode');
     }
 
-    // If no authenticated user, get or create anonymous user
-    if (!userId) {
-      anonUserId = await getOrCreateAnonymousUser();
-      console.log('👤 [SPEECH STREAM API] Anonymous user ID:', { anonUserId });
-    }
-
     const formData = await request.json();
+
+    // If no authenticated user, use the client-sent anonymous user ID
+    if (!userId) {
+      anonUserId = formData.clientAnonUserId || null;
+      console.log('👤 [SPEECH STREAM API] Using client anonymous ID:', { anonUserId });
+    }
 
     // Check Pro status
     const isProUser = await checkProStatusForRequest(userId, anonUserId);

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 /**
  * TEMPORARY debug endpoint — remove after fixing migration.
- * Shows recent speeches and anonymous users in the DB.
+ * Shows recent speeches and users in the DB.
  */
 export async function GET() {
   try {
@@ -17,16 +17,6 @@ export async function GET() {
         anonUserId: true,
         createdAt: true,
         isCompleted: true,
-      },
-    });
-
-    const anonUsers = await prisma.anonymousUser.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 10,
-      select: {
-        id: true,
-        createdAt: true,
-        _count: { select: { speeches: true } },
       },
     });
 
@@ -48,12 +38,10 @@ export async function GET() {
 
     return NextResponse.json({
       recentSpeeches,
-      anonUsers,
       pendingPayments,
       users,
       counts: {
         speeches: await prisma.speech.count(),
-        anonUsers: await prisma.anonymousUser.count(),
         pendingPayments: await prisma.pendingPayment.count(),
         users: await prisma.user.count(),
       },

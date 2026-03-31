@@ -2,7 +2,6 @@ import { type NextRequest, NextResponse } from "next/server";
 import { generateWeddingSpeech, estimateReadingTime, countWords } from "@/lib/openai";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { getOrCreateAnonymousUser } from "@/lib/anonymousUser";
 
 function determineDataCompleteness(formData: Record<string, unknown>): 'minimal' | 'enriched' | 'premium' {
   const hasEnrichmentData = !!(
@@ -43,13 +42,13 @@ export async function POST(request: NextRequest) {
       console.log('👤 [SPEECH API] No authenticated user, using anonymous mode');
     }
 
-    // If no authenticated user, get or create anonymous user
-    if (!userId) {
-      anonUserId = await getOrCreateAnonymousUser();
-      console.log('👤 [SPEECH API] Anonymous user ID:', { anonUserId });
-    }
-
     const formData = await request.json();
+
+    // If no authenticated user, use the client-sent anonymous user ID
+    if (!userId) {
+      anonUserId = formData.clientAnonUserId || null;
+      console.log('👤 [SPEECH API] Using client anonymous ID:', { anonUserId });
+    }
 
     console.log('📝 [SPEECH API] Form data received:', {
       role: formData.selectedRole,

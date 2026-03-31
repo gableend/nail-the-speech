@@ -30,6 +30,19 @@ model AnonymousUser {
   @@map("anonymous_users")
 }
 
+model PendingPayment {
+  id               String   @id @default(cuid())
+  email            String
+  stripeCustomerId String?
+  stripeSessionId  String
+  claimed          Boolean  @default(false)
+  claimedByUserId  String?
+  createdAt        DateTime @default(now())
+
+  @@index([email, claimed])
+  @@map("pending_payments")
+}
+
 model Speech {
   id            String   @id @default(cuid())
   title         String   // Auto-generated title

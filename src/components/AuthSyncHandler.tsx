@@ -117,6 +117,17 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
           // No anonymous user to migrate
           setMigrationComplete(true);
         }
+
+        // Always check for pending payments (e.g. user paid before signing up)
+        try {
+          const claimRes = await fetch('/api/claim-pending-payment', { method: 'POST' });
+          const claimData = await claimRes.json();
+          if (claimData.claimed) {
+            console.log('✅ [AUTH-SYNC] Pending payment claimed — user upgraded to Pro');
+          }
+        } catch (claimError) {
+          console.error('⚠️ [AUTH-SYNC] Failed to check pending payments:', claimError);
+        }
       }
     };
 

@@ -15,6 +15,9 @@ import {
   CheckCircle
 } from "lucide-react";
 import Link from "next/link";
+import { useProStatus } from "@/hooks/useProStatus";
+import ProUpgradePrompt from "@/components/ProUpgradePrompt";
+import { getPreviewText } from "@/lib/speechPreview";
 
 interface SpeechData {
   speech: string;
@@ -31,6 +34,15 @@ function ResultContent() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState<string | null>(null);
+  const [showProModal, setShowProModal] = useState(false);
+
+  const paymentSuccess = searchParams.get('success') === 'true';
+  const { isProUser } = useProStatus(
+    paymentSuccess ? { pollInterval: 2000 } : undefined
+  );
+
+  // Determine if content should be paywalled
+  const isPaywalled = !isProUser && speechData !== null;
 
   useEffect(() => {
     // Check if speech is currently being generated
@@ -43,7 +55,6 @@ function ResultContent() {
     const readingTimeParam = searchParams.get('readingTime');
 
     if (speechParam) {
-      // Speech data was passed via URL (old method)
       setSpeechData({
         speech: decodeURIComponent(speechParam),
         wordCount: wordCountParam ? Number.parseInt(wordCountParam) : null,
@@ -97,11 +108,9 @@ function ResultContent() {
       setIsGenerating(false);
     };
 
-    // Add event listeners
     window.addEventListener('speech-generated', handleSpeechGenerated);
     window.addEventListener('speech-error', handleSpeechError);
 
-    // Cleanup
     return () => {
       window.removeEventListener('speech-generated', handleSpeechGenerated);
       window.removeEventListener('speech-error', handleSpeechError);
@@ -109,6 +118,10 @@ function ResultContent() {
   }, [searchParams]);
 
   const handleCopyToClipboard = async () => {
+    if (isPaywalled) {
+      setShowProModal(true);
+      return;
+    }
     if (speechData?.speech) {
       try {
         await navigator.clipboard.writeText(speechData.speech);
@@ -121,6 +134,10 @@ function ResultContent() {
   };
 
   const handleDownload = () => {
+    if (isPaywalled) {
+      setShowProModal(true);
+      return;
+    }
     if (speechData?.speech) {
       const element = document.createElement('a');
       const file = new Blob([speechData.speech], { type: 'text/plain' });
@@ -133,15 +150,21 @@ function ResultContent() {
   };
 
   const handleEditAndRegenerate = () => {
-    // Get the stored form data to restore the user's previous state
+    if (isPaywalled) {
+      setShowProModal(true);
+      return;
+    }
     const formData = localStorage.getItem('speechFormData');
     if (formData) {
-      // Store the form data for the generator to restore
       localStorage.setItem('restoreFormData', formData);
     }
-    // Navigate back to generator
     router.push('/generator');
   };
+
+  // Get display text (truncated for non-Pro)
+  const displaySpeech = isPaywalled && speechData?.speech
+    ? getPreviewText(speechData.speech)
+    : speechData?.speech;
 
   if (generationError) {
     return (
@@ -170,7 +193,7 @@ function ResultContent() {
             <FileText className="h-12 w-12 text-[#8f867e] mx-auto" />
             <h2 className="text-xl font-semibold text-[#181615]">No Speech Found</h2>
             <p className="text-[#8f867e]">
-              It looks like you haven't generated a speech yet or the data was lost.
+              It looks like you haven&apos;t generated a speech yet or the data was lost.
             </p>
             <Link href="/generator">
               <Button className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full">
@@ -206,7 +229,7 @@ function ResultContent() {
                 className="rounded-full border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                Edit & Regenerate
+                {isPaywalled ? '🔒 Edit & Regenerate' : 'Edit & Regenerate'}
               </Button>
             </div>
           </div>
@@ -265,7 +288,9 @@ function ResultContent() {
           <Card>
             <CardHeader>
               <div className="flex justify-between items-center">
-                <CardTitle className="text-[#181615]">Your Generated Speech</CardTitle>
+                <CardTitle className="text-[#181615]">
+                  {isPaywalled ? '🔒 Your Generated Speech' : 'Your Generated Speech'}
+                </CardTitle>
                 <div className="flex space-x-2">
                   <Button
                     onClick={handleCopyToClipboard}
@@ -279,7 +304,7 @@ function ResultContent() {
                     ) : (
                       <Copy className="h-4 w-4 mr-2" />
                     )}
-                    {copySuccess ? 'Copied!' : 'Copy'}
+                    {copySuccess ? 'Copied!' : isPaywalled ? '🔒 Copy' : 'Copy'}
                   </Button>
                   <Button
                     onClick={handleDownload}
@@ -289,35 +314,52 @@ function ResultContent() {
                     className="rounded-full border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Download className="h-4 w-4 mr-2" />
-                    Download
+                    {isPaywalled ? '🔒 Download' : 'Download'}
                   </Button>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="prose max-w-none">
-                {isGenerating ? (
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-center py-8">
-                      <div className="flex items-center space-x-3">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#da5389]"></div>
-                        <span className="text-[#da5389] font-medium">Generating your speech...</span>
+              <div className="relative">
+                <div className={`prose max-w-none ${isPaywalled ? 'max-h-48 overflow-hidden' : ''}`}>
+                  {isGenerating ? (
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-center py-8">
+                        <div className="flex items-center space-x-3">
+                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#da5389]"></div>
+                          <span className="text-[#da5389] font-medium">Generating your speech...</span>
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                          <div key={i} className="animate-pulse">
+                            <div className={`bg-gray-200 h-4 rounded ${i % 2 === 0 ? 'w-5/6' : 'w-full'}`}></div>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                    <div className="space-y-3">
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <div key={i} className="animate-pulse">
-                          <div className={`bg-gray-200 h-4 rounded ${i % 2 === 0 ? 'w-5/6' : 'w-full'}`}></div>
-                        </div>
-                      ))}
+                  ) : (
+                    <div className="whitespace-pre-wrap text-[#181615] leading-relaxed text-lg">
+                      {displaySpeech}
                     </div>
-                  </div>
-                ) : (
-                  <div className="whitespace-pre-wrap text-[#181615] leading-relaxed text-lg">
-                    {speechData?.speech}
-                  </div>
+                  )}
+                </div>
+
+                {/* Gradient fade overlay for paywalled content */}
+                {isPaywalled && !isGenerating && (
+                  <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/95 to-transparent pointer-events-none" />
                 )}
               </div>
+
+              {/* Inline upgrade CTA for paywalled content */}
+              {isPaywalled && !isGenerating && (
+                <div className="mt-2 border-t border-[#e8e1d8] pt-4">
+                  <ProUpgradePrompt
+                    variant="inline"
+                    context="paywall"
+                  />
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -327,7 +369,7 @@ function ResultContent() {
               onClick={handleEditAndRegenerate}
               className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-8"
             >
-              Edit & Regenerate
+              {isPaywalled ? '🔒 Edit & Regenerate' : 'Edit & Regenerate'}
             </Button>
             <Link href="/generator">
               <Button variant="outline" className="rounded-full px-8 border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white">
@@ -342,6 +384,16 @@ function ResultContent() {
           </div>
         </div>
       </main>
+
+      {/* Pro Upgrade Modal */}
+      {showProModal && (
+        <ProUpgradePrompt
+          variant="modal"
+          showCloseButton={true}
+          onClose={() => setShowProModal(false)}
+          context="paywall"
+        />
+      )}
     </div>
   );
 }

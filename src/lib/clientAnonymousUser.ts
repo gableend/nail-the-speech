@@ -42,6 +42,20 @@ export function clearAnonymousUserId(): void {
   document.cookie = `${ANON_COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 }
 
+const SPEECH_GEN_COUNT_KEY = 'speechGenCount';
+
+export function getSpeechGenerationCount(): number {
+  if (typeof window === 'undefined') return 0;
+  const count = localStorage.getItem(SPEECH_GEN_COUNT_KEY);
+  return count ? parseInt(count, 10) : 0;
+}
+
+export function incrementSpeechGenerationCount(): void {
+  if (typeof window === 'undefined') return;
+  const current = getSpeechGenerationCount();
+  localStorage.setItem(SPEECH_GEN_COUNT_KEY, String(current + 1));
+}
+
 export async function migrateAnonymousData(clerkUserId: string): Promise<void> {
   const anonUserId = getAnonymousUserId();
 

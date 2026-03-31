@@ -3,6 +3,7 @@ import { generateWeddingSpeechStream } from "@/lib/openai";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { getOrCreateAnonymousUser } from "@/lib/anonymousUser";
+import { checkProStatusForRequest, countUserSpeeches } from "@/lib/userStatus";
 
 function determineDataCompleteness(formData: Record<string, unknown>): 'minimal' | 'enriched' | 'premium' {
   const hasEnrichmentData = !!(
@@ -51,6 +52,42 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.json();
 
+    // Check Pro status
+    const isProUser = await checkProStatusForRequest(userId, anonUserId);
+
+    // Gate: Block regeneration for non-Pro users
+    if (formData.isRegeneration && !isProUser) {
+      console.log('🚫 [SPEECH STREAM API] Regeneration blocked - user is not Pro');
+      return new Response(
+        JSON.stringify({
+          error: "pro_required",
+          message: "Upgrade to Pro to regenerate and edit your speech."
+        }),
+        {
+          status: 403,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+    }
+
+    // Gate: Block 2nd+ generation for non-Pro users
+    if (!formData.isRegeneration && !isProUser) {
+      const speechCount = await countUserSpeeches(userId, anonUserId);
+      if (speechCount >= 1) {
+        console.log('🚫 [SPEECH STREAM API] Free generation limit reached', { speechCount });
+        return new Response(
+          JSON.stringify({
+            error: "free_generation_limit",
+            message: "You've used your free speech generation. Upgrade to Pro to generate more speeches."
+          }),
+          {
+            status: 403,
+            headers: { 'Content-Type': 'application/json' }
+          }
+        );
+      }
+    }
+
     console.log('📝 [SPEECH STREAM API] Form data received:', {
       role: formData.selectedRole,
       tone: formData.tone,
@@ -60,7 +97,8 @@ export async function POST(request: NextRequest) {
       userLoggedIn: !!userId,
       userId: userId || 'anonymous',
       isRegeneration: !!formData.isRegeneration,
-      hasCustomInstructions: !!formData.regenerationInstructions
+      hasCustomInstructions: !!formData.regenerationInstructions,
+      isProUser
     });
 
     // Validate required fields for speech generation
@@ -102,12 +140,9 @@ export async function POST(request: NextRequest) {
       formData.lengthPreference = 'medium';
     }
 
-    // For now, everyone gets free tier access (no premium features)
-    const isPremium = false;
-
     // Choose model based on premium status
     const speechOptions = {
-      isPremium,
+      isPremium: isProUser,
       model: 'gpt-3.5-turbo' as const,
       maxTokens: 1000,
       regenerationInstructions: formData.regenerationInstructions || null,
@@ -154,6 +189,7 @@ export async function POST(request: NextRequest) {
           });
 
           // Save speech to database with user association (authenticated or anonymous)
+          let savedSpeechId: string | null = null;
           try {
             const userType = userId ? 'authenticated user' : 'anonymous user';
             console.log(`💾 [SPEECH STREAM API] Saving speech to database (${userType})`);
@@ -174,19 +210,22 @@ export async function POST(request: NextRequest) {
               isCompleted: true
             };
 
-            await prisma.speech.create({
+            const savedSpeech = await prisma.speech.create({
               data: speechData
             });
+            savedSpeechId = savedSpeech.id;
 
-            console.log('✅ [SPEECH STREAM API] Speech saved to database successfully');
+            console.log('✅ [SPEECH STREAM API] Speech saved to database successfully', { speechId: savedSpeechId });
           } catch (dbError) {
             console.error("❌ [SPEECH STREAM API] Error saving speech to database:", dbError);
           }
 
-          // Send completion message
+          // Send completion message with speechId and Pro status
           const completionData = JSON.stringify({
             type: 'complete',
             speech: fullSpeech,
+            speechId: savedSpeechId,
+            isProUser,
             wordCount: fullSpeech.split(/\s+/).filter(word => word.length > 0).length,
             estimatedTime: Math.ceil(fullSpeech.split(/\s+/).filter(word => word.length > 0).length / 150),
             dataCompleteness: determineDataCompleteness(formData)

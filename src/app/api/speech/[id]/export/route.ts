@@ -20,6 +20,19 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Check Pro status before allowing export
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { isProUser: true },
+    });
+
+    if (!user?.isProUser) {
+      return NextResponse.json(
+        { error: "pro_required", message: "Upgrade to Pro to export your speech." },
+        { status: 403 }
+      );
+    }
+
     const speech = await prisma.speech.findFirst({
       where: { id: resolvedParams.id, userId: userId }
     });

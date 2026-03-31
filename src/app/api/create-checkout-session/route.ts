@@ -11,6 +11,7 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => ({}));
     const prefillEmail = body.email;
     const speechMetadata = body.speechMetadata || null;
+    const returnUrl = body.returnUrl || null;
 
     // Check if user is already authenticated (optional)
     const { userId } = await auth();
@@ -66,8 +67,10 @@ export async function POST(request: Request) {
       billing_address_collection: 'auto',
       customer_creation: 'always', // Always create a Stripe customer
       metadata,
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.nailthespeech.com'}/sign-up?success=true&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.nailthespeech.com'}/generator?canceled=true`,
+      success_url: userId && returnUrl
+        ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.nailthespeech.com'}${returnUrl}?success=true&session_id={CHECKOUT_SESSION_ID}`
+        : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.nailthespeech.com'}/sign-up?success=true&session_id={CHECKOUT_SESSION_ID}${returnUrl ? `&returnUrl=${encodeURIComponent(returnUrl)}` : ''}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.nailthespeech.com'}${returnUrl || '/generator'}?canceled=true`,
     });
 
     console.log(`✅ [CHECKOUT SESSION] Created session: ${session.id}`);

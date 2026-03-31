@@ -12,9 +12,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { countWords, estimateReadingTime } from "@/lib/openai";
 import VoiceInput from "@/components/VoiceInput";
-import { getOrCreateAnonymousUserId } from "@/lib/clientAnonymousUser";
+import { getOrCreateAnonymousUserId, getSpeechGenerationCount, incrementSpeechGenerationCount } from "@/lib/clientAnonymousUser";
 import ProUpgradePrompt from "@/components/ProUpgradePrompt";
 import { useProStatus } from "@/hooks/useProStatus";
+import { getPreviewText } from "@/lib/speechPreview";
 
 interface FormData {
   // Role Selection (if needed)
@@ -81,16 +82,19 @@ function GeneratorContent() {
 
   // New state for Step 2: Speech Outline Generation
   const [generatedSpeech, setGeneratedSpeech] = useState<string>("");
-  const [editCount, setEditCount] = useState(0);
   const [speechGenerated, setSpeechGenerated] = useState(false);
   const [speechError, setSpeechError] = useState<string>("");
-  const MAX_FREE_EDITS = 2;
+  const [isSpeechPaywalled, setIsSpeechPaywalled] = useState(false);
+  const fullSpeechRef = React.useRef<string>("");
 
   // Regeneration with instructions state
   const [regenerationInstructions, setRegenerationInstructions] = useState("");
   const [selectedPill, setSelectedPill] = useState<string | null>(null);
   const [showProModal, setShowProModal] = useState(false);
-  const { isProUser, loading: proStatusLoading } = useProStatus();
+  // Enable polling when returning from payment
+  const { isProUser, loading: proStatusLoading } = useProStatus(
+    paymentSuccess ? { pollInterval: 2000 } : undefined
+  );
   const [showPaymentSuccess, setShowPaymentSuccess] = useState(paymentSuccess);
   const [showPaymentCanceled, setShowPaymentCanceled] = useState(paymentCanceled);
 
@@ -121,6 +125,14 @@ function GeneratorContent() {
     humorLevel: "",
     includeToastClosing: false,
   });
+
+  // Unlock speech when Pro status is confirmed (e.g. after payment)
+  useEffect(() => {
+    if (isProUser && isSpeechPaywalled && fullSpeechRef.current) {
+      setGeneratedSpeech(fullSpeechRef.current);
+      setIsSpeechPaywalled(false);
+    }
+  }, [isProUser, isSpeechPaywalled]);
 
   // Initialize anonymous user and restore form data when user comes back from result page
   useEffect(() => {
@@ -448,8 +460,8 @@ function GeneratorContent() {
 
   // New function for Step 2: Generate speech outline with streaming and stay on page
   const handleGenerateSpeech = async (customInstructions?: string) => {
-    if (editCount >= MAX_FREE_EDITS) {
-      // Show Pro upgrade modal
+    // Non-Pro users cannot regenerate — show upgrade modal
+    if (!isProUser && speechGenerated) {
       setShowProModal(true);
       return;
     }
@@ -474,6 +486,12 @@ function GeneratorContent() {
       });
 
       if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        if (errorData?.error === 'pro_required' || errorData?.error === 'free_generation_limit') {
+          setShowProModal(true);
+          setIsGenerating(false);
+          return;
+        }
         throw new Error('Failed to generate speech');
       }
 
@@ -509,14 +527,20 @@ function GeneratorContent() {
                 if (data.type === 'chunk') {
                   setGeneratedSpeech(data.fullContent);
                 } else if (data.type === 'complete') {
-                  setGeneratedSpeech(data.speech);
+                  fullSpeechRef.current = data.speech;
+                  incrementSpeechGenerationCount();
+
+                  if (data.isProUser) {
+                    // Pro user: show full speech
+                    setGeneratedSpeech(data.speech);
+                    setIsSpeechPaywalled(false);
+                  } else {
+                    // Free user: show preview only
+                    setGeneratedSpeech(getPreviewText(data.speech));
+                    setIsSpeechPaywalled(true);
+                  }
                   setSpeechGenerated(true);
                   setIsGenerating(false);
-
-                  // Increment edit count if this is a regeneration
-                  if (speechGenerated) {
-                    setEditCount(prev => prev + 1);
-                  }
                 } else if (data.type === 'error') {
                   throw new Error(data.error);
                 }
@@ -598,7 +622,16 @@ function GeneratorContent() {
                 if (data.type === 'chunk') {
                   setGeneratedSpeech(data.fullContent);
                 } else if (data.type === 'complete') {
-                  setGeneratedSpeech(data.speech);
+                  fullSpeechRef.current = data.speech;
+                  incrementSpeechGenerationCount();
+
+                  if (data.isProUser) {
+                    setGeneratedSpeech(data.speech);
+                    setIsSpeechPaywalled(false);
+                  } else {
+                    setGeneratedSpeech(getPreviewText(data.speech));
+                    setIsSpeechPaywalled(true);
+                  }
                   setSpeechGenerated(true);
                   setIsGenerating(false);
                 } else if (data.type === 'error') {
@@ -1223,7 +1256,7 @@ function GeneratorContent() {
                       You've provided all the essentials. Click below to generate your personalized speech outline using AI.
                     </p>
                     <p className="text-sm text-[#0369a1]">
-                      💡 You'll get {MAX_FREE_EDITS} free edits to perfect your speech before accessing premium features.
+                      💡 Your first speech is free! Upgrade to Pro to copy, edit, and regenerate.
                     </p>
                   </div>
                 )}
@@ -1270,15 +1303,14 @@ function GeneratorContent() {
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-xl font-bold text-[#181615]">✨ Your Speech is Ready!</h3>
+                        <h3 className="text-xl font-bold text-[#181615]">
+                          {isSpeechPaywalled ? '🔒 Your Speech is Ready!' : '✨ Your Speech is Ready!'}
+                        </h3>
                         <p className="text-sm text-[#8f867e] mt-1">Generated with AI • Personalized for {formData.groomName} & {formData.brideName}</p>
                       </div>
-                      <div className="flex items-center space-x-2 text-sm text-[#8f867e]">
-                        <span>Edits: {editCount}/{MAX_FREE_EDITS}</span>
-                        {editCount >= MAX_FREE_EDITS && (
-                          <span className="text-[#da5389] font-medium">• Upgrade for unlimited</span>
-                        )}
-                      </div>
+                      {isSpeechPaywalled && (
+                        <Badge className="bg-[#da5389] text-white">Preview</Badge>
+                      )}
                     </div>
 
                     {/* Enhanced Speech Stats */}
@@ -1308,31 +1340,49 @@ function GeneratorContent() {
                           <span className="text-xl mr-2">📝</span>
                           Your Speech
                         </h4>
-                        <div className="flex space-x-2">
-                          <button
-                            onClick={() => {
-                              navigator.clipboard.writeText(generatedSpeech);
-                              // Could add a toast notification here
-                            }}
-                            className="flex items-center space-x-1 px-3 py-2 bg-[#da5389] text-white text-sm font-medium rounded-lg hover:bg-[#da5389]/90 transition-colors"
-                          >
-                            <span>📋</span>
-                            <span>Copy Speech</span>
-                          </button>
-                        </div>
+                        {!isSpeechPaywalled && (
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(generatedSpeech);
+                              }}
+                              className="flex items-center space-x-1 px-3 py-2 bg-[#da5389] text-white text-sm font-medium rounded-lg hover:bg-[#da5389]/90 transition-colors"
+                            >
+                              <span>📋</span>
+                              <span>Copy Speech</span>
+                            </button>
+                          </div>
+                        )}
                       </div>
 
-                      <div className="prose prose-lg max-w-none max-h-80 overflow-y-auto">
-                        {generatedSpeech.split('\n').map((paragraph, index) => (
-                          <p key={`speech-paragraph-${index}-${paragraph.slice(0, 20)}`} className="mb-4 text-[#181615] leading-relaxed">
-                            {paragraph}
-                          </p>
-                        ))}
+                      <div className="relative">
+                        <div className={`prose prose-lg max-w-none ${isSpeechPaywalled ? 'max-h-48 overflow-hidden' : 'max-h-80 overflow-y-auto'}`}>
+                          {generatedSpeech.split('\n').map((paragraph, index) => (
+                            <p key={`speech-paragraph-${index}-${paragraph.slice(0, 20)}`} className="mb-4 text-[#181615] leading-relaxed">
+                              {paragraph}
+                            </p>
+                          ))}
+                        </div>
+
+                        {/* Gradient fade overlay for paywalled content */}
+                        {isSpeechPaywalled && (
+                          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/95 to-transparent pointer-events-none" />
+                        )}
                       </div>
+
+                      {/* Inline upgrade CTA for paywalled content */}
+                      {isSpeechPaywalled && (
+                        <div className="mt-2 border-t border-[#e8e1d8] pt-4">
+                          <ProUpgradePrompt
+                            variant="inline"
+                            context="paywall"
+                          />
+                        </div>
+                      )}
                     </div>
 
-                    {/* Regeneration Options - Always show when speech is generated */}
-                    {editCount < MAX_FREE_EDITS && (
+                    {/* Regeneration Options - Only for Pro users */}
+                    {!isSpeechPaywalled && isProUser && (
                       <div className="bg-[#faf7f4] rounded-lg p-6 border border-[#e8e1d8]">
                         <div className="mb-4">
                           <h4 className="font-semibold text-[#181615] flex items-center mb-2">
@@ -1340,7 +1390,7 @@ function GeneratorContent() {
                             Improve Your Speech
                           </h4>
                           <div className="text-xs text-[#8f867e]">
-                            {editCount + 1}/{MAX_FREE_EDITS} edits remaining
+                            Unlimited edits with Pro
                           </div>
                         </div>
 
@@ -1495,21 +1545,7 @@ function GeneratorContent() {
                       </div>
                     )}
 
-                    {/* Upgrade message for users who have exceeded free edits */}
-                    {editCount >= MAX_FREE_EDITS && (
-                      <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5 border border-[#da5389]/20 rounded-lg p-6">
-                        <h3 className="text-lg font-semibold text-[#181615] mb-2">🔒 Unlock Unlimited Editing</h3>
-                        <p className="text-[#8f867e] mb-4">
-                          You've used your {MAX_FREE_EDITS} free edits. Upgrade to Pro to continue editing with unlimited regenerations.
-                        </p>
-                        <button
-                          onClick={() => setShowProModal(true)}
-                          className="bg-[#da5389] hover:bg-[#da5389]/90 text-white px-6 py-3 rounded-full font-semibold"
-                        >
-                          💎 Upgrade to Pro
-                        </button>
-                      </div>
-                    )}
+                    {/* (Upgrade CTA is shown inline in the speech card when paywalled) */}
                   </div>
                 )}
 
@@ -1554,7 +1590,7 @@ function GeneratorContent() {
                     <ul className="text-sm text-[#8f867e] space-y-1">
                       <li>• Your speech will include the story you shared in Step 1</li>
                       <li>• We'll match the tone and length you selected</li>
-                      <li>• You can regenerate {MAX_FREE_EDITS} times to get it just right</li>
+                      <li>• Upgrade to Pro for unlimited regeneration and full access</li>
                       <li>• Step 3 adds even more personality and customization</li>
                     </ul>
                   </div>
@@ -1701,9 +1737,7 @@ function GeneratorContent() {
             variant="modal"
             showCloseButton={true}
             onClose={() => setShowProModal(false)}
-            context="generator"
-            currentEditCount={editCount}
-            maxEditCount={MAX_FREE_EDITS}
+            context="paywall"
           />
         )}
       </div>

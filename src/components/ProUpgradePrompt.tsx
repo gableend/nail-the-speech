@@ -17,10 +17,10 @@ interface SpeechData {
 }
 
 interface ProUpgradePromptProps {
-  variant: 'banner' | 'modal' | 'card';
+  variant: 'banner' | 'modal' | 'card' | 'inline';
   showCloseButton?: boolean;
   onClose?: () => void;
-  context?: 'generator' | 'dashboard';
+  context?: 'generator' | 'dashboard' | 'paywall';
   currentEditCount?: number;
   maxEditCount?: number;
   speechData?: SpeechData;
@@ -63,11 +63,39 @@ export default function ProUpgradePrompt({
   ];
 
   const getContextualMessage = (): string => {
+    if (context === 'paywall') {
+      return "Your speech is ready! Unlock it to copy, download, and edit.";
+    }
     if (context === 'generator') {
       return `Unlock unlimited regeneration (${currentEditCount}/${maxEditCount} free edits used)`;
     }
     return "Unlock premium features and unlimited regeneration";
   };
+
+  const paywallFeatures = [
+    {
+      title: "Unlock Your Full Speech",
+      description: "See and copy your complete generated speech",
+      icon: <Zap className="h-4 w-4 text-green-600" />
+    },
+    {
+      title: "Copy, Download & Share",
+      description: "Export to PDF, Word, or copy to clipboard",
+      icon: <Crown className="h-4 w-4 text-green-600" />
+    },
+    {
+      title: "Unlimited Regeneration",
+      description: "Tweak your speech as many times as you want",
+      icon: <Zap className="h-4 w-4 text-green-600" />
+    },
+    {
+      title: "Advanced Personalization",
+      description: "Add personal stories, inside jokes, and more",
+      icon: <Crown className="h-4 w-4 text-green-600" />
+    }
+  ];
+
+  const activeFeatures = context === 'paywall' ? paywallFeatures : features;
 
   const handleUpgrade = async () => {
     try {
@@ -75,7 +103,8 @@ export default function ProUpgradePrompt({
 
       // Prepare data for checkout
       const checkoutData: Record<string, unknown> = {
-        email: null // Will be filled by Stripe checkout
+        email: null, // Will be filled by Stripe checkout
+        returnUrl: typeof window !== 'undefined' ? window.location.pathname : null
       };
 
       // If we have speech data, save it to localStorage for retrieval after payment and login
@@ -208,7 +237,7 @@ export default function ProUpgradePrompt({
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-[#181615] mb-4">What You Get with Pro:</h3>
               <div className="space-y-3">
-                {features.map((feature, idx) => (
+                {activeFeatures.map((feature, idx) => (
                   <div key={`feature-${idx}-${feature.title}`} className="flex items-start gap-3">
                     <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
                       {feature.icon}
@@ -287,6 +316,70 @@ export default function ProUpgradePrompt({
     );
   }
 
+  if (variant === 'inline') {
+    return (
+      <div className="text-center py-6 px-4">
+        <div className="flex items-center justify-center gap-2 mb-3">
+          <div className="w-10 h-10 bg-gradient-to-r from-[#da5389] to-[#e9a41a] rounded-full flex items-center justify-center">
+            <Crown className="h-5 w-5 text-white" />
+          </div>
+        </div>
+        <h3 className="text-xl font-bold text-[#181615] mb-1">Your speech is ready!</h3>
+        <p className="text-[#8f867e] mb-4">Upgrade to unlock the full text, copy, download, and edit.</p>
+
+        <div className="grid grid-cols-2 gap-3 mb-5 max-w-md mx-auto text-left">
+          {activeFeatures.map((feature, idx) => (
+            <div key={`inline-feature-${idx}`} className="flex items-center gap-2">
+              <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center shrink-0">
+                {feature.icon}
+              </div>
+              <span className="text-sm font-medium text-[#181615]">{feature.title}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <span className="text-2xl font-bold text-[#181615]">$9.99</span>
+          <span className="text-lg text-[#8f867e] line-through">$19.99</span>
+          <Badge className="bg-[#da5389] text-white">50% OFF</Badge>
+        </div>
+
+        <Button
+          onClick={handleUpgrade}
+          disabled={loading}
+          className="bg-gradient-to-r from-[#da5389] to-[#e9a41a] hover:from-[#da5389]/90 hover:to-[#e9a41a]/90 text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg"
+        >
+          {loading ? (
+            <>
+              <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
+              Starting Checkout...
+            </>
+          ) : (
+            <>
+              <Crown className="h-5 w-5 mr-2" />
+              Unlock My Speech
+            </>
+          )}
+        </Button>
+
+        <div className="mt-4 flex items-center justify-center gap-6 text-xs text-[#8f867e]">
+          <div className="flex items-center gap-1">
+            <span>🔒</span>
+            <span>Secure Payment</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span>💰</span>
+            <span>30-Day Refund</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span>⚡</span>
+            <span>Instant Access</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Default card variant
   return (
     <Card className="border-[#da5389]/20 bg-gradient-to-r from-[#da5389]/5 to-[#e9a41a]/5">
@@ -309,7 +402,7 @@ export default function ProUpgradePrompt({
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-4">
-          {features.slice(0, 4).map((feature, idx) => (
+          {activeFeatures.slice(0, 4).map((feature, idx) => (
             <div key={`feature-card-${idx}-${feature.title}`} className="flex items-center gap-2">
               <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
                 {feature.icon}

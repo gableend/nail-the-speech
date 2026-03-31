@@ -10,7 +10,7 @@ export default function AuthNavigation() {
     <>
       <SignedOut>
         <Link href="/sign-in">
-          <Button variant="outline" className="hidden md:block rounded-full border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-transparent focus:bg-transparent active:bg-transparent px-6 py-2 font-medium">
+          <Button variant="outline" className="hidden md:block rounded-full border-[#da5389] bg-white text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white focus:bg-white active:bg-white px-6 py-2 font-medium">
             Log in
           </Button>
         </Link>

@@ -25,7 +25,7 @@
     --muted: 240 235 230; /* warm muted background */
     --muted-foreground: 138 132 124; /* muted brown */
 
-    --accent: 246 172 10; /* warm gold #f6ac0a */
+    --accent: 248 244 240; /* warm cream, matches secondary */
     --accent-foreground: 17 17 15; /* very dark brown */
 
     --destructive: 217 112 119; /* soft red */
@@ -58,15 +58,15 @@
     --muted: 58 52 44; /* medium warm slate */
     --muted-foreground: 207 202 193; /* light warm text */
 
-    --accent: 246 172 10; /* warm gold */
-    --accent-foreground: 26 22 20; /* dark warm background */
+    --accent: 58 52 44; /* warm dark accent, matches muted */
+    --accent-foreground: 251 247 244; /* warm light text */
 
     --destructive: 217 112 119; /* soft red */
     --destructive-foreground: 255 255 255; /* white */
 
     --border: 58 52 44; /* dark warm border */
     --input: 58 52 44; /* dark warm input */
-    --ring: 246 172 10; /* warm gold ring */
+    --ring: 232 79 152; /* pink ring, matches primary */
   }
 }
 
@@ -75,8 +75,12 @@
     @apply border-border;
   }
 
+  html {
+    @apply bg-background overscroll-none;
+  }
+
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased overscroll-none;
     font-family: Arial, Helvetica, sans-serif;
   }
 
@@ -94,7 +98,7 @@
   }
 
   .gradient-secondary {
-    background: linear-gradient(135deg, rgb(246 172 10) 0%, rgb(251 191 36) 100%);
+    background: linear-gradient(135deg, rgb(232 79 152) 0%, rgb(225 158 210) 100%);
   }
 
   .gradient-warm {

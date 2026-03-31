@@ -21,7 +21,7 @@ const config: Config = {
       colors: {
         // --- The Knot Inspired Brand Colors ---
         'brand-primary': '#e84f98', // The Knot's signature pink
-        'brand-secondary': '#f6ac0a', // Warm gold/amber
+        'brand-secondary': '#da5389', // Warm pink
         'brand-accent': '#a3caf1', // Soft blue accent
         'brand-sage': '#618f7f', // Sage green
         'brand-blush': '#e1a1d2', // Soft pink
@@ -52,7 +52,7 @@ const config: Config = {
 
         // --- Functional Colors (Wedding Theme) ---
         'success': '#618f7f', // Sage green
-        'warning': '#f6ac0a', // Gold
+        'warning': '#e97f33', // Warm orange
         'error': '#d97077', // Soft red
         'info': '#a3caf1', // Soft blue
 

@@ -96,6 +96,7 @@ export default function DashboardClient() {
 
   // Notification for restored speech
   const [showRestoredNotification, setShowRestoredNotification] = useState(false);
+  const [showFinalToast, setShowFinalToast] = useState(false);
 
   const fetchSpeeches = async (showLoadingState = true) => {
     if (showLoadingState) {
@@ -248,6 +249,12 @@ export default function DashboardClient() {
           ? { ...speech, isFinal: !currentFinalStatus }
           : speech
       ));
+
+      // Show celebratory toast when marking as final (not when unmarking)
+      if (!currentFinalStatus) {
+        setShowFinalToast(true);
+        setTimeout(() => setShowFinalToast(false), 5000);
+      }
     } catch (err) {
       console.error('Error updating speech status:', err);
       alert('Failed to update speech status. Please try again.');
@@ -475,6 +482,28 @@ export default function DashboardClient() {
           <div className="flex items-center gap-2 bg-green-100 border border-green-300 text-green-800 px-4 py-2 rounded-lg shadow">
             <CheckCircle className="h-5 w-5" />
             <span>Speech successfully restored!</span>
+          </div>
+        </div>
+      )}
+
+      {/* Celebratory toast for Mark Final */}
+      {showFinalToast && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+          <div className="bg-white border-2 border-green-400 rounded-2xl shadow-2xl p-8 text-center max-w-md pointer-events-auto">
+            <div className="text-6xl mb-4">🎉</div>
+            <h2 className="text-2xl font-bold text-[#181615] mb-2">Speech Finalized!</h2>
+            <p className="text-[#8f867e] mb-4">
+              Your speech is ready for the big day. You're going to nail it!
+            </p>
+            <div className="flex justify-center gap-2 text-3xl">
+              <span>🥂</span><span>🎊</span><span>💍</span><span>🎤</span><span>🥂</span>
+            </div>
+            <button
+              onClick={() => setShowFinalToast(false)}
+              className="mt-4 text-sm text-[#8f867e] hover:text-[#da5389] transition-colors"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

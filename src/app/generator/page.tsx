@@ -91,6 +91,10 @@ function GeneratorContent() {
   const [currentVersionIndex, setCurrentVersionIndex] = useState(-1);
   const [dbRegenCount, setDbRegenCount] = useState(0); // Total edits from DB
   const [isSpeechPaywalled, setIsSpeechPaywalled] = useState(false);
+  const [isFinal, setIsFinal] = useState(false);
+  const [showFinalToast, setShowFinalToast] = useState(false);
+  const [exportingFormat, setExportingFormat] = useState<string | null>(null);
+  const [currentSpeechId, setCurrentSpeechId] = useState<string | null>(speechIdFromUrl);
   const fullSpeechRef = React.useRef<string>("");
 
   // Regeneration with instructions state
@@ -180,6 +184,7 @@ function GeneratorContent() {
               console.log('🎯 Speech loaded (no DB versions, using current content)');
             }
             setDbRegenCount(speechData.regenCount || 0);
+            setIsFinal(speechData.isFinal || false);
             setSpeechGenerated(true);
           } else {
             console.error('❌ Failed to load speech for edit');
@@ -510,6 +515,52 @@ function GeneratorContent() {
     };
   };
 
+  // Mark speech as final with celebratory toast
+  const handleMarkFinal = async () => {
+    if (!currentSpeechId) return;
+    try {
+      const response = await fetch(`/api/speech/${currentSpeechId}/update`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isFinal: !isFinal }),
+      });
+      if (!response.ok) throw new Error('Failed to update');
+      setIsFinal(!isFinal);
+      if (!isFinal) {
+        setShowFinalToast(true);
+        setTimeout(() => setShowFinalToast(false), 5000);
+      }
+    } catch (err) {
+      console.error('Error marking final:', err);
+    }
+  };
+
+  // Export speech
+  const handleExport = async (format: 'txt' | 'pdf' | 'docx') => {
+    if (!currentSpeechId) return;
+    setExportingFormat(format);
+    try {
+      const response = await fetch(`/api/speech/${currentSpeechId}/export?format=${format}`);
+      if (!response.ok) throw new Error(`Export failed`);
+      const blob = await response.blob();
+      const title = formData.groomName && formData.brideName
+        ? `Speech for ${formData.groomName} & ${formData.brideName}`
+        : 'speech';
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${title}.${format}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(`Error exporting as ${format}:`, err);
+    } finally {
+      setExportingFormat(null);
+    }
+  };
+
   // New function for Step 2: Generate speech outline with streaming and stay on page
   const handleGenerateSpeech = async (customInstructions?: string) => {
     // Non-Pro users cannot regenerate — show upgrade modal
@@ -587,6 +638,7 @@ function GeneratorContent() {
                   // Verify speech was saved to DB
                   if (data.speechId) {
                     console.log('✅ [GENERATOR] Speech saved to DB:', data.speechId);
+                    setCurrentSpeechId(data.speechId);
                   } else {
                     console.error('❌ [GENERATOR] Speech NOT saved to DB (speechId null) — DB save failed silently');
                   }
@@ -693,6 +745,7 @@ function GeneratorContent() {
                   // Verify speech was saved to DB
                   if (data.speechId) {
                     console.log('✅ [GENERATOR-S2] Speech saved to DB:', data.speechId);
+                    setCurrentSpeechId(data.speechId);
                   } else {
                     console.error('❌ [GENERATOR-S2] Speech NOT saved to DB (speechId null) — DB save failed silently');
                   }
@@ -1852,6 +1905,46 @@ function GeneratorContent() {
                       </div>
                     )}
 
+                    {/* Mark Final + Export row */}
+                    {currentSpeechId && isProUser && !isSpeechPaywalled && (
+                      <div className="flex items-center justify-between bg-white border border-[#e8e1d8] rounded-xl p-4">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleExport('txt')}
+                            disabled={!!exportingFormat}
+                            className="px-3 py-2 text-sm font-medium rounded-lg border border-[#e8e1d8] hover:bg-gray-50 transition-colors"
+                          >
+                            📄 TXT
+                          </button>
+                          <button
+                            onClick={() => handleExport('pdf')}
+                            disabled={!!exportingFormat}
+                            className="px-3 py-2 text-sm font-medium rounded-lg border border-[#e8e1d8] hover:bg-gray-50 transition-colors"
+                          >
+                            📑 PDF
+                          </button>
+                          <button
+                            onClick={() => handleExport('docx')}
+                            disabled={!!exportingFormat}
+                            className="px-3 py-2 text-sm font-medium rounded-lg border border-[#e8e1d8] hover:bg-gray-50 transition-colors"
+                          >
+                            📝 DOCX
+                          </button>
+                          {exportingFormat && <span className="text-xs text-[#8f867e] ml-2">Exporting...</span>}
+                        </div>
+                        <button
+                          onClick={handleMarkFinal}
+                          className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${
+                            isFinal
+                              ? 'bg-green-50 border-2 border-green-400 text-green-700 hover:bg-green-100'
+                              : 'bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-md hover:shadow-lg'
+                          }`}
+                        >
+                          {isFinal ? '✅ Marked as Final' : '⭐ Mark as Final'}
+                        </button>
+                      </div>
+                    )}
+
                     {/* (Upgrade CTA is shown inline in the speech card when paywalled) */}
                   </div>
                 )}
@@ -2041,6 +2134,28 @@ function GeneratorContent() {
             onClose={() => setShowProModal(false)}
             context="paywall"
           />
+        )}
+
+        {/* Celebratory toast for Mark Final */}
+        {showFinalToast && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+            <div className="bg-white border-2 border-green-400 rounded-2xl shadow-2xl p-8 text-center max-w-md pointer-events-auto animate-bounce-in">
+              <div className="text-6xl mb-4">🎉</div>
+              <h2 className="text-2xl font-bold text-[#181615] mb-2">Speech Finalized!</h2>
+              <p className="text-[#8f867e] mb-4">
+                Your speech is ready for the big day. You're going to nail it!
+              </p>
+              <div className="flex justify-center gap-2 text-3xl">
+                <span>🥂</span><span>🎊</span><span>💍</span><span>🎤</span><span>🥂</span>
+              </div>
+              <button
+                onClick={() => setShowFinalToast(false)}
+                className="mt-4 text-sm text-[#8f867e] hover:text-[#da5389] transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>

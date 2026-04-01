@@ -940,14 +940,14 @@ function GeneratorContent() {
               <CardTitle className="text-2xl text-[#181615]">
                 {currentStep === 0 && "Choose Your Role"}
                 {currentStep === 1 && "Essentials"}
-                {currentStep === 2 && "Your Speech Outline"}
+                {currentStep === 2 && (speechGenerated ? "Your Speech" : "Your Speech Outline")}
                 {currentStep === 3 && "Pro"}
               </CardTitle>
             </div>
             <p className="text-sm text-[#8f867e]">
               {currentStep === 0 && "Select your role in the wedding to personalize your speech"}
               {currentStep === 1 && "Required fields for your speech foundation"}
-              {currentStep === 2 && "Generate your basic speech and make edits"}
+              {currentStep === 2 && (speechGenerated ? "Review, refine, and perfect your speech" : "Generate your personalized speech")}
               {currentStep === 3 && "💎 Upgrade to Pro to add personality & premium features"}
             </p>
           </CardHeader>

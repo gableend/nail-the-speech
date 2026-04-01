@@ -908,7 +908,7 @@ function GeneratorContent() {
                     }`}>
                       {step === 0 && <><User className="h-4 w-4 inline mr-1" />Role</>}
                       {step === 1 && '🎯 Essentials'}
-                      {step === 2 && '📝 Your Speech'}
+                      {step === 2 && '✏️ Your Speech'}
                       {step === 3 && '💎 Pro'}
                     </div>
                     <div className={`text-sm mt-1 ${
@@ -935,7 +935,7 @@ function GeneratorContent() {
             <div className="flex items-center justify-center gap-2 mb-2">
               {currentStep === 0 && <span className="text-2xl">👤</span>}
               {currentStep === 1 && <span className="text-2xl">🎯</span>}
-              {currentStep === 2 && <span className="text-2xl">📝</span>}
+              {currentStep === 2 && <span className="text-2xl">✏️</span>}
               {currentStep === 3 && <span className="text-2xl">💎</span>}
               <CardTitle className="text-2xl text-[#181615]">
                 {currentStep === 0 && "Choose Your Role"}
@@ -1559,7 +1559,7 @@ function GeneratorContent() {
                         <div className="flex items-center justify-between mb-3">
                           <h4 className="font-medium text-[#ea580c]">✍️ Live Preview</h4>
                           <div className="flex items-center space-x-3 text-xs text-[#9a3412]">
-                            <span>📝 {countWords(generatedSpeech)} words</span>
+                            <span>✏️ {countWords(generatedSpeech)} words</span>
                             <span>⏱️ ~{estimateReadingTime(generatedSpeech)} min</span>
                           </div>
                         </div>
@@ -1615,7 +1615,7 @@ function GeneratorContent() {
                     <div className="bg-white border-2 border-[#e8e1d8] rounded-xl p-6 shadow-lg">
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="font-semibold text-[#181615] flex items-center">
-                          <span className="text-xl mr-2">📝</span>
+                          <span className="text-xl mr-2">✏️</span>
                           Your Speech
                         </h4>
                         {!isSpeechPaywalled && (
@@ -1655,7 +1655,7 @@ function GeneratorContent() {
                               }}
                               className="flex items-center space-x-1 px-3 py-2 bg-[#da5389] text-white text-sm font-medium rounded-lg hover:bg-[#da5389]/90 transition-colors"
                             >
-                              <span>📋</span>
+                              <span>✏️</span>
                               <span>Copy Speech</span>
                             </button>
                           </div>

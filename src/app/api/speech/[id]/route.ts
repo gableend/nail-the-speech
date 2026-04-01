@@ -60,6 +60,7 @@ export async function GET(
       formData: speech.formData,
       regenCount: speech.regenCount,
       isCompleted: speech.isCompleted,
+      isFinal: speech.isFinal,
       createdAt: speech.createdAt,
       updatedAt: speech.updatedAt,
       versions: speech.versions,

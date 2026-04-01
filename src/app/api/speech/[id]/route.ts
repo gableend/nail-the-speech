@@ -52,6 +52,7 @@ export async function GET(
       wordCount: speech.wordCount,
       estimatedTime: speech.estimatedTime,
       formData: speech.formData,
+      regenCount: speech.regenCount,
       isCompleted: speech.isCompleted,
       createdAt: speech.createdAt,
       updatedAt: speech.updatedAt

@@ -74,7 +74,8 @@ function GeneratorContent() {
   const needsRoleSelection = !roleFromUrl && !speechIdFromUrl;
   const isEditMode = !!speechIdFromUrl;
   const initialStep = stepFromUrl ? Number.parseInt(stepFromUrl) : (needsRoleSelection ? 0 : 1);
-  const totalSteps = needsRoleSelection ? 4 : 3;
+  const hideStep3 = isEditMode; // Pro users editing skip Step 3 (fields merged into Step 2)
+  const totalSteps = needsRoleSelection ? 4 : (hideStep3 ? 2 : 3);
 
   const [currentStep, setCurrentStep] = useState(initialStep);
   const [demoMode, setDemoMode] = useState(false);
@@ -86,6 +87,9 @@ function GeneratorContent() {
   const [generatedSpeech, setGeneratedSpeech] = useState<string>("");
   const [speechGenerated, setSpeechGenerated] = useState(false);
   const [speechError, setSpeechError] = useState<string>("");
+  // Speech version history for undo
+  const [speechVersions, setSpeechVersions] = useState<string[]>([]);
+  const [currentVersionIndex, setCurrentVersionIndex] = useState(-1);
   const [isSpeechPaywalled, setIsSpeechPaywalled] = useState(false);
   const fullSpeechRef = React.useRef<string>("");
 
@@ -157,8 +161,10 @@ function GeneratorContent() {
               setFormData(parsedFormData);
             }
 
-            // Set the generated speech
+            // Set the generated speech and initialize version history
             setGeneratedSpeech(speechData.content);
+            setSpeechVersions([speechData.content]);
+            setCurrentVersionIndex(0);
             setSpeechGenerated(true);
 
             console.log('🎯 Speech loaded and ready for editing');
@@ -347,6 +353,37 @@ function GeneratorContent() {
     }
     setDemoMode(!demoMode);
   };
+
+  // Push a new speech version onto history (for undo)
+  const pushSpeechVersion = (speech: string) => {
+    setSpeechVersions(prev => {
+      // If we're not at the latest version, trim future versions
+      const trimmed = prev.slice(0, currentVersionIndex + 1);
+      return [...trimmed, speech];
+    });
+    setCurrentVersionIndex(prev => prev + 1);
+  };
+
+  const undoSpeechVersion = () => {
+    if (currentVersionIndex > 0) {
+      const prevIndex = currentVersionIndex - 1;
+      setCurrentVersionIndex(prevIndex);
+      setGeneratedSpeech(speechVersions[prevIndex]);
+      fullSpeechRef.current = speechVersions[prevIndex];
+    }
+  };
+
+  const redoSpeechVersion = () => {
+    if (currentVersionIndex < speechVersions.length - 1) {
+      const nextIndex = currentVersionIndex + 1;
+      setCurrentVersionIndex(nextIndex);
+      setGeneratedSpeech(speechVersions[nextIndex]);
+      fullSpeechRef.current = speechVersions[nextIndex];
+    }
+  };
+
+  const canUndo = currentVersionIndex > 0;
+  const canRedo = currentVersionIndex < speechVersions.length - 1;
 
   const nextStep = () => {
     // If trying to access step 3 (Pro features) without pro status, show upgrade modal
@@ -544,6 +581,7 @@ function GeneratorContent() {
                   if (data.isProUser) {
                     // Pro user: show full speech
                     setGeneratedSpeech(data.speech);
+                    pushSpeechVersion(data.speech);
                     setIsSpeechPaywalled(false);
                   } else {
                     // Free user: show preview only
@@ -647,6 +685,7 @@ function GeneratorContent() {
 
                   if (data.isProUser) {
                     setGeneratedSpeech(data.speech);
+                    pushSpeechVersion(data.speech);
                     setIsSpeechPaywalled(false);
                   } else {
                     setGeneratedSpeech(getPreviewText(data.speech));
@@ -814,8 +853,8 @@ function GeneratorContent() {
         <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm mb-8 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-[#da5389]/5 to-[#da5389]/5" />
           <CardContent className="p-8 relative">
-            <div className={`grid gap-6 items-center ${needsRoleSelection ? 'grid-cols-7' : 'grid-cols-3'} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
-              {(needsRoleSelection ? [0, 1, 2, 3] : [1, 2, 3]).map((step, index) => (
+            <div className={`grid gap-6 items-center ${needsRoleSelection ? 'grid-cols-7' : (hideStep3 ? 'grid-cols-2' : 'grid-cols-3')} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
+              {(needsRoleSelection ? [0, 1, 2, 3] : (hideStep3 ? [1, 2] : [1, 2, 3])).map((step, index) => (
                 <React.Fragment key={`step-row-${step}`}>
                   {/* Step Content */}
                   <div className="flex items-center col-span-1">
@@ -844,8 +883,8 @@ function GeneratorContent() {
             </div>
 
             {/* Step Labels Row */}
-            <div className={`grid gap-6 mt-4 ${needsRoleSelection ? 'grid-cols-7' : 'grid-cols-3'} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
-              {(needsRoleSelection ? [0, 1, 2, 3] : [1, 2, 3]).map((step, index) => (
+            <div className={`grid gap-6 mt-4 ${needsRoleSelection ? 'grid-cols-7' : (hideStep3 ? 'grid-cols-2' : 'grid-cols-3')} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
+              {(needsRoleSelection ? [0, 1, 2, 3] : (hideStep3 ? [1, 2] : [1, 2, 3])).map((step, index) => (
                 <React.Fragment key={`label-row-${step}`}>
                   {/* Step Label */}
                   <div className="col-span-1 text-center">
@@ -1359,7 +1398,11 @@ function GeneratorContent() {
                         {isProUser && (
                           <>
                             <div className="border-t border-[#e8e1d8] pt-4 mt-2">
-                              <h4 className="text-sm font-semibold text-[#da5389] mb-3">Pro Details</h4>
+                              <h4 className="text-sm font-semibold text-[#da5389] mb-3">
+                                Pro Details
+                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389]/10 text-[#da5389] border border-[#da5389]/20">NEW</span>
+                              </h4>
+                              <p className="text-xs text-[#8f867e] mb-3">Add these details to make your speech more personal and memorable</p>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                   <label className="block text-sm font-medium text-[#181615] mb-1">How long have you known the groom?</label>
@@ -1389,7 +1432,10 @@ function GeneratorContent() {
                             </div>
 
                             <div className="border-t border-[#e8e1d8] pt-4 mt-2">
-                              <h4 className="text-sm font-semibold text-[#da5389] mb-3">Bonus Options</h4>
+                              <h4 className="text-sm font-semibold text-[#da5389] mb-3">
+                                Bonus Options
+                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389]/10 text-[#da5389] border border-[#da5389]/20">NEW</span>
+                              </h4>
                               <div className="space-y-3">
                                 <label className="flex items-center gap-2 text-sm">
                                   <input type="checkbox" checked={!!formData.mentionBrideEnding} onChange={(e) => setFormData({...formData, mentionBrideEnding: e.target.checked})} className="rounded border-[#e8e1d8]" />
@@ -1525,7 +1571,29 @@ function GeneratorContent() {
                           Your Speech
                         </h4>
                         {!isSpeechPaywalled && (
-                          <div className="flex space-x-2">
+                          <div className="flex items-center space-x-2">
+                            {/* Version undo/redo */}
+                            {speechVersions.length > 1 && (
+                              <div className="flex items-center space-x-1 mr-2">
+                                <button
+                                  onClick={undoSpeechVersion}
+                                  disabled={!canUndo}
+                                  title="Undo — go to previous version"
+                                  className={`p-1.5 rounded-lg text-sm transition-colors ${canUndo ? 'text-[#da5389] hover:bg-[#da5389]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
+                                >
+                                  ↩️
+                                </button>
+                                <span className="text-xs text-[#8f867e]">v{currentVersionIndex + 1}/{speechVersions.length}</span>
+                                <button
+                                  onClick={redoSpeechVersion}
+                                  disabled={!canRedo}
+                                  title="Redo — go to next version"
+                                  className={`p-1.5 rounded-lg text-sm transition-colors ${canRedo ? 'text-[#da5389] hover:bg-[#da5389]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
+                                >
+                                  ↪️
+                                </button>
+                              </div>
+                            )}
                             <button
                               onClick={() => {
                                 navigator.clipboard.writeText(generatedSpeech);

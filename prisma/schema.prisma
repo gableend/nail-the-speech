@@ -55,5 +55,20 @@ model Speech {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  versions      SpeechVersion[]
+
   @@map("speeches")
+}
+
+model SpeechVersion {
+  id            String   @id @default(cuid())
+  speechId      String
+  content       String
+  versionNumber Int
+  createdAt     DateTime @default(now())
+
+  speech        Speech   @relation(fields: [speechId], references: [id], onDelete: Cascade)
+
+  @@index([speechId, versionNumber])
+  @@map("speech_versions")
 }

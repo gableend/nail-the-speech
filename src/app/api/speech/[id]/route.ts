@@ -24,12 +24,18 @@ export async function GET(
 
     console.log(`📚 [SPEECH API] Fetching speech ${resolvedParams.id} for user: ${userId}`);
 
-    // Find the speech
+    // Find the speech with version history
     const speech = await prisma.speech.findFirst({
       where: {
         id: resolvedParams.id,
         userId: userId // Ensure user can only access their own speeches
-      }
+      },
+      include: {
+        versions: {
+          orderBy: { versionNumber: 'asc' },
+          select: { id: true, content: true, versionNumber: true, createdAt: true },
+        },
+      },
     });
 
     if (!speech) {
@@ -40,7 +46,7 @@ export async function GET(
       );
     }
 
-    console.log('✅ [SPEECH API] Speech found and returned');
+    console.log(`✅ [SPEECH API] Speech found with ${speech.versions.length} versions`);
 
     return NextResponse.json({
       id: speech.id,
@@ -55,7 +61,8 @@ export async function GET(
       regenCount: speech.regenCount,
       isCompleted: speech.isCompleted,
       createdAt: speech.createdAt,
-      updatedAt: speech.updatedAt
+      updatedAt: speech.updatedAt,
+      versions: speech.versions,
     });
 
   } catch (error) {

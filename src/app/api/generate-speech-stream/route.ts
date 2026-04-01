@@ -210,18 +210,49 @@ export async function POST(request: NextRequest) {
             };
 
             if (existingSpeechId) {
-              // Update existing speech (edit/regeneration mode)
+              // --- Version history: save old content before overwriting ---
+              const oldSpeech = await prisma.speech.findUnique({
+                where: { id: existingSpeechId },
+                select: { content: true },
+              });
+
+              const maxVersion = await prisma.speechVersion.aggregate({
+                where: { speechId: existingSpeechId },
+                _max: { versionNumber: true },
+              });
+              let nextVersion = (maxVersion._max.versionNumber ?? 0) + 1;
+
+              // First regeneration: save original content as v1
+              if (nextVersion === 1 && oldSpeech?.content) {
+                await prisma.speechVersion.create({
+                  data: { speechId: existingSpeechId, content: oldSpeech.content, versionNumber: 1 },
+                });
+                nextVersion = 2;
+              }
+
+              // Save new content as next version
+              await prisma.speechVersion.create({
+                data: { speechId: existingSpeechId, content: fullSpeech, versionNumber: nextVersion },
+              });
+
+              // Update the speech itself
               const updatedSpeech = await prisma.speech.update({
                 where: { id: existingSpeechId },
                 data: { ...speechFields, regenCount: { increment: 1 } },
               });
               savedSpeechId = updatedSpeech.id;
+              console.log(`📚 [SPEECH STREAM API] Saved version ${nextVersion} for speech ${savedSpeechId}`);
             } else {
-              // Create new speech
+              // Create new speech + save initial version
               const savedSpeech = await prisma.speech.create({
                 data: { ...speechFields, regenCount: 0, userId, anonUserId },
               });
               savedSpeechId = savedSpeech.id;
+
+              // Save initial content as v1
+              await prisma.speechVersion.create({
+                data: { speechId: savedSpeech.id, content: fullSpeech, versionNumber: 1 },
+              });
             }
 
             console.log('✅ [SPEECH STREAM API] Speech saved successfully', { speechId: savedSpeechId, mode: existingSpeechId ? 'update' : 'create' });

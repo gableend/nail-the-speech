@@ -162,14 +162,22 @@ function GeneratorContent() {
               setFormData(parsedFormData);
             }
 
-            // Set the generated speech and initialize version history
-            setGeneratedSpeech(speechData.content);
-            setSpeechVersions([speechData.content]);
-            setCurrentVersionIndex(0);
+            // Initialize version history from DB or fallback to current content
+            if (speechData.versions && speechData.versions.length > 0) {
+              const versionContents = speechData.versions.map((v: { content: string }) => v.content);
+              setSpeechVersions(versionContents);
+              setCurrentVersionIndex(versionContents.length - 1); // Point to latest
+              setGeneratedSpeech(versionContents[versionContents.length - 1]);
+              console.log(`🎯 Speech loaded with ${versionContents.length} versions from DB`);
+            } else {
+              // Fallback for speeches created before version tracking
+              setGeneratedSpeech(speechData.content);
+              setSpeechVersions([speechData.content]);
+              setCurrentVersionIndex(0);
+              console.log('🎯 Speech loaded (no DB versions, using current content)');
+            }
             setDbRegenCount(speechData.regenCount || 0);
             setSpeechGenerated(true);
-
-            console.log('🎯 Speech loaded and ready for editing, regenCount:', speechData.regenCount || 0);
           } else {
             console.error('❌ Failed to load speech for edit');
           }

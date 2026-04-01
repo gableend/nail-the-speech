@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ArrowRight, Users, Clock, Sparkles, User } from "lucide-react";
+import { ArrowLeft, ArrowRight, Users, Clock, Sparkles, User, ChevronDown, ChevronUp } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { countWords, estimateReadingTime } from "@/lib/openai";
@@ -72,6 +72,7 @@ function GeneratorContent() {
   const paymentCanceled = searchParams.get('canceled') === 'true';
   const sessionId = searchParams.get('session_id');
   const needsRoleSelection = !roleFromUrl && !speechIdFromUrl;
+  const isEditMode = !!speechIdFromUrl;
   const initialStep = stepFromUrl ? Number.parseInt(stepFromUrl) : (needsRoleSelection ? 0 : 1);
   const totalSteps = needsRoleSelection ? 4 : 3;
 
@@ -79,6 +80,7 @@ function GeneratorContent() {
   const [demoMode, setDemoMode] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isRestored, setIsRestored] = useState(false);
+  const [showEditDetails, setShowEditDetails] = useState(false);
 
   // New state for Step 2: Speech Outline Generation
   const [generatedSpeech, setGeneratedSpeech] = useState<string>("");
@@ -1266,6 +1268,108 @@ function GeneratorContent() {
             {/* Section 2: Your Speech Outline */}
             {currentStep === 2 && (
               <div className="space-y-6">
+                {/* Collapsible Speech Details for edit mode */}
+                {isEditMode && speechGenerated && (
+                  <div className="bg-white border border-[#e8e1d8] rounded-xl overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => setShowEditDetails(!showEditDetails)}
+                      className="w-full flex items-center justify-between px-6 py-4 hover:bg-[#faf7f4] transition-colors"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">📋</span>
+                        <span className="font-semibold text-[#181615]">Speech Details</span>
+                        <span className="text-sm text-[#8f867e]">
+                          {formData.yourName} &bull; {formData.groomName} & {formData.brideName} &bull; {formData.tone}
+                        </span>
+                      </div>
+                      {showEditDetails ? <ChevronUp className="h-5 w-5 text-[#8f867e]" /> : <ChevronDown className="h-5 w-5 text-[#8f867e]" />}
+                    </button>
+
+                    {showEditDetails && (
+                      <div className="px-6 pb-6 border-t border-[#e8e1d8] pt-4 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-[#181615] mb-1">Your name</label>
+                            <input
+                              type="text"
+                              value={formData.yourName}
+                              onChange={(e) => setFormData({...formData, yourName: e.target.value})}
+                              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-[#181615] mb-1">Groom's name</label>
+                            <input
+                              type="text"
+                              value={formData.groomName}
+                              onChange={(e) => setFormData({...formData, groomName: e.target.value})}
+                              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-[#181615] mb-1">Bride's name</label>
+                            <input
+                              type="text"
+                              value={formData.brideName}
+                              onChange={(e) => setFormData({...formData, brideName: e.target.value})}
+                              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-[#181615] mb-1">Relationship to groom</label>
+                          <input
+                            type="text"
+                            value={formData.relationshipToGroom}
+                            onChange={(e) => setFormData({...formData, relationshipToGroom: e.target.value})}
+                            className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-[#181615] mb-1">Tone</label>
+                          <div className="flex flex-wrap gap-2">
+                            {['Light & Funny', 'Sentimental', 'Balanced', 'Clean Roast'].map((tone) => (
+                              <button
+                                key={tone}
+                                type="button"
+                                onClick={() => setFormData({...formData, tone})}
+                                className={`px-4 py-2 rounded-full text-sm border transition-all ${
+                                  formData.tone === tone
+                                    ? 'bg-[#da5389] text-white border-[#da5389]'
+                                    : 'bg-white text-[#181615] border-[#e8e1d8] hover:border-[#da5389]'
+                                }`}
+                              >
+                                {tone}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-[#181615] mb-1">Story / Memory</label>
+                          <textarea
+                            value={formData.greatStoryMemory}
+                            onChange={(e) => setFormData({...formData, greatStoryMemory: e.target.value})}
+                            rows={3}
+                            className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical"
+                          />
+                        </div>
+                        <Button
+                          onClick={() => {
+                            setShowEditDetails(false);
+                            handleGenerateSpeech(`Regenerate using updated details: Name=${formData.yourName}, Groom=${formData.groomName}, Bride=${formData.brideName}, Tone=${formData.tone}`);
+                          }}
+                          disabled={isGenerating}
+                          className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full"
+                        >
+                          <Sparkles className="mr-2 h-4 w-4" />
+                          Regenerate with Updated Details
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Progress message based on generation status */}
                 {!speechGenerated && !isGenerating && (
                   <div className="bg-[#f0f9ff] border border-[#bae6fd] rounded-lg p-6">
@@ -1620,7 +1724,7 @@ function GeneratorContent() {
             <div className={`flex mt-8 pt-6 border-t border-border ${
               currentStep === 0 ? 'justify-center' : 'justify-between'
             }`}>
-              {currentStep > 1 && (
+              {currentStep > 1 && !isEditMode && (
                 <Button
                   variant="outline"
                   onClick={prevStep}
@@ -1631,8 +1735,8 @@ function GeneratorContent() {
                 </Button>
               )}
 
-              {/* Spacer for step 1 when no previous button */}
-              {currentStep === 1 && <div />}
+              {/* Spacer when no previous button */}
+              {(currentStep === 1 || (currentStep > 1 && isEditMode)) && <div />}
 
               <div className="flex gap-3">
                 {/* Next button for Step 0 (role selection) */}
@@ -1652,7 +1756,7 @@ function GeneratorContent() {
                 )}
 
                 {/* Generate Speech button for step 1 - goes to step 2 and starts generation */}
-                {currentStep === 1 && (
+                {currentStep === 1 && !isEditMode && (
                   <Button
                     onClick={handleGenerateAndGoToStep2}
                     disabled={isGenerating || !isStepValid()}
@@ -1673,6 +1777,17 @@ function GeneratorContent() {
                         Generate Speech
                       </>
                     )}
+                  </Button>
+                )}
+
+                {/* Back to Speech button for step 1 in edit mode */}
+                {currentStep === 1 && isEditMode && (
+                  <Button
+                    onClick={() => setCurrentStep(2)}
+                    className="shadow-lg rounded-full bg-[#da5389] hover:bg-[#da5389]/90 text-white"
+                  >
+                    Back to Speech
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 )}
 

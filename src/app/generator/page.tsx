@@ -90,6 +90,7 @@ function GeneratorContent() {
   // Speech version history for undo
   const [speechVersions, setSpeechVersions] = useState<string[]>([]);
   const [currentVersionIndex, setCurrentVersionIndex] = useState(-1);
+  const [dbRegenCount, setDbRegenCount] = useState(0); // Total edits from DB
   const [isSpeechPaywalled, setIsSpeechPaywalled] = useState(false);
   const fullSpeechRef = React.useRef<string>("");
 
@@ -165,9 +166,10 @@ function GeneratorContent() {
             setGeneratedSpeech(speechData.content);
             setSpeechVersions([speechData.content]);
             setCurrentVersionIndex(0);
+            setDbRegenCount(speechData.regenCount || 0);
             setSpeechGenerated(true);
 
-            console.log('🎯 Speech loaded and ready for editing');
+            console.log('🎯 Speech loaded and ready for editing, regenCount:', speechData.regenCount || 0);
           } else {
             console.error('❌ Failed to load speech for edit');
           }
@@ -1585,23 +1587,30 @@ function GeneratorContent() {
                         </h4>
                         {!isSpeechPaywalled && (
                           <div className="flex items-center space-x-2">
-                            {/* Version undo/redo */}
-                            {speechVersions.length > 1 && (
-                              <div className="flex items-center space-x-1 mr-2">
+                            {/* Version undo/redo — always visible in edit mode */}
+                            {isEditMode && (
+                              <div className="flex items-center space-x-1 mr-2 bg-[#faf7f4] rounded-full px-3 py-1">
                                 <button
                                   onClick={undoSpeechVersion}
                                   disabled={!canUndo}
                                   title="Undo — go to previous version"
-                                  className={`p-1.5 rounded-lg text-sm transition-colors ${canUndo ? 'text-[#da5389] hover:bg-[#da5389]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
+                                  className={`p-1 rounded text-sm transition-colors ${canUndo ? 'text-[#da5389] hover:bg-[#da5389]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
                                 >
                                   ↩️
                                 </button>
-                                <span className="text-xs text-[#8f867e]">v{currentVersionIndex + 1}/{speechVersions.length}</span>
+                                <span className="text-xs text-[#8f867e] font-medium">
+                                  {speechVersions.length > 1
+                                    ? `v${currentVersionIndex + 1}/${speechVersions.length}`
+                                    : dbRegenCount > 0
+                                      ? `${dbRegenCount + 1} versions`
+                                      : 'Original'
+                                  }
+                                </span>
                                 <button
                                   onClick={redoSpeechVersion}
                                   disabled={!canRedo}
                                   title="Redo — go to next version"
-                                  className={`p-1.5 rounded-lg text-sm transition-colors ${canRedo ? 'text-[#da5389] hover:bg-[#da5389]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
+                                  className={`p-1 rounded text-sm transition-colors ${canRedo ? 'text-[#da5389] hover:bg-[#da5389]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
                                 >
                                   ↪️
                                 </button>

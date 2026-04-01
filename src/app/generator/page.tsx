@@ -7,7 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ArrowRight, Users, Clock, Sparkles, User, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowLeft, ArrowRight, Users, Clock, Sparkles, User, ChevronDown, ChevronUp, DownloadCloud, File, FileImage, FileSpreadsheet } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { countWords, estimateReadingTime } from "@/lib/openai";
@@ -1908,30 +1909,32 @@ function GeneratorContent() {
                     {/* Mark Final + Export row */}
                     {currentSpeechId && isProUser && !isSpeechPaywalled && (
                       <div className="flex items-center justify-between bg-white border border-[#e8e1d8] rounded-xl p-4">
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => handleExport('txt')}
-                            disabled={!!exportingFormat}
-                            className="px-3 py-2 text-sm font-medium rounded-lg border border-[#e8e1d8] hover:bg-gray-50 transition-colors"
-                          >
-                            📄 TXT
-                          </button>
-                          <button
-                            onClick={() => handleExport('pdf')}
-                            disabled={!!exportingFormat}
-                            className="px-3 py-2 text-sm font-medium rounded-lg border border-[#e8e1d8] hover:bg-gray-50 transition-colors"
-                          >
-                            📑 PDF
-                          </button>
-                          <button
-                            onClick={() => handleExport('docx')}
-                            disabled={!!exportingFormat}
-                            className="px-3 py-2 text-sm font-medium rounded-lg border border-[#e8e1d8] hover:bg-gray-50 transition-colors"
-                          >
-                            📝 DOCX
-                          </button>
-                          {exportingFormat && <span className="text-xs text-[#8f867e] ml-2">Exporting...</span>}
-                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="sm" className="rounded-full hover:bg-gray-100">
+                              {exportingFormat ? (
+                                <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full mr-1" />
+                              ) : (
+                                <DownloadCloud className="h-4 w-4 mr-1" />
+                              )}
+                              Export
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem onClick={() => handleExport('txt')}>
+                              <File className="h-4 w-4 mr-2" />
+                              TXT
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleExport('pdf')}>
+                              <FileImage className="h-4 w-4 mr-2" />
+                              PDF
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleExport('docx')}>
+                              <FileSpreadsheet className="h-4 w-4 mr-2" />
+                              DOCX
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                         <button
                           onClick={handleMarkFinal}
                           className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${

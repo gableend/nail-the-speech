@@ -732,9 +732,9 @@ function GeneratorContent() {
                 {demoMode ? "Demo ON" : "Demo"}
               </button>
 
-              <Link href="/">
+              <Link href="/dashboard">
                 <Button className="hidden md:block bg-black hover:bg-black/90 text-white rounded-full">
-                  Home
+                  Dashboard
                 </Button>
               </Link>
             </div>

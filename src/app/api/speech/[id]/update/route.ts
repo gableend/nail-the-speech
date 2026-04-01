@@ -10,7 +10,7 @@ export async function PATCH(
 
   try {
     const resolvedParams = await params;
-    const { customTitle, isFinal } = await request.json();
+    const { customTitle, isFinal, content, wordCount: clientWordCount } = await request.json();
 
     // Check auth
     const authResult = await auth();
@@ -42,12 +42,18 @@ export async function PATCH(
     }
 
     // Build update data
-    const updateData: { customTitle?: string | null; isFinal?: boolean } = {};
+    const updateData: { customTitle?: string | null; isFinal?: boolean; content?: string; wordCount?: number; estimatedTime?: number } = {};
     if (customTitle !== undefined) {
       updateData.customTitle = customTitle.trim() || null;
     }
     if (isFinal !== undefined) {
       updateData.isFinal = isFinal;
+    }
+    if (content !== undefined && typeof content === 'string') {
+      updateData.content = content;
+      const wc = clientWordCount || content.split(/\s+/).filter((w: string) => w.length > 0).length;
+      updateData.wordCount = wc;
+      updateData.estimatedTime = Math.ceil(wc / 150);
     }
 
     // Update the speech
@@ -58,6 +64,23 @@ export async function PATCH(
       },
       data: updateData
     });
+
+    // If content was updated, create a version entry
+    if (content !== undefined && updatedSpeech.count > 0) {
+      try {
+        const maxVersion = await prisma.speechVersion.aggregate({
+          where: { speechId: resolvedParams.id },
+          _max: { versionNumber: true },
+        });
+        const nextVersion = (maxVersion._max.versionNumber ?? 0) + 1;
+        await prisma.speechVersion.create({
+          data: { speechId: resolvedParams.id, content, versionNumber: nextVersion },
+        });
+        console.log(`📚 [SPEECH UPDATE API] Created version ${nextVersion} for manual edit`);
+      } catch (versionError) {
+        console.error('⚠️ [SPEECH UPDATE API] Failed to create version:', versionError);
+      }
+    }
 
     if (updatedSpeech.count === 0) {
       console.log('❌ [SPEECH UPDATE API] Speech not found or unauthorized');

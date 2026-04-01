@@ -61,6 +61,16 @@ const getRoleTitle = (role: string): string => {
   }
 };
 
+// Helper: convert plain text to SpeechParagraph array
+function textToParagraphs(text: string, source: 'ai' | 'user-edited' = 'ai'): Array<{id: string; text: string; source: 'ai' | 'user-edited'; originalText: string}> {
+  return text.split('\n').filter(p => p.trim()).map((p, i) => ({
+    id: `para_${i}_${Date.now()}`,
+    text: p.trim(),
+    source,
+    originalText: p.trim(),
+  }));
+}
+
 function GeneratorContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -84,7 +94,6 @@ function GeneratorContent() {
   const [showEditDetails, setShowEditDetails] = useState(false);
 
   // New state for Step 2: Speech Outline Generation
-  const [generatedSpeech, setGeneratedSpeech] = useState<string>("");
   const [speechGenerated, setSpeechGenerated] = useState(false);
   const [speechError, setSpeechError] = useState<string>("");
   // Speech version history for undo
@@ -97,6 +106,46 @@ function GeneratorContent() {
   const [exportingFormat, setExportingFormat] = useState<string | null>(null);
   const [currentSpeechId, setCurrentSpeechId] = useState<string | null>(speechIdFromUrl);
   const fullSpeechRef = React.useRef<string>("");
+
+  // Paragraph-level editing: track AI vs user-edited paragraphs
+  interface SpeechParagraph {
+    id: string;
+    text: string;
+    source: 'ai' | 'user-edited';
+    originalText: string;
+  }
+  const [speechParagraphs, setSpeechParagraphs] = useState<SpeechParagraph[]>([]);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+  const saveTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  // Derive generatedSpeech from paragraphs (or use directly when paragraphs not yet initialized)
+  const [rawGeneratedSpeech, setRawGeneratedSpeech] = useState<string>("");
+  const generatedSpeech = speechParagraphs.length > 0
+    ? speechParagraphs.map(p => p.text).join('\n')
+    : rawGeneratedSpeech;
+  // Track user-edited paragraphs for preservation across regeneration
+  const userEditedTextsRef = React.useRef<Set<string>>(new Set());
+
+  // Wrapper to keep existing setGeneratedSpeech calls working
+  const setGeneratedSpeech = (text: string) => {
+    setRawGeneratedSpeech(text);
+    if (text) {
+      // Save current user-edited paragraphs before replacing
+      const currentUserEdits = speechParagraphs.filter(p => p.source === 'user-edited').map(p => p.text);
+      currentUserEdits.forEach(t => userEditedTextsRef.current.add(t));
+
+      // Create new paragraphs, re-marking any that match user edits
+      const newParas = textToParagraphs(text).map(p => {
+        if (userEditedTextsRef.current.has(p.text)) {
+          return { ...p, source: 'user-edited' as const };
+        }
+        return p;
+      });
+      setSpeechParagraphs(newParas);
+    } else {
+      setSpeechParagraphs([]);
+    }
+  };
 
   // Regeneration with instructions state
   const [regenerationInstructions, setRegenerationInstructions] = useState("");
@@ -562,6 +611,47 @@ function GeneratorContent() {
     }
   };
 
+  // Handle direct paragraph editing
+  const handleParagraphEdit = (paraId: string, newText: string) => {
+    const trimmed = newText.trim();
+    setSpeechParagraphs(prev => prev.map(p => {
+      if (p.id !== paraId) return p;
+      if (trimmed === p.originalText) {
+        // User reverted to original — mark as AI again
+        return { ...p, text: trimmed, source: 'ai' as const };
+      }
+      return { ...p, text: trimmed, source: 'user-edited' as const };
+    }));
+
+    // Push version for undo
+    const newFullText = speechParagraphs.map(p => p.id === paraId ? trimmed : p.text).join('\n');
+    pushSpeechVersion(newFullText);
+
+    // Debounced auto-save
+    if (currentSpeechId) {
+      setSaveStatus('saving');
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+      saveTimeoutRef.current = setTimeout(async () => {
+        try {
+          const fullText = speechParagraphs.map(p => p.id === paraId ? trimmed : p.text).join('\n');
+          const wordCount = fullText.split(/\s+/).filter(w => w.length > 0).length;
+          const response = await fetch(`/api/speech/${currentSpeechId}/update`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: fullText, wordCount }),
+          });
+          if (response.ok) {
+            setSaveStatus('saved');
+            setTimeout(() => setSaveStatus('idle'), 2000);
+          }
+        } catch (err) {
+          console.error('Auto-save failed:', err);
+          setSaveStatus('idle');
+        }
+      }, 1500);
+    }
+  };
+
   // New function for Step 2: Generate speech outline with streaming and stay on page
   const handleGenerateSpeech = async (customInstructions?: string) => {
     // Non-Pro users cannot regenerate — show upgrade modal
@@ -575,9 +665,18 @@ function GeneratorContent() {
       setSpeechError("");
       setGeneratedSpeech(""); // Clear previous speech to show streaming
 
+      // Build preservation instructions for user-edited paragraphs
+      const userEditedParas = speechParagraphs.filter(p => p.source === 'user-edited');
+      let finalInstructions = customInstructions || '';
+      if (userEditedParas.length > 0) {
+        finalInstructions += '\n\nIMPORTANT - USER-EDITED PARAGRAPHS (keep these EXACTLY as written, do not change them):\n' +
+          userEditedParas.map((p, i) => `[User Edit ${i + 1}]: "${p.text}"`).join('\n') +
+          '\n\nRegenerate ONLY the AI-generated paragraphs. Keep all user-edited paragraphs in their current position and exact wording.';
+      }
+
       const requestData = {
         ...formData,
-        regenerationInstructions: customInstructions || null,
+        regenerationInstructions: finalInstructions || null,
         isRegeneration: !!customInstructions || speechGenerated,
         clientAnonUserId: getOrCreateAnonymousUserId(),
         existingSpeechId: speechIdFromUrl || null,
@@ -1718,16 +1817,55 @@ function GeneratorContent() {
 
                       <div className="relative">
                         <div className={`prose prose-lg max-w-none ${isSpeechPaywalled ? 'max-h-48 overflow-hidden' : 'max-h-80 overflow-y-auto'}`}>
-                          {generatedSpeech.split('\n').map((paragraph, index) => (
-                            <p key={`speech-paragraph-${index}-${paragraph.slice(0, 20)}`} className="mb-4 text-[#181615] leading-relaxed">
-                              {paragraph}
-                            </p>
-                          ))}
+                          {speechParagraphs.length > 0 ? (
+                            speechParagraphs.map((para) => (
+                              <p
+                                key={para.id}
+                                contentEditable={isProUser && !isSpeechPaywalled}
+                                suppressContentEditableWarning
+                                className={`mb-4 text-[#181615] leading-relaxed outline-none rounded px-2 -mx-2 transition-colors ${
+                                  isProUser && !isSpeechPaywalled ? 'hover:bg-[#faf7f4] focus:ring-1 focus:ring-[#da5389]/30 cursor-text' : ''
+                                } ${
+                                  para.source === 'user-edited' ? 'bg-[#da5389]/5 border-l-2 border-[#da5389]/30 pl-3 ml-0' : ''
+                                }`}
+                                onBlur={(e) => handleParagraphEdit(para.id, e.currentTarget.textContent || '')}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    (e.currentTarget as HTMLElement).blur();
+                                  }
+                                }}
+                              >
+                                {para.text}
+                              </p>
+                            ))
+                          ) : (
+                            generatedSpeech.split('\n').map((paragraph, index) => (
+                              <p key={`speech-paragraph-${index}`} className="mb-4 text-[#181615] leading-relaxed">
+                                {paragraph}
+                              </p>
+                            ))
+                          )}
                         </div>
 
                         {/* Gradient fade overlay for paywalled content */}
                         {isSpeechPaywalled && (
                           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/95 to-transparent pointer-events-none" />
+                        )}
+
+                        {/* Editing hint + legend for Pro users */}
+                        {isProUser && !isSpeechPaywalled && speechGenerated && speechParagraphs.length > 0 && (
+                          <div className="mt-3 flex items-center justify-between text-xs text-[#8f867e]">
+                            <span>💡 Click any paragraph to edit directly</span>
+                            {speechParagraphs.some(p => p.source === 'user-edited') && (
+                              <span className="flex items-center gap-1">
+                                <span className="inline-block w-3 h-3 bg-[#da5389]/10 border-l-2 border-[#da5389]/30 rounded-sm" />
+                                Your edits — preserved during regeneration
+                              </span>
+                            )}
+                            {saveStatus === 'saving' && <span className="text-[#da5389]">Saving...</span>}
+                            {saveStatus === 'saved' && <span className="text-green-600">Saved ✓</span>}
+                          </div>
                         )}
                       </div>
 

@@ -68,6 +68,7 @@ export async function GET() {
         estimatedTime: true,
         isCompleted: true,
         isFinal: true,
+        regenCount: true,
         createdAt: true,
         updatedAt: true
       }

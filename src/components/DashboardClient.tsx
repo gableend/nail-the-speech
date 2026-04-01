@@ -47,6 +47,7 @@ interface Speech {
   estimatedTime: number | null;
   isCompleted: boolean;
   isFinal: boolean;
+  regenCount: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -638,6 +639,13 @@ export default function DashboardClient() {
                                   <Clock className="h-4 w-4 text-[#8f867e]" />
                                   <span className="text-[#8f867e]">{speech.estimatedTime || 0} min read</span>
                                 </div>
+                                {speech.regenCount > 0 && (
+                                  <div className="flex items-center space-x-1">
+                                    <span className="text-[#da5389]">↩️</span>
+                                    <span className="text-[#da5389] font-medium">v{speech.regenCount + 1}</span>
+                                    <span className="text-[#8f867e]">({speech.regenCount} {speech.regenCount === 1 ? 'edit' : 'edits'})</span>
+                                  </div>
+                                )}
                               </div>
                             ) : (
                               <Badge variant="outline" className="text-orange-600 border-orange-600">

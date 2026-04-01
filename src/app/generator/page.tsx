@@ -1992,15 +1992,8 @@ function GeneratorContent() {
                   </Button>
                 )}
 
-                {/* Pro users: Step 3 removed — Pro fields are in collapsible Speech Details on Step 2 */}
-                {false && currentStep === 2 && isProUser && !isEditMode && (
-                  <Button onClick={nextStep}>
-                    Removed
-                  </Button>
-                )}
-
-                {/* Generate Enhanced Speech button for final step */}
-                {currentStep === totalSteps && (
+                {/* Generate Enhanced Speech button — only for free users on Step 3 (Pro page) */}
+                {currentStep === totalSteps && !isProUser && currentStep === 3 && (
                   <Button
                     onClick={handleSubmit}
                     disabled={!isStepValid()}

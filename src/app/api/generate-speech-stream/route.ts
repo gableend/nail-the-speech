@@ -221,7 +221,7 @@ export async function POST(request: NextRequest) {
             const errStack = dbError instanceof Error ? dbError.stack : '';
             console.error("❌ [SPEECH STREAM API] Error saving speech to database:", errMsg);
             console.error("❌ [SPEECH STREAM API] DB error stack:", errStack);
-            console.error("❌ [SPEECH STREAM API] Speech data that failed:", JSON.stringify({ userId, anonUserId, title: speechData.title }));
+            console.error("❌ [SPEECH STREAM API] Speech data that failed:", JSON.stringify({ userId, anonUserId }));
           }
 
           // Send completion message with speechId and Pro status

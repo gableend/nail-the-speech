@@ -74,8 +74,7 @@ function GeneratorContent() {
   const needsRoleSelection = !roleFromUrl && !speechIdFromUrl;
   const isEditMode = !!speechIdFromUrl;
   const initialStep = stepFromUrl ? Number.parseInt(stepFromUrl) : (needsRoleSelection ? 0 : 1);
-  const hideStep3 = isEditMode; // Pro users editing skip Step 3 (fields merged into Step 2)
-  const totalSteps = needsRoleSelection ? 4 : (hideStep3 ? 2 : 3);
+  // hideStep3 and totalSteps are now computed below after isProUser is available
 
   const [currentStep, setCurrentStep] = useState(initialStep);
   const [demoMode, setDemoMode] = useState(false);
@@ -104,6 +103,10 @@ function GeneratorContent() {
   );
   const [showPaymentSuccess, setShowPaymentSuccess] = useState(paymentSuccess);
   const [showPaymentCanceled, setShowPaymentCanceled] = useState(paymentCanceled);
+
+  // Pro users skip Step 3 (fields merged into Step 2 collapsible)
+  const hideStep3 = isEditMode || isProUser;
+  const totalSteps = needsRoleSelection ? (hideStep3 ? 3 : 4) : (hideStep3 ? 2 : 3);
 
   const [formData, setFormData] = useState<FormData>({
     // Role Selection (if needed)
@@ -865,8 +868,8 @@ function GeneratorContent() {
         <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm mb-8 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-[#da5389]/5 to-[#da5389]/5" />
           <CardContent className="p-8 relative">
-            <div className={`grid gap-6 items-center ${needsRoleSelection ? 'grid-cols-7' : (hideStep3 ? 'grid-cols-2' : 'grid-cols-3')} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
-              {(needsRoleSelection ? [0, 1, 2, 3] : (hideStep3 ? [1, 2] : [1, 2, 3])).map((step, index) => (
+            <div className={`grid gap-6 items-center ${needsRoleSelection ? (hideStep3 ? 'grid-cols-5' : 'grid-cols-7') : (hideStep3 ? 'grid-cols-2' : 'grid-cols-3')} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
+              {(needsRoleSelection ? (hideStep3 ? [0, 1, 2] : [0, 1, 2, 3]) : (hideStep3 ? [1, 2] : [1, 2, 3])).map((step, index) => (
                 <React.Fragment key={`step-row-${step}`}>
                   {/* Step Content */}
                   <div className="flex items-center col-span-1">
@@ -883,7 +886,7 @@ function GeneratorContent() {
                   </div>
 
                   {/* Progress Line */}
-                  {needsRoleSelection && step < 3 && (
+                  {needsRoleSelection && step < (hideStep3 ? 2 : 3) && (
                     <div className="col-span-1 flex justify-center">
                       <div className={`h-1 w-full rounded-full transition-all duration-500 ${
                         step < currentStep ? 'bg-[#da5389]' : 'bg-[#e8e1d8]'
@@ -895,8 +898,8 @@ function GeneratorContent() {
             </div>
 
             {/* Step Labels Row */}
-            <div className={`grid gap-6 mt-4 ${needsRoleSelection ? 'grid-cols-7' : (hideStep3 ? 'grid-cols-2' : 'grid-cols-3')} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
-              {(needsRoleSelection ? [0, 1, 2, 3] : (hideStep3 ? [1, 2] : [1, 2, 3])).map((step, index) => (
+            <div className={`grid gap-6 mt-4 ${needsRoleSelection ? (hideStep3 ? 'grid-cols-5' : 'grid-cols-7') : (hideStep3 ? 'grid-cols-2' : 'grid-cols-3')} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
+              {(needsRoleSelection ? (hideStep3 ? [0, 1, 2] : [0, 1, 2, 3]) : (hideStep3 ? [1, 2] : [1, 2, 3])).map((step, index) => (
                 <React.Fragment key={`label-row-${step}`}>
                   {/* Step Label */}
                   <div className="col-span-1 text-center">

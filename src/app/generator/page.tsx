@@ -1322,8 +1322,8 @@ function GeneratorContent() {
             {/* Section 2: Your Speech Outline */}
             {currentStep === 2 && (
               <div className="space-y-6">
-                {/* Collapsible Speech Details for edit mode */}
-                {isEditMode && speechGenerated && (
+                {/* Collapsible Speech Details — shown for Pro users after generation or in edit mode */}
+                {(isEditMode || (isProUser && speechGenerated)) && (
                   <div className="bg-white border border-[#e8e1d8] rounded-xl overflow-hidden">
                     <button
                       type="button"
@@ -1598,8 +1598,8 @@ function GeneratorContent() {
                         </h4>
                         {!isSpeechPaywalled && (
                           <div className="flex items-center space-x-2">
-                            {/* Version undo/redo — always visible in edit mode */}
-                            {isEditMode && (
+                            {/* Version undo/redo — visible for Pro users in edit mode or after generation */}
+                            {(isEditMode || (isProUser && speechGenerated)) && (
                               <div className="flex items-center space-x-1 mr-2 bg-[#faf7f4] rounded-full px-3 py-1">
                                 <button
                                   onClick={undoSpeechVersion}

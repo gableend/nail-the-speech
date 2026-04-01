@@ -584,7 +584,8 @@ function GeneratorContent() {
       const requestData = {
         ...formData,
         regenerationInstructions: null,
-        isRegeneration: false
+        isRegeneration: false,
+        clientAnonUserId: getOrCreateAnonymousUserId(),
       };
 
       const response = await fetch('/api/generate-speech-stream', {

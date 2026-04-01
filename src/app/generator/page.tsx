@@ -1354,6 +1354,68 @@ function GeneratorContent() {
                             className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical"
                           />
                         </div>
+
+                        {/* Pro enrichment fields — shown inline for Pro users in edit mode */}
+                        {isProUser && (
+                          <>
+                            <div className="border-t border-[#e8e1d8] pt-4 mt-2">
+                              <h4 className="text-sm font-semibold text-[#da5389] mb-3">Pro Details</h4>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm font-medium text-[#181615] mb-1">How long have you known the groom?</label>
+                                  <input type="text" value={formData.howLongKnown} onChange={(e) => setFormData({...formData, howLongKnown: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder="e.g., 8 years" />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-[#181615] mb-1">Inside jokes or hobbies?</label>
+                                  <input type="text" value={formData.sharedHobbiesJokes} onChange={(e) => setFormData({...formData, sharedHobbiesJokes: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder="e.g., hiking buddies" />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-[#181615] mb-1">Describe the groom in 3 words</label>
+                                  <input type="text" value={formData.groomIn3Words} onChange={(e) => setFormData({...formData, groomIn3Words: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder="e.g., loyal, funny, caring" />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-[#181615] mb-1">How well do you know the bride?</label>
+                                  <input type="text" value={formData.relationshipWithBride} onChange={(e) => setFormData({...formData, relationshipWithBride: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder="e.g., known her for 3 years" />
+                                </div>
+                              </div>
+                              <div className="mt-4">
+                                <label className="block text-sm font-medium text-[#181615] mb-1">What do you admire about him?</label>
+                                <textarea value={formData.whatYouAdmire} onChange={(e) => setFormData({...formData, whatYouAdmire: e.target.value})} rows={2} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical" placeholder="What makes him special?" />
+                              </div>
+                              <div className="mt-4">
+                                <label className="block text-sm font-medium text-[#181615] mb-1">A moment between them that stood out?</label>
+                                <textarea value={formData.momentSeenTogether} onChange={(e) => setFormData({...formData, momentSeenTogether: e.target.value})} rows={2} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical" placeholder="A sweet or funny moment you witnessed" />
+                              </div>
+                            </div>
+
+                            <div className="border-t border-[#e8e1d8] pt-4 mt-2">
+                              <h4 className="text-sm font-semibold text-[#da5389] mb-3">Bonus Options</h4>
+                              <div className="space-y-3">
+                                <label className="flex items-center gap-2 text-sm">
+                                  <input type="checkbox" checked={!!formData.mentionBrideEnding} onChange={(e) => setFormData({...formData, mentionBrideEnding: e.target.checked})} className="rounded border-[#e8e1d8]" />
+                                  Add a special message to the bride at the end
+                                </label>
+                                <div>
+                                  <label className="block text-sm font-medium text-[#181615] mb-1">Anyone to mention? (family, friends)</label>
+                                  <input type="text" value={formData.includeShoutOuts} onChange={(e) => setFormData({...formData, includeShoutOuts: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder="e.g., parents, bridal party" />
+                                </div>
+                                <div>
+                                  <label className="block text-sm font-medium text-[#181615] mb-1">Humor level</label>
+                                  <div className="flex flex-wrap gap-2">
+                                    {['None', 'Light', 'Medium', 'Go for it'].map((level) => (
+                                      <button key={level} type="button" onClick={() => setFormData({...formData, humorLevel: level})} className={`px-3 py-1.5 rounded-full text-sm border transition-all ${formData.humorLevel === level ? 'bg-[#da5389] text-white border-[#da5389]' : 'bg-white text-[#181615] border-[#e8e1d8] hover:border-[#da5389]'}`}>{level}</button>
+                                    ))}
+                                  </div>
+                                </div>
+                                <label className="flex items-center gap-2 text-sm">
+                                  <input type="checkbox" checked={!!formData.includeToastClosing} onChange={(e) => setFormData({...formData, includeToastClosing: e.target.checked})} className="rounded border-[#e8e1d8]" />
+                                  End with a traditional toast
+                                </label>
+                              </div>
+                            </div>
+                          </>
+                        )}
+
                         <Button
                           onClick={() => {
                             setShowEditDetails(false);
@@ -1808,7 +1870,7 @@ function GeneratorContent() {
                 )}
 
                 {/* Next button for pro users on step 2 */}
-                {currentStep === 2 && isProUser && (
+                {currentStep === 2 && isProUser && !isEditMode && (
                   <Button
                     onClick={nextStep}
                     disabled={!isStepValid()}

@@ -1333,13 +1333,19 @@ function GeneratorContent() {
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-lg">📋</span>
+                        <Sparkles className="h-5 w-5 text-[#da5389]" />
                         <span className="font-semibold text-[#181615]">Speech Details</span>
                         {!showEditDetails && isProUser && (
                           <span className="relative flex items-center">
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389] text-white animate-pulse">
-                              ✨ Pro fields available
-                            </span>
+                            {(formData.howLongKnown || formData.sharedHobbiesJokes || formData.groomIn3Words || formData.whatYouAdmire || formData.relationshipWithBride || formData.momentSeenTogether) ? (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200">
+                                ✓ Pro details added
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389] text-white animate-pulse">
+                                ✨ Add Pro details for a better speech
+                              </span>
+                            )}
                           </span>
                         )}
                         {showEditDetails && (
@@ -1426,7 +1432,9 @@ function GeneratorContent() {
                             <div className="border-t border-[#e8e1d8] pt-4 mt-2">
                               <h4 className="text-sm font-semibold text-[#da5389] mb-3">
                                 Pro Details
-                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389]/10 text-[#da5389] border border-[#da5389]/20">NEW</span>
+                                {!(formData.howLongKnown || formData.sharedHobbiesJokes || formData.groomIn3Words || formData.whatYouAdmire || formData.relationshipWithBride || formData.momentSeenTogether) && (
+                                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389]/10 text-[#da5389] border border-[#da5389]/20">NEW</span>
+                                )}
                               </h4>
                               <p className="text-xs text-[#8f867e] mb-3">Add these details to make your speech more personal and memorable</p>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1460,7 +1468,9 @@ function GeneratorContent() {
                             <div className="border-t border-[#e8e1d8] pt-4 mt-2">
                               <h4 className="text-sm font-semibold text-[#da5389] mb-3">
                                 Bonus Options
-                                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389]/10 text-[#da5389] border border-[#da5389]/20">NEW</span>
+                                {!(formData.mentionBrideEnding || formData.includeShoutOuts || formData.humorLevel || formData.includeToastClosing) && (
+                                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389]/10 text-[#da5389] border border-[#da5389]/20">NEW</span>
+                                )}
                               </h4>
                               <div className="space-y-3">
                                 <label className="flex items-center gap-2 text-sm">
@@ -1491,7 +1501,19 @@ function GeneratorContent() {
                         <Button
                           onClick={() => {
                             setShowEditDetails(false);
-                            handleGenerateSpeech(`Regenerate using updated details: Name=${formData.yourName}, Groom=${formData.groomName}, Bride=${formData.brideName}, Tone=${formData.tone}`);
+                            const proDetails = [
+                              formData.howLongKnown && `Known groom: ${formData.howLongKnown}`,
+                              formData.sharedHobbiesJokes && `Shared interests: ${formData.sharedHobbiesJokes}`,
+                              formData.groomIn3Words && `Groom in 3 words: ${formData.groomIn3Words}`,
+                              formData.whatYouAdmire && `Admire: ${formData.whatYouAdmire}`,
+                              formData.relationshipWithBride && `Bride relationship: ${formData.relationshipWithBride}`,
+                              formData.momentSeenTogether && `Special moment: ${formData.momentSeenTogether}`,
+                              formData.mentionBrideEnding && 'Include special message to bride at end',
+                              formData.includeShoutOuts && `Mention: ${formData.includeShoutOuts}`,
+                              formData.humorLevel && `Humor level: ${formData.humorLevel}`,
+                              formData.includeToastClosing && 'End with traditional toast',
+                            ].filter(Boolean).join('. ');
+                            handleGenerateSpeech(`Regenerate using all updated details including: Name=${formData.yourName}, Groom=${formData.groomName}, Bride=${formData.brideName}, Tone=${formData.tone}. ${proDetails}`);
                           }}
                           disabled={isGenerating}
                           className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full"
@@ -1970,19 +1992,10 @@ function GeneratorContent() {
                   </Button>
                 )}
 
-                {/* Next button for pro users on step 2 */}
-                {currentStep === 2 && isProUser && !isEditMode && (
-                  <Button
-                    onClick={nextStep}
-                    disabled={!isStepValid()}
-                    className={`shadow-lg rounded-full transition-all duration-200 ${
-                      isStepValid()
-                        ? 'bg-[#da5389] hover:bg-[#da5389]/90 text-white'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    }`}
-                  >
-                    Next - Add Pro Features ✨
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                {/* Pro users: Step 3 removed — Pro fields are in collapsible Speech Details on Step 2 */}
+                {false && currentStep === 2 && isProUser && !isEditMode && (
+                  <Button onClick={nextStep}>
+                    Removed
                   </Button>
                 )}
 

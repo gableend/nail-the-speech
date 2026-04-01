@@ -71,6 +71,45 @@ function textToParagraphs(text: string, source: 'ai' | 'user-edited' = 'ai'): Ar
   }));
 }
 
+// Persist paragraph edit metadata to localStorage
+function saveParagraphMeta(speechId: string, paragraphs: Array<{text: string; source: string; originalText: string}>) {
+  if (typeof window === 'undefined') return;
+  try {
+    const meta = paragraphs.map(p => ({ source: p.source, originalText: p.originalText }));
+    localStorage.setItem(`paragraphMeta_${speechId}`, JSON.stringify(meta));
+  } catch { /* ignore */ }
+}
+
+function loadParagraphMeta(speechId: string): Array<{source: 'ai' | 'user-edited'; originalText: string}> | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const stored = localStorage.getItem(`paragraphMeta_${speechId}`);
+    return stored ? JSON.parse(stored) : null;
+  } catch { return null; }
+}
+
+// Word-level diff: returns React nodes with changed words highlighted
+function diffWords(original: string, current: string): React.ReactNode[] {
+  if (original === current) return [current];
+  const origWords = original.split(/(\s+)/);
+  const currWords = current.split(/(\s+)/);
+  const result: React.ReactNode[] = [];
+  const maxLen = Math.max(origWords.length, currWords.length);
+
+  for (let i = 0; i < maxLen; i++) {
+    const origWord = origWords[i] || '';
+    const currWord = currWords[i] || '';
+    if (currWord === origWord) {
+      result.push(currWord);
+    } else if (currWord.trim()) {
+      result.push(
+        <span key={`diff-${i}`} className="bg-[#da5389]/15 text-[#da5389] rounded px-0.5">{currWord}</span>
+      );
+    }
+  }
+  return result;
+}
+
 function GeneratorContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -142,6 +181,11 @@ function GeneratorContent() {
         return p;
       });
       setSpeechParagraphs(newParas);
+
+      // Persist metadata if we have a speechId
+      if (currentSpeechId) {
+        saveParagraphMeta(currentSpeechId, newParas);
+      }
     } else {
       setSpeechParagraphs([]);
     }
@@ -235,6 +279,19 @@ function GeneratorContent() {
             }
             setDbRegenCount(speechData.regenCount || 0);
             setIsFinal(speechData.isFinal || false);
+
+            // Restore paragraph edit metadata from localStorage
+            const savedMeta = loadParagraphMeta(speechIdFromUrl);
+            if (savedMeta) {
+              setSpeechParagraphs(prev => prev.map((p, i) => {
+                const meta = savedMeta[i];
+                if (meta && meta.source === 'user-edited') {
+                  return { ...p, source: 'user-edited' as const, originalText: meta.originalText };
+                }
+                return p;
+              }));
+            }
+
             setSpeechGenerated(true);
           } else {
             console.error('❌ Failed to load speech for edit');
@@ -614,17 +671,22 @@ function GeneratorContent() {
   // Handle direct paragraph editing
   const handleParagraphEdit = (paraId: string, newText: string) => {
     const trimmed = newText.trim();
-    setSpeechParagraphs(prev => prev.map(p => {
+    const updatedParas = speechParagraphs.map(p => {
       if (p.id !== paraId) return p;
       if (trimmed === p.originalText) {
-        // User reverted to original — mark as AI again
         return { ...p, text: trimmed, source: 'ai' as const };
       }
       return { ...p, text: trimmed, source: 'user-edited' as const };
-    }));
+    });
+    setSpeechParagraphs(updatedParas);
+
+    // Persist metadata to localStorage
+    if (currentSpeechId) {
+      saveParagraphMeta(currentSpeechId, updatedParas);
+    }
 
     // Push version for undo
-    const newFullText = speechParagraphs.map(p => p.id === paraId ? trimmed : p.text).join('\n');
+    const newFullText = updatedParas.map(p => p.text).join('\n');
     pushSpeechVersion(newFullText);
 
     // Debounced auto-save
@@ -1819,25 +1881,43 @@ function GeneratorContent() {
                         <div className={`prose prose-lg max-w-none ${isSpeechPaywalled ? 'max-h-48 overflow-hidden' : 'max-h-80 overflow-y-auto'}`}>
                           {speechParagraphs.length > 0 ? (
                             speechParagraphs.map((para) => (
-                              <p
+                              <div
                                 key={para.id}
-                                contentEditable={isProUser && !isSpeechPaywalled}
-                                suppressContentEditableWarning
-                                className={`mb-4 text-[#181615] leading-relaxed outline-none rounded px-2 -mx-2 transition-colors ${
-                                  isProUser && !isSpeechPaywalled ? 'hover:bg-[#faf7f4] focus:ring-1 focus:ring-[#da5389]/30 cursor-text' : ''
-                                } ${
+                                className={`mb-4 rounded px-2 -mx-2 transition-colors ${
                                   para.source === 'user-edited' ? 'bg-[#da5389]/5 border-l-2 border-[#da5389]/30 pl-3 ml-0' : ''
                                 }`}
-                                onBlur={(e) => handleParagraphEdit(para.id, e.currentTarget.textContent || '')}
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Enter') {
-                                    e.preventDefault();
-                                    (e.currentTarget as HTMLElement).blur();
-                                  }
-                                }}
                               >
-                                {para.text}
-                              </p>
+                                <p
+                                  contentEditable={isProUser && !isSpeechPaywalled}
+                                  suppressContentEditableWarning
+                                  className={`text-[#181615] leading-relaxed outline-none transition-colors ${
+                                    isProUser && !isSpeechPaywalled ? 'hover:bg-[#faf7f4] focus:ring-1 focus:ring-[#da5389]/30 focus:bg-white cursor-text rounded px-1' : ''
+                                  }`}
+                                  onFocus={(e) => {
+                                    // When editing, show plain text (remove diff spans)
+                                    if (e.currentTarget.querySelector('span')) {
+                                      e.currentTarget.textContent = para.text;
+                                    }
+                                  }}
+                                  onBlur={(e) => handleParagraphEdit(para.id, e.currentTarget.textContent || '')}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                      e.preventDefault();
+                                      (e.currentTarget as HTMLElement).blur();
+                                    }
+                                  }}
+                                  dangerouslySetInnerHTML={
+                                    para.source === 'user-edited' && para.text !== para.originalText
+                                      ? undefined  // Use children below instead
+                                      : undefined
+                                  }
+                                >
+                                  {para.source === 'user-edited' && para.text !== para.originalText
+                                    ? diffWords(para.originalText, para.text)
+                                    : para.text
+                                  }
+                                </p>
+                              </div>
                             ))
                           ) : (
                             generatedSpeech.split('\n').map((paragraph, index) => (

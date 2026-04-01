@@ -1655,7 +1655,7 @@ function GeneratorContent() {
                               }}
                               className="flex items-center space-x-1 px-3 py-2 bg-[#da5389] text-white text-sm font-medium rounded-lg hover:bg-[#da5389]/90 transition-colors"
                             >
-                              <span>✏️</span>
+                              <span>⧉</span>
                               <span>Copy Speech</span>
                             </button>
                           </div>

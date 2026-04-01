@@ -515,6 +515,7 @@ function GeneratorContent() {
         regenerationInstructions: customInstructions || null,
         isRegeneration: !!customInstructions || speechGenerated,
         clientAnonUserId: getOrCreateAnonymousUserId(),
+        existingSpeechId: speechIdFromUrl || null,
       };
 
       const response = await fetch('/api/generate-speech-stream', {
@@ -626,6 +627,7 @@ function GeneratorContent() {
         regenerationInstructions: null,
         isRegeneration: false,
         clientAnonUserId: getOrCreateAnonymousUserId(),
+        existingSpeechId: speechIdFromUrl || null,
       };
 
       const response = await fetch('/api/generate-speech-stream', {
@@ -1313,16 +1315,27 @@ function GeneratorContent() {
                     <button
                       type="button"
                       onClick={() => setShowEditDetails(!showEditDetails)}
-                      className="w-full flex items-center justify-between px-6 py-4 hover:bg-[#faf7f4] transition-colors"
+                      className={`w-full flex items-center justify-between px-6 py-4 transition-colors ${
+                        !showEditDetails && isProUser ? 'bg-[#da5389]/5 hover:bg-[#da5389]/10' : 'hover:bg-[#faf7f4]'
+                      }`}
                     >
                       <div className="flex items-center gap-2">
                         <span className="text-lg">📋</span>
                         <span className="font-semibold text-[#181615]">Speech Details</span>
-                        <span className="text-sm text-[#8f867e]">
-                          {formData.yourName} &bull; {formData.groomName} & {formData.brideName} &bull; {formData.tone}
-                        </span>
+                        {!showEditDetails && isProUser && (
+                          <span className="relative flex items-center">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389] text-white animate-pulse">
+                              ✨ Pro fields available
+                            </span>
+                          </span>
+                        )}
+                        {showEditDetails && (
+                          <span className="text-sm text-[#8f867e]">
+                            {formData.yourName} &bull; {formData.groomName} & {formData.brideName} &bull; {formData.tone}
+                          </span>
+                        )}
                       </div>
-                      {showEditDetails ? <ChevronUp className="h-5 w-5 text-[#8f867e]" /> : <ChevronDown className="h-5 w-5 text-[#8f867e]" />}
+                      {showEditDetails ? <ChevronUp className="h-5 w-5 text-[#8f867e]" /> : <ChevronDown className="h-5 w-5 text-[#da5389]" />}
                     </button>
 
                     {showEditDetails && (

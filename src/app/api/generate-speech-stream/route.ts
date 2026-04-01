@@ -188,34 +188,43 @@ export async function POST(request: NextRequest) {
             wordCount: fullSpeech.split(/\s+/).filter(word => word.length > 0).length
           });
 
-          // Save speech to database with user association (authenticated or anonymous)
+          // Save speech to database — update existing or create new
           let savedSpeechId: string | null = null;
           try {
+            const existingSpeechId = formData.existingSpeechId || null;
             const userType = userId ? 'authenticated user' : 'anonymous user';
-            console.log(`💾 [SPEECH STREAM API] Saving speech to database (${userType})`);
+            console.log(`💾 [SPEECH STREAM API] Saving speech (${userType}, ${existingSpeechId ? 'update' : 'create'})`);
 
-            const speechData = {
+            const wordCount = fullSpeech.split(/\s+/).filter((word: string) => word.length > 0).length;
+            const speechFields = {
               title: `${getRoleTitle(formData.selectedRole)} Speech for ${formData.groomName} & ${formData.brideName}`,
               content: fullSpeech,
               role: formData.selectedRole || 'best-man',
               tone: formData.tone,
               length: formData.lengthPreference || 'medium',
-              wordCount: fullSpeech.split(/\s+/).filter(word => word.length > 0).length,
-              estimatedTime: Math.ceil(fullSpeech.split(/\s+/).filter(word => word.length > 0).length / 150),
+              wordCount,
+              estimatedTime: Math.ceil(wordCount / 150),
               isAIGenerated: true,
               formData: JSON.stringify(formData),
-              regenCount: 0,
-              userId: userId,
-              anonUserId: anonUserId,
               isCompleted: true
             };
 
-            const savedSpeech = await prisma.speech.create({
-              data: speechData
-            });
-            savedSpeechId = savedSpeech.id;
+            if (existingSpeechId) {
+              // Update existing speech (edit/regeneration mode)
+              const updatedSpeech = await prisma.speech.update({
+                where: { id: existingSpeechId },
+                data: { ...speechFields, regenCount: { increment: 1 } },
+              });
+              savedSpeechId = updatedSpeech.id;
+            } else {
+              // Create new speech
+              const savedSpeech = await prisma.speech.create({
+                data: { ...speechFields, regenCount: 0, userId, anonUserId },
+              });
+              savedSpeechId = savedSpeech.id;
+            }
 
-            console.log('✅ [SPEECH STREAM API] Speech saved to database successfully', { speechId: savedSpeechId });
+            console.log('✅ [SPEECH STREAM API] Speech saved successfully', { speechId: savedSpeechId, mode: existingSpeechId ? 'update' : 'create' });
           } catch (dbError: unknown) {
             const errMsg = dbError instanceof Error ? dbError.message : String(dbError);
             const errStack = dbError instanceof Error ? dbError.stack : '';

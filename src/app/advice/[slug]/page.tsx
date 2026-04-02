@@ -1,0 +1,241 @@
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { ArrowLeft, ArrowRight, Clock, BookOpen } from 'lucide-react';
+import {
+  articles,
+  getArticleBySlug,
+  getRelatedArticles,
+} from '@/data/articles';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
+
+// Generate all article pages at build time
+export function generateStaticParams() {
+  return articles.map(a => ({ slug: a.slug }));
+}
+
+// Dynamic SEO metadata per article
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
+  if (!article) return { title: 'Not Found' };
+
+  return {
+    title: article.title,
+    description: article.metaDescription,
+    keywords: [
+      article.targetKeyword,
+      ...article.tags,
+      'wedding speech',
+      'wedding toast',
+    ],
+    openGraph: {
+      title: `${article.title} | Nail The Speech`,
+      description: article.metaDescription,
+      type: 'article',
+    },
+  };
+}
+
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
+  if (!article) notFound();
+
+  const relatedArticles = getRelatedArticles(slug, 3);
+  const isComingSoon = article.sections.length === 1 && article.sections[0]?.heading === 'Coming Soon';
+
+  // JSON-LD Article schema
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.metaDescription,
+    url: `https://nailthespeech.com/advice/${article.slug}`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nail The Speech',
+      url: 'https://nailthespeech.com',
+      logo: 'https://nailthespeech.com/android-chrome-512x512.png',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://nailthespeech.com/advice/${article.slug}`,
+    },
+    articleSection: article.category,
+    keywords: [article.targetKeyword, ...article.tags].join(', '),
+  };
+
+  return (
+    <div className="min-h-screen bg-[#faf7f4]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <SiteHeader />
+
+      {/* Breadcrumb + header */}
+      <section className="bg-gradient-to-b from-white to-[#faf7f4] border-b border-[#e8e1d8]">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <Link
+            href="/advice"
+            className="inline-flex items-center gap-1 text-sm text-[#8f867e] hover:text-[#da5389] mb-6 transition-colors"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" /> All Advice
+          </Link>
+
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xs px-2.5 py-1 rounded-full bg-[#da5389]/10 text-[#da5389] font-medium">
+              {article.category}
+            </span>
+            <span className="text-xs text-[#8f867e] flex items-center gap-1">
+              <Clock className="h-3 w-3" /> {article.readingTime} min read
+            </span>
+          </div>
+
+          <h1 className="text-3xl md:text-4xl font-bold text-[#181615] leading-tight mb-4">
+            {article.icon} {article.title}
+          </h1>
+
+          <p className="text-[#8f867e] text-lg">
+            {article.metaDescription}
+          </p>
+        </div>
+      </section>
+
+      {/* Article content */}
+      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {isComingSoon ? (
+          <div className="text-center py-16 bg-white border border-[#e8e1d8] rounded-xl">
+            <BookOpen className="h-12 w-12 text-[#da5389] mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-[#181615] mb-2">This article is being written</h2>
+            <p className="text-[#8f867e] mb-6 max-w-md mx-auto">
+              We&apos;re working on this guide. In the meantime, our AI can help you create your speech right now.
+            </p>
+            <Link
+              href="/generator"
+              className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c4477a] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
+            >
+              Create Your Speech <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-8">
+            {article.sections.map((section, i) => (
+              <div key={i}>
+                {section.level === 2 ? (
+                  <h2 className="text-2xl font-bold text-[#181615] mb-4">
+                    {section.heading}
+                  </h2>
+                ) : (
+                  <h3 className="text-xl font-semibold text-[#181615] mb-3">
+                    {section.heading}
+                  </h3>
+                )}
+                <div className="space-y-4">
+                  {section.content.split('\n\n').map((paragraph, j) => {
+                    // Handle bold text (**text**)
+                    const parts = paragraph.split(/(\*\*[^*]+\*\*)/g);
+                    return (
+                      <p key={j} className="text-[#4a4543] leading-relaxed">
+                        {parts.map((part, k) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            return (
+                              <strong key={k} className="font-semibold text-[#181615]">
+                                {part.slice(2, -2)}
+                              </strong>
+                            );
+                          }
+                          return <span key={k}>{part}</span>;
+                        })}
+                      </p>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* CTA box */}
+        <div className="mt-12 bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/5 border border-[#da5389]/20 rounded-xl p-8 text-center">
+          <h2 className="text-2xl font-bold text-[#181615] mb-2">
+            {article.ctaSupportingText}
+          </h2>
+          <p className="text-[#8f867e] mb-6">
+            Our AI generator creates a personalized speech in minutes. First speech free.
+          </p>
+          <Link
+            href="/generator"
+            className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
+          >
+            Create Your Speech <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        {/* Related examples */}
+        {article.relatedExamples.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-xl font-bold text-[#181615] mb-4">Related Speech Examples</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {article.relatedExamples.map(exSlug => (
+                <Link
+                  key={exSlug}
+                  href={`/examples/${exSlug}`}
+                  className="bg-white border border-[#e8e1d8] rounded-lg p-3 hover:border-[#da5389] transition-colors text-sm font-medium text-[#181615] hover:text-[#da5389]"
+                >
+                  {exSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} →
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Related articles */}
+        {relatedArticles.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-xl font-bold text-[#181615] mb-4">Related Articles</h2>
+            <div className="space-y-3">
+              {relatedArticles.map(related => (
+                <Link
+                  key={related.slug}
+                  href={`/advice/${related.slug}`}
+                  className="group flex items-start gap-3 bg-white border border-[#e8e1d8] rounded-xl p-4 hover:border-[#da5389] hover:shadow-md transition-all"
+                >
+                  <span className="text-2xl flex-shrink-0">{related.icon}</span>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold text-sm text-[#181615] group-hover:text-[#da5389] transition-colors leading-tight">
+                      {related.title}
+                    </h3>
+                    <p className="text-xs text-[#8f867e] mt-1 line-clamp-1">
+                      {related.metaDescription}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Tags */}
+        {article.tags.length > 0 && (
+          <div className="mt-8 pt-8 border-t border-[#e8e1d8]">
+            <div className="flex flex-wrap gap-2">
+              {article.tags.map(tag => (
+                <span
+                  key={tag}
+                  className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-[#8f867e]"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </article>
+
+      <SiteFooter />
+    </div>
+  );
+}

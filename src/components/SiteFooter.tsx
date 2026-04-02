@@ -31,10 +31,10 @@ export default function SiteFooter() {
           <div>
             <h4 className="font-semibold mb-4">Help</h4>
             <ul className="space-y-2 text-gray-300">
-              <li><Link href="/generator" className="hover:text-[#da5389]">Speech Tips</Link></li>
+              <li><Link href="/advice#speech-tips" className="hover:text-[#da5389]">Speech Tips</Link></li>
               <li><Link href="/examples" className="hover:text-[#da5389]">Examples</Link></li>
-              <li><Link href="/generator" className="hover:text-[#da5389]">Practice Guide</Link></li>
-              <li><Link href="/generator" className="hover:text-[#da5389]">Contact</Link></li>
+              <li><Link href="/advice#practice-guide" className="hover:text-[#da5389]">Practice Guide</Link></li>
+              <li><Link href="/advice" className="hover:text-[#da5389]">All Advice</Link></li>
             </ul>
           </div>
         </div>

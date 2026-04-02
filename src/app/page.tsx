@@ -9,7 +9,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#faf7f4]">
       {/* Top Banner */}
-      <div className="bg-[#000000] text-white text-center py-2 text-sm">
+      <div className="bg-[#000000] text-white text-center py-2 text-sm sticky top-0 z-50">
         <div className="flex items-center justify-center gap-4">
           <span>Create perfect speeches. Get your first speech free with Nail The Speech!</span>
           <Link href="/generator">
@@ -22,7 +22,7 @@ export default function HomePage() {
       </div>
 
       {/* Navigation */}
-      <nav className="bg-white border-b border-[#e8e1d8] sticky top-0 z-50">
+      <nav className="bg-white border-b border-[#e8e1d8] sticky top-[36px] z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}

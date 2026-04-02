@@ -266,12 +266,6 @@ function GeneratorContent() {
 
   // Initialize anonymous user and restore form data when user comes back from result page
   useEffect(() => {
-    // For new speech generation (no speechId), reset the anonymous ID so stale
-    // cookies from prior sessions don't trigger the free-generation limit.
-    // For editing an existing speech, keep the current ID.
-    if (!speechIdFromUrl && !isSignedIn) {
-      clearAnonymousUserId();
-    }
     getOrCreateAnonymousUserId();
 
     // If editing an existing speech, load it
@@ -872,6 +866,12 @@ function GeneratorContent() {
       setIsGenerating(true);
       setSpeechError("");
       setGeneratedSpeech(""); // Clear any previous speech
+
+      // Fresh generation: reset anonymous ID so previous speeches don't trigger
+      // the free-generation limit (e.g. user clicked Previous and re-generates)
+      if (!isSignedIn) {
+        clearAnonymousUserId();
+      }
 
       const requestData = {
         ...formData,

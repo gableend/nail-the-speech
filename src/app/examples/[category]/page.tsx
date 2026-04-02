@@ -7,6 +7,8 @@ import {
   getCategoryBySlug,
   getSpeechesByCategory,
 } from '@/data/exampleSpeeches';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
 
 // Generate all 60 category pages at build time
 export function generateStaticParams() {
@@ -85,6 +87,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SiteHeader />
 
       {/* Hero */}
       <section className="bg-gradient-to-b from-white to-[#faf7f4] border-b border-[#e8e1d8]">
@@ -201,6 +204,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
           </div>
         </section>
       )}
+
+      <SiteFooter />
     </div>
   );
 }

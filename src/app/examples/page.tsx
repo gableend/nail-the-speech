@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { speechCategories, getAllGroups, exampleSpeeches } from '@/data/exampleSpeeches';
 import ExamplesFilterClient from '@/components/ExamplesFilterClient';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
   title: 'Wedding Speech Examples — 60+ Types | Nail The Speech',
@@ -55,6 +57,7 @@ export default function ExamplesPage() {
   return (
     <div className="min-h-screen bg-[#faf7f4]">
       <ExamplesJsonLd />
+      <SiteHeader />
 
       {/* Hero */}
       <section className="bg-gradient-to-b from-white to-[#faf7f4] border-b border-[#e8e1d8]">
@@ -120,6 +123,8 @@ export default function ExamplesPage() {
           </Link>
         </div>
       </section>
+
+      <SiteFooter />
     </div>
   );
 }

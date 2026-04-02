@@ -1,10 +1,11 @@
 import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
-import { Users, Clock, ChevronDown, Menu, Sparkles, ArrowRight } from "lucide-react";
+import { Users, Clock, Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import AuthNavigation from "@/components/AuthNavigation";
 import HomeClient from "@/components/HomeClient";
 import FAQ, { faqs } from "@/components/FAQ";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Nail The Speech — AI Wedding Speech Writer | Free First Speech",
@@ -87,67 +88,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#faf7f4]">
       <HomeJsonLd />
-      {/* Top Banner */}
-      <div className="bg-[#000000] text-white text-center py-2 text-sm sticky top-0 z-50">
-        <div className="flex items-center justify-center gap-4">
-          <span>Create perfect speeches. Get your first speech free with Nail The Speech!</span>
-          <Link href="/generator">
-            <button className="flex items-center gap-1 bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-xs font-medium transition-colors">
-              Get Started
-              <ArrowRight className="h-3 w-3" />
-            </button>
-          </Link>
-        </div>
-      </div>
-
-      {/* Navigation */}
-      <nav className="bg-white border-b border-[#e8e1d8] sticky top-[36px] z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center space-x-2">
-              <span className="text-3xl">🎤</span>
-              <span className="font-bold text-2xl text-[#181615]">Nail The Speech</span>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <div className="relative group">
-                <button className="flex items-center text-[#181615] hover:text-[#da5389] font-medium">
-                  Speech Types <ChevronDown className="ml-1 h-4 w-4" />
-                </button>
-                <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg border border-[#e8e1d8] p-4 min-w-[200px]">
-                  <Link href="/generator?role=groom" className="block py-2 text-[#181615] hover:text-[#da5389]">Groom</Link>
-                  <Link href="/generator?role=bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Bride</Link>
-                  <Link href="/generator?role=best-man" className="block py-2 text-[#181615] hover:text-[#da5389]">Best Man</Link>
-                  <Link href="/generator?role=maid-of-honor" className="block py-2 text-[#181615] hover:text-[#da5389]">Maid of Honor</Link>
-                  <Link href="/generator?role=father-of-bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Father of Bride</Link>
-                  <Link href="/generator?role=mother-of-bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Mother of Bride</Link>
-                </div>
-              </div>
-
-              <div className="relative group">
-                <button className="flex items-center text-[#181615] hover:text-[#da5389] font-medium">
-                  Help & Advice <ChevronDown className="ml-1 h-4 w-4" />
-                </button>
-                <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg border border-[#e8e1d8] p-4 min-w-[200px]">
-                  <Link href="/generator" className="block py-2 text-[#181615] hover:text-[#da5389]">Speech Tips</Link>
-                  <Link href="/generator" className="block py-2 text-[#181615] hover:text-[#da5389]">Practice Guide</Link>
-                  <Link href="/examples" className="block py-2 text-[#181615] hover:text-[#da5389]">Examples</Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Right side */}
-            <div className="flex items-center space-x-4">
-              <AuthNavigation />
-              <Button className="md:hidden rounded-full">
-                <Menu className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <SiteHeader />
 
       {/* Hero Section */}
       <section className="relative py-10 lg:py-16">
@@ -378,56 +319,7 @@ export default function HomePage() {
       {/* FAQ Section */}
       <FAQ />
 
-      {/* Footer */}
-      <footer className="bg-[#181615] text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            {/* Logo and Description */}
-            <div className="md:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <span className="text-2xl">🎤</span>
-                <span className="font-bold text-xl">Nail The Speech</span>
-              </div>
-              <p className="text-gray-300 mb-4">
-                Create unforgettable wedding speeches with AI that understands the heart of your message.
-              </p>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h4 className="font-semibold mb-4">Speech Types</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li><Link href="/generator" className="hover:text-[#da5389]">Best Man</Link></li>
-                <li><Link href="/generator" className="hover:text-[#da5389]">Maid of Honor</Link></li>
-                <li><Link href="/generator" className="hover:text-[#da5389]">Father of Bride</Link></li>
-                <li><Link href="/generator" className="hover:text-[#da5389]">Mother of Bride</Link></li>
-              </ul>
-            </div>
-
-            {/* Help */}
-            <div>
-              <h4 className="font-semibold mb-4">Help</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li><Link href="/generator" className="hover:text-[#da5389]">Speech Tips</Link></li>
-                <li><Link href="/generator" className="hover:text-[#da5389]">Examples</Link></li>
-                <li><Link href="/generator" className="hover:text-[#da5389]">Practice Guide</Link></li>
-                <li><Link href="/generator" className="hover:text-[#da5389]">Contact</Link></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-300 text-sm">
-              © 2025 Nail The Speech. All rights reserved.
-            </p>
-            <div className="flex space-x-6 text-sm text-gray-300 mt-4 md:mt-0">
-              <Link href="/generator" className="hover:text-[#da5389]">Privacy Policy</Link>
-              <Link href="/generator" className="hover:text-[#da5389]">Terms of Service</Link>
-              <Link href="/data-deletion" className="hover:text-[#da5389]">Data Deletion</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

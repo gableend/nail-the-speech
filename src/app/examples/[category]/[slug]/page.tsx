@@ -10,6 +10,8 @@ import {
   getSpeechesByCategory,
 } from '@/data/exampleSpeeches';
 import SpeechCopyButton from '@/components/SpeechCopyButton';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
 
 // Generate all individual speech pages at build time
 export function generateStaticParams() {
@@ -83,6 +85,7 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
 
   return (
     <div className="min-h-screen bg-[#faf7f4]">
+      <SiteHeader />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -189,6 +192,8 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
           </div>
         </section>
       )}
+
+      <SiteFooter />
     </div>
   );
 }

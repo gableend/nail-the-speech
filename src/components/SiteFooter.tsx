@@ -1,0 +1,55 @@
+import Link from "next/link";
+
+export default function SiteFooter() {
+  return (
+    <footer className="bg-[#181615] text-white py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-4 gap-8">
+          {/* Logo and Description */}
+          <div className="md:col-span-2">
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-2xl">🎤</span>
+              <span className="font-bold text-xl">Nail The Speech</span>
+            </div>
+            <p className="text-gray-300 mb-4">
+              Create unforgettable wedding speeches with AI that understands the heart of your message.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-semibold mb-4">Speech Types</h4>
+            <ul className="space-y-2 text-gray-300">
+              <li><Link href="/generator?role=best-man" className="hover:text-[#da5389]">Best Man</Link></li>
+              <li><Link href="/generator?role=maid-of-honor" className="hover:text-[#da5389]">Maid of Honor</Link></li>
+              <li><Link href="/generator?role=father-of-bride" className="hover:text-[#da5389]">Father of Bride</Link></li>
+              <li><Link href="/generator?role=mother-of-bride" className="hover:text-[#da5389]">Mother of Bride</Link></li>
+            </ul>
+          </div>
+
+          {/* Help */}
+          <div>
+            <h4 className="font-semibold mb-4">Help</h4>
+            <ul className="space-y-2 text-gray-300">
+              <li><Link href="/generator" className="hover:text-[#da5389]">Speech Tips</Link></li>
+              <li><Link href="/examples" className="hover:text-[#da5389]">Examples</Link></li>
+              <li><Link href="/generator" className="hover:text-[#da5389]">Practice Guide</Link></li>
+              <li><Link href="/generator" className="hover:text-[#da5389]">Contact</Link></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-300 text-sm">
+            © {new Date().getFullYear()} Nail The Speech. All rights reserved.
+          </p>
+          <div className="flex space-x-6 text-sm text-gray-300 mt-4 md:mt-0">
+            <Link href="/generator" className="hover:text-[#da5389]">Privacy Policy</Link>
+            <Link href="/generator" className="hover:text-[#da5389]">Terms of Service</Link>
+            <Link href="/data-deletion" className="hover:text-[#da5389]">Data Deletion</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

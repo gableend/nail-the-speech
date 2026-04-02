@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { countWords, estimateReadingTime } from "@/lib/openai";
 import VoiceInput from "@/components/VoiceInput";
-import { getOrCreateAnonymousUserId, getSpeechGenerationCount, incrementSpeechGenerationCount } from "@/lib/clientAnonymousUser";
+import { getOrCreateAnonymousUserId, clearAnonymousUserId, getSpeechGenerationCount, incrementSpeechGenerationCount } from "@/lib/clientAnonymousUser";
 import ProUpgradePrompt from "@/components/ProUpgradePrompt";
 import { useProStatus } from "@/hooks/useProStatus";
 import { useUser } from "@clerk/nextjs";
@@ -266,7 +266,12 @@ function GeneratorContent() {
 
   // Initialize anonymous user and restore form data when user comes back from result page
   useEffect(() => {
-    // Ensure anonymous user ID is created for tracking
+    // For new speech generation (no speechId), reset the anonymous ID so stale
+    // cookies from prior sessions don't trigger the free-generation limit.
+    // For editing an existing speech, keep the current ID.
+    if (!speechIdFromUrl && !isSignedIn) {
+      clearAnonymousUserId();
+    }
     getOrCreateAnonymousUserId();
 
     // If editing an existing speech, load it

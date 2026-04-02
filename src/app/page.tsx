@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Users, Clock, Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import HomeClient from "@/components/HomeClient";
-import FAQ, { faqs } from "@/components/FAQ";
+import FAQ from "@/components/FAQ";
+import { faqs } from "@/data/faqData";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 

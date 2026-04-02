@@ -1,13 +1,92 @@
+import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Users, Clock, ChevronDown, Menu, Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import AuthNavigation from "@/components/AuthNavigation";
 import HomeClient from "@/components/HomeClient";
-import FAQ from "@/components/FAQ";
+import FAQ, { faqs } from "@/components/FAQ";
+
+export const metadata: Metadata = {
+  title: "Nail The Speech — AI Wedding Speech Writer | Free First Speech",
+  description: "Create unforgettable wedding speeches with AI. Best man, maid of honor, father of the bride and more. Personalized, heartfelt, and ready in seconds. First speech free.",
+  keywords: [
+    "wedding speech writer", "AI wedding speech", "best man speech generator",
+    "maid of honor speech", "father of bride speech", "wedding toast generator",
+    "free wedding speech", "wedding speech AI",
+  ],
+  openGraph: {
+    title: "Nail The Speech — AI Wedding Speech Writer",
+    description: "Create personalized wedding speeches in seconds. First speech free.",
+    type: "website",
+    url: "https://nailthespeech.com",
+  },
+};
+
+function HomeJsonLd() {
+  const organizationLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Nail The Speech",
+    url: "https://nailthespeech.com",
+    logo: "https://nailthespeech.com/android-chrome-512x512.png",
+    description: "AI-powered wedding speech writer that creates personalized, heartfelt speeches in seconds.",
+  };
+
+  const websiteLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Nail The Speech",
+    url: "https://nailthespeech.com",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://nailthespeech.com/examples?search={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  const softwareLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Nail The Speech",
+    applicationCategory: "LifestyleApplication",
+    operatingSystem: "Web",
+    url: "https://nailthespeech.com",
+    description: "AI wedding speech generator. Create personalized best man, maid of honor, and family wedding speeches in seconds.",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      description: "First speech free",
+    },
+  };
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map(faq => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+    </>
+  );
+}
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#faf7f4]">
+      <HomeJsonLd />
       {/* Top Banner */}
       <div className="bg-[#000000] text-white text-center py-2 text-sm sticky top-0 z-50">
         <div className="flex items-center justify-center gap-4">

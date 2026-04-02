@@ -8,7 +8,7 @@ interface FAQItem {
   answer: string;
 }
 
-const faqs: FAQItem[] = [
+export const faqs: FAQItem[] = [
   {
     question: "How does Nail The Speech work?",
     answer:

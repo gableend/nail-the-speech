@@ -1,4 +1,11 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: "Data Deletion — Nail The Speech",
+  description: "Learn how to delete your account data and speeches from Nail The Speech.",
+  robots: { index: false, follow: false },
+};
 
 export default function DataDeletionInstructionsPage() {
   return (

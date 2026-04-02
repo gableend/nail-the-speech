@@ -15,7 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nail The Speech - Perfect Wedding Speeches with AI",
+  metadataBase: new URL('https://nailthespeech.com'),
+  title: {
+    default: "Nail The Speech — AI Wedding Speech Writer",
+    template: "%s | Nail The Speech",
+  },
   description: "Create unforgettable wedding speeches with AI that understands the heart of your message. Perfect for best man, maid of honor, and more.",
   keywords: ["wedding speeches", "AI speech writer", "best man speech", "maid of honor speech", "wedding speech generator"],
   authors: [{ name: "Nail The Speech" }],
@@ -41,6 +45,15 @@ export const metadata: Metadata = {
       { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
       { url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
     ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'Nail The Speech',
+    locale: 'en_US',
   },
 };
 

@@ -64,7 +64,7 @@ export async function generateWeddingSpeechStream(
       messages: [
         {
           role: "system",
-          content: "You are an expert wedding speech writer who creates heartfelt, personalized, and memorable speeches. You understand the nuances of different wedding roles and can adapt tone, length, and content accordingly. Your speeches are natural, engaging, and avoid clichés while incorporating personal details seamlessly."
+          content: "You are an expert wedding speech writer who creates heartfelt, personalized, and memorable speeches. You understand the nuances of different wedding roles and can adapt tone, length, and content accordingly. Your speeches are natural, engaging, and avoid clichés while incorporating personal details seamlessly. IMPORTANT: Always write speeches that meet the requested word count. A typical wedding speech should be at least 600 words. Never write a speech shorter than the minimum requested — expand with more stories, anecdotes, and heartfelt detail rather than cutting short."
         },
         {
           role: "user",
@@ -117,7 +117,7 @@ export async function generateWeddingSpeech(
       messages: [
         {
           role: "system",
-          content: "You are an expert wedding speech writer who creates heartfelt, personalized, and memorable speeches. You understand the nuances of different wedding roles and can adapt tone, length, and content accordingly. Your speeches are natural, engaging, and avoid clichés while incorporating personal details seamlessly."
+          content: "You are an expert wedding speech writer who creates heartfelt, personalized, and memorable speeches. You understand the nuances of different wedding roles and can adapt tone, length, and content accordingly. Your speeches are natural, engaging, and avoid clichés while incorporating personal details seamlessly. IMPORTANT: Always write speeches that meet the requested word count. A typical wedding speech should be at least 600 words. Never write a speech shorter than the minimum requested — expand with more stories, anecdotes, and heartfelt detail rather than cutting short."
         },
         {
           role: "user",
@@ -288,9 +288,9 @@ function getToneGuidance(tone: string): string {
 
 function getLengthGuidance(length: string, isPremium: boolean): string {
   const lengthMap = {
-    'short': 'Aim for 2-3 minutes (approximately 300-450 words)',
-    'medium': 'Aim for 3-4 minutes (approximately 450-600 words)',
-    'long': 'Aim for 5-6 minutes (approximately 750-900 words)'
+    'short': 'Aim for 3 minutes (approximately 450-500 words). This is NOT optional — the speech MUST be at least 450 words.',
+    'medium': 'Aim for 4-5 minutes (approximately 600-750 words). This is NOT optional — the speech MUST be at least 600 words. Write a full, complete speech with rich detail.',
+    'long': 'Aim for 6-7 minutes (approximately 900-1050 words). This is NOT optional — the speech MUST be at least 900 words.'
   };
 
   // Free tier gets medium length max

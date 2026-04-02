@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
     const speechOptions = {
       isPremium: isProUser,
       model: 'gpt-3.5-turbo' as const,
-      maxTokens: 1000,
+      maxTokens: 1500,
       regenerationInstructions: formData.regenerationInstructions || null,
       isRegeneration: formData.isRegeneration || false
     };

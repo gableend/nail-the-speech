@@ -32,9 +32,17 @@ export async function POST(request: NextRequest) {
       type: audioFile.type
     });
 
+    // Convert the Web API File to a format the OpenAI SDK can handle
+    // In serverless environments, the native File may not be fully compatible
+    const arrayBuffer = await audioFile.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const file = new File([buffer], audioFile.name || 'recording.webm', {
+      type: audioFile.type || 'audio/webm',
+    });
+
     // Convert audio to text using Whisper
     const transcription = await openai.audio.transcriptions.create({
-      file: audioFile,
+      file,
       model: 'whisper-1',
       language: 'en', // Can be made dynamic if needed
       response_format: 'json',

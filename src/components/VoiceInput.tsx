@@ -45,7 +45,7 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
         }
       };
 
-      mediaRecorder.start();
+      mediaRecorder.start(250); // Collect data every 250ms to ensure chunks are captured
       setIsRecording(true);
     } catch (err) {
       setError("Could not access microphone. Please check permissions.");
@@ -64,6 +64,13 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
     try {
       setIsProcessing(true);
 
+      console.log('🎤 [VOICE] Processing audio blob:', { size: audioBlob.size, type: audioBlob.type });
+
+      if (audioBlob.size < 100) {
+        setError("Recording too short. Please try again and speak clearly.");
+        return;
+      }
+
       const formData = new FormData();
       formData.append('audio', audioBlob, 'recording.webm');
 
@@ -73,19 +80,22 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
       });
 
       if (!response.ok) {
-        throw new Error('Failed to transcribe audio');
+        const errorData = await response.json().catch(() => null);
+        console.error('🎤 [VOICE] API error:', response.status, errorData);
+        throw new Error(errorData?.error || 'Failed to transcribe audio');
       }
 
       const result = await response.json();
+      console.log('🎤 [VOICE] Transcription result:', result);
 
-      if (result.text) {
-        onTranscription(result.text);
+      if (result.text && result.text.trim()) {
+        onTranscription(result.text.trim());
       } else {
         setError("No speech detected. Please try again.");
       }
     } catch (err) {
       setError("Failed to process audio. Please try again.");
-      console.error('Error processing audio:', err);
+      console.error('🎤 [VOICE] Error processing audio:', err);
     } finally {
       setIsProcessing(false);
     }

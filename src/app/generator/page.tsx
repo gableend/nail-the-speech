@@ -196,7 +196,26 @@ function GeneratorContent() {
   // Regeneration with instructions state
   const [regenerationInstructions, setRegenerationInstructions] = useState("");
   const [selectedPill, setSelectedPill] = useState<string | null>(null);
-  const [showProModal, setShowProModal] = useState(false);
+  // Pro checkout redirect helper
+  const redirectToCheckout = async () => {
+    try {
+      const checkoutData: Record<string, unknown> = {
+        email: null,
+        returnUrl: typeof window !== 'undefined' ? window.location.pathname : null
+      };
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(checkoutData)
+      });
+      if (!response.ok) throw new Error('Failed to create checkout session');
+      const { url } = await response.json();
+      if (url) window.location.href = url;
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      alert('Failed to start checkout. Please try again.');
+    }
+  };
   // Enable polling when returning from payment
   const { isProUser, loading: proStatusLoading } = useProStatus(
     paymentSuccess ? { pollInterval: 2000 } : undefined
@@ -205,7 +224,8 @@ function GeneratorContent() {
   const [showPaymentCanceled, setShowPaymentCanceled] = useState(paymentCanceled);
 
   // Pro users skip Step 3 (fields merged into Step 2 collapsible)
-  const hideStep3 = isEditMode || isProUser;
+  // Step 3 (Pro features) is always hidden — Pro users see fields in collapsible, free users hit paywall after generation
+  const hideStep3 = true;
   const totalSteps = needsRoleSelection ? (hideStep3 ? 3 : 4) : (hideStep3 ? 2 : 3);
 
   const [formData, setFormData] = useState<FormData>({
@@ -513,11 +533,7 @@ function GeneratorContent() {
   const canRedo = currentVersionIndex < speechVersions.length - 1;
 
   const nextStep = () => {
-    // If trying to access step 3 (Pro features) without pro status, show upgrade modal
-    if (currentStep === 2 && !isProUser && !proStatusLoading) {
-      setShowProModal(true);
-      return;
-    }
+    // Non-Pro users don't have step 3 (hideStep3 handles this via totalSteps)
 
     if (currentStep < totalSteps) {
       setCurrentStep(prev => prev + 1);
@@ -718,9 +734,9 @@ function GeneratorContent() {
 
   // New function for Step 2: Generate speech outline with streaming and stay on page
   const handleGenerateSpeech = async (customInstructions?: string) => {
-    // Non-Pro users cannot regenerate — show upgrade modal
+    // Non-Pro users cannot regenerate — redirect to checkout
     if (!isProUser && speechGenerated) {
-      setShowProModal(true);
+      redirectToCheckout();
       return;
     }
 
@@ -757,8 +773,8 @@ function GeneratorContent() {
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
         if (errorData?.error === 'pro_required' || errorData?.error === 'free_generation_limit') {
-          setShowProModal(true);
           setIsGenerating(false);
+          redirectToCheckout();
           return;
         }
         throw new Error('Failed to generate speech');
@@ -1158,14 +1174,14 @@ function GeneratorContent() {
                 {currentStep === 0 && "Choose Your Role"}
                 {currentStep === 1 && "Essentials"}
                 {currentStep === 2 && (speechGenerated ? "Your Speech" : "Your Speech Outline")}
-                {currentStep === 3 && "Pro"}
+                {currentStep === 3 && "Premium Features"}
               </CardTitle>
             </div>
             <p className="text-sm text-[#8f867e]">
               {currentStep === 0 && "Select your role in the wedding to personalize your speech"}
               {currentStep === 1 && "Required fields for your speech foundation"}
               {currentStep === 2 && (speechGenerated ? "Review, refine, and perfect your speech" : "Generate your personalized speech")}
-              {currentStep === 3 && "💎 Upgrade to Pro to add personality & premium features"}
+              {currentStep === 3 && "Add personality & premium features to your speech"}
             </p>
           </CardHeader>
           <CardContent className="p-8 relative z-10">
@@ -1751,7 +1767,7 @@ function GeneratorContent() {
                       You've provided all the essentials. Click below to generate your personalized speech outline using AI.
                     </p>
                     <p className="text-sm text-[#0369a1]">
-                      💡 Your first speech is free! Upgrade to Pro to copy, edit, and regenerate.
+                      💡 Your first speech is free — let's make it count!
                     </p>
                   </div>
                 )}
@@ -2213,8 +2229,7 @@ function GeneratorContent() {
                     <ul className="text-sm text-[#8f867e] space-y-1">
                       <li>• Your speech will include the story you shared in Step 1</li>
                       <li>• We'll match the tone and length you selected</li>
-                      <li>• Upgrade to Pro for unlimited regeneration and full access</li>
-                      <li>• Step 3 adds even more personality and customization</li>
+                      <li>• Make it personal — specific details make the best speeches</li>
                     </ul>
                   </div>
                 )}
@@ -2292,37 +2307,7 @@ function GeneratorContent() {
                   </Button>
                 )}
 
-                {/* Upgrade to Pro button for step 2 */}
-                {currentStep === 2 && !isProUser && (
-                  <Button
-                    onClick={() => setShowProModal(true)}
-                    disabled={!isStepValid()}
-                    className={`shadow-lg rounded-full transition-all duration-200 ${
-                      isStepValid()
-                        ? 'bg-gradient-to-r from-[#da5389] to-[#da5389] hover:from-[#da5389]/90 hover:to-[#da5389]/90 text-white'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    }`}
-                  >
-                    💎 Upgrade to Pro - Add Premium Features
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                )}
 
-                {/* Generate Enhanced Speech button — only for free users on Step 3 (Pro page) */}
-                {currentStep === totalSteps && !isProUser && currentStep === 3 && (
-                  <Button
-                    onClick={handleSubmit}
-                    disabled={!isStepValid()}
-                    className={`shadow-lg rounded-full transition-all duration-200 ${
-                      isStepValid()
-                        ? 'bg-[#da5389] hover:bg-[#da5389]/90 text-white'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    }`}
-                  >
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Generate Enhanced Speech
-                  </Button>
-                )}
               </div>
             </div>
           </CardContent>
@@ -2348,16 +2333,6 @@ function GeneratorContent() {
             </div>
           </div>
         </div>
-
-        {/* Pro Upgrade Modal */}
-        {showProModal && (
-          <ProUpgradePrompt
-            variant="modal"
-            showCloseButton={true}
-            onClose={() => setShowProModal(false)}
-            context="paywall"
-          />
-        )}
 
         {/* Celebratory toast for Mark Final */}
         {showFinalToast && (

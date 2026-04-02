@@ -10,22 +10,67 @@ interface VoiceInputProps {
   disabled?: boolean;
 }
 
+/**
+ * Pick a supported mimeType for MediaRecorder.
+ * Safari doesn't support audio/webm — falls back to audio/mp4 or default.
+ */
+function getSupportedMimeType(): string {
+  const types = [
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/mp4',
+    'audio/ogg;codecs=opus',
+  ];
+  for (const type of types) {
+    if (MediaRecorder.isTypeSupported(type)) {
+      return type;
+    }
+  }
+  return ''; // let browser pick default
+}
+
+function getFileExtension(mimeType: string): string {
+  if (mimeType.includes('webm')) return 'webm';
+  if (mimeType.includes('mp4')) return 'mp4';
+  if (mimeType.includes('ogg')) return 'ogg';
+  return 'webm';
+}
+
 export default function VoiceInput({ onTranscription, placeholder = "Click to speak...", disabled = false }: VoiceInputProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>("");
+  const [recordingDuration, setRecordingDuration] = useState(0);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const streamRef = useRef<MediaStream | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const mimeTypeRef = useRef<string>('');
 
   const startRecording = async () => {
     try {
       setError("");
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setRecordingDuration(0);
 
-      const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: 'audio/webm'
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          sampleRate: 16000,
+        }
       });
+      streamRef.current = stream;
 
+      const mimeType = getSupportedMimeType();
+      mimeTypeRef.current = mimeType;
+      console.log('🎤 [VOICE] Using mimeType:', mimeType || 'browser default');
+
+      const options: MediaRecorderOptions = {};
+      if (mimeType) {
+        options.mimeType = mimeType;
+      }
+
+      const mediaRecorder = new MediaRecorder(stream, options);
       mediaRecorderRef.current = mediaRecorder;
       chunksRef.current = [];
 
@@ -36,17 +81,35 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
       };
 
       mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        await processAudio(audioBlob);
+        // Stop duration timer
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
 
-        // Stop all tracks to release microphone
+        const actualMime = mimeType || mediaRecorder.mimeType || 'audio/webm';
+        console.log('🎤 [VOICE] Recording stopped. Chunks:', chunksRef.current.length, 'Actual mimeType:', actualMime);
+
+        const audioBlob = new Blob(chunksRef.current, { type: actualMime });
+        console.log('🎤 [VOICE] Audio blob size:', audioBlob.size);
+
+        // Release microphone
         for (const track of stream.getTracks()) {
           track.stop();
         }
+        streamRef.current = null;
+
+        await processAudio(audioBlob, actualMime);
       };
 
-      mediaRecorder.start(250); // Collect data every 250ms to ensure chunks are captured
+      mediaRecorder.start(500); // Collect data every 500ms
       setIsRecording(true);
+
+      // Duration timer
+      timerRef.current = setInterval(() => {
+        setRecordingDuration(prev => prev + 1);
+      }, 1000);
+
     } catch (err) {
       setError("Could not access microphone. Please check permissions.");
       console.error('Error accessing microphone:', err);
@@ -60,19 +123,20 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
     }
   };
 
-  const processAudio = async (audioBlob: Blob) => {
+  const processAudio = async (audioBlob: Blob, mimeType: string) => {
     try {
       setIsProcessing(true);
 
-      console.log('🎤 [VOICE] Processing audio blob:', { size: audioBlob.size, type: audioBlob.type });
+      console.log('🎤 [VOICE] Processing audio blob:', { size: audioBlob.size, type: mimeType });
 
-      if (audioBlob.size < 100) {
-        setError("Recording too short. Please try again and speak clearly.");
+      if (audioBlob.size < 1000) {
+        setError("Recording too short. Hold the button and speak for at least 2 seconds.");
         return;
       }
 
+      const ext = getFileExtension(mimeType);
       const formData = new FormData();
-      formData.append('audio', audioBlob, 'recording.webm');
+      formData.append('audio', audioBlob, `recording.${ext}`);
 
       const response = await fetch('/api/speech-to-text', {
         method: 'POST',
@@ -91,13 +155,14 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
       if (result.text && result.text.trim()) {
         onTranscription(result.text.trim());
       } else {
-        setError("No speech detected. Please try again.");
+        setError("No speech detected. Please try again and speak clearly.");
       }
     } catch (err) {
       setError("Failed to process audio. Please try again.");
       console.error('🎤 [VOICE] Error processing audio:', err);
     } finally {
       setIsProcessing(false);
+      setRecordingDuration(0);
     }
   };
 
@@ -109,6 +174,12 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
     } else {
       startRecording();
     }
+  };
+
+  const formatDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -133,9 +204,9 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
         )}
         <span className="text-sm">
           {isProcessing
-            ? 'Processing...'
+            ? 'Transcribing...'
             : isRecording
-              ? 'Stop Recording'
+              ? `Stop Recording (${formatDuration(recordingDuration)})`
               : 'Voice Input'
           }
         </span>
@@ -150,7 +221,7 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
       {isRecording && (
         <p className="text-xs text-[#8f867e] flex items-center">
           <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-2" />
-          Recording... Click stop when finished
+          Listening... Click stop when finished speaking
         </p>
       )}
     </div>

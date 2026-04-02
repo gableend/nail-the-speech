@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import OpenAI, { toFile } from 'openai';
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,31 +32,39 @@ export async function POST(request: NextRequest) {
       type: audioFile.type
     });
 
-    // Convert the Web API File to a format the OpenAI SDK can handle
-    // In serverless environments, the native File may not be fully compatible
+    if (audioFile.size < 1000) {
+      return NextResponse.json(
+        { error: 'Audio file too small — recording may have been too short' },
+        { status: 400 }
+      );
+    }
+
+    // Convert the Web API File to a format the OpenAI SDK reliably handles
+    // using the official toFile helper (works in serverless environments)
     const arrayBuffer = await audioFile.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const file = new File([buffer], audioFile.name || 'recording.webm', {
-      type: audioFile.type || 'audio/webm',
-    });
+    const file = await toFile(
+      Buffer.from(arrayBuffer),
+      audioFile.name || 'recording.webm',
+      { type: audioFile.type || 'audio/webm' }
+    );
 
     // Convert audio to text using Whisper
     const transcription = await openai.audio.transcriptions.create({
       file,
       model: 'whisper-1',
-      language: 'en', // Can be made dynamic if needed
-      response_format: 'json',
-      temperature: 0.2, // Lower temperature for more consistent transcription
+      language: 'en',
+      response_format: 'verbose_json', // Get more detail for debugging
+      temperature: 0,
     });
 
     console.log('✅ [SPEECH-TO-TEXT] Transcription successful:', {
       text: transcription.text,
-      // Note: duration is not available in OpenAI Whisper API response
+      duration: transcription.duration,
     });
 
     return NextResponse.json({
       text: transcription.text,
-      // Note: duration is not provided by OpenAI Whisper API
+      duration: transcription.duration,
     });
 
   } catch (error) {

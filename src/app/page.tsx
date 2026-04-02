@@ -3,6 +3,7 @@ import { Users, Clock, ChevronDown, Menu, Sparkles, ArrowRight } from "lucide-re
 import Link from "next/link";
 import AuthNavigation from "@/components/AuthNavigation";
 import HomeClient from "@/components/HomeClient";
+import FAQ from "@/components/FAQ";
 
 export default function HomePage() {
   return (
@@ -292,6 +293,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <FAQ />
 
       {/* Footer */}
       <footer className="bg-[#181615] text-white py-12">

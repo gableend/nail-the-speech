@@ -165,7 +165,8 @@ export default function HomePage() {
                 image: "/images/mother-of-bride.webp",
                 popular: false,
                 slug: "mother-of-bride",
-                description: "Loving words from a mother's heart on this special day"
+                description: "Loving words from a mother's heart on this special day",
+                objectPosition: "center 30%"
               },
               {
                 title: "Groom",
@@ -188,7 +189,8 @@ export default function HomePage() {
                     <img
                       src={role.image}
                       alt={role.title}
-                      className="w-full h-72 object-cover object-top"
+                      className="w-full h-72 object-cover"
+                      style={{ objectPosition: ('objectPosition' in role ? role.objectPosition : 'top') }}
                       loading="lazy"
                     />
                     {role.popular && (

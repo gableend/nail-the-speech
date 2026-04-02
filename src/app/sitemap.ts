@@ -1,0 +1,61 @@
+import { MetadataRoute } from 'next';
+import { speechCategories, exampleSpeeches } from '@/data/exampleSpeeches';
+import { articles } from '@/data/articles';
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://nailthespeech.com';
+
+  // Static pages
+  const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/generator`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/examples`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/advice`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+  ];
+
+  // Example speech category pages (/examples/[category])
+  const categoryPages: MetadataRoute.Sitemap = speechCategories.map(cat => ({
+    url: `${baseUrl}/examples/${cat.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
+
+  // Individual example speech pages (/examples/[category]/[slug])
+  const speechPages: MetadataRoute.Sitemap = exampleSpeeches.map(speech => ({
+    url: `${baseUrl}/examples/${speech.category}/${speech.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }));
+
+  // Advice article pages (/advice/[slug])
+  const advicePages: MetadataRoute.Sitemap = articles.map(article => ({
+    url: `${baseUrl}/advice/${article.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: article.sections.length > 1 || article.sections[0]?.heading !== 'Coming Soon' ? 0.7 : 0.4,
+  }));
+
+  return [...staticPages, ...categoryPages, ...speechPages, ...advicePages];
+}

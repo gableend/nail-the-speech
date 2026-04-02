@@ -1840,11 +1840,11 @@ function GeneratorContent() {
                     {/* Enhanced Speech Stats */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div className="bg-gradient-to-br from-[#da5389]/10 to-[#da5389]/5 rounded-lg p-4 text-center">
-                        <div className="text-2xl font-bold text-[#da5389]">{countWords(generatedSpeech)}</div>
+                        <div className="text-2xl font-bold text-[#da5389]">{countWords(fullSpeechRef.current || generatedSpeech)}</div>
                         <div className="text-sm font-medium text-[#8f867e]">Words</div>
                       </div>
                       <div className="bg-gradient-to-br from-[#da5389]/10 to-[#da5389]/5 rounded-lg p-4 text-center">
-                        <div className="text-2xl font-bold text-[#da5389]">{estimateReadingTime(generatedSpeech)}</div>
+                        <div className="text-2xl font-bold text-[#da5389]">{estimateReadingTime(fullSpeechRef.current || generatedSpeech)}</div>
                         <div className="text-sm font-medium text-[#8f867e]">Minutes</div>
                       </div>
                       <div className="bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg p-4 text-center">

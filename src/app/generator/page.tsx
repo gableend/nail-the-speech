@@ -16,6 +16,7 @@ import VoiceInput from "@/components/VoiceInput";
 import { getOrCreateAnonymousUserId, getSpeechGenerationCount, incrementSpeechGenerationCount } from "@/lib/clientAnonymousUser";
 import ProUpgradePrompt from "@/components/ProUpgradePrompt";
 import { useProStatus } from "@/hooks/useProStatus";
+import { useUser } from "@clerk/nextjs";
 import { getPreviewText } from "@/lib/speechPreview";
 
 interface FormData {
@@ -124,6 +125,7 @@ function GeneratorContent() {
   const needsRoleSelection = !roleFromUrl && !speechIdFromUrl;
   const isEditMode = !!speechIdFromUrl;
   const initialStep = stepFromUrl ? Number.parseInt(stepFromUrl) : (needsRoleSelection ? 0 : 1);
+  const { isSignedIn } = useUser();
   // hideStep3 and totalSteps are now computed below after isProUser is available
 
   const [currentStep, setCurrentStep] = useState(initialStep);
@@ -1003,9 +1005,9 @@ function GeneratorContent() {
                 {demoMode ? "Demo ON" : "Demo"}
               </button>
 
-              <Link href="/dashboard">
+              <Link href={isSignedIn ? "/dashboard" : "/"}>
                 <Button className="hidden md:block bg-black hover:bg-black/90 text-white rounded-full">
-                  Dashboard
+                  {isSignedIn ? "Dashboard" : "Home"}
                 </Button>
               </Link>
             </div>

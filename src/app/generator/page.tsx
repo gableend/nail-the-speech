@@ -771,13 +771,14 @@ function GeneratorContent() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        if (errorData?.error === 'pro_required' || errorData?.error === 'free_generation_limit') {
+        // 403 = paywall (pro_required or free_generation_limit) → redirect to checkout
+        if (response.status === 403) {
           setIsGenerating(false);
           redirectToCheckout();
           return;
         }
-        throw new Error('Failed to generate speech');
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || 'Failed to generate speech');
       }
 
       const reader = response.body?.getReader();
@@ -884,7 +885,14 @@ function GeneratorContent() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate speech');
+        // 403 = paywall → redirect to checkout
+        if (response.status === 403) {
+          setIsGenerating(false);
+          redirectToCheckout();
+          return;
+        }
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || 'Failed to generate speech');
       }
 
       const reader = response.body?.getReader();

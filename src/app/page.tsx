@@ -54,7 +54,7 @@ export default function HomePage() {
                 <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg border border-[#e8e1d8] p-4 min-w-[200px]">
                   <Link href="/generator" className="block py-2 text-[#181615] hover:text-[#da5389]">Speech Tips</Link>
                   <Link href="/generator" className="block py-2 text-[#181615] hover:text-[#da5389]">Practice Guide</Link>
-                  <Link href="/generator" className="block py-2 text-[#181615] hover:text-[#da5389]">Examples</Link>
+                  <Link href="/examples" className="block py-2 text-[#181615] hover:text-[#da5389]">Examples</Link>
                 </div>
               </div>
             </div>

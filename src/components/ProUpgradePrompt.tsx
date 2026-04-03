@@ -92,6 +92,16 @@ export default function ProUpgradePrompt({
       title: "Advanced Personalization",
       description: "Add personal stories, inside jokes, and more",
       icon: <Crown className="h-4 w-4 text-green-600" />
+    },
+    {
+      title: "Receive Your Speech via Email",
+      description: "Get a polished copy sent straight to your inbox",
+      icon: <Crown className="h-4 w-4 text-green-600" />
+    },
+    {
+      title: "Edit with Our Speech Editor",
+      description: "Use our built-in editor to add your own personal touches",
+      icon: <Crown className="h-4 w-4 text-green-600" />
     }
   ];
 
@@ -404,7 +414,7 @@ export default function ProUpgradePrompt({
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-4">
-          {activeFeatures.slice(0, 4).map((feature, idx) => (
+          {activeFeatures.map((feature, idx) => (
             <div key={`feature-card-${idx}-${feature.title}`} className="flex items-center gap-2">
               <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
                 {feature.icon}

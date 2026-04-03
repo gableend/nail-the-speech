@@ -20,6 +20,260 @@ import { useUser } from "@clerk/nextjs";
 import { getPreviewText } from "@/lib/speechPreview";
 import { speechRoles, getRoleBySlug } from "@/data/speechRoles";
 
+// ── Role-contextual story prompts for Step 4 ──────────────────────
+interface StoryPrompt {
+  question: string;
+  hint: string;
+  placeholder: string;
+  examples: string[];
+}
+
+function getStoryPrompt(roleSlug: string, groomName: string, brideName: string): StoryPrompt {
+  const groom = groomName || 'the groom';
+  const bride = brideName || 'the bride';
+
+  const prompts: Record<string, StoryPrompt> = {
+    'best-man': {
+      question: `What's your favourite story about ${groom}?`,
+      hint: `Something funny, embarrassing, or genuinely touching. The best speeches have one killer story.`,
+      placeholder: `e.g., I'll never forget when ${groom} tried to cook dinner for their third date and set off every smoke alarm in the building...`,
+      examples: [
+        `We met in college as roommates and instantly clicked over our shared love of terrible movies and good pizza. Five years later, here we are...`,
+        `${groom} once drove four hours in a snowstorm to help me move. He showed up with a van, no questions asked. That's the kind of friend he is.`,
+        `The moment I knew ${bride} was the one for ${groom} was at a barbecue. He couldn't stop looking at her, and he burned every single burger. Worth it.`,
+      ],
+    },
+    'maid-of-honor': {
+      question: `What's your favourite story about ${bride}?`,
+      hint: `A moment that shows who she really is. Funny, sweet, or a bit of both.`,
+      placeholder: `e.g., The night ${bride} told me about ${groom}, she couldn't stop smiling. I hadn't seen her like that before...`,
+      examples: [
+        `${bride} and I have been friends since school. I still remember the day she tripped on stage at assembly and just laughed it off. She's always been like that.`,
+        `She called me at midnight to say she'd met someone. She talked for two hours straight. I knew right then this was different.`,
+        `We backpacked through Southeast Asia together and she negotiated our way out of a very dodgy taxi situation. She's the bravest person I know.`,
+      ],
+    },
+    'father-of-bride': {
+      question: `What moment with ${bride} would you love to share?`,
+      hint: `A memory from childhood, a proud-dad moment, or when you first met ${groom}.`,
+      placeholder: `e.g., When ${bride} was little, she used to make me sit through her pretend restaurants. She'd take my order, disappear for 20 minutes, then bring me a sandwich with the crusts cut off...`,
+      examples: [
+        `I remember teaching her to ride a bike. She fell off about fifteen times, refused any help, then just did it. That stubbornness has served her well.`,
+        `The first time ${groom} came to the house, ${bride} had clearly briefed him. He complimented the garden, asked about my golf, and brought decent wine. I was suspicious immediately.`,
+        `She called me on a Tuesday, completely out of the blue, and said "Dad, I'm getting married." I had to pull the car over.`,
+      ],
+    },
+    'mother-of-bride': {
+      question: `What's a story about ${bride} that captures who she is?`,
+      hint: `A mum's perspective. Something that still makes you laugh or tear up.`,
+      placeholder: `e.g., Even as a little girl, ${bride} was the one organising everyone. She once planned a "wedding" for two teddies, complete with a guest list...`,
+      examples: [
+        `${bride} has always been the one looking after everyone else. Even aged eight, she'd check on the kids playing alone at the park.`,
+        `I knew ${groom} was right for her when she started laughing differently. That silly, uncontrollable laugh she only does when she's truly happy.`,
+        `She made me promise not to cry during my speech. So naturally, I started crying while writing it.`,
+      ],
+    },
+    'groom': {
+      question: `What do you want ${bride} and everyone to know?`,
+      hint: `When did you know? What makes your relationship work? Keep it real.`,
+      placeholder: `e.g., I knew on our second date. She spilled wine on my shirt and instead of being embarrassed, she just laughed and said "well, that's a conversation starter"...`,
+      examples: [
+        `I want to thank her parents for raising the most patient woman alive. She has to be, putting up with me.`,
+        `I practised this speech in the mirror six times. ${bride} caught me once and hasn't stopped laughing about it since.`,
+        `The moment I knew was when she stayed up all night with me when my dog was sick. She didn't have to. She just did.`,
+      ],
+    },
+    'bride': {
+      question: `What do you want ${groom} and everyone to know?`,
+      hint: `What made you fall for them? A favourite memory together? Something people might not know.`,
+      placeholder: `e.g., He proposed on a random Tuesday. No fancy restaurant, no ring hidden in dessert. Just us on the sofa, and he said "I don't want to do life without you"...`,
+      examples: [
+        `I fell in love with ${groom} because he remembers every small thing I've ever told him. He's quietly the most thoughtful person in any room.`,
+        `He won my parents over the first time he visited by fixing the kitchen tap my dad had been "getting to" for three years.`,
+        `Everyone thinks he's the funny one. He is. But he's also the first person I call when something goes wrong.`,
+      ],
+    },
+    'father-of-groom': {
+      question: `What's a story about ${groom} that says it all?`,
+      hint: `A proud moment, a funny memory, or what you thought when you met ${bride}.`,
+      placeholder: `e.g., ${groom} was always the kid who'd bring home stray animals. He had a big heart even then...`,
+      examples: [
+        `He was never the loudest kid in the room, but everyone listened when he talked. He's still like that.`,
+        `The first time he mentioned ${bride}, he got this look on his face. I turned to his mother and said "this is serious."`,
+        `I taught him everything I know. Which means he learned pretty quickly to figure things out on his own.`,
+      ],
+    },
+    'mother-of-groom': {
+      question: `What's your favourite memory of ${groom}?`,
+      hint: `Something from when he was young, a moment that made you proud, or when you knew ${bride} was the one.`,
+      placeholder: `e.g., He's always been protective. Even at five years old, he'd hold my hand crossing the road because he thought he was looking after me...`,
+      examples: [
+        `He called me the night he met ${bride} and said "Mum, I've met someone." I could hear it in his voice. He was done looking.`,
+        `When he was twelve, he made me a Mother's Day card that said "You're the best mum in the world, probably." That "probably" is pure ${groom}.`,
+        `Watching him become the man standing here today has been the greatest thing I've ever done.`,
+      ],
+    },
+    'brother-of-bride': {
+      question: `What's a story about growing up with ${bride}?`,
+      hint: `Sibling stuff. The funny, the embarrassing, the moment you realised she'd turned out alright.`,
+      placeholder: `e.g., She once told everyone at school I was afraid of butterflies. I wasn't. But by the end of the week, I almost was...`,
+      examples: [
+        `We fought over everything growing up. The remote, the front seat, whose turn it was to take the bins out. Turns out those arguments taught us both how to stand our ground.`,
+        `She used to practise hairstyles on me. I've still got the photos. ${groom}, you're welcome to see them for a small fee.`,
+        `I knew ${groom} was good enough for her when she started quoting his jokes. ${bride} never quotes anyone.`,
+      ],
+    },
+    'sister-of-bride': {
+      question: `What's your favourite story about ${bride}?`,
+      hint: `A sisterly moment, something from growing up together, or how you see her relationship with ${groom}.`,
+      placeholder: `e.g., We used to share a room and she'd stay up making plans for everything. Colour-coded schedules for school, for summer, for life...`,
+      examples: [
+        `Growing up, she was always the brave one. First to jump off the diving board, first to talk to new kids at school. I just followed her lead.`,
+        `She stole my favourite jumper in 2014 and I still haven't got it back. This is me publicly requesting its return.`,
+        `The first time I met ${groom}, she kept looking at me for approval. I gave her a thumbs up under the table.`,
+      ],
+    },
+    'bridesmaid': {
+      question: `What makes ${bride} such a great friend?`,
+      hint: `A moment that shows the real her. Doesn't have to be dramatic, just honest.`,
+      placeholder: `e.g., She's the friend who actually shows up. Not just says she will, but is there at your door with snacks when things go wrong...`,
+      examples: [
+        `${bride} drove an hour at midnight to help me when I locked myself out. She didn't complain once. She brought snacks.`,
+        `We went to a festival together and she somehow talked our way backstage. That's her superpower. She makes impossible things happen.`,
+        `I've seen her with ${groom}. She softens in a way I've never seen before. It's the best version of her.`,
+      ],
+    },
+    'best-woman': {
+      question: `What's your favourite story about ${groom}?`,
+      hint: `You've got a unique perspective. What do you know about him that others might not?`,
+      placeholder: `e.g., People think he's all jokes, but I've seen the version of ${groom} that stays on the phone for two hours when you need to talk...`,
+      examples: [
+        `We've been friends since our first job together. He covered for me so many times I lost count. He'd never admit it.`,
+        `I remember when he first met ${bride}. He was nervous in a way I'd never seen before. That's how I knew.`,
+        `He once helped me move house on a 35-degree day. Didn't complain once. Just got on with it.`,
+      ],
+    },
+    'groomsman': {
+      question: `What's a great story about ${groom}?`,
+      hint: `Something that shows what kind of person he is. Funny or meaningful.`,
+      placeholder: `e.g., ${groom} is the kind of friend who texts "how are you?" and actually wants to know the answer...`,
+      examples: [
+        `We played football together for years. He was never the best on the pitch, but he was always the first to buy the drinks after.`,
+        `He lent me money once without me asking. Just noticed I was struggling and quietly sorted it. That's ${groom}.`,
+        `The stag do was legendary. And completely unrepeatable at a wedding speech. So I'll just say: he survived.`,
+      ],
+    },
+  };
+
+  // Category-based fallbacks for roles without specific prompts
+  if (prompts[roleSlug]) return prompts[roleSlug];
+
+  const roleData = getRoleBySlug(roleSlug) ?? null;
+  const category = roleData?.category;
+
+  // Grandparents
+  if (category === 'Grandparents') {
+    const person = roleData?.label.includes('Bride') ? bride : groom;
+    return {
+      question: `What's a memory of ${person} that you treasure?`,
+      hint: `Something from when they were young, a family tradition, or a moment that made you proud.`,
+      placeholder: `e.g., I remember when ${person} was small enough to sit on my knee. Now look at them...`,
+      examples: [
+        `Every Sunday, ${person} would come round for lunch. They always wanted to hear stories from when I was young. I miss those Sundays.`,
+        `I remember the day they were born. I held them and thought, "this one's going to be something special." I was right.`,
+        `${person} once asked me what the secret to a happy marriage was. I said patience. And selective hearing.`,
+      ],
+    };
+  }
+
+  // Step-parents
+  if (category === 'Step-Parents') {
+    const person = roleData?.label.includes('Bride') ? bride : groom;
+    return {
+      question: `What's a moment that defined your bond with ${person}?`,
+      hint: `The turning point, a shared experience, or something small that meant a lot.`,
+      placeholder: `e.g., It took time for us to find our rhythm, but I remember the day ${person} first asked me for advice. That changed everything...`,
+      examples: [
+        `Blending a family is never simple. But the day ${person} introduced me to their friends as family, not "step-anything," I knew we'd made it.`,
+        `We bonded over cooking. Badly. We once set off the smoke alarm making toast. But those moments in the kitchen are some of my favourites.`,
+        `I didn't get to see ${person} grow up from the start, but I'm here for everything from now on.`,
+      ],
+    };
+  }
+
+  // Siblings (catch any not already matched)
+  if (category === 'Siblings') {
+    const person = roleData?.label.includes('Bride') ? bride : groom;
+    return {
+      question: `What's a story about growing up with ${person}?`,
+      hint: `Sibling chaos, a funny memory, or the moment you realised they'd grown up.`,
+      placeholder: `e.g., We shared a room for years. The things I know could fill a book. But today I'll keep it kind...`,
+      examples: [
+        `We used to fight over everything, but the second anyone else had a go at ${person}, I was there. That's what siblings do.`,
+        `${person} was always the organised one. I was the chaotic one. Together we somehow kept the house standing.`,
+        `I knew ${person} had found someone special when they stopped borrowing my stuff. All their attention went somewhere else entirely.`,
+      ],
+    };
+  }
+
+  // In-laws
+  if (category === 'In-Laws') {
+    const person = roleData?.label.includes('Bride') ? bride : groom;
+    return {
+      question: `What's a moment that captures your relationship with ${person}?`,
+      hint: `How you became close, a funny family moment, or what you admire about them.`,
+      placeholder: `e.g., When ${person} joined the family, it felt like they'd always been there...`,
+      examples: [
+        `I gained a sibling when ${person} joined the family. And honestly, an upgrade on the one I already had.`,
+        `Our first family holiday together was chaos. But ${person} just rolled with it. They fit right in.`,
+        `I've never seen my brother/sister happier than when they're with ${person}. That tells you everything.`,
+      ],
+    };
+  }
+
+  // Extended family (uncles, aunts, cousins, nieces, nephews)
+  if (category === 'Extended Family') {
+    const person = roleData?.label.includes('Bride') ? bride : groom;
+    return {
+      question: `What's your favourite memory with ${person}?`,
+      hint: `Family gatherings, childhood visits, or something only you would know.`,
+      placeholder: `e.g., Every family get-together, ${person} was the one who made everyone laugh...`,
+      examples: [
+        `I used to babysit ${person} when they were little. They were trouble then. Charming trouble, but trouble all the same.`,
+        `Every Christmas, ${person} and I would sneak extra dessert before anyone noticed. Some traditions are worth keeping.`,
+        `Watching ${person} grow into the person standing here today has been one of the great joys of being family.`,
+      ],
+    };
+  }
+
+  // Friends
+  if (category === 'Friends') {
+    const person = roleData?.label.includes('Bride') ? bride : groom;
+    return {
+      question: `What's a story that shows who ${person} really is?`,
+      hint: `How you met, a moment that defined your friendship, or what you admire about them.`,
+      placeholder: `e.g., We met at work and bonded over our shared hatred of Monday morning meetings...`,
+      examples: [
+        `We met years ago and just clicked. The kind of friendship where you pick up right where you left off, no matter how long it's been.`,
+        `${person} is the friend who shows up. Not just talks about it. Actually shows up when it matters.`,
+        `I've watched ${person} fall in love and it's been the best thing to see. They deserve every bit of this.`,
+      ],
+    };
+  }
+
+  // Special roles and catch-all
+  return {
+    question: `What's a great story about the couple?`,
+    hint: `A memorable moment, how they met, or something that shows what they're like together.`,
+    placeholder: `e.g., The first time I saw them together, I just knew. They had that thing you can't fake...`,
+    examples: [
+      `I've known them both for years, and seeing them find each other felt like watching a puzzle piece click into place.`,
+      `They balance each other perfectly. One's the planner, the other's the spontaneous one. Together, they somehow make it work.`,
+      `I watched them navigate a family barbecue crisis together once. One handled the burnt food, the other handled the guests. Seamless teamwork.`,
+    ],
+  };
+}
+
 interface FormData {
   // Role Selection (if needed)
   selectedRole: string;
@@ -1141,7 +1395,7 @@ function GeneratorContent() {
               {currentStep === 1 && <span className="text-sm font-medium text-[#8f867e]">What's your role?</span>}
               {currentStep === 2 && <span className="text-sm font-medium text-[#8f867e]">Tell us about the couple</span>}
               {currentStep === 3 && <span className="text-sm font-medium text-[#8f867e]">Your connection</span>}
-              {currentStep === 4 && <span className="text-sm font-medium text-[#8f867e]">Share a story</span>}
+              {currentStep === 4 && <span className="text-sm font-medium text-[#8f867e]">The good stuff</span>}
               {currentStep === 5 && !speechGenerated && <span className="text-sm font-medium text-[#8f867e]">Generating your speech</span>}
               {currentStep === 5 && speechGenerated && <span className="text-sm font-medium text-[#da5389]">Speech ready</span>}
             </div>
@@ -1170,7 +1424,7 @@ function GeneratorContent() {
                 {currentStep === 1 && "What's your role?"}
                 {currentStep === 2 && "Who's getting married?"}
                 {currentStep === 3 && "How do you know them?"}
-                {currentStep === 4 && "Share a story"}
+                {currentStep === 4 && "Tell us a story"}
                 {currentStep === 5 && (speechGenerated ? "Your Speech" : "Generating your speech")}
               </CardTitle>
             </div>
@@ -1179,7 +1433,7 @@ function GeneratorContent() {
               {currentStep === 1 && "Pick the role that best describes you"}
               {currentStep === 2 && "Just first names is fine"}
               {currentStep === 3 && "This helps us get the tone right"}
-              {currentStep === 4 && "The best speeches have one great story"}
+              {currentStep === 4 && "The best speeches have one great story. This is yours."}
               {currentStep === 5 && !speechGenerated && "Sit tight, this takes a few seconds"}
               {currentStep === 5 && speechGenerated && "Review, refine, and make it yours"}
             </p>
@@ -1345,32 +1599,53 @@ function GeneratorContent() {
               </div>
             )}
 
-            {/* Step 4: Story */}
-            {currentStep === 4 && (
-              <div className="space-y-6 max-w-lg mx-auto">
-                <div>
-                  <label className="block text-base font-medium text-[#181615] mb-2">
-                    Tell us a moment worth sharing
-                  </label>
-                  <p className="text-sm text-[#8f867e] mb-3">Funny, meaningful, or both. Don't overthink it.</p>
-                  <Textarea
-                    placeholder="e.g., I'll never forget when he tried to cook dinner for their third date and set off the smoke alarm..."
-                    value={formData.greatStoryMemory}
-                    onChange={(e) => updateFormData('greatStoryMemory', e.target.value)}
-                    rows={5}
-                    className="darker-placeholder text-base"
-                    autoFocus
-                  />
-                  <div className="flex items-center justify-end mt-2">
-                    <VoiceInput
-                      onTranscription={(text) => updateFormData('greatStoryMemory', text)}
-                      placeholder="Tell your story by voice"
-                      disabled={isGenerating}
+            {/* Step 4: Story (contextual to role) */}
+            {currentStep === 4 && (() => {
+              const storyPrompts = getStoryPrompt(formData.selectedRole, formData.groomName, formData.brideName);
+              return (
+                <div className="space-y-6 max-w-lg mx-auto">
+                  <div>
+                    <label className="block text-base font-medium text-[#181615] mb-2">
+                      {storyPrompts.question}
+                    </label>
+                    <p className="text-sm text-[#8f867e] mb-3">{storyPrompts.hint}</p>
+
+                    {/* Expandable examples */}
+                    <details className="mb-4 group">
+                      <summary className="flex items-center gap-2 text-sm font-medium text-[#da5389] cursor-pointer select-none hover:text-[#c4447a] transition-colors">
+                        <span className="transition-transform group-open:rotate-90">▶</span>
+                        <span className="group-open:hidden">Show Examples</span>
+                        <span className="hidden group-open:inline">Hide Examples</span>
+                      </summary>
+                      <div className="mt-3 bg-[#faf7f4] border border-[#e8e1d8] rounded-xl p-4 space-y-3">
+                        <p className="text-xs font-semibold text-[#8f867e] uppercase tracking-wide">Examples:</p>
+                        {storyPrompts.examples.map((ex, i) => (
+                          <p key={i} className="text-sm text-[#5a534e] italic leading-relaxed">
+                            &ldquo;{ex}&rdquo;
+                          </p>
+                        ))}
+                      </div>
+                    </details>
+
+                    <Textarea
+                      placeholder={storyPrompts.placeholder}
+                      value={formData.greatStoryMemory}
+                      onChange={(e) => updateFormData('greatStoryMemory', e.target.value)}
+                      rows={5}
+                      className="darker-placeholder text-base"
+                      autoFocus
                     />
+                    <div className="flex items-center justify-end mt-2">
+                      <VoiceInput
+                        onTranscription={(text) => updateFormData('greatStoryMemory', text)}
+                        placeholder="Tell your story by voice"
+                        disabled={isGenerating}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Section: Pro Features (Premium - Adds Personality & Emotional Depth) - legacy step, hidden */}
             {currentStep === 99 && (

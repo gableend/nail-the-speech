@@ -85,7 +85,14 @@ export default function DashboardClient() {
   const [retryCount, setRetryCount] = useState(0);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [showProBanner, setShowProBanner] = useState(true);
+  const [showProBanner, setShowProBanner] = useState(false);
+
+  // Only show pro banner once we've confirmed the user is not pro
+  useEffect(() => {
+    if (!proStatusLoading && !isProUser) {
+      setShowProBanner(true);
+    }
+  }, [proStatusLoading, isProUser]);
 
   // Speech management state
   const [editingTitle, setEditingTitle] = useState<string | null>(null);
@@ -550,7 +557,7 @@ export default function DashboardClient() {
         </Card>
       </div>
 
-      {!proStatusLoading && !isProUser && showProBanner && (
+      {!proStatusLoading && !isProUser && !loading && showProBanner && speeches.length > 0 && (
         <ProUpgradePrompt
           variant="banner"
           showCloseButton={true}

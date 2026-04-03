@@ -36,12 +36,15 @@ export default function SiteHeader() {
                   Speech Types <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
                 <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg border border-[#e8e1d8] p-4 min-w-[200px]">
-                  <Link href="/generator?role=groom" className="block py-2 text-[#181615] hover:text-[#da5389]">Groom</Link>
-                  <Link href="/generator?role=bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Bride</Link>
                   <Link href="/generator?role=best-man" className="block py-2 text-[#181615] hover:text-[#da5389]">Best Man</Link>
                   <Link href="/generator?role=maid-of-honor" className="block py-2 text-[#181615] hover:text-[#da5389]">Maid of Honor</Link>
-                  <Link href="/generator?role=father-of-bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Father of Bride</Link>
-                  <Link href="/generator?role=mother-of-bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Mother of Bride</Link>
+                  <Link href="/generator?role=father-of-bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Father of the Bride</Link>
+                  <Link href="/generator?role=mother-of-bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Mother of the Bride</Link>
+                  <Link href="/generator?role=groom" className="block py-2 text-[#181615] hover:text-[#da5389]">Groom</Link>
+                  <Link href="/generator?role=bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Bride</Link>
+                  <div className="border-t border-[#e8e1d8] mt-2 pt-2">
+                    <Link href="/#all-roles" className="block py-2 text-[#da5389] hover:text-[#c44578] font-medium text-sm">All Roles &rarr;</Link>
+                  </div>
                 </div>
               </div>
 

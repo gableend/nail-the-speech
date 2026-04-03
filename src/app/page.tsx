@@ -5,6 +5,7 @@ import Link from "next/link";
 import HomeClient from "@/components/HomeClient";
 import FAQ from "@/components/FAQ";
 import { faqs } from "@/data/faqData";
+import { majorRoles, getMinorRolesByCategory } from "@/data/speechRoles";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -157,61 +158,17 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Speech Types Cards */}
+          {/* Major Speech Type Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {[
-              {
-                title: "Best Man",
-                image: "/images/best-man.webp",
-                popular: true,
-                slug: "best-man",
-                description: "Hilarious stories and heartfelt moments for the groom's closest friend"
-              },
-              {
-                title: "Maid of Honor",
-                image: "/images/brides-maid.webp",
-                popular: true,
-                slug: "maid-of-honor",
-                description: "Celebrate your friendship and her journey to finding love"
-              },
-              {
-                title: "Father of Bride",
-                image: "/images/father-of-bride.webp",
-                popular: false,
-                slug: "father-of-bride",
-                description: "A father's pride and blessing for his daughter's new chapter"
-              },
-              {
-                title: "Mother of Bride",
-                image: "/images/mother-of-bride.webp",
-                popular: false,
-                slug: "mother-of-bride",
-                description: "Loving words from a mother's heart on this special day",
-                objectPosition: "center 30%"
-              },
-              {
-                title: "Groom",
-                image: "/images/groom.webp",
-                popular: false,
-                slug: "groom",
-                description: "Thank your loved ones and declare your love for your bride"
-              },
-              {
-                title: "Bride",
-                image: "/images/bride.webp",
-                popular: false,
-                slug: "bride",
-                description: "Express gratitude and love to family, friends, and your groom"
-              }
-            ].map((role) => (
-              <Link key={role.title} href={`/generator?role=${role.slug}`} className="group">
+            {majorRoles.map((role) => (
+              <Link key={role.slug} href={`/generator?role=${role.slug}`} className="group">
                 <div className="relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                   <div className="relative">
                     <img
-                      src={role.image}
-                      alt={role.title}
+                      src={role.image!}
+                      alt={role.label}
                       className="w-full h-72 object-cover"
-                      style={{ objectPosition: ('objectPosition' in role ? role.objectPosition : 'top') }}
+                      style={{ objectPosition: role.objectPosition || 'top' }}
                       loading="lazy"
                     />
                     {role.popular && (
@@ -226,7 +183,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-[#da5389] text-xl font-bold mb-2">{role.title}</h3>
+                    <h3 className="text-[#da5389] text-xl font-bold mb-2">{role.label}</h3>
                     <p className="text-[#6b5b73] text-sm leading-relaxed mb-4">{role.description}</p>
                     <div className="flex items-center text-[#da5389] font-medium">
                       <span>Get Started</span>
@@ -236,6 +193,40 @@ export default function HomePage() {
                 </div>
               </Link>
             ))}
+          </div>
+
+          {/* Minor Roles - Compact Grid */}
+          <div id="all-roles" className="mt-16 max-w-5xl mx-auto scroll-mt-28">
+            <h3 className="text-2xl font-bold text-[#181615] text-center mb-2">
+              Speeches for every role
+            </h3>
+            <p className="text-[#8f867e] text-center mb-8">
+              Giving a speech at a wedding? We've got you covered, whatever your role.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+              {getMinorRolesByCategory().map((group) => (
+                <div key={group.category}>
+                  <h4 className="text-xs font-semibold text-[#8f867e] uppercase tracking-wider mb-2">
+                    {group.category}
+                  </h4>
+                  <ul className="space-y-1">
+                    {group.roles.map((role) => (
+                      <li key={role.slug}>
+                        <Link
+                          href={`/generator?role=${role.slug}`}
+                          className="group/link flex items-center gap-2 py-1.5 text-[#181615] hover:text-[#da5389] transition-colors"
+                        >
+                          <span className="text-sm">{role.emoji}</span>
+                          <span className="text-sm font-medium">{role.label}</span>
+                          <ArrowRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all text-[#da5389]" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

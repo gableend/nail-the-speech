@@ -22,8 +22,11 @@ export default function SiteFooter() {
             <ul className="space-y-2 text-gray-300">
               <li><Link href="/generator?role=best-man" className="hover:text-[#da5389]">Best Man</Link></li>
               <li><Link href="/generator?role=maid-of-honor" className="hover:text-[#da5389]">Maid of Honor</Link></li>
-              <li><Link href="/generator?role=father-of-bride" className="hover:text-[#da5389]">Father of Bride</Link></li>
-              <li><Link href="/generator?role=mother-of-bride" className="hover:text-[#da5389]">Mother of Bride</Link></li>
+              <li><Link href="/generator?role=father-of-bride" className="hover:text-[#da5389]">Father of the Bride</Link></li>
+              <li><Link href="/generator?role=mother-of-bride" className="hover:text-[#da5389]">Mother of the Bride</Link></li>
+              <li><Link href="/generator?role=groom" className="hover:text-[#da5389]">Groom</Link></li>
+              <li><Link href="/generator?role=bride" className="hover:text-[#da5389]">Bride</Link></li>
+              <li><Link href="/#all-roles" className="hover:text-[#da5389] text-[#da5389]">All Roles &rarr;</Link></li>
             </ul>
           </div>
 

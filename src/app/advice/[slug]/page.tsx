@@ -9,6 +9,81 @@ import {
 } from '@/data/articles';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
+import React from 'react';
+
+// ── Content renderer with markdown-like formatting ──────────
+function renderInline(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, k) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={k} className="font-semibold text-[#181615]">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return <span key={k}>{part}</span>;
+  });
+}
+
+function ContentRenderer({ content }: { content: string }) {
+  // Split on double newlines into blocks
+  const blocks = content.split('\n\n');
+  const elements: React.ReactNode[] = [];
+  let key = 0;
+
+  for (const block of blocks) {
+    const lines = block.split('\n');
+
+    // Separate any leading prose from list items within the same block
+    const proseLines: string[] = [];
+    const bulletItems: string[] = [];
+    const numberedItems: string[] = [];
+
+    for (const line of lines) {
+      if (line.startsWith('- ')) {
+        bulletItems.push(line.slice(2));
+      } else if (/^\d+\.\s/.test(line)) {
+        numberedItems.push(line.replace(/^\d+\.\s/, ''));
+      } else if (line.trim() !== '') {
+        proseLines.push(line);
+      }
+    }
+
+    // Render leading prose as a paragraph
+    if (proseLines.length > 0) {
+      elements.push(
+        <p key={key++} className="text-[#4a4543] leading-relaxed">
+          {renderInline(proseLines.join(' '))}
+        </p>
+      );
+    }
+
+    // Render bullet list
+    if (bulletItems.length > 0) {
+      elements.push(
+        <ul key={key++} className="list-disc pl-6 space-y-1.5 text-[#4a4543] leading-relaxed">
+          {bulletItems.map((item, k) => (
+            <li key={k}>{renderInline(item)}</li>
+          ))}
+        </ul>
+      );
+    }
+
+    // Render numbered list
+    if (numberedItems.length > 0) {
+      elements.push(
+        <ol key={key++} className="list-decimal pl-6 space-y-1.5 text-[#4a4543] leading-relaxed">
+          {numberedItems.map((item, k) => (
+            <li key={k}>{renderInline(item)}</li>
+          ))}
+        </ol>
+      );
+    }
+  }
+
+  return <div className="space-y-4">{elements}</div>;
+}
 
 // Generate all article pages at build time
 export function generateStaticParams() {
@@ -133,26 +208,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     {section.heading}
                   </h3>
                 )}
-                <div className="space-y-4">
-                  {section.content.split('\n\n').map((paragraph, j) => {
-                    // Handle bold text (**text**)
-                    const parts = paragraph.split(/(\*\*[^*]+\*\*)/g);
-                    return (
-                      <p key={j} className="text-[#4a4543] leading-relaxed">
-                        {parts.map((part, k) => {
-                          if (part.startsWith('**') && part.endsWith('**')) {
-                            return (
-                              <strong key={k} className="font-semibold text-[#181615]">
-                                {part.slice(2, -2)}
-                              </strong>
-                            );
-                          }
-                          return <span key={k}>{part}</span>;
-                        })}
-                      </p>
-                    );
-                  })}
-                </div>
+                <ContentRenderer content={section.content} />
               </div>
             ))}
           </div>

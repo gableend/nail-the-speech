@@ -339,7 +339,7 @@ export default function ProUpgradePrompt({
         <h3 className="text-xl font-bold text-[#181615] mb-1">Your speech is ready!</h3>
         <p className="text-[#8f867e] mb-4">Upgrade to unlock the full text, copy, download, and edit.</p>
 
-        <div className="grid grid-cols-2 gap-3 mb-5 max-w-md mx-auto text-left">
+        <div className="grid grid-cols-2 gap-3 mb-5 max-w-lg mx-auto text-left">
           {activeFeatures.map((feature, idx) => (
             <div key={`inline-feature-${idx}`} className="flex items-center gap-2">
               <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center shrink-0">
@@ -413,7 +413,7 @@ export default function ProUpgradePrompt({
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className="grid grid-cols-2 gap-3 mb-4 max-w-lg mx-auto">
           {activeFeatures.map((feature, idx) => (
             <div key={`feature-card-${idx}-${feature.title}`} className="flex items-center gap-2">
               <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">

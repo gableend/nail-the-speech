@@ -769,7 +769,7 @@ function GeneratorContent() {
     try {
       const checkoutData: Record<string, unknown> = {
         email: null,
-        returnUrl: typeof window !== 'undefined' ? window.location.pathname : null
+        returnUrl: '/dashboard'
       };
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',

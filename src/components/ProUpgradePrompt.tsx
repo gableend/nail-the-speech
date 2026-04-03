@@ -114,7 +114,7 @@ export default function ProUpgradePrompt({
       // Prepare data for checkout
       const checkoutData: Record<string, unknown> = {
         email: null, // Will be filled by Stripe checkout
-        returnUrl: typeof window !== 'undefined' ? window.location.pathname : null
+        returnUrl: '/dashboard'
       };
 
       // If we have speech data, save it to localStorage for retrieval after payment and login

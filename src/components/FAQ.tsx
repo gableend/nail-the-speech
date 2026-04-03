@@ -2,10 +2,16 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { faqs } from "@/data/faqData";
+import { FAQItem, faqs as homeFaqs } from "@/data/faqData";
 
-export default function FAQ() {
+interface FAQProps {
+  items?: FAQItem[];
+  title?: string;
+}
+
+export default function FAQ({ items, title = "Frequently asked questions" }: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const faqItems = items || homeFaqs;
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -15,11 +21,11 @@ export default function FAQ() {
     <section className="py-16 bg-[#faf7f4]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] text-center mb-12">
-          Frequently asked questions
+          {title}
         </h2>
 
         <div className="space-y-3">
-          {faqs.map((faq, index) => (
+          {faqItems.map((faq, index) => (
             <div
               key={index}
               className="bg-white rounded-xl border border-[#e8e1d8] overflow-hidden transition-shadow hover:shadow-sm"

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { generatorFaqs } from "@/data/faqData";
 
 export const metadata: Metadata = {
   title: "Wedding Speech Generator — Create Your Speech | Nail The Speech",
@@ -14,6 +15,32 @@ export const metadata: Metadata = {
   },
 };
 
+function GeneratorJsonLd() {
+  const faqLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: generatorFaqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+    />
+  );
+}
+
 export default function GeneratorLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <GeneratorJsonLd />
+      {children}
+    </>
+  );
 }

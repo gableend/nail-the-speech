@@ -4,6 +4,8 @@ import { speechCategories, getAllGroups, exampleSpeeches } from '@/data/exampleS
 import ExamplesFilterClient from '@/components/ExamplesFilterClient';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
+import FAQ from '@/components/FAQ';
+import { examplesFaqs } from '@/data/faqData';
 
 export const metadata: Metadata = {
   title: 'Wedding Speech Examples — 60+ Types | Nail The Speech',
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
 
 // JSON-LD structured data for the examples hub
 function ExamplesJsonLd() {
-  const jsonLd = {
+  const collectionLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Wedding Speech Examples',
@@ -43,11 +45,29 @@ function ExamplesJsonLd() {
       })),
     },
   };
+  const faqLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: examplesFaqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
+    </>
   );
 }
 
@@ -106,6 +126,9 @@ export default function ExamplesPage() {
           );
         })}
       </section>
+
+      {/* FAQ */}
+      <FAQ items={examplesFaqs} title="Questions about speech examples" />
 
       {/* CTA */}
       <section className="bg-[#181615] text-white py-16">

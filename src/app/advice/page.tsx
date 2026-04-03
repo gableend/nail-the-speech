@@ -4,6 +4,8 @@ import { ArrowRight } from 'lucide-react';
 import { articles, getArticlesByCategory, getPublishedArticles } from '@/data/articles';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
+import FAQ from '@/components/FAQ';
+import { adviceFaqs } from '@/data/faqData';
 
 export const metadata: Metadata = {
   title: 'Wedding Speech Help & Advice — Tips, Guides & Practice',
@@ -21,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 function AdviceJsonLd() {
-  const jsonLd = {
+  const collectionLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Wedding Speech Help & Advice',
@@ -42,11 +44,29 @@ function AdviceJsonLd() {
       })),
     },
   };
+  const faqLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: adviceFaqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
+    </>
   );
 }
 
@@ -138,6 +158,9 @@ export default function AdvicePage() {
           </div>
         ))}
       </section>
+
+      {/* FAQ */}
+      <FAQ items={adviceFaqs} title="Questions about wedding speeches" />
 
       {/* CTA */}
       <section className="bg-[#181615] text-white py-16">

@@ -20,6 +20,77 @@ import { useUser } from "@clerk/nextjs";
 import { getPreviewText } from "@/lib/speechPreview";
 import { speechRoles, getRoleBySlug } from "@/data/speechRoles";
 
+// ── Speech tones with role-specific recommendations ───────────────
+interface SpeechTone {
+  value: string;
+  label: string;
+  emoji: string;
+  description: string;
+}
+
+const allTones: SpeechTone[] = [
+  { value: 'heartfelt', label: 'Heartfelt', emoji: '💖', description: 'Warm and sincere' },
+  { value: 'light-funny', label: 'Funny', emoji: '😄', description: 'Humorous and light-hearted' },
+  { value: 'nostalgic', label: 'Nostalgic', emoji: '📷', description: 'Reminiscent and reflective' },
+  { value: 'balanced', label: 'Light-hearted', emoji: '😊', description: 'Cheerful and playful' },
+  { value: 'sentimental', label: 'Emotional', emoji: '🥹', description: 'Touching and sentimental' },
+  { value: 'inspirational', label: 'Inspirational', emoji: '✨', description: 'Uplifting and motivating' },
+  { value: 'traditional', label: 'Traditional', emoji: '🏛️', description: 'Classic and formal' },
+  { value: 'sincere', label: 'Sincere', emoji: '🤝', description: 'Genuine and honest' },
+  { value: 'grateful', label: 'Grateful', emoji: '🙏', description: 'Thankful and appreciative' },
+  { value: 'proud', label: 'Proud', emoji: '🏆', description: 'Confident and celebratory' },
+  { value: 'loving', label: 'Loving', emoji: '❤️', description: 'Affectionate and caring' },
+  { value: 'clean-roast', label: 'Clean Roast', emoji: '🔥', description: 'Teasing with love' },
+  { value: 'wise', label: 'Wise', emoji: '🦉', description: 'Thoughtful and sage-like' },
+  { value: 'respectful', label: 'Respectful', emoji: '🎩', description: 'Honorable and reverent' },
+];
+
+// 4 recommended tones per role (shown prominently)
+const recommendedTones: Record<string, string[]> = {
+  'best-man':         ['light-funny', 'heartfelt', 'nostalgic', 'clean-roast'],
+  'maid-of-honor':    ['heartfelt', 'sentimental', 'light-funny', 'nostalgic'],
+  'father-of-bride':  ['proud', 'heartfelt', 'sentimental', 'traditional'],
+  'mother-of-bride':  ['loving', 'sentimental', 'heartfelt', 'proud'],
+  'father-of-groom':  ['proud', 'heartfelt', 'traditional', 'sincere'],
+  'mother-of-groom':  ['loving', 'heartfelt', 'sentimental', 'proud'],
+  'groom':            ['heartfelt', 'light-funny', 'sentimental', 'grateful'],
+  'bride':            ['heartfelt', 'sentimental', 'light-funny', 'grateful'],
+  'bride-and-groom':  ['heartfelt', 'grateful', 'light-funny', 'loving'],
+  'best-woman':       ['light-funny', 'heartfelt', 'sincere', 'nostalgic'],
+  'groomsman':        ['light-funny', 'heartfelt', 'nostalgic', 'clean-roast'],
+  'bridesmaid':       ['heartfelt', 'sentimental', 'light-funny', 'nostalgic'],
+  'man-of-honor':     ['heartfelt', 'light-funny', 'sentimental', 'sincere'],
+  'brother-of-bride': ['light-funny', 'nostalgic', 'heartfelt', 'clean-roast'],
+  'sister-of-bride':  ['heartfelt', 'sentimental', 'nostalgic', 'light-funny'],
+  'brother-of-groom': ['light-funny', 'nostalgic', 'heartfelt', 'clean-roast'],
+  'sister-of-groom':  ['heartfelt', 'sentimental', 'nostalgic', 'light-funny'],
+  'wedding-officiant': ['inspirational', 'heartfelt', 'traditional', 'wise'],
+  'wedding-host':     ['light-funny', 'balanced', 'heartfelt', 'sincere'],
+};
+
+// Category-based fallbacks
+const categoryToneDefaults: Record<string, string[]> = {
+  'The Couple':       ['heartfelt', 'grateful', 'light-funny', 'loving'],
+  'Wedding Party':    ['light-funny', 'heartfelt', 'nostalgic', 'sincere'],
+  'Parents':          ['proud', 'heartfelt', 'sentimental', 'loving'],
+  'Step-Parents':     ['heartfelt', 'sincere', 'grateful', 'loving'],
+  'Siblings':         ['light-funny', 'nostalgic', 'heartfelt', 'clean-roast'],
+  'Grandparents':     ['loving', 'proud', 'wise', 'traditional'],
+  'Extended Family':  ['heartfelt', 'proud', 'nostalgic', 'sincere'],
+  'In-Laws':          ['heartfelt', 'sincere', 'light-funny', 'grateful'],
+  'Friends':          ['light-funny', 'heartfelt', 'nostalgic', 'sincere'],
+  'Special Roles':    ['inspirational', 'heartfelt', 'traditional', 'sincere'],
+};
+
+function getRecommendedToneValues(roleSlug: string): string[] {
+  if (recommendedTones[roleSlug]) return recommendedTones[roleSlug];
+  const roleData = getRoleBySlug(roleSlug);
+  if (roleData && categoryToneDefaults[roleData.category]) {
+    return categoryToneDefaults[roleData.category];
+  }
+  return ['heartfelt', 'light-funny', 'sentimental', 'balanced'];
+}
+
 // ── Role-contextual connection prompts for Step 3 ─────────────────
 interface ConnectionPrompt {
   question: string;
@@ -1846,31 +1917,81 @@ function GeneratorContent() {
                   </div>
 
                   <div>
-                    <label className="block text-base font-medium text-[#181615] mb-3">
-                      What vibe are you going for?
+                    <label className="block text-base font-medium text-[#181615] mb-1">
+                      What tone suits your speech?
                     </label>
-                    <div className="grid grid-cols-2 gap-3">
-                      {[
-                        { value: "light-funny", label: "Light & Funny", emoji: "😄" },
-                        { value: "sentimental", label: "Sentimental", emoji: "🥹" },
-                        { value: "balanced", label: "Balanced", emoji: "👌" },
-                        { value: "clean-roast", label: "Clean Roast", emoji: "🔥" }
-                      ].map((option) => (
-                        <button
-                          key={option.value}
-                          type="button"
-                          onClick={() => updateFormData('tone', option.value)}
-                          className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all duration-200 ${
-                            formData.tone === option.value
-                              ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
-                              : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
-                          }`}
-                        >
-                          <span className="text-xl">{option.emoji}</span>
-                          <span className="font-medium">{option.label}</span>
-                        </button>
-                      ))}
-                    </div>
+                    {formData.selectedRole && (
+                      <p className="text-xs font-medium text-[#da5389] mb-3">
+                        ✨ Recommended for {getRoleTitle(formData.selectedRole)}
+                      </p>
+                    )}
+                    {!formData.selectedRole && (
+                      <p className="text-xs text-[#8f867e] mb-3">Pick the vibe that feels right</p>
+                    )}
+
+                    {/* Recommended tones - always visible */}
+                    {(() => {
+                      const recValues = getRecommendedToneValues(formData.selectedRole);
+                      const recTones = recValues.map(v => allTones.find(t => t.value === v)!).filter(Boolean);
+                      const otherTones = allTones.filter(t => !recValues.includes(t.value));
+                      const isSelectedInOthers = otherTones.some(t => t.value === formData.tone);
+
+                      return (
+                        <>
+                          <div className="grid grid-cols-2 gap-3 mb-4">
+                            {recTones.map((tone) => (
+                              <button
+                                key={tone.value}
+                                type="button"
+                                onClick={() => updateFormData('tone', tone.value)}
+                                className={`flex items-start gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all duration-200 ${
+                                  formData.tone === tone.value
+                                    ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
+                                    : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                                }`}
+                              >
+                                <span className="text-xl mt-0.5">{tone.emoji}</span>
+                                <div>
+                                  <span className="font-semibold block text-sm">{tone.label}</span>
+                                  <span className={`text-xs ${formData.tone === tone.value ? 'text-white/80' : 'text-[#8f867e]'}`}>{tone.description}</span>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+
+                          {/* Other tones - collapsible */}
+                          <details className="group" open={isSelectedInOthers || undefined}>
+                            <summary className="flex items-center justify-between cursor-pointer select-none mb-3">
+                              <span className="text-sm font-medium text-[#181615]">Other Options</span>
+                              <span className="text-sm text-[#da5389] hover:text-[#c4447a] transition-colors flex items-center gap-1">
+                                <span className="group-open:hidden">Show more options ▼</span>
+                                <span className="hidden group-open:inline">Show fewer options ▲</span>
+                              </span>
+                            </summary>
+                            <div className="grid grid-cols-2 gap-3">
+                              {otherTones.map((tone) => (
+                                <button
+                                  key={tone.value}
+                                  type="button"
+                                  onClick={() => updateFormData('tone', tone.value)}
+                                  className={`flex items-start gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all duration-200 ${
+                                    formData.tone === tone.value
+                                      ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
+                                      : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                                  }`}
+                                >
+                                  <span className="text-xl mt-0.5">{tone.emoji}</span>
+                                  <div>
+                                    <span className="font-semibold block text-sm">{tone.label}</span>
+                                    <span className={`text-xs ${formData.tone === tone.value ? 'text-white/80' : 'text-[#8f867e]'}`}>{tone.description}</span>
+                                  </div>
+                                </button>
+                              ))}
+                            </div>
+                          </details>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               );

@@ -591,6 +591,7 @@ function getStoryPrompt(roleSlug: string, groomName: string, brideName: string):
 interface FormData {
   // Role Selection (if needed)
   selectedRole: string;
+  customRoleLabel: string; // user-typed role when "other" is selected
 
   // Section 1: Essentials (Required to Generate a Free Speech)
   email: string;
@@ -620,7 +621,8 @@ interface FormData {
   generatedFromStep?: number;
 }
 
-const getRoleTitle = (role: string): string => {
+const getRoleTitle = (role: string, customLabel?: string): string => {
+  if (role === 'other' && customLabel) return customLabel;
   const found = getRoleBySlug(role);
   return found ? found.label : 'Wedding';
 };
@@ -794,6 +796,7 @@ function GeneratorContent() {
   const [formData, setFormData] = useState<FormData>({
     // Role Selection (if needed)
     selectedRole: roleFromUrl || "",
+    customRoleLabel: "",
 
     // Section 1: Essentials (Required to Generate a Free Speech)
     email: "",
@@ -1052,6 +1055,7 @@ function GeneratorContent() {
       // Turning demo mode OFF - clear form
       setFormData({
         selectedRole: formData.selectedRole,
+        customRoleLabel: "",
         email: "",
         yourName: "",
         groomName: "",
@@ -1560,7 +1564,7 @@ function GeneratorContent() {
       case 0: // Name + Email
         return !!(formData.yourName && formData.email);
       case 1: // Role
-        return formData.selectedRole !== "";
+        return formData.selectedRole !== "" && (formData.selectedRole !== "other" || formData.customRoleLabel.trim() !== "");
       case 2: // Couple names
         return !!(formData.groomName && formData.brideName);
       case 3: // Connection + Tone
@@ -1694,7 +1698,7 @@ function GeneratorContent() {
           <div className="text-center mb-6">
             <h1 className="text-4xl font-bold text-[#181615] mb-2">
               {formData.selectedRole ? (
-                <>🎤 {getRoleTitle(formData.selectedRole)} Speech Generator</>
+                <>🎤 {getRoleTitle(formData.selectedRole, formData.customRoleLabel)} Speech Generator</>
               ) : (
                 <>🎤 Wedding Speech Generator</>
               )}
@@ -1702,7 +1706,7 @@ function GeneratorContent() {
             {currentStep < 5 && (
               <p className="text-lg text-[#8f867e]">
                 {formData.selectedRole
-                  ? `Answer a few quick questions and we'll write your ${getRoleTitle(formData.selectedRole).toLowerCase()} speech`
+                  ? `Answer a few quick questions and we'll write your ${getRoleTitle(formData.selectedRole, formData.customRoleLabel).toLowerCase()} speech`
                   : 'Answer a few quick questions and we\'ll write your speech'
                 }
               </p>
@@ -1803,7 +1807,7 @@ function GeneratorContent() {
                     <button
                       key={role.slug}
                       type="button"
-                      onClick={() => updateFormData('selectedRole', role.slug)}
+                      onClick={() => { updateFormData('selectedRole', role.slug); updateFormData('customRoleLabel', ''); }}
                       className={`p-5 rounded-xl border-2 text-center transition-all duration-200 hover:shadow-lg ${
                         formData.selectedRole === role.slug
                           ? 'bg-[#da5389] border-[#da5389] text-white shadow-lg scale-105'
@@ -1817,14 +1821,20 @@ function GeneratorContent() {
                 </div>
 
                 {/* All other roles - compact list */}
-                <div>
-                  <p className="text-sm font-medium text-[#8f867e] mb-3">More roles</p>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <details className="group">
+                  <summary className="flex items-center justify-between cursor-pointer select-none mb-3">
+                    <span className="text-sm font-medium text-[#8f867e]">More roles</span>
+                    <span className="text-sm text-[#da5389] hover:text-[#c4447a] transition-colors flex items-center gap-1">
+                      <span className="group-open:hidden">Show all roles ▼</span>
+                      <span className="hidden group-open:inline">Show fewer ▲</span>
+                    </span>
+                  </summary>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
                     {speechRoles.filter(r => r.tier === 'minor').map((role) => (
                       <button
                         key={role.slug}
                         type="button"
-                        onClick={() => updateFormData('selectedRole', role.slug)}
+                        onClick={() => { updateFormData('selectedRole', role.slug); updateFormData('customRoleLabel', ''); }}
                         className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-left text-sm transition-all duration-200 ${
                           formData.selectedRole === role.slug
                             ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
@@ -1836,6 +1846,38 @@ function GeneratorContent() {
                       </button>
                     ))}
                   </div>
+                </details>
+
+                {/* Custom role option */}
+                <div className="pt-2 border-t border-[#e8e1d8]">
+                  <button
+                    type="button"
+                    onClick={() => updateFormData('selectedRole', 'other')}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all duration-200 ${
+                      formData.selectedRole === 'other'
+                        ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
+                        : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                    }`}
+                  >
+                    <span className="text-xl">✍️</span>
+                    <div>
+                      <span className="font-semibold text-sm">Something else</span>
+                      <span className={`block text-xs ${formData.selectedRole === 'other' ? 'text-white/80' : 'text-[#8f867e]'}`}>
+                        Don't see your role? Type it in
+                      </span>
+                    </div>
+                  </button>
+                  {formData.selectedRole === 'other' && (
+                    <div className="mt-3">
+                      <Input
+                        placeholder="e.g., Godfather, Family friend, Colleague"
+                        value={formData.customRoleLabel}
+                        onChange={(e) => updateFormData('customRoleLabel', e.target.value)}
+                        className="darker-placeholder text-base"
+                        autoFocus
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -1919,7 +1961,7 @@ function GeneratorContent() {
                     </label>
                     {formData.selectedRole && (
                       <p className="text-xs font-medium text-[#da5389] mb-3">
-                        ✨ Recommended for {getRoleTitle(formData.selectedRole)}
+                        ✨ Recommended for {getRoleTitle(formData.selectedRole, formData.customRoleLabel)}
                       </p>
                     )}
                     {!formData.selectedRole && (
@@ -2547,7 +2589,7 @@ function GeneratorContent() {
                         <div className="text-sm font-medium text-[#8f867e] capitalize">{formData.tone.replace('-', ' ')}</div>
                       </div>
                       <div className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-lg p-4 text-center">
-                        <div className="text-2xl font-bold text-blue-600">{getRoleTitle(formData.selectedRole).split(' ')[0]}</div>
+                        <div className="text-2xl font-bold text-blue-600">{getRoleTitle(formData.selectedRole, formData.customRoleLabel).split(' ')[0]}</div>
                         <div className="text-sm font-medium text-[#8f867e]">Role</div>
                       </div>
                     </div>

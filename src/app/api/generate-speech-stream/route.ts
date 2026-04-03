@@ -198,7 +198,7 @@ export async function POST(request: NextRequest) {
 
             const wordCount = fullSpeech.split(/\s+/).filter((word: string) => word.length > 0).length;
             const speechFields = {
-              title: `${getRoleTitle(formData.selectedRole)} Speech for ${formData.groomName} & ${formData.brideName}`,
+              title: `${getRoleTitle(formData.selectedRole, formData.customRoleLabel)} Speech for ${formData.groomName} & ${formData.brideName}`,
               content: fullSpeech,
               role: formData.selectedRole || 'best-man',
               tone: formData.tone,
@@ -313,7 +313,8 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function getRoleTitle(role: string): string {
+function getRoleTitle(role: string, customLabel?: string): string {
+  if (role === 'other' && customLabel) return customLabel;
   const found = getRoleBySlug(role);
   return found ? found.label : 'Wedding Speech';
 }

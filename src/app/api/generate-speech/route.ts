@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
       console.log(`💾 [SPEECH API] Saving speech to database (${userType})`);
 
       const speechData = {
-        title: `${getRoleTitle(formData.selectedRole)} Speech for ${formData.groomName} & ${formData.brideName}`,
+        title: `${getRoleTitle(formData.selectedRole, formData.customRoleLabel)} Speech for ${formData.groomName} & ${formData.brideName}`,
         content: generatedSpeech,
         role: formData.selectedRole || 'best-man',
         tone: formData.tone,
@@ -240,7 +240,8 @@ export async function GET() {
   }
 }
 
-function getRoleTitle(role: string): string {
+function getRoleTitle(role: string, customLabel?: string): string {
+  if (role === 'other' && customLabel) return customLabel;
   const found = getRoleBySlug(role);
   return found ? found.label : 'Wedding Speech';
 }

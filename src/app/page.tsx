@@ -227,6 +227,16 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
+
+            {/* CTA below roles */}
+            <div className="mt-12 text-center">
+              <p className="text-[#8f867e] mb-4">Don't see your role? No problem.</p>
+              <Link href="/generator">
+                <Button className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-8 py-3 text-base font-semibold shadow-lg">
+                  ✍️ Create a Custom Speech
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

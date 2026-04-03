@@ -4,6 +4,7 @@ import { getRoleBySlug } from '@/data/speechRoles';
 interface SpeechFormData {
   // Role Selection
   selectedRole: string;
+  customRoleLabel?: string;
 
   // Section 1: Essentials
   yourName: string;
@@ -177,7 +178,7 @@ function buildSpeechPrompt(formData: SpeechFormData, isPremium: boolean, regener
   } = formData;
 
   // Role-specific context
-  const roleContext = getRoleContext(selectedRole);
+  const roleContext = getRoleContext(selectedRole, formData.customRoleLabel);
 
   // Tone guidance
   const toneGuidance = getToneGuidance(tone);
@@ -245,7 +246,7 @@ Please write the complete speech now:`;
   return prompt;
 }
 
-function getRoleContext(role: string) {
+function getRoleContext(role: string, customLabel?: string) {
   const roleContexts = {
     'best-man': {
       title: 'Best Man',
@@ -273,6 +274,13 @@ function getRoleContext(role: string) {
     }
   };
 
+  if (role === 'other' && customLabel) {
+    return {
+      title: customLabel,
+      requirements: `You are writing a wedding speech as the ${customLabel}. Include your personal connection to the couple, meaningful memories, and warm wishes for their future together. Tailor the content to reflect the unique perspective of someone in this role.`
+    };
+  }
+
   if (roleContexts[role as keyof typeof roleContexts]) {
     return roleContexts[role as keyof typeof roleContexts];
   }
@@ -288,14 +296,24 @@ function getRoleContext(role: string) {
 }
 
 function getToneGuidance(tone: string): string {
-  const toneMap = {
-    'light-funny': 'Light-hearted and humorous, but tasteful and wedding-appropriate',
-    'sentimental': 'Heartfelt and emotional, focusing on deep feelings and meaningful moments',
-    'balanced': 'A good mix of humor and sentiment, keeping the audience engaged and moved',
-    'clean-roast': 'Playfully teasing but respectful, with gentle humor about the groom/bride'
+  const toneMap: Record<string, string> = {
+    'heartfelt': 'Warm, sincere, and genuine. Focus on real emotion without being overly sentimental.',
+    'light-funny': 'Light-hearted and humorous, but tasteful and wedding-appropriate.',
+    'nostalgic': 'Reminiscent and reflective, drawing on shared memories and how things have changed over time.',
+    'balanced': 'Cheerful and playful, keeping the audience smiling with a warm, upbeat energy.',
+    'sentimental': 'Deeply emotional and touching, focusing on meaningful moments and heartfelt feelings.',
+    'inspirational': 'Uplifting and motivating, celebrating the couple and looking forward to their future.',
+    'traditional': 'Classic and formal in structure, respectful of wedding speech conventions.',
+    'sincere': 'Genuine and honest, straightforward in expressing real feelings without embellishment.',
+    'grateful': 'Thankful and appreciative, focusing on gratitude for the couple and the occasion.',
+    'proud': 'Confident and celebratory, expressing pride in who the couple has become.',
+    'loving': 'Affectionate and caring, radiating warmth and deep love for the couple.',
+    'clean-roast': 'Playfully teasing but respectful, with gentle humor about the groom/bride.',
+    'wise': 'Thoughtful and sage-like, sharing life lessons and marriage wisdom with warmth.',
+    'respectful': 'Honorable and reverent, maintaining a dignified and gracious tone throughout.',
   };
 
-  return toneMap[tone as keyof typeof toneMap] || toneMap.balanced;
+  return toneMap[tone] || toneMap.balanced;
 }
 
 function getLengthGuidance(length: string, isPremium: boolean): string {

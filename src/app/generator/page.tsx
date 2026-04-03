@@ -281,7 +281,7 @@ function getStoryPrompt(roleSlug: string, groomName: string, brideName: string):
   const prompts: Record<string, StoryPrompt> = {
     'best-man': {
       question: `What's your favourite story about ${groom}?`,
-      hint: `Something funny, embarrassing, or genuinely touching. The best speeches have one killer story.`,
+      hint: `Funny, embarrassing, or genuinely touching. One killer story is all you need.`,
       placeholder: `e.g., I'll never forget when ${groom} tried to cook dinner for their third date and set off every smoke alarm in the building...`,
       examples: [
         `We met in college as roommates and instantly clicked over our shared love of terrible movies and good pizza. Five years later, here we are...`,
@@ -331,7 +331,7 @@ function getStoryPrompt(roleSlug: string, groomName: string, brideName: string):
     },
     'bride': {
       question: `What do you want ${groom} and everyone to know?`,
-      hint: `What made you fall for them? A favourite memory together? Something people might not know.`,
+      hint: `When did you know? A favourite memory? Something people might not know.`,
       placeholder: `e.g., He proposed on a random Tuesday. No fancy restaurant, no ring hidden in dessert. Just us on the sofa, and he said "I don't want to do life without you"...`,
       examples: [
         `I fell in love with ${groom} because he remembers every small thing I've ever told him. He's quietly the most thoughtful person in any room.`,
@@ -351,7 +351,7 @@ function getStoryPrompt(roleSlug: string, groomName: string, brideName: string):
     },
     'mother-of-groom': {
       question: `What's your favourite memory of ${groom}?`,
-      hint: `Something from when he was young, a moment that made you proud, or when you knew ${bride} was the one.`,
+      hint: `A proud moment, a funny memory, or when you knew ${bride} was the one.`,
       placeholder: `e.g., He's always been protective. Even at five years old, he'd hold my hand crossing the road because he thought he was looking after me...`,
       examples: [
         `He called me the night he met ${bride} and said "Mum, I've met someone." I could hear it in his voice. He was done looking.`,
@@ -361,7 +361,7 @@ function getStoryPrompt(roleSlug: string, groomName: string, brideName: string):
     },
     'brother-of-bride': {
       question: `What's a story about growing up with ${bride}?`,
-      hint: `Sibling stuff. The funny, the embarrassing, the moment you realised she'd turned out alright.`,
+      hint: `The funny, the embarrassing, or the moment you realised she'd grown up.`,
       placeholder: `e.g., She once told everyone at school I was afraid of butterflies. I wasn't. But by the end of the week, I almost was...`,
       examples: [
         `We fought over everything growing up. The remote, the front seat, whose turn it was to take the bins out. Turns out those arguments taught us both how to stand our ground.`,
@@ -371,7 +371,7 @@ function getStoryPrompt(roleSlug: string, groomName: string, brideName: string):
     },
     'sister-of-bride': {
       question: `What's your favourite story about ${bride}?`,
-      hint: `A sisterly moment, something from growing up together, or how you see her relationship with ${groom}.`,
+      hint: `Growing up together, a favourite memory, or how ${groom} changed her.`,
       placeholder: `e.g., We used to share a room and she'd stay up making plans for everything. Colour-coded schedules for school, for summer, for life...`,
       examples: [
         `Growing up, she was always the brave one. First to jump off the diving board, first to talk to new kids at school. I just followed her lead.`,
@@ -422,7 +422,7 @@ function getStoryPrompt(roleSlug: string, groomName: string, brideName: string):
     const person = roleData?.label.includes('Bride') ? bride : groom;
     return {
       question: `What's a memory of ${person} that you treasure?`,
-      hint: `Something from when they were young, a family tradition, or a moment that made you proud.`,
+      hint: `A childhood memory, a family tradition, or a proud moment.`,
       placeholder: `e.g., I remember when ${person} was small enough to sit on my knee. Now look at them...`,
       examples: [
         `Every Sunday, ${person} would come round for lunch. They always wanted to hear stories from when I was young. I miss those Sundays.`,
@@ -497,7 +497,7 @@ function getStoryPrompt(roleSlug: string, groomName: string, brideName: string):
     const person = roleData?.label.includes('Bride') ? bride : groom;
     return {
       question: `What's a story that shows who ${person} really is?`,
-      hint: `How you met, a moment that defined your friendship, or what you admire about them.`,
+      hint: `How you met, a defining moment, or what you admire about them.`,
       placeholder: `e.g., We met at work and bonded over our shared hatred of Monday morning meetings...`,
       examples: [
         `We met years ago and just clicked. The kind of friendship where you pick up right where you left off, no matter how long it's been.`,
@@ -510,7 +510,7 @@ function getStoryPrompt(roleSlug: string, groomName: string, brideName: string):
   // Special roles and catch-all
   return {
     question: `What's a great story about the couple?`,
-    hint: `A memorable moment, how they met, or something that shows what they're like together.`,
+    hint: `Funny, meaningful, or both. Don't overthink it.`,
     placeholder: `e.g., The first time I saw them together, I just knew. They had that thing you can't fake...`,
     examples: [
       `I've known them both for years, and seeing them find each other felt like watching a puzzle piece click into place.`,
@@ -1625,15 +1625,18 @@ function GeneratorContent() {
         <div className="mb-8">
           <div className="text-center mb-6">
             <h1 className="text-4xl font-bold text-[#181615] mb-2">
-              {currentStep === 5 ? (
-                <>✏️ {formData.selectedRole ? `${getRoleTitle(formData.selectedRole)} Speech` : 'Your Speech'}</>
+              {formData.selectedRole ? (
+                <>🎤 {getRoleTitle(formData.selectedRole)} Speech Generator</>
               ) : (
                 <>🎤 Wedding Speech Generator</>
               )}
             </h1>
             {currentStep < 5 && (
               <p className="text-lg text-[#8f867e]">
-                Answer a few quick questions and we'll write your speech
+                {formData.selectedRole
+                  ? `Answer a few quick questions and we'll write your ${getRoleTitle(formData.selectedRole).toLowerCase()} speech`
+                  : 'Answer a few quick questions and we\'ll write your speech'
+                }
               </p>
             )}
           </div>

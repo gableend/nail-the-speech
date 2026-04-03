@@ -96,7 +96,7 @@ export default function AdvicePage() {
               <h2 className="text-2xl md:text-3xl font-bold text-[#181615] mb-2">
                 {category.name}
               </h2>
-              <p className="text-[#8f867e] max-w-xl">
+              <p className="text-[#8f867e] max-w-2xl">
                 {category.description}
               </p>
             </div>

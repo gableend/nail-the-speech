@@ -117,20 +117,23 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      // We have a userId — upsert the user as Pro
+      // We have a userId — upsert the user as Pro (90-day access)
       if (finalUserId) {
+        const proExpiresAt = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
         await prisma.user.upsert({
           where: { id: finalUserId },
           create: {
             id: finalUserId,
             email: customerEmail,
             isProUser: true,
+            proExpiresAt,
             stripeCustomerId: stripeCustomerId,
             stripeSessionId: session.id,
           },
           update: {
             email: customerEmail,
             isProUser: true,
+            proExpiresAt,
             stripeCustomerId: stripeCustomerId,
             stripeSessionId: session.id,
           },

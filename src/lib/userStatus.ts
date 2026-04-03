@@ -17,15 +17,18 @@ export async function getUserProStatus(): Promise<{
       };
     }
 
-    // Check pro status in database
+    // Check pro status in database (respects 90-day expiry)
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { isProUser: true },
+      select: { isProUser: true, proExpiresAt: true },
     });
+
+    const isProActive = user?.isProUser === true &&
+      (!user.proExpiresAt || user.proExpiresAt > new Date());
 
     return {
       isAuthenticated: true,
-      isProUser: user?.isProUser ?? false,
+      isProUser: isProActive,
       userId,
     };
   } catch (error: unknown) {
@@ -51,9 +54,10 @@ export async function checkProStatusForRequest(
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { isProUser: true },
+      select: { isProUser: true, proExpiresAt: true },
     });
-    return user?.isProUser ?? false;
+    return user?.isProUser === true &&
+      (!user.proExpiresAt || user.proExpiresAt > new Date());
   } catch (error) {
     console.error('Error checking pro status for request:', error);
     return false;

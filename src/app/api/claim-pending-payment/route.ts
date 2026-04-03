@@ -47,6 +47,7 @@ export async function POST(request: NextRequest) {
       if (pendingPayment) {
         console.log(`💰 [CLAIM] Found pending payment for ${email}, upgrading to Pro`);
 
+        const proExpiresAt = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
         await prisma.$transaction([
           prisma.user.upsert({
             where: { id: userId },
@@ -54,12 +55,14 @@ export async function POST(request: NextRequest) {
               id: userId,
               email,
               isProUser: true,
+              proExpiresAt,
               stripeCustomerId: pendingPayment.stripeCustomerId,
               stripeSessionId: pendingPayment.stripeSessionId,
             },
             update: {
               email,
               isProUser: true,
+              proExpiresAt,
               stripeCustomerId: pendingPayment.stripeCustomerId,
               stripeSessionId: pendingPayment.stripeSessionId,
             },

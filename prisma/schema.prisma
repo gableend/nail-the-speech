@@ -11,13 +11,14 @@ datasource db {
 }
 
 model User {
-  id                String   @id // Clerk user ID
+  id                String    @id // Clerk user ID
   email             String?
-  isProUser         Boolean  @default(false)
+  isProUser         Boolean   @default(false)
+  proExpiresAt      DateTime? // Pro access expires after this date (90 days from payment)
   stripeCustomerId  String?
   stripeSessionId   String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   @@map("users")
 }

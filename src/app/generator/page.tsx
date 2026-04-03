@@ -18,12 +18,14 @@ import ProUpgradePrompt from "@/components/ProUpgradePrompt";
 import { useProStatus } from "@/hooks/useProStatus";
 import { useUser } from "@clerk/nextjs";
 import { getPreviewText } from "@/lib/speechPreview";
+import { speechRoles, getRoleBySlug } from "@/data/speechRoles";
 
 interface FormData {
   // Role Selection (if needed)
   selectedRole: string;
 
   // Section 1: Essentials (Required to Generate a Free Speech)
+  email: string;
   yourName: string;
   groomName: string;
   brideName: string;
@@ -51,15 +53,8 @@ interface FormData {
 }
 
 const getRoleTitle = (role: string): string => {
-  switch (role) {
-    case 'best-man': return 'Best Man';
-    case 'maid-of-honor': return 'Maid of Honor';
-    case 'father-of-bride': return 'Father of Bride';
-    case 'mother-of-bride': return 'Mother of Bride';
-    case 'groom': return 'Groom';
-    case 'bride': return 'Bride';
-    default: return 'Wedding';
-  }
+  const found = getRoleBySlug(role);
+  return found ? found.label : 'Wedding';
 };
 
 // Helper: convert plain text to SpeechParagraph array
@@ -233,6 +228,7 @@ function GeneratorContent() {
     selectedRole: roleFromUrl || "",
 
     // Section 1: Essentials (Required to Generate a Free Speech)
+    email: "",
     yourName: "",
     groomName: "",
     brideName: "",
@@ -478,6 +474,7 @@ function GeneratorContent() {
       // Turning demo mode OFF - clear form
       setFormData({
         selectedRole: formData.selectedRole,
+        email: "",
         yourName: "",
         groomName: "",
         brideName: "",
@@ -978,12 +975,12 @@ function GeneratorContent() {
         // Role Selection - Required if we're in generic flow
         return formData.selectedRole !== "";
       case 1:
-        // Section 1: Essentials - All required to generate free speech (removed lengthPreference)
-        return formData.yourName && formData.groomName && formData.brideName &&
+        // Section 1: Essentials - All required to generate free speech
+        return formData.email && formData.yourName && formData.groomName && formData.brideName &&
                formData.relationshipToGroom && formData.tone && formData.greatStoryMemory;
       case 2:
-        // Step 2: Your Speech Outline - Valid if essentials are complete (removed lengthPreference)
-        return formData.yourName && formData.groomName && formData.brideName &&
+        // Step 2: Your Speech Outline - Valid if essentials are complete
+        return formData.email && formData.yourName && formData.groomName && formData.brideName &&
                formData.relationshipToGroom && formData.tone && formData.greatStoryMemory;
       case 3:
         // Section 3: Premium - All optional, always valid
@@ -991,6 +988,26 @@ function GeneratorContent() {
       default:
         return false;
     }
+  };
+
+  // Progress bar: percentage based on field completion across the entire flow
+  const getProgressPercent = (): number => {
+    if (currentStep === 2 && speechGenerated) return 100;
+    if (currentStep === 2) return 85; // generating
+
+    const fields = [
+      !!formData.selectedRole,
+      !!formData.email,
+      !!formData.yourName,
+      !!formData.groomName,
+      !!formData.brideName,
+      !!formData.relationshipToGroom,
+      !!formData.tone,
+      !!formData.greatStoryMemory,
+    ];
+    const filled = fields.filter(Boolean).length;
+    // Scale: role selection alone = ~10%, all fields complete = ~80%
+    return Math.round((filled / fields.length) * 80);
   };
 
   return (
@@ -1110,70 +1127,24 @@ function GeneratorContent() {
           </div>
         </div>
 
-        {/* Step Progress Bar */}
-        <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm mb-8 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#da5389]/5 to-[#da5389]/5" />
-          <CardContent className="p-8 relative">
-            <div className={`grid gap-6 items-center ${needsRoleSelection ? (hideStep3 ? 'grid-cols-5' : 'grid-cols-7') : (hideStep3 ? 'grid-cols-2' : 'grid-cols-3')} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
-              {(needsRoleSelection ? (hideStep3 ? [0, 1, 2] : [0, 1, 2, 3]) : (hideStep3 ? [1, 2] : [1, 2, 3])).map((step, index) => (
-                <React.Fragment key={`step-row-${step}`}>
-                  {/* Step Content */}
-                  <div className="flex items-center col-span-1">
-                    {/* Step Circle */}
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold border-2 transition-all duration-300 mx-auto ${
-                      step < currentStep
-                        ? 'bg-[#da5389] border-[#da5389] text-white'
-                        : step === currentStep
-                        ? 'bg-[#da5389] border-[#da5389] text-white shadow-lg'
-                        : 'bg-white border-[#e8e1d8] text-[#8f867e]'
-                    }`}>
-                      {step < currentStep ? '✓' : (step === 0 ? <User className="h-4 w-4" /> : step)}
-                    </div>
-                  </div>
-
-                  {/* Progress Line */}
-                  {needsRoleSelection && step < (hideStep3 ? 2 : 3) && (
-                    <div className="col-span-1 flex justify-center">
-                      <div className={`h-1 w-full rounded-full transition-all duration-500 ${
-                        step < currentStep ? 'bg-[#da5389]' : 'bg-[#e8e1d8]'
-                      }`} />
-                    </div>
-                  )}
-                </React.Fragment>
-              ))}
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              {currentStep === 0 && <span className="text-sm font-medium text-[#8f867e]">Choose your role</span>}
+              {currentStep === 1 && <span className="text-sm font-medium text-[#8f867e]">Fill in the details</span>}
+              {currentStep === 2 && !speechGenerated && <span className="text-sm font-medium text-[#8f867e]">Generating your speech</span>}
+              {currentStep === 2 && speechGenerated && <span className="text-sm font-medium text-[#da5389]">Speech ready</span>}
             </div>
-
-            {/* Step Labels Row */}
-            <div className={`grid gap-6 mt-4 ${needsRoleSelection ? (hideStep3 ? 'grid-cols-5' : 'grid-cols-7') : (hideStep3 ? 'grid-cols-2' : 'grid-cols-3')} ${!needsRoleSelection ? 'max-w-md mx-auto' : ''}`}>
-              {(needsRoleSelection ? (hideStep3 ? [0, 1, 2] : [0, 1, 2, 3]) : (hideStep3 ? [1, 2] : [1, 2, 3])).map((step, index) => (
-                <React.Fragment key={`label-row-${step}`}>
-                  {/* Step Label */}
-                  <div className="col-span-1 text-center">
-                    <div className={`text-base font-medium whitespace-nowrap ${
-                      step <= currentStep ? 'text-[#181615]' : 'text-[#8f867e]'
-                    }`}>
-                      {step === 0 && <><User className="h-4 w-4 inline mr-1" />Role</>}
-                      {step === 1 && '🎯 Essentials'}
-                      {step === 2 && '✏️ Your Speech'}
-                      {step === 3 && '💎 Pro'}
-                    </div>
-                    <div className={`text-sm mt-1 ${
-                      step <= currentStep ? 'text-[#8f867e]' : 'text-[#d1ccc4]'
-                    }`}>
-                      {step === 0 && 'Required'}
-                      {step === 1 && 'Required'}
-                      {step === 2 && 'Generate'}
-                      {step === 3 && 'Pro'}
-                    </div>
-                  </div>
-
-                  {/* Empty space for line alignment */}
-                  {needsRoleSelection && step < 3 && <div className="col-span-1" />}
-                </React.Fragment>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+            <span className="text-sm font-semibold text-[#181615]">{getProgressPercent()}%</span>
+          </div>
+          <div className="h-2 bg-[#e8e1d8] rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-[#da5389] to-[#e06b9a] rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${getProgressPercent()}%` }}
+            />
+          </div>
+        </div>
 
         <Card className="border-0 shadow-2xl bg-white/90 backdrop-blur-md relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-[#faf7f4]/30" />
@@ -1202,34 +1173,45 @@ function GeneratorContent() {
             {/* Role Selection Step */}
             {currentStep === 0 && (
               <div className="space-y-8">
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                  {[
-                    { id: 'best-man', title: 'Best Man', emoji: '🥂', description: 'Lead groomsman speech' },
-                    { id: 'maid-of-honor', title: 'Maid of Honor', emoji: '👸', description: 'Lead bridesmaid speech' },
-                    { id: 'father-of-bride', title: 'Father of Bride', emoji: '🥃', description: 'Proud father\'s words' },
-                    { id: 'mother-of-bride', title: 'Mother of Bride', emoji: '🌸', description: 'Loving mother\'s speech' },
-                    { id: 'groom', title: 'Groom', emoji: '🤵', description: 'Thank you speech' },
-                    { id: 'bride', title: 'Bride', emoji: '👰', description: 'Thank you speech' }
-                  ].map((role) => (
+                {/* Popular roles - large cards */}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {speechRoles.filter(r => r.tier === 'major').map((role) => (
                     <button
-                      key={role.id}
+                      key={role.slug}
                       type="button"
-                      onClick={() => updateFormData('selectedRole', role.id)}
-                      className={`p-6 rounded-xl border-2 text-center transition-all duration-200 hover:shadow-lg ${
-                        formData.selectedRole === role.id
+                      onClick={() => updateFormData('selectedRole', role.slug)}
+                      className={`p-5 rounded-xl border-2 text-center transition-all duration-200 hover:shadow-lg ${
+                        formData.selectedRole === role.slug
                           ? 'bg-[#da5389] border-[#da5389] text-white shadow-lg scale-105'
                           : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
                       }`}
                     >
-                      <div className="text-4xl mb-3">{role.emoji}</div>
-                      <div className="font-semibold text-lg mb-2">{role.title}</div>
-                      <div className={`text-sm ${
-                        formData.selectedRole === role.id ? 'text-white/80' : 'text-[#8f867e]'
-                      }`}>
-                        {role.description}
-                      </div>
+                      <div className="text-3xl mb-2">{role.emoji}</div>
+                      <div className="font-semibold text-base">{role.label}</div>
                     </button>
                   ))}
+                </div>
+
+                {/* All other roles - compact grouped list */}
+                <div>
+                  <p className="text-sm font-medium text-[#8f867e] mb-3">More roles</p>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                    {speechRoles.filter(r => r.tier === 'minor').map((role) => (
+                      <button
+                        key={role.slug}
+                        type="button"
+                        onClick={() => updateFormData('selectedRole', role.slug)}
+                        className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-left text-sm transition-all duration-200 ${
+                          formData.selectedRole === role.slug
+                            ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
+                            : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                        }`}
+                      >
+                        <span>{role.emoji}</span>
+                        <span className="font-medium truncate">{role.label}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
@@ -1237,6 +1219,20 @@ function GeneratorContent() {
             {/* Section 1: Essentials (Required to Generate a Free Speech) */}
             {currentStep === 1 && (
               <div className="space-y-6">
+                <div>
+                  <label className="block text-base font-medium text-[#181615] mb-2">
+                    Your email address *
+                  </label>
+                  <Input
+                    type="email"
+                    placeholder="you@example.com"
+                    value={formData.email}
+                    onChange={(e) => updateFormData('email', e.target.value)}
+                    className="darker-placeholder max-w-md"
+                  />
+                  <p className="text-xs text-[#8f867e] mt-1.5">We'll send your speech here so you don't lose it</p>
+                </div>
+
                 <div className="grid md:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-base font-medium text-[#181615] mb-2">

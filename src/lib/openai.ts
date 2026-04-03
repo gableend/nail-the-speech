@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { getRoleBySlug } from '@/data/speechRoles';
 
 interface SpeechFormData {
   // Role Selection
@@ -272,7 +273,18 @@ function getRoleContext(role: string) {
     }
   };
 
-  return roleContexts[role as keyof typeof roleContexts] || roleContexts['best-man'];
+  if (roleContexts[role as keyof typeof roleContexts]) {
+    return roleContexts[role as keyof typeof roleContexts];
+  }
+
+  // Dynamic fallback for all other roles: derive a sensible title and requirements from the slug
+  const found = getRoleBySlug(role);
+  const label = found ? found.label : role.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+
+  return {
+    title: label,
+    requirements: `You are writing a wedding speech as the ${label}. Include your personal connection to the couple, meaningful memories, and warm wishes for their future together. Tailor the content to reflect the unique perspective of someone in this role.`
+  };
 }
 
 function getToneGuidance(tone: string): string {

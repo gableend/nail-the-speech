@@ -3,6 +3,7 @@ import { generateWeddingSpeechStream } from "@/lib/openai";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { checkProStatusForRequest, countUserSpeeches } from "@/lib/userStatus";
+import { getRoleBySlug } from "@/data/speechRoles";
 
 function determineDataCompleteness(formData: Record<string, unknown>): 'minimal' | 'enriched' | 'premium' {
   const hasEnrichmentData = !!(
@@ -313,14 +314,6 @@ export async function POST(request: NextRequest) {
 }
 
 function getRoleTitle(role: string): string {
-  const roleTitles: Record<string, string> = {
-    'best-man': 'Best Man',
-    'maid-of-honor': 'Maid of Honor',
-    'father-of-bride': 'Father of the Bride',
-    'mother-of-bride': 'Mother of the Bride',
-    'groom': 'Groom',
-    'bride': 'Bride'
-  };
-
-  return roleTitles[role] || 'Best Man';
+  const found = getRoleBySlug(role);
+  return found ? found.label : 'Wedding Speech';
 }

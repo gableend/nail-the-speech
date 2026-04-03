@@ -224,7 +224,7 @@ function SpeechCard({ speech }: { speech: ExampleSpeech }) {
             {speech.title}
           </h3>
           <p className="text-xs text-[#8f867e] mt-1">
-            {category?.icon} {category?.name} · by {speech.authorName}
+            {category?.icon} {category?.name} · {speech.wordCount} words
           </p>
         </div>
       </div>

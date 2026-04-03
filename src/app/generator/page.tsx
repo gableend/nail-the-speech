@@ -64,8 +64,6 @@ const recommendedTones: Record<string, string[]> = {
   'sister-of-bride':  ['heartfelt', 'sentimental', 'nostalgic', 'light-funny'],
   'brother-of-groom': ['light-funny', 'nostalgic', 'heartfelt', 'clean-roast'],
   'sister-of-groom':  ['heartfelt', 'sentimental', 'nostalgic', 'light-funny'],
-  'wedding-officiant': ['inspirational', 'heartfelt', 'traditional', 'wise'],
-  'wedding-host':     ['light-funny', 'balanced', 'heartfelt', 'sincere'],
 };
 
 // Category-based fallbacks
@@ -79,7 +77,6 @@ const categoryToneDefaults: Record<string, string[]> = {
   'Extended Family':  ['heartfelt', 'proud', 'nostalgic', 'sincere'],
   'In-Laws':          ['heartfelt', 'sincere', 'light-funny', 'grateful'],
   'Friends':          ['light-funny', 'heartfelt', 'nostalgic', 'sincere'],
-  'Special Roles':    ['inspirational', 'heartfelt', 'traditional', 'sincere'],
 };
 
 function getRecommendedToneValues(roleSlug: string): string[] {

@@ -15,7 +15,7 @@ export type RoleCategory =
   | 'Extended Family'
   | 'In-Laws'
   | 'Friends'
-  | 'Special Roles';
+;
 
 export interface SpeechRole {
   slug: string;
@@ -357,28 +357,6 @@ export const speechRoles: SpeechRole[] = [
     emoji: '🏠',
   },
 
-  // ── Special Roles ───────────────────────────────────────────
-  {
-    slug: 'wedding-officiant',
-    label: 'Wedding Officiant',
-    tier: 'minor',
-    category: 'Special Roles',
-    emoji: '📖',
-  },
-  {
-    slug: 'wedding-host',
-    label: 'Wedding Host / MC',
-    tier: 'minor',
-    category: 'Special Roles',
-    emoji: '🎤',
-  },
-  {
-    slug: 'mentor',
-    label: 'Mentor / Coach',
-    tier: 'minor',
-    category: 'Special Roles',
-    emoji: '🎓',
-  },
 ];
 
 // ── Helpers ─────────────────────────────────────────────────
@@ -398,7 +376,6 @@ export function getMinorRolesByCategory(): { category: RoleCategory; roles: Spee
     'Extended Family',
     'In-Laws',
     'Friends',
-    'Special Roles',
   ];
 
   const groups: { category: RoleCategory; roles: SpeechRole[] }[] = [];

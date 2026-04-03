@@ -56,7 +56,7 @@ export default function SiteHeader() {
                   <Link href="/advice" className="block py-2 text-[#181615] hover:text-[#da5389]">All Advice</Link>
                   <Link href="/advice#speech-tips" className="block py-2 text-[#181615] hover:text-[#da5389]">Speech Tips</Link>
                   <Link href="/advice#practice-guide" className="block py-2 text-[#181615] hover:text-[#da5389]">Practice Guide</Link>
-                  <Link href="/examples" className="block py-2 text-[#181615] hover:text-[#da5389]">Examples</Link>
+                  <Link href="/examples" className="block py-2 text-[#181615] hover:text-[#da5389]">Speech Examples</Link>
                 </div>
               </div>
             </div>

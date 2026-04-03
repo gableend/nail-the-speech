@@ -65,7 +65,7 @@ export default function ExamplesPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-[#181615] mb-4">
             Wedding Speech Examples
           </h1>
-          <p className="text-lg text-[#8f867e] max-w-3xl mx-auto mb-2">
+          <p className="text-lg text-[#8f867e] max-w-4xl mx-auto mb-2">
             Browse real examples across {speechCategories.length} speech types.
             Find your inspiration, then create your own with AI.
           </p>

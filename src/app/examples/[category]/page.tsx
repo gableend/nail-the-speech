@@ -155,8 +155,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                     {speech.excerpt}
                   </p>
                   <div className="flex items-center gap-3 text-xs text-[#8f867e]">
-                    <span>By {speech.authorName}</span>
-                    <span>·</span>
                     <span>{speech.wordCount} words</span>
                     <span>·</span>
                     <span>{speech.weddingRole}</span>

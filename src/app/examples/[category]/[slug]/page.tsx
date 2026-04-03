@@ -120,7 +120,7 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
               <Clock className="h-3.5 w-3.5" /> {speech.durationMinutes} min read
             </span>
             <span className="text-sm text-[#8f867e]">{speech.wordCount} words</span>
-            <span className="text-sm text-[#8f867e]">By {speech.authorName} ({speech.weddingRole})</span>
+            <span className="text-sm text-[#8f867e]">{speech.weddingRole}</span>
           </div>
         </div>
       </section>

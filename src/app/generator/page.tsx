@@ -656,26 +656,28 @@ function loadParagraphMeta(speechId: string): Array<{source: 'ai' | 'user-edited
   } catch { return null; }
 }
 
-// Word-level diff: returns React nodes with changed words highlighted
-function diffWords(original: string, current: string): React.ReactNode[] {
-  if (original === current) return [current];
+// Word-level diff: returns an HTML string with changed words highlighted
+function diffWordsHtml(original: string, current: string): string {
+  if (original === current) return escapeHtml(current);
   const origWords = original.split(/(\s+)/);
   const currWords = current.split(/(\s+)/);
-  const result: React.ReactNode[] = [];
+  const parts: string[] = [];
   const maxLen = Math.max(origWords.length, currWords.length);
 
   for (let i = 0; i < maxLen; i++) {
     const origWord = origWords[i] || '';
     const currWord = currWords[i] || '';
     if (currWord === origWord) {
-      result.push(currWord);
+      parts.push(escapeHtml(currWord));
     } else if (currWord.trim()) {
-      result.push(
-        <span key={`diff-${i}`} className="bg-[#da5389]/15 text-[#da5389] rounded px-0.5">{currWord}</span>
-      );
+      parts.push(`<span class="bg-[#da5389]/15 text-[#da5389] rounded px-0.5">${escapeHtml(currWord)}</span>`);
     }
   }
-  return result;
+  return parts.join('');
+}
+
+function escapeHtml(text: string): string {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function GeneratorContent() {
@@ -2664,7 +2666,7 @@ function GeneratorContent() {
                                     isProUser && !isSpeechPaywalled ? 'hover:bg-[#faf7f4] focus:ring-1 focus:ring-[#da5389]/30 focus:bg-white cursor-text rounded px-1' : ''
                                   }`}
                                   onFocus={(e) => {
-                                    // When editing, show plain text (remove diff spans)
+                                    // When editing, show plain text (remove diff highlight spans)
                                     if (e.currentTarget.querySelector('span')) {
                                       e.currentTarget.textContent = para.text;
                                     }
@@ -2676,17 +2678,12 @@ function GeneratorContent() {
                                       (e.currentTarget as HTMLElement).blur();
                                     }
                                   }}
-                                  dangerouslySetInnerHTML={
-                                    para.source === 'user-edited' && para.text !== para.originalText
-                                      ? undefined  // Use children below instead
-                                      : undefined
-                                  }
-                                >
-                                  {para.source === 'user-edited' && para.text !== para.originalText
-                                    ? diffWords(para.originalText, para.text)
-                                    : para.text
-                                  }
-                                </p>
+                                  dangerouslySetInnerHTML={{
+                                    __html: para.source === 'user-edited' && para.text !== para.originalText
+                                      ? diffWordsHtml(para.originalText, para.text)
+                                      : escapeHtml(para.text)
+                                  }}
+                                />
                               </div>
                             ))
                           ) : (

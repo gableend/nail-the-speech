@@ -3,6 +3,7 @@ import { useUser } from '@clerk/nextjs';
 
 interface ProStatus {
   isProUser: boolean;
+  proExpired: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -16,6 +17,7 @@ export function useProStatus(options?: UseProStatusOptions): ProStatus {
   const { user, isLoaded } = useUser();
   const [proStatus, setProStatus] = useState<ProStatus>({
     isProUser: false,
+    proExpired: false,
     loading: true,
     error: null,
   });
@@ -27,6 +29,7 @@ export function useProStatus(options?: UseProStatusOptions): ProStatus {
     if (!user) {
       setProStatus({
         isProUser: false,
+        proExpired: false,
         loading: false,
         error: null,
       });
@@ -41,9 +44,11 @@ export function useProStatus(options?: UseProStatusOptions): ProStatus {
 
       const data = await response.json();
       const isPro = data.isProUser || false;
+      const expired = data.proExpired || false;
 
       setProStatus({
         isProUser: isPro,
+        proExpired: expired,
         loading: false,
         error: null,
       });
@@ -57,6 +62,7 @@ export function useProStatus(options?: UseProStatusOptions): ProStatus {
       console.error('Error checking pro status:', error);
       setProStatus({
         isProUser: false,
+        proExpired: false,
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error',
       });

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 export async function getUserProStatus(): Promise<{
   isAuthenticated: boolean;
   isProUser: boolean;
+  proExpired: boolean;
   userId: string | null;
 }> {
   try {
@@ -13,6 +14,7 @@ export async function getUserProStatus(): Promise<{
       return {
         isAuthenticated: false,
         isProUser: false,
+        proExpired: false,
         userId: null,
       };
     }
@@ -26,9 +28,13 @@ export async function getUserProStatus(): Promise<{
     const isProActive = user?.isProUser === true &&
       (!user.proExpiresAt || user.proExpiresAt > new Date());
 
+    const proExpired = user?.isProUser === true &&
+      !!user.proExpiresAt && user.proExpiresAt <= new Date();
+
     return {
       isAuthenticated: true,
       isProUser: isProActive,
+      proExpired,
       userId,
     };
   } catch (error: unknown) {
@@ -36,6 +42,7 @@ export async function getUserProStatus(): Promise<{
     return {
       isAuthenticated: false,
       isProUser: false,
+      proExpired: false,
       userId: null,
     };
   }

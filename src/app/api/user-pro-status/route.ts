@@ -3,11 +3,12 @@ import { getUserProStatus } from "@/lib/userStatus";
 
 export async function GET() {
   try {
-    const { isAuthenticated, isProUser, userId } = await getUserProStatus();
+    const { isAuthenticated, isProUser, proExpired, userId } = await getUserProStatus();
 
     return NextResponse.json({
       isAuthenticated,
       isProUser,
+      proExpired,
       userId: isAuthenticated ? userId : null
     });
 

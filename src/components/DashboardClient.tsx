@@ -78,7 +78,7 @@ const getRoleEmoji = (role: string) => {
 
 export default function DashboardClient() {
   const { user } = useUser();
-  const { isProUser, loading: proStatusLoading } = useProStatus();
+  const { isProUser, proExpired, loading: proStatusLoading } = useProStatus();
   const [speeches, setSpeeches] = useState<Speech[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -557,7 +557,27 @@ export default function DashboardClient() {
         </Card>
       </div>
 
-      {!proStatusLoading && !isProUser && !loading && showProBanner && speeches.length > 0 && (
+      {!proStatusLoading && proExpired && !loading && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-6">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+            <div className="flex-1">
+              <h3 className="font-semibold text-amber-900 mb-1">Your Pro access has expired</h3>
+              <p className="text-amber-800 text-sm mb-3">
+                Your 90-day Pro access period has ended. Your speeches are still saved, but you&apos;ll need to upgrade again to regenerate, edit, or export them.
+              </p>
+              <Link href="/generator">
+                <Button className="bg-[#da5389] hover:bg-[#c4447a] text-white rounded-full px-6">
+                  <Star className="h-4 w-4 mr-2" />
+                  Renew Pro Access — $19.99
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {!proStatusLoading && !isProUser && !proExpired && !loading && showProBanner && speeches.length > 0 && (
         <ProUpgradePrompt
           variant="banner"
           showCloseButton={true}
@@ -721,7 +741,7 @@ export default function DashboardClient() {
                                 </DropdownMenuContent>
                               </DropdownMenu>
 
-                              <Link href={`/generator?step=2&speechId=${speech.id}`}>
+                              <Link href={`/generator?step=5&speechId=${speech.id}`}>
                                 <Button variant="outline" size="sm" className="rounded-full hover:bg-gray-100">
                                   <Edit className="h-4 w-4 mr-1" />
                                   Edit

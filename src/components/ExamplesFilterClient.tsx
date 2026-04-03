@@ -32,7 +32,7 @@ export default function ExamplesFilterClient() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedTone, setSelectedTone] = useState('');
   const [selectedDuration, setSelectedDuration] = useState('');
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
 
   const groups = getAllGroups();
 

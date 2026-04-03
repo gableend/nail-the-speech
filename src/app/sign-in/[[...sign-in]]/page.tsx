@@ -1,6 +1,6 @@
 'use client';
 
-import { SignIn } from '@clerk/nextjs';
+import { SignIn, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import PaymentSuccessBanner from '@/components/PaymentSuccessBanner';
@@ -31,12 +31,20 @@ export default function Page() {
           )}
 
           <div className="flex justify-center">
-            <SignIn
-              path="/sign-in"
-              routing="path"
-              signUpUrl="/sign-up"
-              redirectUrl="/dashboard"
-            />
+            <ClerkLoading>
+              <div className="w-full max-w-[400px] bg-white rounded-xl border border-[#e8e1d8] p-8 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#da5389] mx-auto mb-4" />
+                <p className="text-[#8f867e]">Loading sign in...</p>
+              </div>
+            </ClerkLoading>
+            <ClerkLoaded>
+              <SignIn
+                path="/sign-in"
+                routing="path"
+                signUpUrl="/sign-up"
+                redirectUrl="/dashboard"
+              />
+            </ClerkLoaded>
           </div>
 
           <div className="mt-4 lg:mt-6 text-center">

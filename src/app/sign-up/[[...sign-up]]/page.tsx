@@ -1,6 +1,6 @@
 'use client';
 
-import { SignUp } from '@clerk/nextjs';
+import { SignUp, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import PaymentSuccessBanner from '@/components/PaymentSuccessBanner';
@@ -34,11 +34,19 @@ export default function Page() {
           )}
 
           <div className="flex justify-center">
-            <SignUp
-              fallbackRedirectUrl="/dashboard"
-              forceRedirectUrl="/dashboard"
-              signInUrl="/sign-in"
-            />
+            <ClerkLoading>
+              <div className="w-full max-w-[400px] bg-white rounded-xl border border-[#e8e1d8] p-8 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#da5389] mx-auto mb-4" />
+                <p className="text-[#8f867e]">Loading sign up...</p>
+              </div>
+            </ClerkLoading>
+            <ClerkLoaded>
+              <SignUp
+                fallbackRedirectUrl="/dashboard"
+                forceRedirectUrl="/dashboard"
+                signInUrl="/sign-in"
+              />
+            </ClerkLoaded>
           </div>
 
           {/* Trust indicators */}

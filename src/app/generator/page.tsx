@@ -119,7 +119,8 @@ function GeneratorContent() {
   const sessionId = searchParams.get('session_id');
   const needsRoleSelection = !roleFromUrl && !speechIdFromUrl;
   const isEditMode = !!speechIdFromUrl;
-  const initialStep = stepFromUrl ? Number.parseInt(stepFromUrl) : (needsRoleSelection ? 0 : 1);
+  // Steps: 0=Name+Email, 1=Role (skipped if role from URL), 2=Couple, 3=Connection, 4=Story, 5=Speech
+  const initialStep = stepFromUrl ? Number.parseInt(stepFromUrl) : (isEditMode ? 5 : (needsRoleSelection ? 0 : 0));
   const { isSignedIn } = useUser();
   // hideStep3 and totalSteps are now computed below after isProUser is available
 
@@ -218,10 +219,9 @@ function GeneratorContent() {
   const [showPaymentSuccess, setShowPaymentSuccess] = useState(paymentSuccess);
   const [showPaymentCanceled, setShowPaymentCanceled] = useState(paymentCanceled);
 
-  // Pro users skip Step 3 (fields merged into Step 2 collapsible)
-  // Step 3 (Pro features) is always hidden — Pro users see fields in collapsible, free users hit paywall after generation
-  const hideStep3 = true;
-  const totalSteps = needsRoleSelection ? (hideStep3 ? 3 : 4) : (hideStep3 ? 2 : 3);
+  // Step flow: 0=Name+Email, 1=Role, 2=Couple, 3=Connection, 4=Story, 5=Speech
+  const totalSteps = 5; // last step index
+  const hideStep3 = true; // kept for backward compat with pro features logic
 
   const [formData, setFormData] = useState<FormData>({
     // Role Selection (if needed)
@@ -341,12 +341,16 @@ function GeneratorContent() {
         } else {
           // Fallback to step detection if generatedFromStep is missing (backward compatibility)
           console.log('No generatedFromStep found, using fallback detection');
-          if (parsedData.yourName && parsedData.groomName && parsedData.brideName &&
-              parsedData.relationshipToGroom && parsedData.tone && parsedData.lengthPreference &&
-              parsedData.greatStoryMemory) {
-            setCurrentStep(needsRoleSelection ? 2 : 1); // Default to pro step
+          if (parsedData.greatStoryMemory) {
+            setCurrentStep(5); // Has story, go to speech output
+          } else if (parsedData.relationshipToGroom && parsedData.tone) {
+            setCurrentStep(4); // Has connection, go to story step
+          } else if (parsedData.groomName && parsedData.brideName) {
+            setCurrentStep(3); // Has names, go to connection step
           } else if (parsedData.selectedRole) {
-            setCurrentStep(needsRoleSelection ? 1 : 0); // Essentials step
+            setCurrentStep(2); // Has role, go to couple names
+          } else {
+            setCurrentStep(0); // Start from beginning
           }
         }
 
@@ -529,16 +533,24 @@ function GeneratorContent() {
   const canRedo = currentVersionIndex < speechVersions.length - 1;
 
   const nextStep = () => {
-    // Non-Pro users don't have step 3 (hideStep3 handles this via totalSteps)
-
     if (currentStep < totalSteps) {
-      setCurrentStep(prev => prev + 1);
+      // Skip role step if role came from URL
+      if (currentStep === 0 && !needsRoleSelection) {
+        setCurrentStep(2); // jump past role selection
+      } else {
+        setCurrentStep(prev => prev + 1);
+      }
     }
   };
 
   const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(prev => prev - 1);
+    if (currentStep > 0) {
+      // Skip role step going back if role came from URL
+      if (currentStep === 2 && !needsRoleSelection) {
+        setCurrentStep(0);
+      } else {
+        setCurrentStep(prev => prev - 1);
+      }
     }
   };
 
@@ -853,10 +865,10 @@ function GeneratorContent() {
 
   // New function: Navigate to Step 2 and start streaming speech generation
   const handleGenerateAndGoToStep2 = async () => {
-    if (!isStepValid()) return;
+    if (!formData.greatStoryMemory) return;
 
-    // Navigate to Step 2 first
-    setCurrentStep(2);
+    // Navigate to Step 5 (speech output) first
+    setCurrentStep(5);
 
     // Start streaming speech generation
     try {
@@ -971,43 +983,38 @@ function GeneratorContent() {
 
   const isStepValid = () => {
     switch (currentStep) {
-      case 0:
-        // Role Selection - Required if we're in generic flow
+      case 0: // Name + Email
+        return !!(formData.yourName && formData.email);
+      case 1: // Role
         return formData.selectedRole !== "";
-      case 1:
-        // Section 1: Essentials - All required to generate free speech
-        return formData.email && formData.yourName && formData.groomName && formData.brideName &&
-               formData.relationshipToGroom && formData.tone && formData.greatStoryMemory;
-      case 2:
-        // Step 2: Your Speech Outline - Valid if essentials are complete
-        return formData.email && formData.yourName && formData.groomName && formData.brideName &&
-               formData.relationshipToGroom && formData.tone && formData.greatStoryMemory;
-      case 3:
-        // Section 3: Premium - All optional, always valid
+      case 2: // Couple names
+        return !!(formData.groomName && formData.brideName);
+      case 3: // Connection + Tone
+        return !!(formData.relationshipToGroom && formData.tone);
+      case 4: // Story
+        return !!formData.greatStoryMemory;
+      case 5: // Speech output
         return true;
       default:
         return false;
     }
   };
 
-  // Progress bar: percentage based on field completion across the entire flow
+  // Progress bar: step-based progress across the flow
   const getProgressPercent = (): number => {
-    if (currentStep === 2 && speechGenerated) return 100;
-    if (currentStep === 2) return 85; // generating
+    if (currentStep === 5 && speechGenerated) return 100;
+    if (currentStep === 5) return 90; // generating
 
-    const fields = [
-      !!formData.selectedRole,
-      !!formData.email,
-      !!formData.yourName,
-      !!formData.groomName,
-      !!formData.brideName,
-      !!formData.relationshipToGroom,
-      !!formData.tone,
-      !!formData.greatStoryMemory,
+    // Each completed step is worth a portion
+    const stepWeights = [
+      !!(formData.yourName && formData.email),           // step 0
+      !!formData.selectedRole,                             // step 1
+      !!(formData.groomName && formData.brideName),       // step 2
+      !!(formData.relationshipToGroom && formData.tone),  // step 3
+      !!formData.greatStoryMemory,                         // step 4
     ];
-    const filled = fields.filter(Boolean).length;
-    // Scale: role selection alone = ~10%, all fields complete = ~80%
-    return Math.round((filled / fields.length) * 80);
+    const completed = stepWeights.filter(Boolean).length;
+    return Math.round((completed / stepWeights.length) * 85);
   };
 
   return (
@@ -1112,18 +1119,17 @@ function GeneratorContent() {
         <div className="mb-8">
           <div className="text-center mb-6">
             <h1 className="text-4xl font-bold text-[#181615] mb-2">
-              {needsRoleSelection ? (
-                <>🎤 Wedding Speech Generator</>
+              {currentStep === 5 ? (
+                <>✏️ {formData.selectedRole ? `${getRoleTitle(formData.selectedRole)} Speech` : 'Your Speech'}</>
               ) : (
-                <>🕴️ {getRoleTitle(formData.selectedRole)} Speech Generator</>
+                <>🎤 Wedding Speech Generator</>
               )}
             </h1>
-            <p className="text-xl text-[#8f867e]">
-              {needsRoleSelection ?
-                "Tell us your role, then a few details—We'll do the rest" :
-                "Tell us a few things—We'll do the rest"
-              }
-            </p>
+            {currentStep < 5 && (
+              <p className="text-lg text-[#8f867e]">
+                Answer a few quick questions and we'll write your speech
+              </p>
+            )}
           </div>
         </div>
 
@@ -1131,10 +1137,13 @@ function GeneratorContent() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
-              {currentStep === 0 && <span className="text-sm font-medium text-[#8f867e]">Choose your role</span>}
-              {currentStep === 1 && <span className="text-sm font-medium text-[#8f867e]">Fill in the details</span>}
-              {currentStep === 2 && !speechGenerated && <span className="text-sm font-medium text-[#8f867e]">Generating your speech</span>}
-              {currentStep === 2 && speechGenerated && <span className="text-sm font-medium text-[#da5389]">Speech ready</span>}
+              {currentStep === 0 && <span className="text-sm font-medium text-[#8f867e]">Let's start with you</span>}
+              {currentStep === 1 && <span className="text-sm font-medium text-[#8f867e]">What's your role?</span>}
+              {currentStep === 2 && <span className="text-sm font-medium text-[#8f867e]">Tell us about the couple</span>}
+              {currentStep === 3 && <span className="text-sm font-medium text-[#8f867e]">Your connection</span>}
+              {currentStep === 4 && <span className="text-sm font-medium text-[#8f867e]">Share a story</span>}
+              {currentStep === 5 && !speechGenerated && <span className="text-sm font-medium text-[#8f867e]">Generating your speech</span>}
+              {currentStep === 5 && speechGenerated && <span className="text-sm font-medium text-[#da5389]">Speech ready</span>}
             </div>
             <span className="text-sm font-semibold text-[#181615]">{getProgressPercent()}%</span>
           </div>
@@ -1150,29 +1159,67 @@ function GeneratorContent() {
           <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-[#faf7f4]/30" />
           <CardHeader className="text-center relative z-10">
             <div className="flex items-center justify-center gap-2 mb-2">
-              {currentStep === 0 && <span className="text-2xl">👤</span>}
-              {currentStep === 1 && <span className="text-2xl">🎯</span>}
-              {currentStep === 2 && <span className="text-2xl">✏️</span>}
-              {currentStep === 3 && <span className="text-2xl">💎</span>}
+              {currentStep === 0 && <span className="text-2xl">👋</span>}
+              {currentStep === 1 && <span className="text-2xl">🎭</span>}
+              {currentStep === 2 && <span className="text-2xl">💍</span>}
+              {currentStep === 3 && <span className="text-2xl">🤝</span>}
+              {currentStep === 4 && <span className="text-2xl">📖</span>}
+              {currentStep === 5 && <span className="text-2xl">✏️</span>}
               <CardTitle className="text-2xl text-[#181615]">
-                {currentStep === 0 && "Choose Your Role"}
-                {currentStep === 1 && "Essentials"}
-                {currentStep === 2 && (speechGenerated ? "Your Speech" : "Your Speech Outline")}
-                {currentStep === 3 && "Premium Features"}
+                {currentStep === 0 && "First, introduce yourself"}
+                {currentStep === 1 && "What's your role?"}
+                {currentStep === 2 && "Who's getting married?"}
+                {currentStep === 3 && "How do you know them?"}
+                {currentStep === 4 && "Share a story"}
+                {currentStep === 5 && (speechGenerated ? "Your Speech" : "Generating your speech")}
               </CardTitle>
             </div>
             <p className="text-sm text-[#8f867e]">
-              {currentStep === 0 && "Select your role in the wedding to personalize your speech"}
-              {currentStep === 1 && "Required fields for your speech foundation"}
-              {currentStep === 2 && (speechGenerated ? "Review, refine, and perfect your speech" : "Generate your personalized speech")}
-              {currentStep === 3 && "Add personality & premium features to your speech"}
+              {currentStep === 0 && "We'll use this to personalize your speech"}
+              {currentStep === 1 && "Pick the role that best describes you"}
+              {currentStep === 2 && "Just first names is fine"}
+              {currentStep === 3 && "This helps us get the tone right"}
+              {currentStep === 4 && "The best speeches have one great story"}
+              {currentStep === 5 && !speechGenerated && "Sit tight, this takes a few seconds"}
+              {currentStep === 5 && speechGenerated && "Review, refine, and make it yours"}
             </p>
           </CardHeader>
           <CardContent className="p-8 relative z-10">
 
-            {/* Role Selection Step */}
+            {/* Step 0: Name + Email */}
             {currentStep === 0 && (
-              <div className="space-y-8">
+              <div className="space-y-6 max-w-md mx-auto">
+                <div>
+                  <label className="block text-base font-medium text-[#181615] mb-2">
+                    Your first name
+                  </label>
+                  <Input
+                    placeholder="e.g., James"
+                    value={formData.yourName}
+                    onChange={(e) => updateFormData('yourName', e.target.value)}
+                    className="darker-placeholder text-lg py-3"
+                    autoFocus
+                  />
+                </div>
+                <div>
+                  <label className="block text-base font-medium text-[#181615] mb-2">
+                    Your email address
+                  </label>
+                  <Input
+                    type="email"
+                    placeholder="you@example.com"
+                    value={formData.email}
+                    onChange={(e) => updateFormData('email', e.target.value)}
+                    className="darker-placeholder text-lg py-3"
+                  />
+                  <p className="text-xs text-[#8f867e] mt-1.5">We'll send your speech here so you don't lose it</p>
+                </div>
+              </div>
+            )}
+
+            {/* Step 1: Role Selection */}
+            {currentStep === 1 && (
+              <div className="space-y-6">
                 {/* Popular roles - large cards */}
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {speechRoles.filter(r => r.tier === 'major').map((role) => (
@@ -1192,7 +1239,7 @@ function GeneratorContent() {
                   ))}
                 </div>
 
-                {/* All other roles - compact grouped list */}
+                {/* All other roles - compact list */}
                 <div>
                   <p className="text-sm font-medium text-[#8f867e] mb-3">More roles</p>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -1216,135 +1263,117 @@ function GeneratorContent() {
               </div>
             )}
 
-            {/* Section 1: Essentials (Required to Generate a Free Speech) */}
-            {currentStep === 1 && (
-              <div className="space-y-6">
+            {/* Step 2: Couple Names */}
+            {currentStep === 2 && (
+              <div className="space-y-6 max-w-md mx-auto">
                 <div>
                   <label className="block text-base font-medium text-[#181615] mb-2">
-                    Your email address *
+                    Groom's first name
                   </label>
                   <Input
-                    type="email"
-                    placeholder="you@example.com"
-                    value={formData.email}
-                    onChange={(e) => updateFormData('email', e.target.value)}
-                    className="darker-placeholder max-w-md"
+                    placeholder="e.g., David"
+                    value={formData.groomName}
+                    onChange={(e) => updateFormData('groomName', e.target.value)}
+                    className="darker-placeholder text-lg py-3"
+                    autoFocus
                   />
-                  <p className="text-xs text-[#8f867e] mt-1.5">We'll send your speech here so you don't lose it</p>
                 </div>
+                <div>
+                  <label className="block text-base font-medium text-[#181615] mb-2">
+                    Bride's first name
+                  </label>
+                  <Input
+                    placeholder="e.g., Sarah"
+                    value={formData.brideName}
+                    onChange={(e) => updateFormData('brideName', e.target.value)}
+                    className="darker-placeholder text-lg py-3"
+                  />
+                </div>
+              </div>
+            )}
 
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-base font-medium text-[#181615] mb-2">
-                      What's your name? *
-                    </label>
-                    <Input
-                      placeholder="Your first name"
-                      value={formData.yourName}
-                      onChange={(e) => updateFormData('yourName', e.target.value)}
-                      className="darker-placeholder"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-base font-medium text-[#181615] mb-2">
-                      Who's the groom? *
-                    </label>
-                    <Input
-                      placeholder="Groom's first name"
-                      value={formData.groomName}
-                      onChange={(e) => updateFormData('groomName', e.target.value)}
-                      className="darker-placeholder"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-base font-medium text-[#181615] mb-2">
-                      What's the bride's name? *
-                    </label>
-                    <Input
-                      placeholder="Bride's first name"
-                      value={formData.brideName}
-                      onChange={(e) => updateFormData('brideName', e.target.value)}
-                      className="darker-placeholder"
+            {/* Step 3: Connection + Tone */}
+            {currentStep === 3 && (
+              <div className="space-y-6 max-w-lg mx-auto">
+                <div>
+                  <label className="block text-base font-medium text-[#181615] mb-2">
+                    How do you know the couple?
+                  </label>
+                  <Input
+                    placeholder="e.g., best friends since uni, the groom's brother"
+                    value={formData.relationshipToGroom}
+                    onChange={(e) => updateFormData('relationshipToGroom', e.target.value)}
+                    className="darker-placeholder text-lg py-3"
+                    autoFocus
+                  />
+                  <div className="flex items-center justify-end mt-2">
+                    <VoiceInput
+                      onTranscription={(text) => updateFormData('relationshipToGroom', text)}
+                      placeholder="Say it instead"
+                      disabled={isGenerating}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-base font-medium text-[#181615] mb-3">
-                    How do you know the groom? *
+                    What vibe are you going for?
                   </label>
-                  <div className="space-y-3">
-                    <Input
-                      placeholder="e.g., best friends since uni"
-                      value={formData.relationshipToGroom}
-                      onChange={(e) => updateFormData('relationshipToGroom', e.target.value)}
-                      className="darker-placeholder"
-                    />
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-[#8f867e]">Or use voice input:</span>
-                      <VoiceInput
-                        onTranscription={(text) => updateFormData('relationshipToGroom', text)}
-                        placeholder="Speak your relationship to the groom"
-                        disabled={isGenerating}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-base font-medium text-[#181615] mb-3">
-                    What kind of speech are you aiming for? *
-                  </label>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="grid grid-cols-2 gap-3">
                     {[
-                      { value: "light-funny", label: "Light & Funny" },
-                      { value: "sentimental", label: "Sentimental" },
-                      { value: "balanced", label: "Balanced" },
-                      { value: "clean-roast", label: "Clean Roast" }
+                      { value: "light-funny", label: "Light & Funny", emoji: "😄" },
+                      { value: "sentimental", label: "Sentimental", emoji: "🥹" },
+                      { value: "balanced", label: "Balanced", emoji: "👌" },
+                      { value: "clean-roast", label: "Clean Roast", emoji: "🔥" }
                     ].map((option) => (
                       <button
                         key={option.value}
                         type="button"
                         onClick={() => updateFormData('tone', option.value)}
-                        className={`px-4 py-2 rounded-full border-2 text-base font-medium transition-all duration-200 ${
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all duration-200 ${
                           formData.tone === option.value
                             ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
                             : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
                         }`}
                       >
-                        {option.label}
+                        <span className="text-xl">{option.emoji}</span>
+                        <span className="font-medium">{option.label}</span>
                       </button>
                     ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-base font-medium text-[#181615] mb-2">
-                    Tell us a moment worth sharing—funny, meaningful, or both *
-                  </label>
-                  <div className="space-y-3">
-                    <Textarea
-                      placeholder="Don't worry—we'll make it great"
-                      value={formData.greatStoryMemory}
-                      onChange={(e) => updateFormData('greatStoryMemory', e.target.value)}
-                      rows={4}
-                      className="darker-placeholder"
-                    />
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-[#8f867e]">Or tell your story with voice:</span>
-                      <VoiceInput
-                        onTranscription={(text) => updateFormData('greatStoryMemory', text)}
-                        placeholder="Speak your story"
-                        disabled={isGenerating}
-                      />
-                    </div>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Section 3: Pro Features (Premium - Adds Personality & Emotional Depth) */}
-            {currentStep === 3 && (
+            {/* Step 4: Story */}
+            {currentStep === 4 && (
+              <div className="space-y-6 max-w-lg mx-auto">
+                <div>
+                  <label className="block text-base font-medium text-[#181615] mb-2">
+                    Tell us a moment worth sharing
+                  </label>
+                  <p className="text-sm text-[#8f867e] mb-3">Funny, meaningful, or both. Don't overthink it.</p>
+                  <Textarea
+                    placeholder="e.g., I'll never forget when he tried to cook dinner for their third date and set off the smoke alarm..."
+                    value={formData.greatStoryMemory}
+                    onChange={(e) => updateFormData('greatStoryMemory', e.target.value)}
+                    rows={5}
+                    className="darker-placeholder text-base"
+                    autoFocus
+                  />
+                  <div className="flex items-center justify-end mt-2">
+                    <VoiceInput
+                      onTranscription={(text) => updateFormData('greatStoryMemory', text)}
+                      placeholder="Tell your story by voice"
+                      disabled={isGenerating}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Section: Pro Features (Premium - Adds Personality & Emotional Depth) - legacy step, hidden */}
+            {currentStep === 99 && (
               <div className="space-y-6">
                 <div className="bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/10 rounded-lg p-6 mb-6 border border-[#da5389]/30">
                   <div className="mb-4">
@@ -1561,8 +1590,8 @@ function GeneratorContent() {
               </div>
             )}
 
-            {/* Section 2: Your Speech Outline */}
-            {currentStep === 2 && (
+            {/* Step 5: Your Speech Outline */}
+            {currentStep === 5 && (
               <div className="space-y-6">
                 {/* Collapsible Speech Details — shown for Pro users after generation or in edit mode */}
                 {(isEditMode || (isProUser && speechGenerated)) && (
@@ -2249,43 +2278,44 @@ function GeneratorContent() {
             <div className={`flex mt-8 pt-6 border-t border-border ${
               currentStep === 0 ? 'justify-center' : 'justify-between'
             }`}>
-              {currentStep > 1 && !isEditMode && (
+              {/* Back button - shown on steps 1-4 */}
+              {currentStep > 0 && currentStep < 5 && !isEditMode && (
                 <Button
                   variant="outline"
                   onClick={prevStep}
                   className="bg-white border-2 border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] rounded-full"
                 >
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Previous
+                  Back
                 </Button>
               )}
 
-              {/* Spacer when no previous button */}
-              {(currentStep === 1 || (currentStep > 1 && isEditMode)) && <div />}
+              {/* Spacer when no back button */}
+              {(currentStep === 0 || isEditMode) && currentStep < 5 && <div />}
 
               <div className="flex gap-3">
-                {/* Next button for Step 0 (role selection) */}
-                {currentStep === 0 && (
+                {/* Next button for steps 0-3 */}
+                {currentStep >= 0 && currentStep <= 3 && (
                   <Button
                     onClick={nextStep}
                     disabled={!isStepValid()}
-                    className={`shadow-lg rounded-full transition-all duration-200 ${
+                    className={`shadow-lg rounded-full px-8 transition-all duration-200 ${
                       isStepValid()
                         ? 'bg-[#da5389] hover:bg-[#da5389]/90 text-white'
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
                   >
-                    Next Step - Add Details
+                    Continue
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 )}
 
-                {/* Generate Speech button for step 1 - goes to step 2 and starts generation */}
-                {currentStep === 1 && !isEditMode && (
+                {/* Generate Speech button for step 4 (story) */}
+                {currentStep === 4 && !isEditMode && (
                   <Button
                     onClick={handleGenerateAndGoToStep2}
                     disabled={isGenerating || !isStepValid()}
-                    className={`shadow-lg rounded-full transition-all duration-200 ${
+                    className={`shadow-lg rounded-full px-8 transition-all duration-200 ${
                       isGenerating || !isStepValid()
                         ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                         : 'bg-[#da5389] hover:bg-[#da5389]/90 text-white'
@@ -2294,29 +2324,27 @@ function GeneratorContent() {
                     {isGenerating ? (
                       <>
                         <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block mr-2" />
-                        Generating Speech...
+                        Generating...
                       </>
                     ) : (
                       <>
                         <Sparkles className="mr-2 h-4 w-4" />
-                        Generate Speech
+                        Generate My Speech
                       </>
                     )}
                   </Button>
                 )}
 
-                {/* Back to Speech button for step 1 in edit mode */}
-                {currentStep === 1 && isEditMode && (
+                {/* Back to Speech button in edit mode */}
+                {currentStep < 5 && isEditMode && (
                   <Button
-                    onClick={() => setCurrentStep(2)}
+                    onClick={() => setCurrentStep(5)}
                     className="shadow-lg rounded-full bg-[#da5389] hover:bg-[#da5389]/90 text-white"
                   >
                     Back to Speech
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 )}
-
-
               </div>
             </div>
           </CardContent>

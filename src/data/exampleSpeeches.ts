@@ -109,7 +109,7 @@ export const speechCategories: SpeechCategory[] = [
   { slug: 'jewish-wedding-speech', name: 'Jewish Wedding Speech', description: 'Jewish wedding speech examples incorporating tradition, humor, and mazal tov moments.', shortDescription: 'L\'chaim! To life and love', group: 'Cultural', icon: '✡️' },
   { slug: 'irish-wedding-speech', name: 'Irish Wedding Speech', description: 'Irish wedding speech examples full of wit, warmth, and traditional blessings.', shortDescription: 'Irish charm and blessings', group: 'Cultural', icon: '☘️' },
   { slug: 'african-wedding-speech', name: 'African Wedding Speech', description: 'African wedding speech examples honoring heritage, community, and ubuntu.', shortDescription: 'Celebrating community and heritage', group: 'Cultural', icon: '🌍' },
-  { slug: 'latin-wedding-speech', name: 'Latin Wedding Speech', description: 'Latin wedding speech examples full of passion, family, and fiesta spirit.', shortDescription: 'Passion, family, and celebration', group: 'Cultural', icon: '💃' },
+  { slug: 'latin-wedding-speech', name: 'Latin Wedding Speech', description: 'Latin wedding speech examples full of passion, family, and fiesta spirit.', shortDescription: 'Passion, family, and celebration', group: 'Cultural', icon: '💃' }
 ];
 
 // ── Helper lookups ──────────────────────────────────────────
@@ -2275,6 +2275,2583 @@ export const exampleSpeeches: ExampleSpeech[] = [
     weddingRole: 'Emotional Wedding Speech',
     tags: [],
   },
+  // ── Best Woman Speech (Bridal Party) ──────────────────────
+
+  {
+    slug: 'best-woman-funny-1',
+    title: `The best woman who knows too much`,
+    category: 'best-woman-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.1,
+    wordCount: 268,
+    excerpt: `Good evening, everyone. For those of you who don't know me, I'm [Your name], and I have the slightly unconventional honour of being [Groom's name]'s best woman. Yes, a woman. I know...`,
+    content: `Good evening, everyone. For those of you who don't know me, I'm [Your name], and I have the slightly unconventional honour of being [Groom's name]'s best woman. Yes, a woman. I know some of you are surprised, but trust me, after twenty years of friendship, nobody else was going to stand up here and embarrass him quite as effectively.
+
+Let me take you back to where it all started. [Groom's name] and I met in Year 7 science class, where he set his own eyebrows on fire with a Bunsen burner. That pretty much set the tone for our entire friendship.
+
+Now, I was there the night [Groom's name] met [Bride's name]. He came home, sat on my sofa, and said, "I think I've just met the most incredible person alive." I told him to stop being dramatic. Three weeks later, he was learning to cook risotto because she mentioned she liked Italian food. This is a man whose signature dish was toast.
+
+[Bride's name], I want you to know something. In all the years I've known him, I've never seen [Groom's name] look at anyone the way he looks at you. Not even the risotto, and honestly, it turned out surprisingly good.
+
+You two bring out the very best in each other. [Groom's name] is calmer, happier, and somehow even funnier since you came along. And [Bride's name], you've gained a partner who will always, always show up for you.
+
+So please raise your glasses. To [Bride's name] and [Groom's name], may your marriage be as warm, ridiculous, and wonderful as the friendship that got me standing here today. Cheers!`,
+    authorName: 'Rachel Whitmore',
+    weddingRole: 'Best Woman',
+    tags: ['funny', 'best woman', 'bridal party'],
+  },
+  {
+    slug: 'best-woman-heartfelt-2',
+    title: `A best woman's tribute to true friendship`,
+    category: 'best-woman-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.0,
+    wordCount: 256,
+    excerpt: `Hello, everyone. My name is [Your name], and I have the privilege of standing here today as [Groom's name]'s best woman. I know that might raise a few eyebrows, but if you know us...`,
+    content: `Hello, everyone. My name is [Your name], and I have the privilege of standing here today as [Groom's name]'s best woman. I know that might raise a few eyebrows, but if you know us, you know it couldn't have been anyone else.
+
+[Groom's name] and I grew up three doors apart. We walked to school together every single day from age six until we were eighteen. He was there when I lost my mum. I was there when he thought he'd never find someone who truly understood him.
+
+The first time [Groom's name] told me about [Bride's name], his voice changed. It got quieter, almost reverent. He said, "She sees me, all of me, and she stays." That's when I knew this was different.
+
+I've watched their love grow from nervous first dates into something steady and sure. [Bride's name], you didn't just fall in love with [Groom's name], you chose him. Every single day, you choose him. And he chooses you right back.
+
+Watching the two of you together reminds me that the best relationships aren't about grand gestures. They're about the Tuesday nights cooking dinner together, the long drives with the windows down, the quiet moments where nothing needs to be said.
+
+[Groom's name], you deserve every bit of this happiness. And [Bride's name], thank you for loving my best friend the way he's always deserved.
+
+Please join me in raising a glass to [Bride's name] and [Groom's name]. Here's to a lifetime of choosing each other. To the happy couple!`,
+    authorName: 'Sophie Brennan',
+    weddingRole: 'Best Woman',
+    tags: ['heartfelt', 'best woman', 'friendship'],
+  },
+  {
+    slug: 'best-woman-balanced-3',
+    title: `Standing beside him one more time`,
+    category: 'best-woman-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.8,
+    wordCount: 234,
+    excerpt: `Hi everyone. I'm [Your name], and when [Groom's name] asked me to be his best woman, I'll be honest, my first thought was, "Do I have to plan a stag do?" Thankfully, his brother...`,
+    content: `Hi everyone. I'm [Your name], and when [Groom's name] asked me to be his best woman, I'll be honest, my first thought was, "Do I have to plan a stag do?" Thankfully, his brother handled that part. I just had to write a speech, hold the rings, and try not to cry. Two out of three isn't bad.
+
+[Groom's name] and I became friends at our first job out of university. We were both terrified, both pretending to understand spreadsheets, and both sneaking out for coffee at 10am every day. Some friendships are built on deep philosophical conversations. Ours was built on flat whites and shared panic.
+
+But underneath all the laughs, [Groom's name] is one of the most genuinely kind people I know. He remembers birthdays. He checks in when things are hard. He drove forty minutes at midnight to help me change a tyre once, and he only complained a little bit.
+
+When [Bride's name] came into his life, I could see the shift immediately. He started talking about the future with actual excitement instead of mild anxiety. That's how you know it's real.
+
+[Bride's name], you make him brave. And [Groom's name], you make her laugh. That's a pretty unbeatable combination.
+
+So here's to the two of you. May your love be strong, your patience be endless, and your coffee always be hot. To [Bride's name] and [Groom's name]!`,
+    authorName: 'Jenna Calloway',
+    weddingRole: 'Best Woman',
+    tags: ['balanced', 'best woman', 'friendship'],
+  },
+
+  // ── Man of Honor Speech (Bridal Party) ────────────────────
+
+  {
+    slug: 'man-of-honor-funny-1',
+    title: `The man of honor who stole the show`,
+    category: 'man-of-honor-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.2,
+    wordCount: 282,
+    excerpt: `Alright, alright, settle down. I'm [Your name], and yes, I am the man of honor. I know what you're thinking, and no, I did not lose a bet. [Bride's name] chose me because I'm the...`,
+    content: `Alright, alright, settle down. I'm [Your name], and yes, I am the man of honor. I know what you're thinking, and no, I did not lose a bet. [Bride's name] chose me because I'm the only person who's seen her through braces, a questionable fringe in 2014, and that brief phase where she was really into making her own kombucha. Loyalty has its rewards, apparently.
+
+Now, [Bride's name] and I have been best friends since secondary school. I was there for her first heartbreak, her university graduation, and the time she accidentally locked herself out of her flat wearing nothing but a towel and one slipper. That story is free of charge, by the way. You're welcome.
+
+But here's what I really want to say. [Bride's name] is the kind of person who makes everyone around her feel important. She remembers the little things. She sends texts that say "thinking of you" on the exact days you need them most. She's fierce, she's funny, and she has a heart the size of this entire room.
+
+[Groom's name], I liked you from the start, which is saying something because I'm extremely protective. You passed the test when you made her laugh so hard she snorted water out of her nose at dinner. That was the moment I thought, "Yeah, he's the one."
+
+You two are brilliant together. You balance each other out in a way that just makes sense.
+
+So everyone, please raise a glass to [Bride's name] and [Groom's name]. May your love be as strong as [Bride's name]'s opinions and as steady as [Groom's name]'s patience. Cheers!`,
+    authorName: 'Daniel Okafor',
+    weddingRole: 'Man of Honor',
+    tags: ['funny', 'man of honor', 'bridal party'],
+  },
+  {
+    slug: 'man-of-honor-heartfelt-2',
+    title: `More than a best friend, a brother by choice`,
+    category: 'man-of-honor-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.0,
+    wordCount: 260,
+    excerpt: `Good evening, everyone. I'm [Your name], and I'm honoured beyond words to stand here today as [Bride's name]'s man of honor. When she asked me, I didn't hesitate. Not for a second...`,
+    content: `Good evening, everyone. I'm [Your name], and I'm honoured beyond words to stand here today as [Bride's name]'s man of honor. When she asked me, I didn't hesitate. Not for a second.
+
+[Bride's name] and I met eleven years ago during freshers' week. She was lost, looking for the English building, and I was lost, looking for literally anything. We figured it out together, and honestly, that's been the pattern ever since. Whenever life gets confusing, we figure it out together.
+
+She was there when my dad was ill. She sat with me in hospital waiting rooms and didn't try to fill the silence with empty words. She just held my hand. That's who [Bride's name] is. She shows up, fully and completely, for the people she loves.
+
+[Groom's name], the first time I met you, [Bride's name] was nervous about what I'd think. She needn't have worried. I saw how you listened to her, really listened, and I knew. You see the same extraordinary person I see.
+
+What you two have built together isn't just love. It's a partnership rooted in respect, in kindness, in the willingness to be vulnerable with each other. That's rare, and it's beautiful.
+
+[Bride's name], you are my family. Standing beside you today is one of the greatest honours of my life. And [Groom's name], welcome to the inner circle. You've earned it.
+
+Please join me in toasting two incredible people. To [Bride's name] and [Groom's name], and to the beautiful life ahead of you. To the happy couple!`,
+    authorName: 'Marcus Webb',
+    weddingRole: 'Man of Honor',
+    tags: ['heartfelt', 'man of honor', 'emotional'],
+  },
+  {
+    slug: 'man-of-honor-balanced-3',
+    title: `Her corner, always`,
+    category: 'man-of-honor-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.8,
+    wordCount: 237,
+    excerpt: `Hello, everyone. For those I haven't met, I'm [Your name], and I have the unique pleasure of being [Bride's name]'s man of honor. She told me all I had to do was hold her bouquet...`,
+    content: `Hello, everyone. For those I haven't met, I'm [Your name], and I have the unique pleasure of being [Bride's name]'s man of honor. She told me all I had to do was hold her bouquet and not make her cry. I'll do my best on both counts, but I'm not making promises.
+
+[Bride's name] and I go back fifteen years. We worked together at a terrible pizza restaurant when we were sixteen. I burnt the garlic bread, she charmed every customer, and management never figured out which one of us was actually useful. It was her. It was always her.
+
+Over the years, I've watched [Bride's name] grow into someone truly remarkable. She's the friend who drives an hour to bring you soup when you're ill. She's the person who remembers your dog's birthday. She once talked me out of a truly catastrophic haircut, and for that alone I owe her everything.
+
+When she started dating [Groom's name], something shifted. She stopped worrying so much. She laughed more freely. She told me, "He makes me feel like I don't have to try so hard to be enough." And that, right there, is what love should feel like.
+
+[Groom's name], take care of her. Not because she can't take care of herself, because she absolutely can, but because she deserves someone who wants to.
+
+To [Bride's name] and [Groom's name], may every chapter be better than the last. Cheers!`,
+    authorName: 'James Hartley',
+    weddingRole: 'Man of Honor',
+    tags: ['balanced', 'man of honor', 'friendship'],
+  },
+
+  // ── Stepfather of the Bride Speech (Family) ───────────────
+
+  {
+    slug: 'stepfather-bride-funny-1',
+    title: `The stepfather who earned his place`,
+    category: 'stepfather-of-bride-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.1,
+    wordCount: 274,
+    excerpt: `Good evening, everyone. I'm [Your name], and I'm [Bride's name]'s stepdad, though she dropped the "step" part about six years ago, which was honestly one of the proudest moments of...`,
+    content: `Good evening, everyone. I'm [Your name], and I'm [Bride's name]'s stepdad, though she dropped the "step" part about six years ago, which was honestly one of the proudest moments of my life. Right up there with today.
+
+Now, I want to be transparent. When I first came into [Bride's name]'s life, she was fourteen and deeply unimpressed. I tried everything. I learned her favourite bands. I pretended to enjoy reality TV. I once attempted to help her with maths homework and she looked at me like I'd suggested the earth was flat. Turns out I was doing the long division wrong. She was right. She's always right. [Groom's name], get used to that.
+
+But slowly, year by year, we built something real. She started saving me a seat at dinner. She started asking my opinion on things, even if she usually ignored it. And one evening, completely out of nowhere, she called me Dad. I had to leave the room because a grown man crying over pasta is apparently "embarrassing."
+
+What I've learned from [Bride's name] is that family isn't always about biology. It's about showing up, being patient, and accepting that sometimes love takes the scenic route.
+
+[Groom's name], you're getting an extraordinary woman. She's smart, she's stubborn in the best way, and she will absolutely beat you at Scrabble every single time. Don't even try.
+
+So please, raise your glasses to [Bride's name] and [Groom's name]. May your life together be full of love, laughter, and the occasional long division argument. To the happy couple!`,
+    authorName: 'Graham Porter',
+    weddingRole: 'Stepfather of the Bride',
+    tags: ['funny', 'stepfather', 'blended family'],
+  },
+  {
+    slug: 'stepfather-bride-heartfelt-2',
+    title: `A stepfather's quiet pride`,
+    category: 'stepfather-of-bride-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 1.9,
+    wordCount: 247,
+    excerpt: `Good evening. My name is [Your name], and I have the honour of being [Bride's name]'s stepfather. I want to start by saying that stepping into someone's life partway through is both...`,
+    content: `Good evening. My name is [Your name], and I have the honour of being [Bride's name]'s stepfather. I want to start by saying that stepping into someone's life partway through is both the hardest and most rewarding thing I've ever done.
+
+When I met [Bride's name]'s mother, I knew that loving her meant loving her children too. Not as an obligation, but as a choice I made willingly, every single day. And [Bride's name] made that choice easy, even when she probably didn't realize it.
+
+I remember the first time she invited me to a school play. She had a small part, just three lines, but she delivered them with so much conviction. I sat in that audience thinking, this girl is going to do incredible things. And here we are.
+
+Over the years, I've watched [Bride's name] grow into a woman of such warmth, intelligence, and grace. She navigates the world with a kindness that makes everyone around her feel seen.
+
+[Groom's name], from the first time you walked through our door, I could tell you were different. You were nervous, but you were genuine. You shook my hand, looked me in the eye, and that meant something.
+
+What you and [Bride's name] share is built on a foundation of mutual respect, and that is the strongest foundation there is.
+
+I may not have been there from the beginning, but I will be here for every chapter that comes next. To [Bride's name] and [Groom's name], with all my love. To the happy couple!`,
+    authorName: 'Richard Hale',
+    weddingRole: 'Stepfather of the Bride',
+    tags: ['heartfelt', 'stepfather', 'family'],
+  },
+  {
+    slug: 'stepfather-bride-balanced-3',
+    title: `Chosen family, chosen love`,
+    category: 'stepfather-of-bride-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.7,
+    wordCount: 225,
+    excerpt: `Hello, everyone. I'm [Your name], [Bride's name]'s stepdad. Now, I know what some of you might be thinking, does the stepdad give a speech? The answer is yes, because [Bride's name]...`,
+    content: `Hello, everyone. I'm [Your name], [Bride's name]'s stepdad. Now, I know what some of you might be thinking, does the stepdad give a speech? The answer is yes, because [Bride's name] asked me to, and I've spent twelve years learning that when she asks you to do something, you do it.
+
+I came into this family when [Bride's name] was ten. She was suspicious of me for a solid two years, which honestly, fair enough. I was the new guy. But we found our common ground eventually. Turns out we both loved terrible action films and couldn't resist a good cheese toastie.
+
+Those small moments added up. Movie nights became our thing. Late night kitchen conversations when she was stressed about exams. Teaching her to drive, which tested both our nerves. Slowly, we became family, not because we had to, but because we wanted to.
+
+[Bride's name], watching you today, I'm overwhelmed with pride. You've grown into someone so thoughtful, so brave, and so full of love.
+
+[Groom's name], you've joined a family that doesn't do things by halves. We're loud, we're opinionated, and we always have too much food. But we love fiercely, and you're one of us now.
+
+To [Bride's name] and [Groom's name], here's to building your own version of family, one cheese toastie at a time. Cheers!`,
+    authorName: 'Neil Sutton',
+    weddingRole: 'Stepfather of the Bride',
+    tags: ['balanced', 'stepfather', 'blended family'],
+  },
+
+  // ── Stepmother of the Bride Speech (Family) ───────────────
+
+  {
+    slug: 'stepmother-bride-funny-1',
+    title: `The stepmum who finally gets her moment`,
+    category: 'stepmother-of-bride-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.0,
+    wordCount: 258,
+    excerpt: `Hello, everyone! I'm [Your name], [Bride's name]'s stepmum. And before anyone checks, no, I'm not the wicked kind. I checked the mirror this morning and everything. No horns, no...`,
+    content: `Hello, everyone! I'm [Your name], [Bride's name]'s stepmum. And before anyone checks, no, I'm not the wicked kind. I checked the mirror this morning and everything. No horns, no poisoned apples, just a woman in a very expensive hat trying not to ruin her mascara.
+
+I came into [Bride's name]'s life when she was twelve, which, if any of you have met a twelve-year-old girl, you'll know is basically entering a negotiation you're not qualified for. She had opinions about everything. My cooking, my taste in music, the way I loaded the dishwasher. We had some spirited debates in those early years. I believe the technical term is "character building."
+
+But here's the thing about [Bride's name]. Underneath that strong exterior is someone with the biggest heart you'll ever find. She wrote me a card on my first Mother's Day in the family. It just said, "Thanks for trying. You're not bad." I've kept it in my bedside drawer ever since.
+
+Over the years, our relationship has grown into something I treasure deeply. She calls me for recipe advice. She sends me pictures of her cat doing ridiculous things. She even lets me give unsolicited opinions on her outfits now, though she ignores most of them.
+
+[Groom's name], you're marrying someone truly special. Be patient, be kind, and for the love of all things, learn how she likes her tea.
+
+To [Bride's name] and [Groom's name], may your love story be even better than any fairy tale. And far less wicked. Cheers!`,
+    authorName: 'Caroline Marsh',
+    weddingRole: 'Stepmother of the Bride',
+    tags: ['funny', 'stepmother', 'blended family'],
+  },
+  {
+    slug: 'stepmother-bride-heartfelt-2',
+    title: `The privilege of watching you bloom`,
+    category: 'stepmother-of-bride-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 1.8,
+    wordCount: 236,
+    excerpt: `Good evening, everyone. I'm [Your name], and I'm [Bride's name]'s stepmother. I've thought carefully about what to say today, because some things matter too much to get wrong. Being...`,
+    content: `Good evening, everyone. I'm [Your name], and I'm [Bride's name]'s stepmother. I've thought carefully about what to say today, because some things matter too much to get wrong.
+
+Being a stepparent is a quiet role. You don't always get the obvious moments. But you get the in-between ones, and those are the moments that have meant the most to me.
+
+I remember the first time [Bride's name] fell asleep on my shoulder during a long car journey. She was thirteen, and it was the first time she'd let her guard down around me completely. I remember sitting perfectly still for forty-five minutes, terrified of moving in case I broke the spell.
+
+I remember her calling me from university at midnight, not because anything was wrong, but because she wanted someone to talk to. She chose me. I'll never forget that.
+
+[Bride's name], you've taught me that love doesn't follow a rulebook. It grows in its own time, in its own way, and when it finally arrives, it's all the more precious for the journey.
+
+Watching you with [Groom's name] fills me with such joy. You've found someone who matches your warmth, your determination, and your wonderful stubbornness. Together, you are extraordinary.
+
+[Groom's name], welcome to this family. We're complicated, but we're yours now.
+
+Please raise your glasses to two people who remind us all what love looks like when it's real. To [Bride's name] and [Groom's name]!`,
+    authorName: 'Helen Bradshaw',
+    weddingRole: 'Stepmother of the Bride',
+    tags: ['heartfelt', 'stepmother', 'emotional'],
+  },
+  {
+    slug: 'stepmother-bride-balanced-3',
+    title: `A bonus mum's wedding day toast`,
+    category: 'stepmother-of-bride-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.7,
+    wordCount: 221,
+    excerpt: `Hi, everyone. I'm [Your name], also known as [Bride's name]'s bonus mum, a title she gave me when she was sixteen and I've been clinging to ever since. It's better than "stepmum"...`,
+    content: `Hi, everyone. I'm [Your name], also known as [Bride's name]'s bonus mum, a title she gave me when she was sixteen and I've been clinging to ever since. It's better than "stepmum," and it comes with fewer fairy tale associations.
+
+Joining a family that already has its own rhythms and inside jokes is a bit like starting a book at chapter five. You have to catch up fast. But [Bride's name] was patient with me, most of the time, and gradually I learned the language of this family.
+
+I learned that [Bride's name] can't function before her first cup of tea. I learned that she cries at every nature documentary. I learned that when she says "I'm fine," she absolutely is not fine and you should bring chocolate immediately.
+
+These details might seem small, but they're the building blocks of knowing someone. And knowing [Bride's name], truly knowing her, is one of the great privileges of my life.
+
+[Groom's name], you've clearly done your homework too. You know when to make her laugh, when to give her space, and when to just sit with her quietly. That tells me everything I need to know about you.
+
+To [Bride's name] and [Groom's name], may your marriage be full of small, wonderful moments that add up to an extraordinary life together. Cheers!`,
+    authorName: 'Fiona Prescott',
+    weddingRole: 'Stepmother of the Bride',
+    tags: ['balanced', 'stepmother', 'family'],
+  },
+
+  // ── Stepfather of the Groom Speech (Family) ───────────────
+
+  {
+    slug: 'stepfather-groom-funny-1',
+    title: `The stepdad survival guide`,
+    category: 'stepfather-of-groom-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.0,
+    wordCount: 264,
+    excerpt: `Evening, everyone. I'm [Your name], [Groom's name]'s stepdad. I've had the job for about fifteen years now, and I have to say, the pay is terrible, but the perks are alright. Free...`,
+    content: `Evening, everyone. I'm [Your name], [Groom's name]'s stepdad. I've had the job for about fifteen years now, and I have to say, the pay is terrible, but the perks are alright. Free hugs at Christmas, someone who actually laughs at my jokes, and now, a wedding with an open bar. I'd say I'm doing well.
+
+When I first met [Groom's name], he was nine years old, and he greeted me by asking if I could do a backflip. I couldn't. I still can't. I think that set realistic expectations for our relationship early on.
+
+We bonded over football, mainly because we both supported losing teams and needed someone to share the misery with. Saturday afternoons were our thing, yelling at the telly, eating too many crisps, and pretending we knew better than the manager. We didn't. We never did.
+
+As [Groom's name] grew up, I watched him become a man I'm incredibly proud of. He's hardworking, thoughtful, and he makes a cracking cup of tea, which in this family is basically a qualification.
+
+[Bride's name], I've been watching the two of you closely, as stepdads do, and I can see how happy you make him. He smiles more. He stands a bit taller. And he's finally stopped leaving his washing on the floor, so clearly you have powers I never had.
+
+Please raise your glasses to [Bride's name] and [Groom's name]. May your marriage be long, your arguments be short, and your football teams be slightly less disappointing than ours. Cheers!`,
+    authorName: 'Kevin Doyle',
+    weddingRole: 'Stepfather of the Groom',
+    tags: ['funny', 'stepfather', 'family'],
+  },
+  {
+    slug: 'stepfather-groom-heartfelt-2',
+    title: `The son I chose`,
+    category: 'stepfather-of-groom-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 1.9,
+    wordCount: 245,
+    excerpt: `Good evening, everyone. I'm [Your name], and I'm [Groom's name]'s stepfather. I've been part of his life for seventeen years now, and standing here today, I'm struck by how quickly...`,
+    content: `Good evening, everyone. I'm [Your name], and I'm [Groom's name]'s stepfather. I've been part of his life for seventeen years now, and standing here today, I'm struck by how quickly time has passed.
+
+I remember the day I moved in with his mother. [Groom's name] was seven. He left a drawing on my pillow that night. It was a stick figure family, and I was in it. Slightly lopsided, with enormous feet, but I was in it. I still have that drawing.
+
+Being a stepparent means earning your place, and [Groom's name] let me earn it at my own pace. He never made me feel like an outsider. Even as a teenager, when most kids want nothing to do with any parent, he'd still sit with me after dinner and talk about his day.
+
+He taught me that being a father isn't about DNA. It's about presence. It's about consistency. It's about being the person who shows up, again and again, until showing up becomes second nature.
+
+[Bride's name], you've brought so much light into his world. Watching you two together, I see a love that's patient, generous, and deeply kind. You complement each other beautifully, and I couldn't be happier to welcome you into our family.
+
+[Groom's name], I may not have been there for your first steps, but I'll be here for every step that follows.
+
+To [Bride's name] and [Groom's name], with all my heart. To your future!`,
+    authorName: 'Paul Edmonds',
+    weddingRole: 'Stepfather of the Groom',
+    tags: ['heartfelt', 'stepfather', 'emotional'],
+  },
+  {
+    slug: 'stepfather-groom-balanced-3',
+    title: `From stepdad to proud dad`,
+    category: 'stepfather-of-groom-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.8,
+    wordCount: 231,
+    excerpt: `Hello, everyone. I'm [Your name], [Groom's name]'s stepdad, though honestly, I dropped the "step" in my head years ago. He's just my son, full stop. And today, watching him marry...`,
+    content: `Hello, everyone. I'm [Your name], [Groom's name]'s stepdad, though honestly, I dropped the "step" in my head years ago. He's just my son, full stop. And today, watching him marry [Bride's name], I couldn't be more proud.
+
+Our relationship didn't happen overnight. There was a period, maybe a year or so, where we circled each other cautiously. He'd test the boundaries. I'd try too hard. His mum would referee. It was messy, honest, and completely worth it.
+
+The breakthrough came when we built a go-kart together. It was his idea, something from a YouTube video that looked easy and absolutely wasn't. We spent three weekends in the garage, arguing about wheel alignment and eating biscuits. The go-kart was terrible. It pulled hard to the left and made a noise like a dying cat. But we built it together, and after that, something just clicked.
+
+[Groom's name] has grown into a man of real substance. He's loyal, he works hard, and he has this quiet determination that I've always admired. When he sets his mind to something, it happens.
+
+[Bride's name], you're that same kind of person. Determined, warm, and impossibly good at making [Groom's name] smile. Together, you're going to build something wonderful, and it will be far better than that go-kart.
+
+To [Bride's name] and [Groom's name], may your life together pull slightly less to the left than our first project. Cheers!`,
+    authorName: 'Brian Collier',
+    weddingRole: 'Stepfather of the Groom',
+    tags: ['balanced', 'stepfather', 'blended family'],
+  },
+
+  // ── Stepmother of the Groom Speech (Family) ───────────────
+
+  {
+    slug: 'stepmother-groom-funny-1',
+    title: `The woman behind the groom's ironing`,
+    category: 'stepmother-of-groom-speech',
+    tone: 'funny' as const,
+    durationMinutes: 1.9,
+    wordCount: 247,
+    excerpt: `Good evening, everyone! I'm [Your name], [Groom's name]'s stepmum. Now, when I married his father eight years ago, I inherited quite the package deal: a wonderful husband, a cat...`,
+    content: `Good evening, everyone! I'm [Your name], [Groom's name]'s stepmum. Now, when I married his father eight years ago, I inherited quite the package deal: a wonderful husband, a cat with an attitude problem, and a teenage boy whose bedroom looked like a crime scene.
+
+[Groom's name] and I got off to a slightly rocky start, mainly because I had the audacity to suggest that perhaps socks shouldn't live on the kitchen counter. Apparently, that was a controversial opinion. But once we established some ground rules, namely that I would not throw away his things and he would not eat my emergency chocolate, we found our rhythm.
+
+What I discovered pretty quickly was that underneath the mess, [Groom's name] had a heart of gold. He'd carry my shopping without being asked. He'd make me tea when I'd had a bad day, always too strong, but always with love. He once surprised me with flowers on my birthday when even his father had forgotten. I'll never let his dad live that down.
+
+[Bride's name], you're getting a man who is thoughtful in the most unexpected ways. He'll forget anniversaries but remember the name of your childhood pet. He'll burn dinner but set the table with candles. That's just how he's wired.
+
+To [Bride's name] and [Groom's name], may your home be full of love, may your socks always make it to the drawer, and may your chocolate stash remain untouched. Cheers!`,
+    authorName: 'Angela Whitfield',
+    weddingRole: 'Stepmother of the Groom',
+    tags: ['funny', 'stepmother', 'family'],
+  },
+  {
+    slug: 'stepmother-groom-heartfelt-2',
+    title: `A stepmother's love letter to the groom`,
+    category: 'stepmother-of-groom-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 1.8,
+    wordCount: 238,
+    excerpt: `Hello, everyone. I'm [Your name], and I'm so grateful to be standing here today as [Groom's name]'s stepmother. That word, "stepmother," never quite captured what we are to each...`,
+    content: `Hello, everyone. I'm [Your name], and I'm so grateful to be standing here today as [Groom's name]'s stepmother. That word, "stepmother," never quite captured what we are to each other. We're family, chosen and built with care.
+
+I came into [Groom's name]'s life when he was eleven. He was cautious, which any child would be. He watched me carefully for months, trying to decide if I was safe. The day he finally hugged me, properly hugged me, I went to the bathroom and cried for ten minutes. His father thought I'd hurt myself. I had to explain they were happy tears.
+
+Over the years, I've had the privilege of watching [Groom's name] become the man standing before you today. I've seen him work through challenges with quiet grace. I've seen him care for others before himself. I've seen him learn to be vulnerable, which takes more courage than most people realise.
+
+[Bride's name], you and I share something wonderful. We both love [Groom's name] deeply, and we both know how lucky we are. You bring out a lightness in him that makes my heart sing. When he talks about you, his whole face changes. It's like watching someone come home.
+
+To [Groom's name], you are loved more than you will ever know. And to [Bride's name], thank you for giving him the happiness he so deserves.
+
+Please raise your glasses. To [Bride's name] and [Groom's name]!`,
+    authorName: 'Patricia Keane',
+    weddingRole: 'Stepmother of the Groom',
+    tags: ['heartfelt', 'stepmother', 'emotional'],
+  },
+  {
+    slug: 'stepmother-groom-balanced-3',
+    title: `Watching him find his person`,
+    category: 'stepmother-of-groom-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.7,
+    wordCount: 224,
+    excerpt: `Hi, everyone. I'm [Your name], [Groom's name]'s stepmum, and I have to say, standing here today feels surreal. It feels like yesterday he was a lanky teenager raiding my fridge at...`,
+    content: `Hi, everyone. I'm [Your name], [Groom's name]'s stepmum, and I have to say, standing here today feels surreal. It feels like yesterday he was a lanky teenager raiding my fridge at midnight and now here he is, looking like a proper grown-up in a suit.
+
+Our relationship was built on small things. Shared jokes at the dinner table. Me helping him practice his driving, which took years off my life. Him teaching me how to use social media, which he still mocks me for getting wrong.
+
+One memory stands out. A few years ago, [Groom's name] was going through a really tough time at work. He didn't want to worry his father, so he came to me. We sat in the garden for two hours, talking it through. He didn't want advice, he just needed someone to listen. That evening changed something between us. It became real.
+
+[Bride's name], from the moment [Groom's name] brought you home, you fit. You laughed at our terrible family jokes. You helped with the washing up without being asked. You made [Groom's name] visibly, unmistakably happy.
+
+You two have something rare, a relationship built on genuine friendship, not just romance. That's what lasts.
+
+To [Bride's name] and [Groom's name], may your life together be full of garden conversations, shared laughter, and midnight fridge raids. Cheers!`,
+    authorName: 'Linda Byrne',
+    weddingRole: 'Stepmother of the Groom',
+    tags: ['balanced', 'stepmother', 'family'],
+  },
+
+  // ── Twin Sibling Speech (Family) ──────────────────────────
+
+  {
+    slug: 'twin-sibling-funny-1',
+    title: `My other half is getting married`,
+    category: 'twin-sibling-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.1,
+    wordCount: 278,
+    excerpt: `Hi, everyone! I'm [Your name], and for those who can't tell us apart, I'm the better-looking twin. I've been waiting my whole life to use that joke in front of an audience, so thank...`,
+    content: `Hi, everyone! I'm [Your name], and for those who can't tell us apart, I'm the better-looking twin. I've been waiting my whole life to use that joke in front of an audience, so thank you all for being here.
+
+Growing up as a twin is a unique experience. You have a built-in best friend, a permanent alibi, and someone to blame when things go wrong. [Bride's name] and I once convinced our primary school teacher that we'd swapped places for an entire day. We hadn't. We just wanted to see if she'd believe it. She did. Sorry, Mrs Patterson.
+
+The downside of being a twin is that you share everything. Birthdays, clothes, friends, and for one very unfortunate year, a bedroom with only one working lamp. That year tested our bond more than any other challenge before or since.
+
+But here's the truth beneath the jokes. [Bride's name] isn't just my twin, she's the person who knows me better than anyone on the planet. She can tell what I'm thinking from across a room. She finishes my sentences, usually wrong, but she tries.
+
+[Groom's name], I want you to know that you're not just marrying my sibling. You're joining a package deal. I will be at your house uninvited. I will eat your food. I will have opinions about your furniture. Consider this your formal warning.
+
+But in all seriousness, seeing [Bride's name] this happy makes me happier than I can express. You're perfect for each other.
+
+To [Bride's name] and [Groom's name], and to the twin who somehow got married first. Cheers!`,
+    authorName: 'Megan Farrell',
+    weddingRole: 'Twin Sibling',
+    tags: ['funny', 'twin', 'sibling'],
+  },
+  {
+    slug: 'twin-sibling-heartfelt-2',
+    title: `Half of my heart walks beside you`,
+    category: 'twin-sibling-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.0,
+    wordCount: 259,
+    excerpt: `Good evening, everyone. I'm [Your name], and [Groom's name] is my twin brother. We've shared every milestone together since the very beginning, literally, since we shared a womb...`,
+    content: `Good evening, everyone. I'm [Your name], and [Groom's name] is my twin brother. We've shared every milestone together since the very beginning, literally, since we shared a womb. Today feels different, though. Today, [Groom's name] starts a new chapter that's entirely his own, and I couldn't be more proud.
+
+People always ask what it's like to be a twin. It's hard to explain to someone who isn't one. It's like having a mirror that shows you not just who you are, but who you could be. [Groom's name] has always been the braver one, the one who jumps first and figures it out on the way down. I've spent my life watching him and thinking, if he can do it, maybe I can too.
+
+We've been through everything together. First day of school, holding hands at the gate. Losing our granddad, sitting side by side on the garden wall, saying nothing. Moving to different cities, which was the hardest thing either of us had ever done.
+
+[Bride's name], when you came into [Groom's name]'s life, something settled in him. He became calmer, more present. It was like watching the last piece of a puzzle click into place. You didn't replace what we have. You added to it in a way I'll always be grateful for.
+
+[Groom's name], you've been my partner in everything. And now you have a new partner, one who loves you just as fiercely as I do.
+
+To [Bride's name] and [Groom's name]. My heart is so full. To your beautiful future!`,
+    authorName: 'Callum Reid',
+    weddingRole: 'Twin Sibling',
+    tags: ['heartfelt', 'twin', 'emotional'],
+  },
+  {
+    slug: 'twin-sibling-balanced-3',
+    title: `The twin who gives the toast`,
+    category: 'twin-sibling-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.9,
+    wordCount: 242,
+    excerpt: `Hello, everyone. I'm [Your name], and [Bride's name] is my twin sister. For those keeping score, I arrived four minutes before her, which means I'm technically the older sibling. I...`,
+    content: `Hello, everyone. I'm [Your name], and [Bride's name] is my twin sister. For those keeping score, I arrived four minutes before her, which means I'm technically the older sibling. I bring this up at every available opportunity and she hates it. So naturally, I'm bringing it up at her wedding.
+
+Being [Bride's name]'s twin means I've had a front-row seat to her entire life. I've seen her triumphs and her struggles. I've seen her at her best, like when she aced her final exams, and at her worst, like when she tried to cut her own fringe at age twelve. We don't talk about the fringe.
+
+But beyond the jokes, [Bride's name] is the most loyal, generous, and fiercely loving person I know. She defends the people she cares about without hesitation. She gives more than she takes. She makes the world better simply by being in it.
+
+[Groom's name], I've watched you carefully over the past few years, as any twin would. And I've seen how you treat my sister. You listen to her. You make her laugh until she cries. You challenge her in ways that help her grow. That's not easy to find.
+
+What you two have is special, and I say that as someone who shares DNA with one of you and has very high standards for the other.
+
+To [Bride's name] and [Groom's name], may your love be as unbreakable as the twin bond. And may I always be welcome for Sunday lunch. Cheers!`,
+    authorName: 'Laura Keegan',
+    weddingRole: 'Twin Sibling',
+    tags: ['balanced', 'twin', 'sibling'],
+  },
+
+  // ── Niece Speech (Family) ─────────────────────────────────
+
+  {
+    slug: 'niece-speech-funny-1',
+    title: `The niece who knows all the secrets`,
+    category: 'niece-speech',
+    tone: 'funny' as const,
+    durationMinutes: 1.8,
+    wordCount: 230,
+    excerpt: `Hi, everyone! I'm [Your name], and I'm [Bride's name]'s niece. Now, when [Bride's name] asked me to say a few words, my first thought was, "How much are you willing to pay me not to...`,
+    content: `Hi, everyone! I'm [Your name], and I'm [Bride's name]'s niece. Now, when [Bride's name] asked me to say a few words, my first thought was, "How much are you willing to pay me not to share certain stories?" We negotiated. I got a very nice pair of earrings, so some secrets are safe. Others, not so much.
+
+Growing up, [Bride's name] was the cool aunt. She was the one who let me stay up past bedtime. She was the one who snuck me sweets when my parents weren't looking. She taught me how to do my makeup when I was fourteen, and to be fair, we both looked a bit ridiculous.
+
+What I love most about [Bride's name] is that she treats me like an equal. She asks my opinion on things and actually listens. When I was going through a rough patch at school, she took me out for pancakes and just let me talk. No lectures, no judgment, just pancakes and honesty. That's her superpower.
+
+[Groom's name], I approved of you the moment you made [Bride's name] do her proper laugh, the one where she throws her head back and sounds like a seal. If you can make her laugh like that, you're in.
+
+To my favourite aunt and her wonderful new husband. May your life together be full of love, laughter, and very late bedtimes. Cheers!`,
+    authorName: 'Ella Chambers',
+    weddingRole: 'Niece',
+    tags: ['funny', 'niece', 'family'],
+  },
+  {
+    slug: 'niece-speech-heartfelt-2',
+    title: `To the aunt who shaped my world`,
+    category: 'niece-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 1.9,
+    wordCount: 246,
+    excerpt: `Good evening, everyone. I'm [Your name], and [Groom's name] is my uncle. I know speeches like this usually come from parents or best friends, but [Groom's name] isn't just my uncle...`,
+    content: `Good evening, everyone. I'm [Your name], and [Groom's name] is my uncle. I know speeches like this usually come from parents or best friends, but [Groom's name] isn't just my uncle, he's one of the most important people in my life.
+
+When I was eight, my parents went through a difficult time, and [Groom's name] stepped in without being asked. He picked me up from school every Thursday. He helped me with homework. He took me to the park and let me beat him at football, though looking back, I'm not sure he was actually letting me win. He might just be that bad.
+
+What [Groom's name] gave me during that time was stability. He was the constant in a world that felt uncertain, and I've never forgotten it.
+
+As I got older, our relationship evolved. He became the person I'd call for advice. He helped me move into my first flat, which took three trips because neither of us can estimate how much stuff fits in a car.
+
+[Bride's name], you are exactly the kind of person my uncle deserves. You're kind, you're patient, and you make him genuinely happy. I've seen the way his face lights up when he talks about you. It's the same way he used to look when Mum brought out dessert, which, in our family, is the highest compliment.
+
+To [Bride's name] and [Groom's name], thank you for showing me what love looks like. I'm so proud of you both. To the happy couple!`,
+    authorName: 'Amara Osei',
+    weddingRole: 'Niece',
+    tags: ['heartfelt', 'niece', 'emotional'],
+  },
+  {
+    slug: 'niece-speech-balanced-3',
+    title: `A niece's toast to a wonderful couple`,
+    category: 'niece-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.6,
+    wordCount: 213,
+    excerpt: `Hello, everyone. I'm [Your name], and I'm [Bride's name]'s niece. I know I'm one of the younger speakers today, so I'll keep it short, but I couldn't let this day pass without...`,
+    content: `Hello, everyone. I'm [Your name], and I'm [Bride's name]'s niece. I know I'm one of the younger speakers today, so I'll keep it short, but I couldn't let this day pass without saying something.
+
+[Bride's name] has been a huge part of my life for as long as I can remember. She babysat me when I was small, which mostly involved letting me cover her in stickers and calling it "fashion." She came to every school concert, even the ones that were, honestly, painful to listen to. She's been at every milestone, camera in hand, slightly emotional, always supportive.
+
+What makes [Bride's name] special is her ability to make you feel like the most important person in the room. She has this way of giving you her full attention, as if whatever you're saying is the most fascinating thing she's heard all day. Even when I was five and talking about my imaginary horse for forty-five minutes.
+
+[Groom's name], you've joined a family that loves hard and celebrates loudly. I hope you're ready for that. And I want you to know that anyone who makes my aunt this happy has my full seal of approval.
+
+To [Bride's name] and [Groom's name], may your marriage be as warm and full of love as the family that surrounds you today. Cheers!`,
+    authorName: 'Chloe Nguyen',
+    weddingRole: 'Niece',
+    tags: ['balanced', 'niece', 'family'],
+  },
+// ── Nephew Speeches (nephew-speech) ──────────────────────────
+
+  {
+    slug: 'funny-nephew-wedding-toast-1',
+    title: `The nephew who knows too much`,
+    category: 'nephew-speech',
+    tone: 'funny',
+    durationMinutes: 1.8,
+    wordCount: 237,
+    excerpt: `Good evening everyone. For those of you who don't know me, I'm [Your name], and I have the slightly terrifying honour of being [Bride's name]'s nephew. Now, when Auntie asked me to...`,
+    content: `Good evening everyone. For those of you who don't know me, I'm [Your name], and I have the slightly terrifying honour of being [Bride's name]'s nephew. Now, when Auntie asked me to give a speech, my first thought was, "Why me?" My second thought was, "Oh no, she trusts me way too much."
+
+Growing up, Auntie [Bride's name] was the cool aunt. She was the one who let me stay up past bedtime, who snuck me extra dessert when Mum wasn't looking, and who once convinced me that if I ate enough carrots, I'd be able to see through walls. I believed that until I was eleven. Thanks for that.
+
+But here's the thing about my aunt - she has this incredible ability to make everyone around her feel like the most important person in the room. I've watched her do it my entire life. And then [Groom's name] came along, and I got to watch someone do the same thing back to her.
+
+I remember the first time she brought [Groom's name] to a family barbecue. My dad pulled me aside and said, "That one's a keeper." And my dad doesn't say that about anyone. He didn't even say it about his own lawnmower, and he really loves that lawnmower.
+
+[Groom's name], welcome to the family officially. You already fit right in, which is both a compliment and a warning.
+
+Please raise your glasses to [Bride's name] and [Groom's name]. To love, family, and never trusting your aunt's nutritional advice. Cheers!`,
+    authorName: 'Jake Morrison',
+    weddingRole: 'Nephew',
+    tags: ['funny', 'nephew', 'family'],
+  },
+  {
+    slug: 'heartfelt-nephew-tribute-1',
+    title: `A nephew's grateful heart`,
+    category: 'nephew-speech',
+    tone: 'heartfelt',
+    durationMinutes: 1.9,
+    wordCount: 247,
+    excerpt: `Hi everyone. My name is [Your name], and [Groom's name] is my uncle. I want to start by saying that standing up here today means more to me than I think anyone in this room realizes...`,
+    content: `Hi everyone. My name is [Your name], and [Groom's name] is my uncle. I want to start by saying that standing up here today means more to me than I think anyone in this room realizes.
+
+When I was fourteen, my parents went through a rough patch. I won't get into details, but it was a hard year. Uncle [Groom's name] showed up one Saturday morning with two fishing rods and a cooler full of sandwiches. He didn't try to fix anything or give me advice. He just sat next to me on a riverbank for six hours and let me be quiet. That's the kind of man he is. He shows up.
+
+And [Bride's name], I want you to know that from the moment you came into his life, I saw something change in him. He laughed more. He called more. He started talking about the future like it was something he was excited about, not just something that was going to happen to him.
+
+You brought that out in him, and our whole family is grateful for it.
+
+My grandmother used to say that the best thing you can wish for someone is a partner who makes them more of who they already are. Not someone who changes them, but someone who helps them grow into the version of themselves they were always meant to be. That's what you two do for each other.
+
+Uncle [Groom's name], [Bride's name], thank you for letting me be part of today. I love you both. Please join me in toasting the happy couple.`,
+    authorName: 'Daniel Cooper',
+    weddingRole: 'Nephew',
+    tags: ['heartfelt', 'nephew', 'family', 'emotional'],
+  },
+  {
+    slug: 'balanced-nephew-wedding-speech-1',
+    title: `From the kid who watched it all unfold`,
+    category: 'nephew-speech',
+    tone: 'balanced',
+    durationMinutes: 1.7,
+    wordCount: 225,
+    excerpt: `Hello everyone. I'm [Your name], proud nephew of [Bride's name]. A few people have asked me how I ended up giving a speech today, and honestly, I think it's because I'm the only one...`,
+    content: `Hello everyone. I'm [Your name], proud nephew of [Bride's name]. A few people have asked me how I ended up giving a speech today, and honestly, I think it's because I'm the only one in the family who can get through a toast without crying. We'll see how that goes.
+
+Auntie [Bride's name] has always been the one I'd call when I needed someone to be straight with me. When I was sixteen and wanted to drop out of school to start a podcast, she didn't laugh. She sat me down, asked me three very pointed questions about my business plan, and by the end of the conversation I'd enrolled in an economics class. That's her superpower - she takes you seriously while gently steering you away from disaster.
+
+[Groom's name], I should warn you about a few things. She will reorganise your kitchen within the first month. She will always be right about the weather. And she will absolutely destroy you at Scrabble. Accept these truths and you'll be fine.
+
+But in all seriousness, watching you two together has taught me something about what real partnership looks like. It's not grand gestures every day. It's the way you finish each other's stories, the way you check in without being asked, the little things that add up to something unshakeable.
+
+To [Bride's name] and [Groom's name], may your life together be full of laughter, patience, and very competitive board games. Cheers!`,
+    authorName: 'Ryan Fletcher',
+    weddingRole: 'Nephew',
+    tags: ['balanced', 'nephew', 'family'],
+  },
+
+  // ── Groom to Bride Speeches (groom-to-bride-speech) ──────────
+
+  {
+    slug: 'funny-groom-to-bride-love-letter-1',
+    title: `A groom's love letter with a side of honesty`,
+    category: 'groom-to-bride-speech',
+    tone: 'funny',
+    durationMinutes: 2.0,
+    wordCount: 264,
+    excerpt: `[Bride's name], I have been trying to write this speech for about four months. I've started it on napkins, in the notes app on my phone, and once on the back of a parking ticket. So...`,
+    content: `[Bride's name], I have been trying to write this speech for about four months. I've started it on napkins, in the notes app on my phone, and once on the back of a parking ticket. So if this doesn't come out perfectly, just know that the effort was there, even if the execution is a bit wobbly.
+
+Here's what I know about you. You are the only person I've ever met who can burn toast and still somehow make breakfast feel like a five-star experience. You sing in the shower like nobody's listening, which is a good thing because I am always listening and it is genuinely terrible. You cry at every dog video on the internet. Every single one.
+
+But you're also the person who drove three hours in the rain to pick up my mum when her car broke down, without telling anyone. You're the person who sat with me on the kitchen floor at 2am when I didn't get that promotion, and instead of saying "it'll be fine," you said, "that's rubbish and I'm sorry." That meant more to me than any pep talk ever could.
+
+I didn't know what I was looking for before I met you. I just knew something was missing. And then you walked into that pub quiz with the wrong answer to the capital of Australia and somehow everything clicked.
+
+You make me a better man. Not in some dramatic, movie-speech kind of way, but in the small, daily, showing-up kind of way.
+
+I love you, [Bride's name]. I am so proud to call you my wife. Cheers, everyone.`,
+    authorName: 'Tom Bradley',
+    weddingRole: 'Groom',
+    tags: ['funny', 'groom to bride', 'romantic', 'personal'],
+  },
+  {
+    slug: 'heartfelt-groom-to-bride-devotion-1',
+    title: `Every version of us`,
+    category: 'groom-to-bride-speech',
+    tone: 'heartfelt',
+    durationMinutes: 2.1,
+    wordCount: 268,
+    excerpt: `[Bride's name], I want to talk to you for a moment, just you, even though there are a hundred people watching. I've been thinking about all the versions of us that have existed since...`,
+    content: `[Bride's name], I want to talk to you for a moment, just you, even though there are a hundred people watching. I've been thinking about all the versions of us that have existed since we met.
+
+There's the version of us on that first date, when I was so nervous I knocked over a glass of water and you pretended not to notice. There's the version that survived your year abroad, when we stayed up until 3am on video calls just to fall asleep together across time zones. There's the version that moved into that tiny flat with the broken boiler and somehow made it feel like home.
+
+Every version of us has taught me something. The early days taught me what it feels like to be chosen. The hard stretches taught me that love isn't a feeling you fall into, it's a decision you make, over and over, especially on the days when it isn't easy. And the quiet, ordinary moments, the ones nobody photographs, taught me that the life I want is simply the one where you're next to me.
+
+I look at you today and I see the person who has held me together in ways I couldn't have managed on my own. You've never asked me to be anyone other than who I am, and you've loved me through every version of myself, even the ones I wasn't particularly proud of.
+
+I don't have a grand declaration. I just have this: I will spend the rest of my life trying to be worthy of the way you love me.
+
+I love you, [Bride's name]. More than I'll ever find the right words for.`,
+    authorName: 'Marcus Hale',
+    weddingRole: 'Groom',
+    tags: ['heartfelt', 'groom to bride', 'romantic', 'emotional'],
+  },
+  {
+    slug: 'balanced-groom-to-bride-toast-1',
+    title: `The best decision I ever made`,
+    category: 'groom-to-bride-speech',
+    tone: 'balanced',
+    durationMinutes: 1.8,
+    wordCount: 231,
+    excerpt: `[Bride's name], my mum once told me that when you find the right person, you stop trying to impress them and start trying to deserve them. I didn't really understand what she meant...`,
+    content: `[Bride's name], my mum once told me that when you find the right person, you stop trying to impress them and start trying to deserve them. I didn't really understand what she meant until you.
+
+When we first started dating, I was definitely still in the "trying to impress" phase. I cooked you a meal that was so bad you quietly ordered a pizza while I was washing up. I tried to take you hiking and got us completely lost. I once wore a blazer to the cinema because I thought it would make me look sophisticated. You told me, very kindly, that I looked like an estate agent.
+
+But somewhere along the way, I stopped performing and started just being myself. And you stayed. Not because I was impressive, but because you saw something worth sticking around for. That's a gift I will never take for granted.
+
+You challenge me without criticising me. You support me without smothering me. You laugh at my jokes even when they're terrible, which is generous because most of them are.
+
+I want you to know that I see you. I see how hard you work, how deeply you care, how much of yourself you pour into the people you love. You do it so naturally that I think sometimes people forget to tell you how remarkable it is.
+
+So here I am, telling you. You are remarkable, [Bride's name]. And marrying you is the best decision I've ever made.
+
+To my wife. I love you.`,
+    authorName: 'Chris Davenport',
+    weddingRole: 'Groom',
+    tags: ['balanced', 'groom to bride', 'romantic'],
+  },
+
+  // ── Bride to Groom Speeches (bride-to-groom-speech) ──────────
+
+  {
+    slug: 'funny-bride-to-groom-speech-1',
+    title: `How I knew he was the one (sort of)`,
+    category: 'bride-to-groom-speech',
+    tone: 'funny',
+    durationMinutes: 1.9,
+    wordCount: 243,
+    excerpt: `[Groom's name], when I told my friends I was going to give you a speech at our wedding, they said, "Don't roast him too hard." I make no promises. Let me take you all back to our...`,
+    content: `[Groom's name], when I told my friends I was going to give you a speech at our wedding, they said, "Don't roast him too hard." I make no promises.
+
+Let me take you all back to our third date. [Groom's name] took me to a restaurant he described as "casual but classy." It was a Nando's. And you know what? I respected the honesty. He ordered a whole chicken, looked me dead in the eye, and said, "I hope you're not one of those people who just gets a salad." Reader, I was not.
+
+That's the thing about [Groom's name]. He is unapologetically himself. He has strong opinions about sandwich bread, he thinks parallel parking is a competitive sport, and he once spent forty-five minutes explaining the offside rule to my mother, who still does not understand it and never will.
+
+But beneath all the nonsense is the kindest, most dependable person I know. He's the man who quietly fixes things before I even notice they're broken. Who remembers that I hate coriander, that my favourite film is the one I pretend is too embarrassing to admit, and that when I say "I'm fine," I am absolutely not fine.
+
+[Groom's name], you are my favourite person to do nothing with. You're my favourite person to argue with about what to watch on telly. You're my favourite person, full stop.
+
+I can't believe I get to be married to you. Actually, I can, because I'm delightful. But still.
+
+I love you. To my husband, everyone!`,
+    authorName: 'Sophie Warren',
+    weddingRole: 'Bride',
+    tags: ['funny', 'bride to groom', 'romantic', 'personal'],
+  },
+  {
+    slug: 'heartfelt-bride-to-groom-devotion-1',
+    title: `You were always the answer`,
+    category: 'bride-to-groom-speech',
+    tone: 'heartfelt',
+    durationMinutes: 2.0,
+    wordCount: 256,
+    excerpt: `[Groom's name], I have written and rewritten this speech so many times because nothing I put on paper seems big enough for what I feel about you. But I'm going to try, because you...`,
+    content: `[Groom's name], I have written and rewritten this speech so many times because nothing I put on paper seems big enough for what I feel about you. But I'm going to try, because you deserve to hear it out loud, in front of all these people who love us.
+
+Before I met you, I was good at being alone. I had my routines, my independence, my carefully arranged life. I didn't think I needed someone else to make it better. And then you showed up, not to fix anything, not to fill a gap, but to walk beside me. You didn't try to change my world. You just stepped into it and suddenly everything had more colour.
+
+I think about the night you stayed up with me when my dad was in the hospital. You didn't say much. You just held my hand and made tea and let me fall apart without trying to put me back together before I was ready. That's when I knew.
+
+You love me in a way that feels safe without being small. You push me to be braver than I think I am. You listen, really listen, even when I'm talking about something that doesn't interest you at all, which, based on the glazed look you get, includes most of my work stories.
+
+I promise to love you honestly. To fight fair. To always choose us, even when it's hard. To build a life with you that we're both proud of.
+
+Thank you for choosing me, [Groom's name]. I'd choose you every time, in every lifetime. I love you.`,
+    authorName: 'Hannah Prescott',
+    weddingRole: 'Bride',
+    tags: ['heartfelt', 'bride to groom', 'emotional', 'romantic'],
+  },
+  {
+    slug: 'balanced-bride-to-groom-speech-1',
+    title: `My partner in everything`,
+    category: 'bride-to-groom-speech',
+    tone: 'balanced',
+    durationMinutes: 1.7,
+    wordCount: 222,
+    excerpt: `[Groom's name], I want to tell everyone something about you that you'd never tell them yourself. You are, without exaggeration, the most thoughtful person I have ever met. And I don't...`,
+    content: `[Groom's name], I want to tell everyone something about you that you'd never tell them yourself. You are, without exaggeration, the most thoughtful person I have ever met. And I don't mean grand-gesture thoughtful. I mean the kind that remembers which side of the bed I prefer in hotels, that brings home my favourite biscuits without being asked, that texts my mum on her birthday before I've even woken up.
+
+When we first met at that friend's housewarming, I thought you were quiet. It took me about three weeks to realise you weren't quiet, you were just listening. And once you started talking, I never wanted you to stop.
+
+We've built something really good together. Not perfect, because we both know you load the dishwasher like a man who has never seen a dishwasher before. But good. Solid. The kind of thing I trust completely.
+
+My nan always said a good marriage is two people who keep choosing each other, even on Tuesdays. Especially on Tuesdays. The glamourless, ordinary, nothing-special days. That's where real love lives.
+
+I choose you on Tuesdays, [Groom's name]. I choose you on the hard days and the boring days and the brilliant ones too. I choose you when you leave your socks on the floor and when you make me laugh until I can't breathe.
+
+You are my home. And I am so happy to be yours.
+
+To us. I love you.`,
+    authorName: 'Lily Ashworth',
+    weddingRole: 'Bride',
+    tags: ['balanced', 'bride to groom', 'romantic'],
+  },
+
+  // ── Childhood Friend Speeches (childhood-friend-speech) ──────
+
+  {
+    slug: 'funny-childhood-friend-toast-1',
+    title: `From the kid next door`,
+    category: 'childhood-friend-speech',
+    tone: 'funny',
+    durationMinutes: 1.8,
+    wordCount: 238,
+    excerpt: `Good evening everyone. I'm [Your name], and I've known [Groom's name] since we were five years old. That's twenty-three years of friendship, which, for those keeping score, is longer...`,
+    content: `Good evening everyone. I'm [Your name], and I've known [Groom's name] since we were five years old. That's twenty-three years of friendship, which, for those keeping score, is longer than most Premier League managers last at their clubs.
+
+We grew up on the same street, and from day one, [Groom's name] was trouble. Not bad trouble, just deeply silly trouble. He once convinced me that if we dug deep enough in his back garden, we'd reach Australia. We got about two feet down before his dad came out and made us fill it back in. [Groom's name] was furious. He said we were "so close."
+
+In school, he was the kid who could talk his way out of anything. Forgot his homework? Charmed the teacher. Broke a window playing football? Blamed the wind. That skill hasn't faded, by the way. [Bride's name], you've been warned.
+
+But here's what people might not know about [Groom's name]. For all the bravado, he's the first person to show up when things go wrong. When my mum was ill a few years back, he drove forty minutes every Sunday to sit with her and watch terrible game shows. He never once made it feel like a chore.
+
+[Bride's name], you're getting a good one. Slightly mad, yes. Refuses to read instructions for anything, absolutely. But good. Properly, deeply good.
+
+To [Bride's name] and [Groom's name], may your marriage be as long and ridiculous as our friendship. Cheers!`,
+    authorName: 'Patrick Nolan',
+    weddingRole: 'Childhood Friend',
+    tags: ['funny', 'childhood friend', 'nostalgia'],
+  },
+  {
+    slug: 'heartfelt-childhood-friend-speech-1',
+    title: `Through every chapter`,
+    category: 'childhood-friend-speech',
+    tone: 'heartfelt',
+    durationMinutes: 1.9,
+    wordCount: 248,
+    excerpt: `Hello everyone. I'm [Your name], and [Bride's name] has been my best friend since we were seven years old. I've been trying to figure out how to put twenty years of friendship into a...`,
+    content: `Hello everyone. I'm [Your name], and [Bride's name] has been my best friend since we were seven years old. I've been trying to figure out how to put twenty years of friendship into a few minutes, and the honest answer is that I can't. So I'll just tell you what matters.
+
+[Bride's name] and I grew up together in the truest sense. We lost teeth together, survived secondary school together, got our hearts broken for the first time within weeks of each other. She was there when my parents divorced and I was there when she lost her grandfather. We didn't always have the right words, but we always showed up.
+
+There's a particular memory I keep coming back to. We were about fifteen, sitting on the swings at the park near her house, and she said, "I just want someone who makes the ordinary stuff feel special." I remember thinking that was such a grown-up thing to want.
+
+And then she met [Groom's name]. And I watched her light up in a way I'd never seen before. Not dramatic or over the top, just steady and warm, like someone had finally turned on a lamp in a room she'd been sitting in for years.
+
+[Groom's name], you make the ordinary stuff special. I've seen it. The way you bring her coffee without asking. The way you remember the small things. The way you look at her like she's the most interesting person in any room.
+
+Thank you for loving my best friend the way she deserves. To [Bride's name] and [Groom's name].`,
+    authorName: 'Emily Saunders',
+    weddingRole: 'Childhood Friend',
+    tags: ['heartfelt', 'childhood friend', 'emotional', 'nostalgia'],
+  },
+  {
+    slug: 'balanced-childhood-friend-speech-1',
+    title: `Since the sandbox days`,
+    category: 'childhood-friend-speech',
+    tone: 'balanced',
+    durationMinutes: 1.6,
+    wordCount: 213,
+    excerpt: `Hi everyone, I'm [Your name]. [Groom's name] and I have been best mates since primary school, which basically means I know where all the bodies are buried. Metaphorically. Mostly...`,
+    content: `Hi everyone, I'm [Your name]. [Groom's name] and I have been best mates since primary school, which basically means I know where all the bodies are buried. Metaphorically. Mostly.
+
+We bonded over a shared love of football stickers and a mutual enemy in Mrs. Patterson's year three maths class. By secondary school, we were inseparable. We were the kind of friends who'd cycle to each other's houses at midnight for no reason other than boredom and a complete lack of parental supervision.
+
+What I've always admired about [Groom's name] is his loyalty. He doesn't do friendships halfway. When he's your friend, he's your friend for life, no conditions, no expiry dates. I've tested that loyalty more than a few times over the years, and he's never wavered.
+
+When he told me about [Bride's name], I could tell straight away this was different. He wasn't showing off or playing it cool. He was nervous. Genuinely, visibly nervous. And I thought, "Right, this is real."
+
+[Bride's name], you should know that in twenty years of friendship, I have never seen him care about impressing someone the way he cares about impressing you. And that's not because he's changed. It's because you've shown him what's worth caring about.
+
+To [Bride's name] and [Groom's name], may the next chapter be your best one yet. Cheers!`,
+    authorName: 'Sam Whitfield',
+    weddingRole: 'Childhood Friend',
+    tags: ['balanced', 'childhood friend', 'nostalgia'],
+  },
+
+  // ── College Friend Speeches (college-friend-speech) ──────────
+
+  {
+    slug: 'funny-college-friend-toast-1',
+    title: `From freshers to forever`,
+    category: 'college-friend-speech',
+    tone: 'funny',
+    durationMinutes: 1.9,
+    wordCount: 245,
+    excerpt: `Evening everyone. I'm [Your name], and I had the pleasure of meeting [Bride's name] during freshers' week at university. Specifically, she was the girl in the corridor of our halls...`,
+    content: `Evening everyone. I'm [Your name], and I had the pleasure of meeting [Bride's name] during freshers' week at university. Specifically, she was the girl in the corridor of our halls who knocked on my door at 11pm and asked if I had a tin opener. I did not. We went to the kebab shop instead. And just like that, a friendship was born.
+
+University with [Bride's name] was an experience. She was the one who convinced our entire flat to sign up for a pub quiz league despite none of us knowing anything about geography. We came last every single week. She called it "character building."
+
+She once submitted a 3,000-word essay twelve minutes before the deadline, still wearing pyjamas, holding a cold slice of pizza, and looking like she'd been through something. She got a first. I have never forgiven her for that.
+
+But for all the chaos, [Bride's name] was always the person you wanted in your corner. She was the friend who'd proofread your dissertation at midnight, who'd walk you home after a bad night, who remembered your birthday when you'd forgotten it yourself.
+
+[Groom's name], I should tell you what you're getting into. She will never agree on a restaurant. She takes approximately forty-five minutes to tell a story that should take five. And she is the most fiercely loving person I've ever known.
+
+You're a lucky man. And she's lucky too, even though she'll probably never admit it out loud.
+
+To [Bride's name] and [Groom's name]!`,
+    authorName: 'Megan Cross',
+    weddingRole: 'College Friend',
+    tags: ['funny', 'college friend', 'university'],
+  },
+  {
+    slug: 'heartfelt-college-friend-speech-1',
+    title: `The friend who changed everything`,
+    category: 'college-friend-speech',
+    tone: 'heartfelt',
+    durationMinutes: 1.8,
+    wordCount: 234,
+    excerpt: `Hi everyone. I'm [Your name], and [Groom's name] and I met on the first day of university. We were both standing outside the wrong lecture hall looking confused, and he turned to me...`,
+    content: `Hi everyone. I'm [Your name], and [Groom's name] and I met on the first day of university. We were both standing outside the wrong lecture hall looking confused, and he turned to me and said, "I think we're lost." I said, "Definitely." And that was it. Best mates from that moment.
+
+University is a strange time. You're away from home for the first time, pretending to be more confident than you are, trying to figure out who you want to be. [Groom's name] was one of the few people who made that process feel less lonely. He had this way of making you feel like you belonged, even when you weren't sure you did.
+
+We stayed close after graduation, even when life pulled us in different directions. Different cities, different careers, but the friendship never changed. It just matured, like we did. Well, sort of.
+
+When he met [Bride's name], I noticed something shift. He became calmer, more grounded. Not less fun, just more settled, like someone who'd finally found the thing he didn't know he was searching for.
+
+[Bride's name], you brought out a side of him that the rest of us always knew was there but couldn't quite reach. You gave him a reason to stop moving so fast and just be still for a moment.
+
+I'm so proud of both of you. The life you're building together is something beautiful, and I'm honoured to have a front-row seat.
+
+To [Groom's name] and [Bride's name]. Here's to everything that comes next.`,
+    authorName: 'Oliver Kent',
+    weddingRole: 'College Friend',
+    tags: ['heartfelt', 'college friend', 'emotional'],
+  },
+  {
+    slug: 'balanced-college-friend-toast-1',
+    title: `From study partners to soulmates`,
+    category: 'college-friend-speech',
+    tone: 'balanced',
+    durationMinutes: 1.7,
+    wordCount: 217,
+    excerpt: `Good evening. For those who don't know me, I'm [Your name]. [Bride's name] and I met in our second year at university when we were paired together for the single worst group project...`,
+    content: `Good evening. For those who don't know me, I'm [Your name]. [Bride's name] and I met in our second year at university when we were paired together for the single worst group project in academic history. Out of five group members, three disappeared. That left me and [Bride's name], two cups of terrible vending machine coffee, and a deadline we had absolutely no business meeting. We met it. Barely. And we've been inseparable ever since.
+
+What I love about [Bride's name] is her refusal to do anything half-heartedly. She doesn't half-study, half-care, or half-love. Everything she does, she does completely. It can be exhausting to witness, honestly, but it's also what makes her extraordinary.
+
+I was there the night she came home from her first date with [Groom's name]. She walked in, sat on the sofa, and said, very quietly, "I think that might have been the best evening of my life." No drama, no gushing, just that one sentence. From [Bride's name], that was the equivalent of fireworks.
+
+[Groom's name], you should know that earning her trust is not easy. She doesn't give it freely. So the fact that she's standing here today, choosing you, in front of everyone she loves, tells you everything you need to know.
+
+You've earned something precious. Look after it.
+
+To [Bride's name] and [Groom's name], two people who deserve every bit of happiness coming their way. Cheers!`,
+    authorName: 'Rachel Henning',
+    weddingRole: 'College Friend',
+    tags: ['balanced', 'college friend', 'university'],
+  },
+
+  // ── Work Friend Speeches (work-friend-speech) ────────────────
+
+  {
+    slug: 'funny-work-friend-wedding-toast-1',
+    title: `From Slack messages to speeches`,
+    category: 'work-friend-speech',
+    tone: 'funny',
+    durationMinutes: 1.8,
+    wordCount: 236,
+    excerpt: `Hello everyone. I'm [Your name], and [Groom's name] and I work together, which is a polite way of saying we spend most of our days sending each other passive-aggressive emails and...`,
+    content: `Hello everyone. I'm [Your name], and [Groom's name] and I work together, which is a polite way of saying we spend most of our days sending each other passive-aggressive emails and sneaking out for coffee when our manager isn't looking.
+
+I want to set the scene for how our friendship began. It was [Groom's name]'s first week at the company. He walked into the kitchen, saw me struggling with the coffee machine, and said, "That's not how you do it." He then proceeded to also fail at the coffee machine. We went to the cafe down the road. A bond was forged.
+
+Over the years, [Groom's name] has become more than a colleague. He's the person I complain to about meetings that could have been emails. He's my lunch buddy, my "should I send this email or will I get fired" advisor, and the only person who understands the specific pain of a Friday afternoon all-hands meeting.
+
+But what amazed me was watching him fall in love. Suddenly, the man who'd never leave the office before six was sprinting out the door at five. The man who packed the same sad sandwich every day started bringing leftovers from dinners [Bride's name] had cooked. The man who never smiled at his phone was grinning like an idiot at his texts.
+
+[Bride's name], you've done what no amount of corporate wellness programs could achieve. You've made him genuinely happy.
+
+To [Groom's name] and [Bride's name], the best out-of-office partnership I've ever seen. Cheers!`,
+    authorName: 'David Palmer',
+    weddingRole: 'Work Friend',
+    tags: ['funny', 'work friend', 'office humour'],
+  },
+  {
+    slug: 'heartfelt-work-friend-speech-1',
+    title: `More than just colleagues`,
+    category: 'work-friend-speech',
+    tone: 'heartfelt',
+    durationMinutes: 1.7,
+    wordCount: 221,
+    excerpt: `Hi everyone. I'm [Your name], and I have the privilege of being both [Bride's name]'s colleague and her friend. We work in the same team and have done for the past six years, which...`,
+    content: `Hi everyone. I'm [Your name], and I have the privilege of being both [Bride's name]'s colleague and her friend. We work in the same team and have done for the past six years, which means I've seen her through promotions, setbacks, terrible office Christmas parties, and now this beautiful day.
+
+People sometimes underestimate work friendships. They think they're just convenience, just proximity. But the truth is, your colleagues see you at your most stressed, your most tired, your most frustrated. They see the version of you that doesn't have the energy to perform. And the friendships that survive that, the ones that actually deepen because of it, are rare and real.
+
+[Bride's name] is the person who pulled me aside after a difficult presentation and said, "You were brilliant, and anyone who says otherwise doesn't know what they're talking about." She's the person who quietly took on half my workload when my father was unwell, without ever mentioning it.
+
+When she started talking about [Groom's name], I could hear something in her voice that I'd never heard before. Certainty. Not excitement, not infatuation, just this quiet, steady certainty that she'd found her person.
+
+[Groom's name], you are that person. And from someone who has seen [Bride's name] at her best and her most frazzled, I can tell you that the way she loves you is the most genuine thing about her.
+
+To [Bride's name] and [Groom's name]. You deserve this.`,
+    authorName: 'Laura Beckett',
+    weddingRole: 'Work Friend',
+    tags: ['heartfelt', 'work friend', 'emotional'],
+  },
+  {
+    slug: 'balanced-work-friend-wedding-speech-1',
+    title: `Promoted to family`,
+    category: 'work-friend-speech',
+    tone: 'balanced',
+    durationMinutes: 1.6,
+    wordCount: 212,
+    excerpt: `Good evening everyone. I'm [Your name]. [Groom's name] and I have worked together for about four years now, and somewhere along the way, he stopped being the guy at the next desk and...`,
+    content: `Good evening everyone. I'm [Your name]. [Groom's name] and I have worked together for about four years now, and somewhere along the way, he stopped being the guy at the next desk and became one of my closest friends. I'm not sure when exactly it happened. Probably somewhere between the third coffee run and the team building exercise that involved a canoe and went horribly wrong.
+
+What I've learned about [Groom's name] through working with him is that he treats people well. Not in a showy way, but in the way that actually matters. He remembers people's names. He asks about your weekend and actually listens to the answer. He's the first to help and the last to take credit. You don't find that often.
+
+When [Bride's name] came along, everything just made sense. He'd talk about her with this quiet pride that was impossible not to respect. I remember him once saying, "She makes me want to be better at everything." Not just at work, not just at one thing, at everything.
+
+[Bride's name], from what I've seen, you bring out the absolute best in him. And from what he tells me, he's determined to do the same for you.
+
+That's all you can really ask for, isn't it? Two people trying to be their best selves for each other.
+
+To [Groom's name] and [Bride's name], a partnership that works in every sense. Cheers!`,
+    authorName: 'James Thornton',
+    weddingRole: 'Work Friend',
+    tags: ['balanced', 'work friend', 'office'],
+  },
+
+  // ── Roommate Speeches (roommate-speech) ──────────────────────
+
+  {
+    slug: 'funny-roommate-wedding-toast-1',
+    title: `The roommate who saw everything`,
+    category: 'roommate-speech',
+    tone: 'funny',
+    durationMinutes: 2.0,
+    wordCount: 258,
+    excerpt: `Good evening everyone. I'm [Your name], and for three unforgettable years, I had the pleasure, and I use that word loosely, of being [Bride's name]'s roommate. I have seen things...`,
+    content: `Good evening everyone. I'm [Your name], and for three unforgettable years, I had the pleasure, and I use that word loosely, of being [Bride's name]'s roommate. I have seen things. I know things. And [Bride's name] is very lucky that I am a kind and merciful person.
+
+Living with [Bride's name] was an education. I learned that one person can own seventeen nearly-empty bottles of shampoo. I learned that "I'll wash up tomorrow" is a flexible concept. And I learned that someone can watch the same series four times in a row and still cry at the finale every single time.
+
+But I also learned what real friendship looks like. [Bride's name] was the roommate who'd leave a cup of tea outside your door when you'd had a bad day. Who'd sit with you on the bathroom floor at 2am when you needed to talk. Who'd pretend not to hear you crying and then casually suggest a walk the next morning because she knew you'd talk when you were ready.
+
+When [Groom's name] first started coming round to our flat, I'll admit I was skeptical. A new person in our space? Using our good mugs? But then I watched how he was with her. He'd help with the dishes without being asked. He'd bring food for both of us, not just her. He passed the roommate test without even knowing he was taking it.
+
+[Groom's name], you got the stamp of approval from the person who shared a bathroom with her for three years. That's no small thing.
+
+To [Bride's name] and [Groom's name], the best upgrade she ever made!`,
+    authorName: 'Chloe Matthews',
+    weddingRole: 'Former Roommate',
+    tags: ['funny', 'roommate', 'living together'],
+  },
+  {
+    slug: 'heartfelt-roommate-speech-1',
+    title: `From flatmates to forever friends`,
+    category: 'roommate-speech',
+    tone: 'heartfelt',
+    durationMinutes: 1.7,
+    wordCount: 224,
+    excerpt: `Hello everyone. My name is [Your name], and [Groom's name] was my roommate for two years after university. I know that might sound unremarkable, but those two years shaped my life in...`,
+    content: `Hello everyone. My name is [Your name], and [Groom's name] was my roommate for two years after university. I know that might sound unremarkable, but those two years shaped my life in ways I didn't fully appreciate until much later.
+
+We were both in our early twenties, both broke, both figuring out what adult life was supposed to look like. Our flat was small, the heating was unreliable, and our cooking repertoire consisted of approximately four meals on rotation. But it was ours, and in that cramped little kitchen, we became family.
+
+[Groom's name] is the kind of person who makes hard things easier just by being present. When I lost my job six months into our lease, I was terrified. He sat me down and said, "We'll figure it out. That's what this is." He meant the friendship, the flat, the partnership of sharing a life with someone who has your back.
+
+I think that's what marriage is too, at its core. Figuring it out together. Choosing to stay in the room, even when things get uncomfortable.
+
+[Bride's name], I watched [Groom's name] fall in love with you from across a very thin hallway wall, and I heard every phone call, every laugh, every long silence that meant he was just happy to be on the line with you. You changed something in him that I'd been hoping would change for years.
+
+You two are exactly right for each other. To [Groom's name] and [Bride's name].`,
+    authorName: 'Nathan Gill',
+    weddingRole: 'Former Roommate',
+    tags: ['heartfelt', 'roommate', 'emotional'],
+  },
+  {
+    slug: 'balanced-roommate-wedding-speech-1',
+    title: `What living together taught me about love`,
+    category: 'roommate-speech',
+    tone: 'balanced',
+    durationMinutes: 1.8,
+    wordCount: 230,
+    excerpt: `Hi everyone. I'm [Your name]. [Bride's name] and I shared a flat for two and a half years, and I'm standing here today because she told me, and I quote, "You know me better than...`,
+    content: `Hi everyone. I'm [Your name]. [Bride's name] and I shared a flat for two and a half years, and I'm standing here today because she told me, and I quote, "You know me better than almost anyone, so you have to say something." No pressure, then.
+
+Living with someone is the fastest way to learn who they really are. You can't hide behind your best self at 7am on a Monday. And what I learned about [Bride's name] is that she is, underneath the occasional chaos, one of the most caring people I've ever known.
+
+She's the person who remembers the exact brand of biscuit you mentioned once in passing and buys them when you're sad. She's the person who once stayed up until midnight helping me practice a job interview, playing the role of "difficult panel member" with alarming enthusiasm.
+
+Now, I'll be honest. She's also the person who left a pan soaking for so long that I think it developed its own ecosystem. Nobody's perfect.
+
+When [Groom's name] entered the picture, I knew it was serious because she started making the flat presentable. That had never happened before. I came home one day and she'd bought actual cushions. Decorative ones. That's when I knew we were in new territory.
+
+[Groom's name], you inspire her to be the best version of herself. And take it from someone who's seen all the versions, that's really saying something.
+
+To [Bride's name] and [Groom's name]. Love, laughter, and clean kitchens. Cheers!`,
+    authorName: 'Freya Mitchell',
+    weddingRole: 'Former Roommate',
+    tags: ['balanced', 'roommate', 'living together'],
+  },
+
+  // ── Military Buddy Speeches (military-buddy-speech) ──────────
+
+  {
+    slug: 'funny-military-buddy-toast-1',
+    title: `From basic training to the big day`,
+    category: 'military-buddy-speech',
+    tone: 'funny',
+    durationMinutes: 1.9,
+    wordCount: 243,
+    excerpt: `Good evening everyone. I'm [Your name], and [Groom's name] and I served together, which is the military way of saying we suffered together, complained together, and formed a bond that...`,
+    content: `Good evening everyone. I'm [Your name], and [Groom's name] and I served together, which is the military way of saying we suffered together, complained together, and formed a bond that no amount of civilian life can break.
+
+I first met [Groom's name] during basic training. He was the bloke who somehow managed to look completely lost and totally confident at the same time. Our sergeant took one look at him and said, "That one's either going to be brilliant or a complete disaster." For the record, it was both.
+
+We shared a bunk for six months. I know more about [Groom's name]'s sleeping habits than any best man speech could responsibly contain. I will say this: the man snores like a freight train with a head cold. [Bride's name], I hope you've invested in earplugs.
+
+But on a serious note, [Groom's name] is the kind of person you want beside you when things go sideways. And I mean that literally. In the field, you learn very quickly who you can trust. Some people talk a big game but fold under pressure. [Groom's name] never folded. He's steady, reliable, and braver than he gives himself credit for.
+
+[Bride's name], you're marrying someone who has been tested in ways most people never will be. And he came through it all with his humour intact, his integrity solid, and his heart wide open. That last part, I think, was because he was saving it for you.
+
+To [Groom's name] and [Bride's name], at ease, and at home. Cheers!`,
+    authorName: 'Craig Henderson',
+    weddingRole: 'Military Buddy',
+    tags: ['funny', 'military', 'service'],
+  },
+  {
+    slug: 'heartfelt-military-buddy-speech-1',
+    title: `Brothers in arms, brothers for life`,
+    category: 'military-buddy-speech',
+    tone: 'heartfelt',
+    durationMinutes: 2.0,
+    wordCount: 260,
+    excerpt: `Hello everyone. My name is [Your name], and I served alongside [Groom's name] for four years. In the military, you learn to rely on people in a way that civilian life rarely requires...`,
+    content: `Hello everyone. My name is [Your name], and I served alongside [Groom's name] for four years. In the military, you learn to rely on people in a way that civilian life rarely requires. You eat together, train together, wait together, and sometimes face things together that are difficult to talk about afterward. That kind of bond doesn't come with a manual, and it doesn't fade with time.
+
+[Groom's name] was the person I trusted most during our deployment. Not because he was the loudest or the most decorated, but because he was consistent. Every single day, he showed up as the same person. Calm when others panicked, kind when the pressure made others sharp, funny when everyone needed a reason to smile.
+
+There was one night, and I won't go into detail, but it was a hard one. We were both exhausted, both scared, and neither of us wanted to admit it. [Groom's name] looked at me and said, "We're going to be fine. And when this is over, I'm buying you the biggest steak you've ever seen." Somehow, that was enough.
+
+Transitioning to civilian life wasn't easy for either of us. But watching [Groom's name] find his footing, build a career, and then find [Bride's name], has been one of the greatest privileges of my life.
+
+[Bride's name], you should know that the man standing beside you today has more courage, more compassion, and more depth than he'll ever let on. He won't always tell you when he's struggling. But he will always, always show up for you.
+
+To [Groom's name] and [Bride's name]. With all my respect and love.`,
+    authorName: 'Michael Reeves',
+    weddingRole: 'Military Buddy',
+    tags: ['heartfelt', 'military', 'service', 'emotional'],
+  },
+  {
+    slug: 'balanced-military-buddy-wedding-speech-1',
+    title: `A soldier finds his home`,
+    category: 'military-buddy-speech',
+    tone: 'balanced',
+    durationMinutes: 1.8,
+    wordCount: 237,
+    excerpt: `Good evening. I'm [Your name], and [Groom's name] and I go back to our very first day in the armed forces. We were standing in a line, being shouted at by a man whose neck was wider...`,
+    content: `Good evening. I'm [Your name], and [Groom's name] and I go back to our very first day in the armed forces. We were standing in a line, being shouted at by a man whose neck was wider than my entire torso, and [Groom's name] leaned over and whispered, "Do you think he'd calm down if I offered him a biscuit?" I knew immediately we were going to be friends.
+
+Service teaches you a lot about yourself and even more about other people. You learn who panics, who stays calm, who shares their last packet of crisps when supplies are low. [Groom's name] was always the one sharing. Not just food, but time, energy, moral support, terrible jokes at the worst possible moments.
+
+After we left the forces, staying close wasn't always easy. Different lives, different cities, the usual drift that happens. But with [Groom's name], there was never any awkwardness when we reconnected. We'd just pick up where we left off, like no time had passed at all. That's the mark of a real friendship.
+
+When I met [Bride's name] for the first time, she asked me to tell her the most embarrassing thing [Groom's name] ever did during service. I told her about the time he saluted the wrong officer for an entire week. She laughed so hard she nearly choked on her drink. I thought, "Yeah, she's perfect for him."
+
+[Bride's name], he has finally found a mission he'll never want to complete. Being your husband is the assignment of a lifetime.
+
+To the happy couple!`,
+    authorName: 'Steve Rowlands',
+    weddingRole: 'Military Buddy',
+    tags: ['balanced', 'military', 'service'],
+  },
+// ── Sports Teammate Speech (3) ──────────────────────────────
+
+  {
+    slug: 'soccer-teammate-wedding-speech-1',
+    title: `From the pitch to the altar - a teammate's toast`,
+    category: 'sports-teammate-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.1,
+    wordCount: 273,
+    excerpt: `Alright everyone, for those who don't know me, I'm [Your name], and I've had the pleasure of playing alongside [Groom's name] for the last eight years on our Sunday league team...`,
+    content: `Alright everyone, for those who don't know me, I'm [Your name], and I've had the pleasure of playing alongside [Groom's name] for the last eight years on our Sunday league team. Now, I use the word "pleasure" loosely because this man once missed an open goal from three yards out and then blamed the wind. Indoors.
+
+But here's what I can tell you about [Groom's name] as a teammate. He's the first one to pick you up when you're down, literally and figuratively. When I tore my ACL two seasons ago, he drove me to every physio appointment for three months. Didn't even complain. Well, he complained a little.
+
+I knew something was different when [Groom's name] started skipping post-match drinks. Our captain thought he was injured. Turns out he'd met [Bride's name], and suddenly Saturday nights were for fancy restaurants instead of cheap pints. The lads were devastated. I was happy for him.
+
+The thing about [Groom's name] is that he brings the same energy to everything he does. On the pitch, he never gives up on a lost ball. In life, he never gives up on the people he cares about. And [Bride's name], I've watched him become a better person since he met you. More focused, more grounded, still absolutely terrible at free kicks, but better in every way that counts.
+
+So please raise your glasses. To [Bride's name] and [Groom's name] - may your marriage have all the passion of a last-minute winner and none of the drama of a penalty shootout. Cheers!`,
+    authorName: 'Marcus Webb',
+    weddingRole: 'Sports Teammate',
+    tags: ['funny', 'sports', 'friendship'],
+  },
+
+  {
+    slug: 'basketball-teammate-heartfelt-speech-2',
+    title: `A teammate's tribute to love and loyalty`,
+    category: 'sports-teammate-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.0,
+    wordCount: 258,
+    excerpt: `Good evening everyone. My name is [Your name], and I've played basketball with [Groom's name] since we were fourteen years old. That's nearly fifteen years of early morning...`,
+    content: `Good evening everyone. My name is [Your name], and I've played basketball with [Groom's name] since we were fourteen years old. That's nearly fifteen years of early morning practices, tournament weekends, and long drives to away games where we'd talk about everything and nothing.
+
+There's something about being on a team with someone that shows you who they really are. Not the version they present at parties or at work, but who they are when they're exhausted, when the score isn't going their way, when things get hard. And I can tell you that [Groom's name] is the same person in every situation - steady, generous, and relentlessly optimistic.
+
+I remember the first time he told me about [Bride's name]. We were warming up before a game and he just stopped mid-layup and said, "I think I've met someone really special." He had this look on his face I'd never seen before. Not nervous exactly, more like certain. Like he'd found something he didn't know he was looking for.
+
+[Bride's name], thank you for loving this man the way he deserves. Thank you for showing up to our games even when it's freezing and we're losing badly. Thank you for understanding that sometimes he needs a Saturday with the team, and for always being there when he comes home.
+
+You two have built something beautiful together, and it's been a privilege to watch it grow from the sidelines. To [Bride's name] and [Groom's name] - may your lives together be filled with joy, patience, and the occasional victory. Congratulations.`,
+    authorName: 'Derek Okonkwo',
+    weddingRole: 'Sports Teammate',
+    tags: ['heartfelt', 'sports', 'loyalty'],
+  },
+
+  {
+    slug: 'rugby-teammate-balanced-speech-3',
+    title: `Scrums, tries, and tying the knot`,
+    category: 'sports-teammate-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 2.2,
+    wordCount: 286,
+    excerpt: `Evening all. I'm [Your name], and I've been propping up the scrum next to [Groom's name] for about ten years now. For the non-rugby people here, that means I've spent a decade...`,
+    content: `Evening all. I'm [Your name], and I've been propping up the scrum next to [Groom's name] for about ten years now. For the non-rugby people here, that means I've spent a decade with my head uncomfortably close to this man's. So believe me when I say I know him well.
+
+[Groom's name] is the kind of player every team needs. Not the flashiest, not the fastest, but the one who makes everyone around him better. He's the one organising lifts to training, remembering everyone's birthdays, and carrying the first aid kit even though he's not the medic. That's just who he is.
+
+I'll never forget the season we nearly got relegated. Morale was low, half the team wanted to quit. [Groom's name] called a meeting at his flat, cooked a genuinely terrible lasagne, and gave this speech about why we started playing in the first place. We won our next four games. That lasagne may have been awful, but his heart was in the right place.
+
+Now, I have to be honest, when [Bride's name] came along, I was worried we'd lose him. And we did lose him to a few Saturday sessions. But what we gained was someone who made [Groom's name] happier than I'd ever seen him. [Bride's name], you brought out a side of him we didn't know was there. He smiles more, worries less, and has even started eating salad, which frankly shocked the entire squad.
+
+Please join me in raising a glass to two people who are absolutely perfect for each other. [Bride's name] and [Groom's name], may your marriage be as strong as a scrum and as exciting as a last-minute try. To the happy couple!`,
+    authorName: 'Colin Fairweather',
+    weddingRole: 'Sports Teammate',
+    tags: ['balanced', 'sports', 'rugby', 'friendship'],
+  },
+
+  // ── Travel Buddy Speech (3) ─────────────────────────────────
+
+  {
+    slug: 'travel-buddy-funny-wedding-speech-1',
+    title: `Passport stamps and wedding bands`,
+    category: 'travel-buddy-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.3,
+    wordCount: 296,
+    excerpt: `Hello everyone! I'm [Your name], and if you've ever received a blurry photo at 3am from an unpronounceable location, chances are [Bride's name] and I were responsible. We've been...`,
+    content: `Hello everyone! I'm [Your name], and if you've ever received a blurry photo at 3am from an unpronounceable location, chances are [Bride's name] and I were responsible. We've been travel partners for nearly a decade now, and I have stories that could fill several passports.
+
+Let me paint you a picture. Hanoi, 2019. [Bride's name] confidently orders us street food using a phrase she learned from a YouTube video. Turns out she actually asked for "angry chicken with sadness." We ate it anyway. It was delicious.
+
+Then there was the time in Morocco when she haggled so aggressively for a rug that the shopkeeper actually started feeling sorry for her and gave her tea. She still has that rug. She'll probably tell you she got a great deal. She did not.
+
+But travelling with someone shows you who they really are. And [Bride's name] is the person who gives her last granola bar to a stranger, who talks to everyone on the bus, who somehow makes friends in every country despite speaking exactly one and a half languages.
+
+When she met [Groom's name], I knew things were changing because she started planning trips for two. And then she started planning trips she actually wanted to come home from, which was new. [Groom's name], you're her favourite destination now. She doesn't need a boarding pass to feel that rush of excitement - she just needs to see you.
+
+I'm so happy for you both. You've found the one person you want to navigate every adventure with, and that's really what love is, isn't it? Finding someone who makes even the delays and the lost luggage feel like part of the story.
+
+To [Bride's name] and [Groom's name] - bon voyage on this incredible journey together!`,
+    authorName: 'Priya Nair',
+    weddingRole: 'Travel Buddy',
+    tags: ['funny', 'travel', 'adventure'],
+  },
+
+  {
+    slug: 'travel-buddy-heartfelt-speech-2',
+    title: `The greatest adventure starts today`,
+    category: 'travel-buddy-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 1.9,
+    wordCount: 242,
+    excerpt: `Good evening. I'm [Your name], and [Groom's name] and I have logged more miles together than I can count. From backpacking through South America to getting hopelessly lost in...`,
+    content: `Good evening. I'm [Your name], and [Groom's name] and I have logged more miles together than I can count. From backpacking through South America to getting hopelessly lost in rural Japan, he's been my partner in exploration for over twelve years.
+
+When you travel with someone, you see them at their best and their worst. You see them sunburnt and sleep-deprived, standing in the wrong queue at the wrong airport. And you see them watching a sunrise over Angkor Wat with tears in their eyes because the world is just that beautiful.
+
+[Groom's name] taught me that the best trips aren't about the destination. They're about being present, staying curious, and saying yes to the unexpected. He's the one who convinced me to try bungee jumping in New Zealand, to take that overnight train instead of flying, to sit down with locals and just listen.
+
+When he started telling me about [Bride's name], it was different from any conversation we'd ever had. He wasn't describing a place or an experience. He was describing home. He said, "She makes everywhere feel like exactly where I'm supposed to be." That stopped me in my tracks.
+
+[Bride's name], you are his greatest adventure. Not because love is always easy, but because he'd choose you over every destination on earth without hesitation.
+
+To [Bride's name] and [Groom's name] - may your life together be rich with discovery, wonder, and the joy of coming home to each other. Cheers.`,
+    authorName: 'Sam Fitzpatrick',
+    weddingRole: 'Travel Buddy',
+    tags: ['heartfelt', 'travel', 'adventure'],
+  },
+
+  {
+    slug: 'travel-buddy-balanced-speech-3',
+    title: `Suitcases, souvenirs, and soulmates`,
+    category: 'travel-buddy-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 2.1,
+    wordCount: 268,
+    excerpt: `Hi everyone, I'm [Your name]. Now, I've shared a hostel bunk, a dodgy rental car, and at least one very questionable ferry with [Bride's name], so I feel uniquely qualified to...`,
+    content: `Hi everyone, I'm [Your name]. Now, I've shared a hostel bunk, a dodgy rental car, and at least one very questionable ferry with [Bride's name], so I feel uniquely qualified to stand up here today.
+
+[Bride's name] and I took our first trip together right after university. We went to Portugal with barely enough money for bread and coffee. She insisted on budgeting everything down to the cent. I insisted on ignoring the budget entirely. Somehow, we survived. That trip taught me something important about [Bride's name] - she plans for the worst but hopes for the best, and she always, always finds the silver lining.
+
+There was the time our flight got cancelled in Bangkok and we ended up sleeping on airport chairs for nine hours. Most people would be furious. She made friends with a family from Melbourne and got invited to their daughter's birthday party the following week. In Melbourne. She actually considered going.
+
+That's the thing about [Bride's name]. She collects people the way some travellers collect fridge magnets. But she doesn't just collect them. She keeps them. She remembers them. She cares.
+
+[Groom's name], you should know you're marrying the best travel companion on the planet. She'll navigate, she'll negotiate, and she'll make sure you never miss a sunset. More importantly, she'll make every ordinary Tuesday feel like an adventure.
+
+And [Bride's name], you've found someone who matches your curiosity and your warmth. I've watched you two together, and it's clear you've found your person.
+
+Raise your glasses, everyone. To [Bride's name] and [Groom's name] - may the adventure never end. Cheers!`,
+    authorName: 'Jenny Liang',
+    weddingRole: 'Travel Buddy',
+    tags: ['balanced', 'travel', 'friendship'],
+  },
+
+  // ── Roast Wedding Speech (3) ────────────────────────────────
+
+  {
+    slug: 'roast-wedding-speech-loveable-disaster-1',
+    title: `A loving roast for the groom`,
+    category: 'roast-wedding-speech',
+    tone: 'roast' as const,
+    durationMinutes: 2.2,
+    wordCount: 281,
+    excerpt: `Good evening everyone. I'm [Your name], and I've been asked to say a few kind words about [Groom's name]. I'll do my best, but I don't have much to work with. Just kidding...`,
+    content: `Good evening everyone. I'm [Your name], and I've been asked to say a few kind words about [Groom's name]. I'll do my best, but I don't have much to work with. Just kidding. Sort of.
+
+Let me start with the basics. [Groom's name] is the kind of man who once tried to iron a shirt while wearing it. He's the kind of man who thought the capital of Australia was Sydney until last year. He's the kind of man who still doesn't understand how his own thermostat works. And somehow, against all odds, he's convinced this incredible woman to spend the rest of her life with him.
+
+[Bride's name], I have to ask - are you sure? I mean, you've seen him eat cereal at 11pm over the kitchen sink, right? You know about the "system" he has for his sock drawer that makes absolutely no sense to anyone else? You're aware that he once got lost in an IKEA for forty-five minutes and had to be rescued by a staff member named Ingrid? You know all this, and you still said yes. That's either true love or an act of extraordinary charity.
+
+But in all seriousness, and I mean this genuinely, [Groom's name] is one of the most decent human beings I know. He'd give you the shirt off his back, probably a wrinkled one because of the ironing situation, but he'd give it. He's kind, he's loyal, and he loves [Bride's name] in a way that makes the rest of us believe love is real.
+
+So here's to [Bride's name] and [Groom's name]. May your patience, [Bride's name], be as endless as [Groom's name]'s ability to lose his car keys. Cheers!`,
+    authorName: 'Ethan Marshall',
+    weddingRole: 'Friend',
+    tags: ['roast', 'funny', 'groom'],
+  },
+
+  {
+    slug: 'roast-wedding-speech-bride-edition-2',
+    title: `A roast for the bride from her oldest friend`,
+    category: 'roast-wedding-speech',
+    tone: 'roast' as const,
+    durationMinutes: 2.0,
+    wordCount: 264,
+    excerpt: `Hello everyone. I'm [Your name], and I've known [Bride's name] since we were eleven years old. That's over twenty years of friendship, which means I know where all the bodies are...`,
+    content: `Hello everyone. I'm [Your name], and I've known [Bride's name] since we were eleven years old. That's over twenty years of friendship, which means I know where all the bodies are buried. Metaphorically. Mostly.
+
+Now, [Bride's name] likes to present herself as this poised, put-together woman. And she is. Today. But I remember the girl who once cried because she thought her goldfish was judging her. I remember the teenager who went through an entire bottle of Sun-In in one afternoon and turned up to school looking like a traffic cone. I remember the university student who accidentally sent a love letter to her tutor instead of her boyfriend. Different David, same inbox.
+
+[Bride's name] also has a unique relationship with cooking. She once made a lasagne that could have been classified as a building material. She set off the smoke alarm making toast. Twice. In one morning. [Groom's name], I hope you like takeaway.
+
+But here's what I also know about [Bride's name]. She's the first person to call when things go wrong. She remembers every birthday, every anniversary, every small thing that matters to the people she loves. She's fierce and funny and the most loyal person in any room.
+
+[Groom's name], you're getting the whole package. The burnt toast, the dramatic goldfish stories, the enormous heart. I promise you, it's worth it. Every single chaotic, wonderful bit of it.
+
+To [Bride's name] and [Groom's name] - may your life together be as entertaining as [Bride's name]'s cooking is terrifying. Love you both!`,
+    authorName: 'Rachel Cooper',
+    weddingRole: 'Friend',
+    tags: ['roast', 'funny', 'bride'],
+  },
+
+  {
+    slug: 'roast-wedding-speech-couple-roast-3',
+    title: `A double roast for the happy couple`,
+    category: 'roast-wedding-speech',
+    tone: 'roast' as const,
+    durationMinutes: 2.3,
+    wordCount: 298,
+    excerpt: `Evening everyone. I'm [Your name], and since I'm friends with both [Bride's name] and [Groom's name], I've decided to be fair and roast them equally. Starting with [Groom's name]...`,
+    content: `Evening everyone. I'm [Your name], and since I'm friends with both [Bride's name] and [Groom's name], I've decided to be fair and roast them equally. Starting with [Groom's name], because alphabetical order isn't a thing I care about.
+
+[Groom's name]. Mate. You are the only person I know who has been outsmarted by a self-checkout machine. Not once. Regularly. You also hold the world record for the most times someone has said "I'll be ready in five minutes" and meant forty-five.
+
+Now [Bride's name]. Darling. You are wonderful and kind and I once watched you argue with a satnav for ten minutes because you were convinced it was wrong. It was not wrong. You drove an extra hour. Also, you describe every meal you eat as "quite nice actually" regardless of whether it's a Michelin-star dinner or a petrol station sandwich. You have no range.
+
+Together, you two are something else entirely. You once got lost driving to a restaurant that was four streets from your flat. You argued about who left the back door open for three days before realising it was the cat. You went to IKEA together on a Bank Holiday and somehow came out still in love, which honestly might be your greatest achievement.
+
+But here's the thing. Behind all the chaos, there are two people who genuinely adore each other. Who make each other laugh until they cry. Who would choose each other in every room, every time, no question.
+
+So yes, you're both ridiculous. But you're ridiculous together, and that's what makes it work. To [Bride's name] and [Groom's name] - may you never stop laughing at each other. And with each other. But mainly at. Cheers!`,
+    authorName: 'Dan Whitfield',
+    weddingRole: 'Friend',
+    tags: ['roast', 'funny', 'couple'],
+  },
+
+  // ── Sentimental Speech (3) ──────────────────────────────────
+
+  {
+    slug: 'sentimental-friendship-through-years-1',
+    title: `A friendship forged through every season`,
+    category: 'sentimental-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.1,
+    wordCount: 275,
+    excerpt: `Good evening everyone. I'm [Your name], and I've been trying to write this speech for weeks. Every time I sat down, I'd start crying before I finished the first paragraph. So if...`,
+    content: `Good evening everyone. I'm [Your name], and I've been trying to write this speech for weeks. Every time I sat down, I'd start crying before I finished the first paragraph. So if I get through this without tears, consider it a miracle.
+
+[Bride's name] and I met seventeen years ago in a waiting room at the dentist's office. She was reading a magazine upside down because she was nervous, and I told her. She laughed, and we've been inseparable ever since.
+
+Over the years, I've watched [Bride's name] navigate life with a grace that I genuinely admire. She held my hand through the worst year of my life without ever making me feel like a burden. She celebrated every small victory I had like it was her own. She is, without exaggeration, the most selfless person I've ever known.
+
+When she told me about [Groom's name], something shifted in her voice. There was a steadiness there, a warmth that went deeper than excitement. She said, "I don't have to try to be someone else with him. He just lets me be me." And I thought, that's it. That's what she's been waiting for.
+
+[Groom's name], thank you for seeing her. Not just the bright, funny, confident version everyone sees. But the quiet one. The one who worries. The one who carries more than she lets on. Thank you for being the person she can put it all down with.
+
+You two have something rare. Hold onto it with everything you have. To [Bride's name] and [Groom's name] - may your love be a safe place for both of you, always. I love you both.`,
+    authorName: 'Natalie Simmons',
+    weddingRole: 'Friend',
+    tags: ['heartfelt', 'sentimental', 'emotional'],
+  },
+
+  {
+    slug: 'sentimental-groom-tribute-speech-2',
+    title: `To the man who changed everything`,
+    category: 'sentimental-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.8,
+    wordCount: 237,
+    excerpt: `Hi everyone. [Your name] here. I've known [Groom's name] since our first day of secondary school when we were both too shy to talk to anyone else, so we talked to each other...`,
+    content: `Hi everyone. [Your name] here. I've known [Groom's name] since our first day of secondary school when we were both too shy to talk to anyone else, so we talked to each other. Twenty years later, here we are.
+
+[Groom's name] isn't someone who asks for the spotlight. He's the person working quietly in the background, making sure everyone else is okay. I think about the time my dad was ill, and [Groom's name] just showed up at my door with groceries and didn't say a word about it. That's who he is.
+
+He's also the person who once drove four hours to help me move a sofa and then four hours back because he had work the next morning. He didn't complain. He just did it because that's what friends do, apparently. Most people talk about loyalty. [Groom's name] just lives it.
+
+[Bride's name], I want you to know that you've married someone extraordinary. Not in the loud, obvious way, but in the quiet, everyday way that actually matters. He'll never forget what's important to you. He'll always be in your corner.
+
+And [Groom's name], you've found someone who matches your heart. [Bride's name] is warm, thoughtful, and brave in ways I think even she doesn't fully recognise yet. You bring out the best in each other, and that's a rare, wonderful thing.
+
+Please raise your glasses to [Bride's name] and [Groom's name]. May your life together be as rich and steady as the friendship I'm so grateful to have. Congratulations.`,
+    authorName: 'Oliver Brennan',
+    weddingRole: 'Friend',
+    tags: ['sentimental', 'balanced', 'friendship'],
+  },
+
+  {
+    slug: 'sentimental-love-letter-speech-3',
+    title: `What love looks like from the outside`,
+    category: 'sentimental-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.0,
+    wordCount: 259,
+    excerpt: `Good evening. I'm [Your name], and I should warn you, I'm a crier. If you see me dabbing my eyes later, mind your business. Now, I want to talk about what love looks like from...`,
+    content: `Good evening. I'm [Your name], and I should warn you, I'm a crier. If you see me dabbing my eyes later, mind your business.
+
+Now, I want to talk about what love looks like from the outside, because I've had a front-row seat to this particular love story. When [Bride's name] and [Groom's name] first got together, I didn't think much of it. They were just two people who seemed to like each other. But then I started noticing things.
+
+I noticed how [Groom's name] always saves the last bite of dessert for [Bride's name]. How [Bride's name] keeps a spare phone charger in her bag because [Groom's name] always forgets his. How they have this way of looking at each other across a room that makes the rest of us feel like we're intruding.
+
+I'm not going to pretend I haven't been jealous. I have. Not of either of them specifically, but of what they've built. It's the kind of love that doesn't need to announce itself. It's in the small things, the daily kindnesses, the way they make ordinary life feel meaningful.
+
+I asked [Bride's name] once what she loved most about [Groom's name]. She said, "He makes me feel like I'm enough, exactly as I am." And honestly, I had to leave the room because I promised myself I wouldn't cry until the wedding. Well, here we are.
+
+To [Bride's name] and [Groom's name] - you've shown all of us what love can look like when it's real. May you never stop saving each other dessert. I love you both. Cheers.`,
+    authorName: 'Kate Donovan',
+    weddingRole: 'Friend',
+    tags: ['sentimental', 'funny', 'love story'],
+  },
+
+  // ── Lighthearted Speech (3) ─────────────────────────────────
+
+  {
+    slug: 'lighthearted-fun-loving-toast-1',
+    title: `A toast to the couple who can't stop laughing`,
+    category: 'lighthearted-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.0,
+    wordCount: 260,
+    excerpt: `Hey everyone! I'm [Your name], and I've been given approximately three minutes to say something nice about [Groom's name], which is about two minutes more than I need. Kidding...`,
+    content: `Hey everyone! I'm [Your name], and I've been given approximately three minutes to say something nice about [Groom's name], which is about two minutes more than I need. Kidding. Mostly.
+
+So let me set the scene. I've known [Groom's name] for twelve years, and in that time, I've watched him go through several phases. There was the "I'm going to learn guitar" phase, which lasted exactly one lesson. The "I'm going to run a marathon" phase, which peaked at a 5K he walked half of. And my personal favourite, the "I'm going to become a morning person" phase, which lasted until the first morning.
+
+But then came the [Bride's name] phase. And this one stuck. Suddenly he was cooking dinner instead of ordering in. He started remembering to water his plants. He even learned how to fold a fitted sheet, which I'm still convinced is actual sorcery.
+
+[Bride's name], whatever you've done, it's working. You've somehow turned this lovable chaos merchant into a functioning adult, and we're all deeply grateful. Also slightly confused, but mainly grateful.
+
+What I love most about you two is that you never take yourselves too seriously. You laugh at the same stupid things, you finish each other's terrible jokes, and you have this energy that makes everyone around you feel lighter. That's a gift. Not everyone has that.
+
+So here's to [Bride's name] and [Groom's name] - may your life together be filled with laughter, terrible puns, and at least one more attempt at that marathon. To the happy couple!`,
+    authorName: 'Jordan Clarke',
+    weddingRole: 'Friend',
+    tags: ['funny', 'lighthearted', 'humor'],
+  },
+
+  {
+    slug: 'lighthearted-easy-breezy-speech-2',
+    title: `Love, laughs, and happily ever after`,
+    category: 'lighthearted-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.7,
+    wordCount: 225,
+    excerpt: `Good evening! I'm [Your name], and before I start, I want to say that [Bride's name] looks absolutely stunning tonight. And [Groom's name], you also look like you tried, which...`,
+    content: `Good evening! I'm [Your name], and before I start, I want to say that [Bride's name] looks absolutely stunning tonight. And [Groom's name], you also look like you tried, which is all anyone can ask.
+
+I met these two separately and introduced them at a barbecue three years ago. I take full credit. You're welcome. I also take no responsibility for the six months of double dates I was subjected to where they held hands under the table and pretended they weren't.
+
+What I love about [Bride's name] and [Groom's name] is that they bring out each other's best qualities. [Bride's name] is organised, ambitious, and always has a plan. [Groom's name] is spontaneous, easygoing, and has never had a plan in his life. Together, they actually get things done while still having fun, which is basically the dream.
+
+I also want to mention that [Groom's name] practised his vows in front of me last week and genuinely made me cry. And then he made a joke about it, because he can never let a sincere moment breathe. Classic [Groom's name].
+
+These two don't need my advice on love. They've figured it out. They choose each other every day, they make each other laugh, and they've built a life that's full of warmth and joy.
+
+So please raise your glasses. To [Bride's name] and [Groom's name], the best couple I know, and the best thing to ever come out of one of my barbecues. Cheers!`,
+    authorName: 'Amy Richardson',
+    weddingRole: 'Friend',
+    tags: ['balanced', 'lighthearted', 'matchmaker'],
+  },
+
+  {
+    slug: 'lighthearted-warm-funny-speech-3',
+    title: `The couple who makes it look easy`,
+    category: 'lighthearted-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 1.9,
+    wordCount: 247,
+    excerpt: `Hello everyone. I'm [Your name], and I promise to keep this short because I know you're all waiting for the cake. I've been friends with [Bride's name] for about eight years now...`,
+    content: `Hello everyone. I'm [Your name], and I promise to keep this short because I know you're all waiting for the cake.
+
+I've been friends with [Bride's name] for about eight years now, and one of the things I admire most about her is her ability to find joy in absolutely everything. A good cup of coffee, a dog in the park, a really well-organised spreadsheet. She's someone who makes the world feel a little brighter just by being in it.
+
+When she met [Groom's name], I could tell immediately that he got it. He understood that her enthusiasm isn't performative - it's genuine. And instead of thinking it was too much, he matched it. The first time I saw them together, they were debating the best type of crisp with the intensity of a parliamentary session. I thought, these two are perfect.
+
+What makes them special as a couple is that they don't try to be perfect. They burn dinner and laugh about it. They get lost and make an adventure out of it. They disagree about absolutely everything on Netflix and somehow always end up watching the same show anyway.
+
+Love isn't always grand gestures and sweeping declarations. Sometimes it's someone remembering how you take your tea, or texting you a photo of a dog that looks like yours. [Bride's name] and [Groom's name] understand that, and it shows.
+
+To the couple who makes love look easy, even when it isn't - may you always find joy in the small things, and may the big things take care of themselves. To [Bride's name] and [Groom's name]!`,
+    authorName: 'Hannah Torres',
+    weddingRole: 'Friend',
+    tags: ['heartfelt', 'lighthearted', 'joyful'],
+  },
+
+  // ── Second Marriage Speech (3) ──────────────────────────────
+
+  {
+    slug: 'second-marriage-new-chapter-speech-1',
+    title: `The best chapters are still unwritten`,
+    category: 'second-marriage-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.2,
+    wordCount: 285,
+    excerpt: `Good evening everyone. I'm [Your name], and I've had the privilege of watching [Groom's name] navigate some of life's toughest chapters. Standing here tonight, seeing the joy on...`,
+    content: `Good evening everyone. I'm [Your name], and I've had the privilege of watching [Groom's name] navigate some of life's toughest chapters. Standing here tonight, seeing the joy on his face, I can tell you that this is the chapter he was always meant to reach.
+
+Life doesn't always go according to plan. Most of us know that. And [Groom's name] has had his share of detours, disappointments, and moments where the road ahead looked uncertain. But what I admire most about him is that he never let those experiences make him bitter. He let them make him wiser. More patient. More intentional about what he wanted.
+
+And then he met [Bride's name]. I remember the phone call. He was quiet at first, almost cautious. Then he said, "I think I've found something I'd given up looking for." There was no rush, no grand declaration, just a steady, certain kind of happiness that I'd never heard from him before.
+
+[Bride's name], you walked into his life at exactly the right time. Not because he needed saving, but because he was finally ready to be loved the way you love him, fully and without reservation. You see the man he is today, not the sum of his past. And that matters more than I think you know.
+
+To the people who say second chances are somehow less than first ones - look at these two. Look at the way they look at each other. There's nothing "less than" about this. This is love in its most honest, courageous form.
+
+Please raise your glasses. To [Bride's name] and [Groom's name] - proof that the best chapters are the ones you didn't see coming. Congratulations.`,
+    authorName: 'Michael Ashford',
+    weddingRole: 'Friend',
+    tags: ['heartfelt', 'second marriage', 'new beginnings'],
+  },
+
+  {
+    slug: 'second-marriage-fresh-start-speech-2',
+    title: `Love is braver the second time around`,
+    category: 'second-marriage-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 2.0,
+    wordCount: 262,
+    excerpt: `Hi everyone. I'm [Your name], and I want to start by saying something that I think is important. It takes real courage to open your heart again. To look at love and say, "Yes...`,
+    content: `Hi everyone. I'm [Your name], and I want to start by saying something that I think is important. It takes real courage to open your heart again. To look at love and say, "Yes, I'll try this again," knowing full well that it isn't guaranteed. [Bride's name] and [Groom's name] didn't just find love, they chose it, bravely and deliberately.
+
+I've known [Bride's name] for nearly fifteen years. I was there during the difficult times, the quiet evenings where she wasn't sure what the future looked like. And I was there the morning she called me, laughing, to tell me she'd been on the best date of her life with someone called [Groom's name] who made her laugh so hard she snorted coffee out of her nose. I knew right then.
+
+What I admire about these two is that they came into this relationship as whole, complete people. They weren't looking for someone to fix them. They were looking for someone to share the life they'd already built. And they found that in each other.
+
+[Groom's name], you bring a calm, steady presence that balances [Bride's name] perfectly. And [Bride's name], you bring a warmth and energy that lights up every room, including his life.
+
+Some people might think second marriages carry less weight. I think the opposite. When you've lived enough to know what doesn't work, choosing to love again is one of the bravest things you can do.
+
+To [Bride's name] and [Groom's name] - thank you for reminding all of us that love doesn't have an expiration date. Here's to your beautiful new beginning. Cheers!`,
+    authorName: 'Caroline West',
+    weddingRole: 'Friend',
+    tags: ['balanced', 'second marriage', 'courage'],
+  },
+
+  {
+    slug: 'second-marriage-joyful-speech-3',
+    title: `Round two, and this time it's perfect`,
+    category: 'second-marriage-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.1,
+    wordCount: 271,
+    excerpt: `Evening everyone! I'm [Your name], and I've been friends with [Groom's name] long enough to have attended his first wedding, which I'm told I'm not supposed to mention. So I won't...`,
+    content: `Evening everyone! I'm [Your name], and I've been friends with [Groom's name] long enough to have attended his first wedding, which I'm told I'm not supposed to mention. So I won't. Moving on.
+
+What I will say is this. There's a version of [Groom's name] from five years ago who was genuinely convinced he'd spend the rest of his life perfecting his sourdough starter and talking to his cat. And honestly? He was pretty good at both. But then [Bride's name] came along, and suddenly the sourdough took a backseat. The cat still gets plenty of attention, don't worry.
+
+[Groom's name] once told me, "The great thing about being older and wiser is that you stop worrying about whether love is perfect and start appreciating when it's real." I thought that was surprisingly profound for a man who once microwaved a fork.
+
+[Bride's name], you should know that you are the reason this man has regained his enthusiasm for life, for plans, for the future. Before you, his biggest weekend ambition was reorganising his bookshelf by genre. Now he's booking holidays, trying new restaurants, and, I believe, learning to dance. Badly, but still.
+
+What I see between you two isn't just love. It's relief. The relief of finding someone who fits, who understands, who makes the hard-won wisdom of past experience feel like it was all leading somewhere good.
+
+So here's to [Bride's name] and [Groom's name] - two people who prove that life's plot twists can lead to the best endings. Or beginnings. However you want to look at it. To the happy couple!`,
+    authorName: 'Patrick Gallagher',
+    weddingRole: 'Friend',
+    tags: ['funny', 'second marriage', 'new beginnings'],
+  },
+
+  // ── Blended Family Speech (3) ───────────────────────────────
+
+  {
+    slug: 'blended-family-stepparent-love-speech-1',
+    title: `When two families became one`,
+    category: 'blended-family-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.3,
+    wordCount: 296,
+    excerpt: `Good evening everyone. I'm [Your name], and I have the honour of speaking tonight as someone who has watched two families become one, not overnight, not without effort, but with...`,
+    content: `Good evening everyone. I'm [Your name], and I have the honour of speaking tonight as someone who has watched two families become one, not overnight, not without effort, but with more love and patience than I thought possible.
+
+When [Bride's name] and [Groom's name] first got together, it wasn't just about two people falling in love. It was about kids adjusting to new routines, about navigating school pickups and bedtime stories and figuring out who sits where at the dinner table. It was complicated. Anyone who says blending a family is simple has never actually done it.
+
+But here's what I watched happen. I watched [Groom's name] learn the names of every stuffed animal in [Bride's name]'s daughter's collection. All forty-seven of them. I watched [Bride's name] sit through three football matches in the rain because [Groom's name]'s son needed someone cheering from the sideline. I watched two sets of children go from awkward silence at the table to arguing about whose turn it was to pick the film, which, if you know kids, is actually a sign of real progress.
+
+This family wasn't built on a single moment. It was built on hundreds of small ones. Packed lunches made with care, bedtime stories read in funny voices, Saturday mornings where everyone piled onto the sofa and nobody had anywhere else to be.
+
+[Bride's name] and [Groom's name], what you've created together isn't just a marriage. It's a home. A real one, messy and loud and full of love.
+
+To the entire family, the big, beautiful, blended lot of you - may your home always be full of laughter, your table always have enough chairs, and your love always have room to grow. Congratulations.`,
+    authorName: 'Sarah Whitmore',
+    weddingRole: 'Family Member',
+    tags: ['heartfelt', 'blended family', 'stepfamily'],
+  },
+
+  {
+    slug: 'blended-family-sibling-perspective-speech-2',
+    title: `More family, more love`,
+    category: 'blended-family-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 2.0,
+    wordCount: 255,
+    excerpt: `Hi everyone. I'm [Your name], and I want to talk about something that doesn't always get said at weddings. Blending a family is hard. It's really hard. There are awkward dinners...`,
+    content: `Hi everyone. I'm [Your name], and I want to talk about something that doesn't always get said at weddings. Blending a family is hard. It's really hard. There are awkward dinners, competing loyalties, and moments where nobody knows quite what to call each other. I know, because I've lived it.
+
+When [Bride's name] came into our lives, I wasn't sure what to expect. I was protective of my dad, protective of our routine, and honestly a bit scared that things would change in ways I couldn't control. And they did change. But not in the way I feared.
+
+[Bride's name] never tried to replace anyone. She didn't come in and rearrange everything. She just showed up, consistently, with kindness. She asked about my day and actually listened to the answer. She learned that I hate mushrooms and quietly started making a separate portion. She remembered things that mattered to me, small things that most people forget.
+
+That's how trust is built. Not with grand gestures, but with a thousand tiny ones.
+
+And Dad, I've watched you become lighter since [Bride's name] came along. You laugh more. You worry less. You've stopped pretending to be fine and actually started being fine. That's a gift, and I'm grateful for it.
+
+To [Bride's name] and Dad - thank you for showing me that families aren't defined by how they start, but by how they choose to love each other every day. This family is bigger and better because of you both.
+
+Raise your glasses, everyone. To love, to family, and to second helpings at the dinner table. Cheers!`,
+    authorName: 'Jamie Hartley',
+    weddingRole: 'Family Member',
+    tags: ['balanced', 'blended family', 'stepfamily', 'personal'],
+  },
+
+  {
+    slug: 'blended-family-joyful-chaos-speech-3',
+    title: `Beautiful chaos and a whole lot of love`,
+    category: 'blended-family-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.1,
+    wordCount: 270,
+    excerpt: `Good evening everyone. I'm [Your name], and if you're wondering who I am in this wonderfully complicated family tree, honestly, so am I sometimes. What I can tell you is that I've...`,
+    content: `Good evening everyone. I'm [Your name], and if you're wondering who I am in this wonderfully complicated family tree, honestly, so am I sometimes. What I can tell you is that I've had a front-row seat to the beautiful chaos that is this family.
+
+Let me give you a snapshot of a typical Sunday at [Bride's name] and [Groom's name]'s house. There are at least four different arguments happening about what to watch on telly. Someone's hamster has escaped again. The dog is eating something it shouldn't. [Groom's name] is trying to cook a roast while mediating a dispute about whose turn it is on the PlayStation. [Bride's name] is on the phone pretending she can't hear any of it. It is, in a word, magnificent.
+
+Because underneath all that noise is something really special. Every person in that house knows they belong there. Every child knows they are loved. Not because someone shares their surname, but because someone chose them.
+
+I remember the early days, when everyone was being painfully polite. The kids ate vegetables without complaining. Nobody argued over the bathroom. It was unnatural. But slowly, beautifully, the walls came down. The first real argument over a board game was actually a milestone. It meant everyone felt safe enough to be themselves.
+
+[Bride's name] and [Groom's name], you didn't just build a relationship. You built a family from scratch, with patience, humour, and an unreasonable number of trips to the supermarket.
+
+To the whole wonderful, loud, complicated family - may the hamster always be found, and may the love never run out. To [Bride's name] and [Groom's name]!`,
+    authorName: 'Liz Prendergast',
+    weddingRole: 'Family Member',
+    tags: ['funny', 'blended family', 'chaos', 'warmth'],
+  },
+
+  // ── Destination Wedding Speech (3) ──────────────────────────
+
+  {
+    slug: 'destination-wedding-tropical-speech-1',
+    title: `From airport chaos to paradise perfection`,
+    category: 'destination-wedding-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.2,
+    wordCount: 289,
+    excerpt: `Good evening everyone, and can I just say, if I'd known all it took to get a holiday in the sun was [Groom's name] getting married, I'd have set him up with someone years ago...`,
+    content: `Good evening everyone, and can I just say, if I'd known all it took to get a holiday in the sun was [Groom's name] getting married, I'd have set him up with someone years ago. I'm [Your name], the best man, and I have to admit, when [Groom's name] told me they were getting married abroad, my first thought was, "Open bar in the sunshine? I'm in."
+
+Getting here was its own adventure. [Groom's name]'s uncle fell asleep on the transfer bus and ended up at the wrong hotel. [Bride's name]'s mum packed enough sunscreen for the entire resort. And I personally managed to lose my luggage, my room key, and my dignity at the pool bar - all within the first three hours.
+
+But here's the thing about a destination wedding. It strips everything back to what matters. There's no fussing about table centrepieces or car park logistics. It's just the people who love you most, in a beautiful place, celebrating something real.
+
+[Groom's name], you've been my best mate for fifteen years. I've seen you at your best and your worst, usually at the same party. But I've never seen you the way you are with [Bride's name]. She grounds you. She challenges you. And she somehow convinced you to wear linen trousers, which I genuinely didn't think was possible.
+
+[Bride's name], you picked a stunning setting for a stunning day. But nothing in this place is as beautiful as the way [Groom's name] looked at you when you walked down that aisle.
+
+So let's raise our slightly sunburnt hands and our hopefully full glasses. To [Bride's name] and [Groom's name] - the best reason I've ever had to apply for a new passport. Cheers!`,
+    authorName: 'Chris Alderton',
+    weddingRole: 'Best Man',
+    tags: ['funny', 'destination wedding', 'tropical'],
+  },
+
+  {
+    slug: 'destination-wedding-heartfelt-europe-speech-2',
+    title: `Love worth travelling for`,
+    category: 'destination-wedding-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.0,
+    wordCount: 261,
+    excerpt: `Good evening. I'm [Your name], and I want to start by saying that standing here, in this incredible place, surrounded by the people who matter most to [Bride's name] and [Groom's...`,
+    content: `Good evening. I'm [Your name], and I want to start by saying that standing here, in this incredible place, surrounded by the people who matter most to [Bride's name] and [Groom's name] - this is one of those moments I know I'll remember for the rest of my life.
+
+Everyone in this room made a choice to be here. They booked flights, arranged time off work, packed their bags, and crossed borders to be part of this day. That tells you something about these two. People travel for them because they would travel for anyone in this room without a second thought.
+
+I've had the honour of being [Groom's name]'s best man, and I don't take that lightly. He's the person who flew out to see me when I was living abroad and feeling lost. He's the person who stays on the phone for an hour even when there's nothing left to say, because he knows sometimes you just need someone there.
+
+[Bride's name], from the moment you entered his life, I watched something shift. He became more himself, if that makes sense. More confident, more open, more willing to dream big. This wedding, in this place, is proof of that. Two years ago, he never would have planned something this bold. You gave him the courage.
+
+Look around you. The people, the setting, the love in this room - this is what happens when two good people find each other and aren't afraid to build something beautiful.
+
+To [Bride's name] and [Groom's name] - may your marriage be as breathtaking as the view, and may your love always feel worth the journey. Congratulations.`,
+    authorName: 'Tom Beaumont',
+    weddingRole: 'Best Man',
+    tags: ['heartfelt', 'destination wedding', 'europe'],
+  },
+
+  {
+    slug: 'destination-wedding-balanced-speech-3',
+    title: `Worth every mile and every minute`,
+    category: 'destination-wedding-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 2.1,
+    wordCount: 277,
+    excerpt: `Hello everyone. I'm [Your name], the best man, and I want to acknowledge something. Every single person here has gone above and beyond to be part of today. Some of you flew...`,
+    content: `Hello everyone. I'm [Your name], the best man, and I want to acknowledge something. Every single person here has gone above and beyond to be part of today. Some of you flew halfway around the world. Some of you navigated airports in languages you don't speak. At least one of you - and I won't name names - forgot their passport and had to turn around on the motorway. You know who you are.
+
+But that's the power of [Bride's name] and [Groom's name]. They're the kind of couple you'd cross oceans for. And clearly, several of you did.
+
+I've known [Groom's name] for over a decade, and I've never known him to do anything small. When he commits, he goes all in. That's true of his friendships, his career, and now his marriage. Choosing to get married in this beautiful location wasn't about showing off. It was about creating a moment that matches how big this love feels to both of them.
+
+[Bride's name], I want to thank you personally for making my best friend so annoyingly happy. Before you, he was already a good man. With you, he's the best version of himself. You push each other, support each other, and from what I've seen, also ruthlessly compete against each other at any available board game.
+
+And [Groom's name], you've found someone who isn't just willing to go on this adventure with you, she's the reason the adventure is worth having.
+
+So let's raise our glasses. To [Bride's name] and [Groom's name], to this incredible setting, and to the fact that love is always, always worth the trip. May your journey together be the greatest one yet. Cheers!`,
+    authorName: 'Ryan Gallagher',
+    weddingRole: 'Best Man',
+    tags: ['balanced', 'destination wedding', 'travel'],
+  },
+// ── Interfaith Wedding Speech (Family Member) ──────────────
+
+  {
+    slug: 'interfaith-family-blessing-1',
+    title: `A Family's Blessing Across Two Faiths`,
+    category: 'interfaith-wedding-speech',
+    tone: 'heartfelt',
+    durationMinutes: 2.1,
+    wordCount: 274,
+    excerpt: `Good evening, everyone. For those who don't know me, I'm [Your name], [Bride's name]'s aunt. When [Bride's name] first told us she was marrying [Groom's name], I'll be honest...`,
+    content: `Good evening, everyone. For those who don't know me, I'm [Your name], [Bride's name]'s aunt. When [Bride's name] first told us she was marrying [Groom's name], I'll be honest, I had questions. Not about him as a person, because anyone who spends five minutes with [Groom's name] can see he's kind, thoughtful, and completely devoted to my niece. My questions were about how two families from different traditions would come together.\n\nI got my answer at their first joint holiday dinner. [Groom's name]'s mother taught my sister how to make her grandmother's recipe from scratch, and my sister shared our family's traditions right back. By the end of the night, we were all around one table, laughing about how both families share the exact same philosophy - that food is love.\n\nWhat I've learned from watching these two is that faith isn't a wall. It's a window. [Bride's name] and [Groom's name] haven't asked each other to shrink. They've asked each other to grow. They light candles from both traditions. They honour both calendars. They've built something that doesn't erase where they come from but celebrates where they're going together.\n\nToday's ceremony was proof of that. Elements from both traditions, woven together so beautifully that it felt like they were always meant to go side by side.\n\nSo from one very proud aunt, I want to say this: [Bride's name] and [Groom's name], you are not just joining two lives. You are joining two families, two histories, and two beautiful ways of seeing the world. And the world is better for it.\n\nPlease raise your glasses to [Bride's name] and [Groom's name]. To love without borders. Cheers.`,
+    authorName: 'Patricia Novak',
+    weddingRole: 'Family Member',
+    tags: ['heartfelt', 'interfaith', 'family'],
+  },
+
+  {
+    slug: 'interfaith-uncle-funny-2',
+    title: `Two Faiths, One Confused Uncle`,
+    category: 'interfaith-wedding-speech',
+    tone: 'funny',
+    durationMinutes: 1.8,
+    wordCount: 237,
+    excerpt: `Hello, everyone. I'm [Your name], [Groom's name]'s uncle, and I have to say, planning for this wedding has been the most educational experience of my life. I now know more about...`,
+    content: `Hello, everyone. I'm [Your name], [Groom's name]'s uncle, and I have to say, planning for this wedding has been the most educational experience of my life. I now know more about two different religious calendars than I ever expected to. At one point I had three apps on my phone just to figure out which dates worked for everyone.\n\nBut here's what I really want to talk about. I watched [Groom's name] learn [Bride's name]'s prayers. Not because anyone made him, but because he wanted to. He practised the pronunciation in the car for weeks. He got it wrong about forty times, and [Bride's name] just kept patiently correcting him, which honestly is the most married thing I've ever seen.\n\nAnd [Bride's name], you showed up to our family reunion last summer already knowing everyone's name, their kids' names, and which cousin to avoid talking to about politics. That is advanced-level dedication.\n\nThe truth is, these two don't just tolerate each other's differences. They're genuinely curious about them. And that curiosity has turned two very different families into one very loud, very well-fed, very happy group of people.\n\nSo whether you're here from [Bride's name]'s side, [Groom's name]'s side, or like me, you've just been enjoying the open bar from both sides, let's raise a glass. To [Bride's name] and [Groom's name], who prove that love is the one language everybody speaks. Cheers!`,
+    authorName: 'Martin Schreiber',
+    weddingRole: 'Family Member',
+    tags: ['funny', 'interfaith', 'family'],
+  },
+
+  {
+    slug: 'interfaith-grandmother-balanced-3',
+    title: `A Grandmother's Perspective on Love Across Traditions`,
+    category: 'interfaith-wedding-speech',
+    tone: 'balanced',
+    durationMinutes: 1.7,
+    wordCount: 221,
+    excerpt: `Good evening, dear ones. I'm [Your name], [Bride's name]'s grandmother. I won't pretend I wasn't surprised when [Bride's name] first brought [Groom's name] home. Different trad...`,
+    content: `Good evening, dear ones. I'm [Your name], [Bride's name]'s grandmother. I won't pretend I wasn't surprised when [Bride's name] first brought [Groom's name] home. Different traditions, different backgrounds, and honestly, I wasn't sure how it would all work. But then [Groom's name] sat down at my kitchen table, complimented my cooking, and asked for seconds. That boy had me sold.\n\nOver the years I've watched them navigate things that might trip up other couples. Whose family do we visit for which holiday? How do we explain our traditions to each other's relatives? And every single time, they figured it out with patience and a little bit of humour.\n\nLast year, [Groom's name] helped me prepare for one of our family celebrations. He peeled potatoes, set the table, and asked me to tell him the story behind every dish. No one had asked me that in years, and it meant more than he probably knows.\n\nAt my age, you learn that love isn't about two people being the same. It's about two people choosing each other, again and again, even when it would be easier not to. [Bride's name] and [Groom's name] choose each other every single day.\n\nSo from a grandmother who's seen a lot of love in her time, this is the real thing. Please join me in toasting these two extraordinary people. To [Bride's name] and [Groom's name].`,
+    authorName: 'Eleanor Whitfield',
+    weddingRole: 'Family Member',
+    tags: ['balanced', 'interfaith', 'grandmother'],
+  },
+
+  // ── LGBTQ+ Wedding Speech (Best Friend) ────────────────────
+
+  {
+    slug: 'lgbtq-best-friend-heartfelt-1',
+    title: `The Love Story I Got to Watch Unfold`,
+    category: 'lgbtq-wedding-speech',
+    tone: 'heartfelt',
+    durationMinutes: 2.0,
+    wordCount: 259,
+    excerpt: `Hi, everyone. I'm [Your name], and I've been [Partner 1's name]'s best friend since we were fourteen and bonded over our equally terrible taste in early 2000s music. I'm not goin...`,
+    content: `Hi, everyone. I'm [Your name], and I've been [Partner 1's name]'s best friend since we were fourteen and bonded over our equally terrible taste in early 2000s music. I'm not going to stand up here and pretend I'm not going to cry, because I absolutely am.\n\nI was there the night [Partner 1's name] came home from that first date with [Partner 2's name] and called me from the car park because they were too excited to drive. I listened to a twenty-minute recap of a conversation about, of all things, breakfast cereals. And I thought, okay, this one's different.\n\nI was right. [Partner 2's name] didn't just become [Partner 1's name]'s partner. They became family to all of us. They remembered my mum's birthday. They drove two hours in the rain when my car broke down. They showed up, consistently, in the quiet ways that actually matter.\n\nAnd [Partner 1's name], you changed too. Not in a bad way. You became calmer. Happier. More yourself, if that makes sense. Like you'd been wearing shoes a half size too small your whole life and finally found the ones that fit.\n\nI know the road to this day wasn't always easy. There were conversations that shouldn't have been necessary and doors that should have been open. But you two built this life anyway, brick by brick, with so much grace.\n\nSo here's to [Partner 1's name] and [Partner 2's name]. You are proof that love, real love, is worth every single step it takes to get here. I love you both. Cheers.`,
+    authorName: 'Danielle Moreau',
+    weddingRole: 'Best Friend',
+    tags: ['heartfelt', 'lgbtq', 'best friend'],
+  },
+
+  {
+    slug: 'lgbtq-best-friend-funny-2',
+    title: `Finally, Someone Else Can Deal With Them`,
+    category: 'lgbtq-wedding-speech',
+    tone: 'funny',
+    durationMinutes: 1.8,
+    wordCount: 230,
+    excerpt: `Good evening! I'm [Your name], [Partner 1's name]'s best friend, unofficial therapist, and until today, their emergency contact. [Partner 2's name], congratulations - that respon...`,
+    content: `Good evening! I'm [Your name], [Partner 1's name]'s best friend, unofficial therapist, and until today, their emergency contact. [Partner 2's name], congratulations - that responsibility is officially yours now.\n\nI want to take you all back to the night these two met. [Partner 1's name] texted me a photo of [Partner 2's name] with the caption "I think I'm in trouble." And I texted back, "You absolutely are." I've never been more right about anything.\n\nWithin two weeks, [Partner 1's name] had reorganised their entire Spotify around [Partner 2's name]'s music taste. Within a month, they were finishing each other's sentences. Within three months, they adopted a cat together, which as we all know, is the real commitment.\n\nNow, [Partner 2's name], I need to give you the best friend briefing. [Partner 1's name] cannot be trusted to remember where they left their keys, their wallet, or their phone. They will suggest camping at least once a year. Do not agree. They claim they can cook, and technically that's true, but only if you count toast.\n\nBut here's the thing - [Partner 1's name] will also be the first person at your door when things go wrong, the one who makes you laugh when you don't want to, and the most fiercely loyal partner you could ask for. I should know. I've had the job for fifteen years.\n\nTo [Partner 1's name] and [Partner 2's name] - the best couple I know. Cheers!`,
+    authorName: 'Rowan Sinclair',
+    weddingRole: 'Best Friend',
+    tags: ['funny', 'lgbtq', 'best friend'],
+  },
+
+  {
+    slug: 'lgbtq-best-friend-balanced-3',
+    title: `Two Hearts, One Beautiful Future`,
+    category: 'lgbtq-wedding-speech',
+    tone: 'balanced',
+    durationMinutes: 1.9,
+    wordCount: 248,
+    excerpt: `Hello, everyone. I'm [Your name], and I've known [Partner 1's name] since university, back when they thought cargo shorts were a personality trait. We've come a long way since th...`,
+    content: `Hello, everyone. I'm [Your name], and I've known [Partner 1's name] since university, back when they thought cargo shorts were a personality trait. We've come a long way since then.\n\nI remember the first time [Partner 1's name] mentioned [Partner 2's name]. It was subtle, just a name dropped into conversation a little too casually. I knew immediately. When you've been someone's best friend long enough, you learn to read between the lines.\n\nWhat I didn't expect was how quickly [Partner 2's name] became essential. Not just to [Partner 1's name], but to our whole group. Game nights improved because [Partner 2's name] actually reads the rules. Road trips got better because someone finally made a proper playlist. And honestly, our group chat is funnier now.\n\nBut beyond the laughs, I've watched these two do the hard stuff too. Moving cities together. Supporting each other through job changes and family stuff. Having the tough conversations that most people avoid. They don't just love each other when it's easy. They show up for each other when it's really not.\n\nThat's what today is about. It's not just a party, although it is a very good party. It's a celebration of two people who've already proven what they are to each other, making it official in front of everyone who loves them.\n\n[Partner 1's name] and [Partner 2's name], you make each other better, braver, and happier. And that's all any of us could want for the people we love. To the happy couple!`,
+    authorName: 'Jamie Okonkwo',
+    weddingRole: 'Best Friend',
+    tags: ['balanced', 'lgbtq', 'best friend'],
+  },
+
+  // ── Elopement Reception Speech (Friend) ────────────────────
+
+  {
+    slug: 'elopement-friend-funny-1',
+    title: `Thanks for the Invite... Oh Wait`,
+    category: 'elopement-reception-speech',
+    tone: 'funny',
+    durationMinutes: 1.7,
+    wordCount: 226,
+    excerpt: `Well, well, well. I'm [Your name], and like the rest of you, I found out [Bride's name] and [Groom's name] got married via a text message. A text message, people. Not even a phon...`,
+    content: `Well, well, well. I'm [Your name], and like the rest of you, I found out [Bride's name] and [Groom's name] got married via a text message. A text message, people. Not even a phone call. I was in the cereal aisle at the supermarket when I got the news. I dropped a box of cornflakes.\n\nNow, I could stand up here and pretend I wasn't a little offended. But honestly? This is the most [Bride's name] and [Groom's name] thing they've ever done. These two have always done things their own way, from their first date at a launderette to the time they booked a holiday without telling anyone and we all thought they'd been abducted.\n\nSo they eloped. Good for them. They skipped the seating chart drama, the DJ arguments, and the months of debating napkin colours. Meanwhile, the rest of us are here tonight, well-fed and well-watered, with absolutely zero responsibilities. I'd say we got the better deal.\n\nBut in all seriousness, [Bride's name] and [Groom's name], I'm happy you did it your way. You two have never needed an audience to prove your love. You just needed each other, and apparently, a courthouse and two witnesses you found in the hallway.\n\nSo let's raise a glass to the couple who got married without us and then threw us a party anyway. That's love and good manners. Cheers!`,
+    authorName: 'Lucy Hargrove',
+    weddingRole: 'Friend',
+    tags: ['funny', 'elopement', 'friend'],
+  },
+
+  {
+    slug: 'elopement-friend-heartfelt-2',
+    title: `They Didn't Need Us There, But We're Glad to Be Here`,
+    category: 'elopement-reception-speech',
+    tone: 'heartfelt',
+    durationMinutes: 1.8,
+    wordCount: 234,
+    excerpt: `Hi, everyone. I'm [Your name], and I've been friends with [Bride's name] for over a decade now. When she told me they'd eloped, my first thought wasn't disappointment. It was, of...`,
+    content: `Hi, everyone. I'm [Your name], and I've been friends with [Bride's name] for over a decade now. When she told me they'd eloped, my first thought wasn't disappointment. It was, of course they did. Because that's who they are.\n\n[Bride's name] and [Groom's name] have never been the kind of couple who need a spotlight. They're the couple who leave parties early to go walk the dog together. They're the ones who'd rather cook dinner at home than go somewhere fancy. Their love has always been quiet and steady and completely sure of itself.\n\nSo the fact that they stood in front of each other, just the two of them, and made those promises? It makes perfect sense. They didn't need a crowd to mean it. They just needed each other.\n\nBut here's the beautiful part - they still wanted to celebrate with us. Not because they had to, but because we matter to them and they matter to us. This party tonight is their way of saying, we did the important part, now let's have the fun part.\n\nI've watched [Bride's name] grow into the happiest, most grounded version of herself since [Groom's name] came into her life. And [Groom's name], you should know, she talks about you like you hung the moon.\n\nSo here's to the couple who proved you don't need a big wedding to have a big love. [Bride's name] and [Groom's name], we're so happy you're happy. To the newlyweds.`,
+    authorName: 'Sarah Patel',
+    weddingRole: 'Friend',
+    tags: ['heartfelt', 'elopement', 'friend'],
+  },
+
+  {
+    slug: 'elopement-friend-balanced-3',
+    title: `Celebrating the Couple Who Skipped the Queue`,
+    category: 'elopement-reception-speech',
+    tone: 'balanced',
+    durationMinutes: 1.6,
+    wordCount: 208,
+    excerpt: `Good evening. I'm [Your name], and I've been friends with [Groom's name] since we were teenagers getting into trouble at school. So when he told me he'd gone and got married with...`,
+    content: `Good evening. I'm [Your name], and I've been friends with [Groom's name] since we were teenagers getting into trouble at school. So when he told me he'd gone and got married without me, I did what any best mate would do. I sent a passive-aggressive congratulations text, followed by three crying-laughing emojis.\n\nBut the truth is, once the initial shock wore off, I couldn't think of a more fitting way for these two to start their marriage. [Groom's name] has never been one for fuss. He proposed to [Bride's name] on a Tuesday morning over scrambled eggs. That's just who he is.\n\nAnd [Bride's name] is the same. She once told me that the best moments in life are the ones that happen quietly. I think she's right, and I think their elopement proves it.\n\nWhat I love about tonight is that we get all the good bits of a wedding - the food, the drinks, the speeches, the dancing - without any of the stress. Nobody's worrying about timelines or table plans. We're just here to celebrate two people who are already married and already happy.\n\n[Bride's name] and [Groom's name], you did it your way, and it was perfect. Now we get to do it our way, which involves a lot more champagne. To the happy couple!`,
+    authorName: 'Connor Walsh',
+    weddingRole: 'Friend',
+    tags: ['balanced', 'elopement', 'friend'],
+  },
+
+  // ── Postponed Wedding Speech (Friend) ──────────────────────
+
+  {
+    slug: 'postponed-wedding-friend-funny-1',
+    title: `The Wedding That Took Three Calendars`,
+    category: 'covid-postponed-wedding-speech',
+    tone: 'funny',
+    durationMinutes: 1.8,
+    wordCount: 238,
+    excerpt: `Good evening, everyone! I'm [Your name], and if you're wondering why I look slightly bewildered to be here, it's because I've had this speech saved in three different versions on...`,
+    content: `Good evening, everyone! I'm [Your name], and if you're wondering why I look slightly bewildered to be here, it's because I've had this speech saved in three different versions on my phone for the last two years. Each time the date changed, I tweaked it. The first version started with a joke about 2020. The second version started with a joke about 2021. By the third, I just wrote "Are we actually doing this?" at the top.\n\nBut here we are. We're actually doing this. And can I just say, [Bride's name] and [Groom's name], your patience has been genuinely heroic. Most couples plan a wedding once. You planned one three times. You deserve a medal, or at the very least, an extra week of honeymoon.\n\nThe thing about waiting, though, is that it proved something we already knew. These two were never in a rush because the wedding was never the point. The marriage was the point. They've basically been married since the first lockdown anyway, when [Groom's name] discovered that [Bride's name] rearranges the dishwasher after he loads it, and he chose to stay.\n\nSo tonight, finally, gloriously, we get to raise a glass to these two incredible people. [Bride's name] and [Groom's name], thank you for waiting for all of us to be here. It was absolutely, completely, one hundred percent worth the wait. To the couple who refused to give up. Cheers!`,
+    authorName: 'Olivia Brennan',
+    weddingRole: 'Friend',
+    tags: ['funny', 'postponed wedding', 'friend'],
+  },
+
+  {
+    slug: 'postponed-wedding-friend-heartfelt-2',
+    title: `Worth Every Single Day of Waiting`,
+    category: 'covid-postponed-wedding-speech',
+    tone: 'heartfelt',
+    durationMinutes: 2.0,
+    wordCount: 256,
+    excerpt: `Hi, everyone. I'm [Your name], a close friend of [Bride's name] and [Groom's name]. I want to talk about what the last couple of years taught us about these two, because honestly...`,
+    content: `Hi, everyone. I'm [Your name], a close friend of [Bride's name] and [Groom's name]. I want to talk about what the last couple of years taught us about these two, because honestly, it taught me a lot.\n\nWhen the wedding was first postponed, [Bride's name] called me, and she was so calm it was almost unsettling. She just said, "It'll happen when it's supposed to happen." And [Groom's name] was the same. No drama. No bitterness. Just quiet certainty that they'd get here eventually.\n\nMeanwhile, the rest of us were losing it. We were refreshing news sites, arguing with relatives on video calls, and forgetting what day it was. But [Bride's name] and [Groom's name] were just, steady. They cooked together. They went for walks. They turned a spare room into a home office and then painted it three times because they couldn't agree on the colour.\n\nThey didn't need a wedding to prove they were committed. They proved it every single ordinary day. The wedding was always just the celebration. The love was already there.\n\nAnd now, finally, we're all in the same room, dressed up, together. Look around. Every person here chose to be here today because [Bride's name] and [Groom's name] mean something to them. That's not a small thing.\n\nSo to the couple who waited with grace, who loved without pause, and who threw a party that was absolutely worth every rescheduled date - [Bride's name] and [Groom's name], we love you. To the newlyweds.`,
+    authorName: 'David Kimura',
+    weddingRole: 'Friend',
+    tags: ['heartfelt', 'postponed wedding', 'friend'],
+  },
+
+  {
+    slug: 'postponed-wedding-friend-balanced-3',
+    title: `Better Late Than Never, and Better Than Ever`,
+    category: 'covid-postponed-wedding-speech',
+    tone: 'balanced',
+    durationMinutes: 1.6,
+    wordCount: 213,
+    excerpt: `Hello, everyone. I'm [Your name]. I've been friends with [Groom's name] since school, and I've been looking forward to giving this speech for what feels like approximately seven y...`,
+    content: `Hello, everyone. I'm [Your name]. I've been friends with [Groom's name] since school, and I've been looking forward to giving this speech for what feels like approximately seven years, though I'm told it was closer to two.\n\nI had a whole bit planned about the postponement, but honestly, I think we've all heard enough about that. What I'd rather talk about is what happened in the gap. Because while the rest of us were going slightly mad, [Groom's name] and [Bride's name] were building a life.\n\nThey moved house. They adopted a dog called Biscuit, who is objectively the best dog in the world. They started running together in the mornings, which is frankly suspicious behaviour if you ask me, but they seemed to enjoy it.\n\nThe point is, the delay didn't stall them. If anything, it made them more solid. By the time the new date was set, they weren't just ready for a wedding. They were ready for a marriage, and there's a difference.\n\nSo tonight, I want to say two things. First, [Bride's name] and [Groom's name], I'm incredibly proud to call you my friends. And second, this party was worth the wait, but not half as much as you two were worth waiting for.\n\nPlease raise your glasses. To [Bride's name] and [Groom's name]. Finally. Cheers.`,
+    authorName: 'Nathan Bridges',
+    weddingRole: 'Friend',
+    tags: ['balanced', 'postponed wedding', 'friend'],
+  },
+
+  // ── Surprise Wedding Speech (Guest) ────────────────────────
+
+  {
+    slug: 'surprise-wedding-guest-funny-1',
+    title: `I Was Told This Was a Birthday Party`,
+    category: 'surprise-wedding-speech',
+    tone: 'funny',
+    durationMinutes: 1.5,
+    wordCount: 197,
+    excerpt: `Okay, I need to address the elephant in the room. I'm [Your name], and roughly forty-five minutes ago, I thought I was at a garden party. I'm wearing sandals, people. Sandals. If...`,
+    content: `Okay, I need to address the elephant in the room. I'm [Your name], and roughly forty-five minutes ago, I thought I was at a garden party. I'm wearing sandals, people. Sandals. If I'd known there was going to be a wedding, I would have at least ironed my shirt.\n\nBut you know what? This is peak [Bride's name] and [Groom's name]. They've always been full of surprises. Remember the time [Groom's name] surprised [Bride's name] with a kitten on Valentine's Day? Or when [Bride's name] surprised [Groom's name] with that road trip that turned out to be a three-day adventure across the countryside?\n\nSo a surprise wedding? Honestly, I should have seen it coming. The signs were all there. The suspiciously nice catering. The flowers that seemed a bit much for a casual get-together. The fact that [Bride's name]'s mum was crying before anyone even said anything.\n\nBut despite the shock, despite my sandals, and despite the fact that I have no prepared remarks whatsoever, I can tell you this with complete certainty - these two are made for each other. Always have been.\n\nSo here's to [Bride's name] and [Groom's name], the couple who literally surprised us into celebrating their love. To the sneakiest newlyweds I know!`,
+    authorName: 'Greg Holloway',
+    weddingRole: 'Guest',
+    tags: ['funny', 'surprise wedding', 'guest'],
+  },
+
+  {
+    slug: 'surprise-wedding-guest-heartfelt-2',
+    title: `A Beautiful Surprise We'll Never Forget`,
+    category: 'surprise-wedding-speech',
+    tone: 'heartfelt',
+    durationMinutes: 1.6,
+    wordCount: 206,
+    excerpt: `Hello, everyone. I'm [Your name], and like all of you, I had absolutely no idea what was about to happen tonight. I'm still a little bit in shock, but the good kind, the kind whe...`,
+    content: `Hello, everyone. I'm [Your name], and like all of you, I had absolutely no idea what was about to happen tonight. I'm still a little bit in shock, but the good kind, the kind where your heart is full and you can't stop smiling.\n\n[Bride's name] and [Groom's name] have always been private about the things that matter most to them. They don't post every milestone online. They don't need the world to validate what they have. So the fact that they chose to share this moment with all of us, in this way, feels incredibly special.\n\nI've known [Bride's name] for years, and I've watched her become someone who knows exactly what she wants and isn't afraid to go after it. [Groom's name] is a huge part of that confidence. They lift each other up in ways that are obvious to everyone around them.\n\nThere's something poetic about a surprise wedding. No months of buildup. No expectations. Just two people deciding that today, surrounded by the people they love, is the right day. It's pure. It's honest. It's them.\n\n[Bride's name] and [Groom's name], thank you for trusting us with this moment. It's one I'll carry with me for a very long time. To love, to surprises, and to you two. Cheers.`,
+    authorName: 'Helen Castillo',
+    weddingRole: 'Guest',
+    tags: ['heartfelt', 'surprise wedding', 'guest'],
+  },
+
+  {
+    slug: 'surprise-wedding-guest-balanced-3',
+    title: `The Best Kind of Plot Twist`,
+    category: 'surprise-wedding-speech',
+    tone: 'balanced',
+    durationMinutes: 1.5,
+    wordCount: 192,
+    excerpt: `So. I'm [Your name]. And I genuinely walked in tonight expecting a barbecue. [Bride's name] told me to wear something nice, and I thought, right, maybe there's a dress code for t...`,
+    content: `So. I'm [Your name]. And I genuinely walked in tonight expecting a barbecue. [Bride's name] told me to wear something nice, and I thought, right, maybe there's a dress code for the burgers. Turns out, the dress code was for a wedding. Their wedding.\n\nI have to hand it to them, the secret-keeping was flawless. Not a single hint. [Groom's name], I sat next to you last week at dinner and you mentioned nothing. Nothing. You talked about lawnmowers for twenty minutes, and the whole time you were planning this. Impressive.\n\nBut behind the surprise, there's something really lovely happening here. [Bride's name] and [Groom's name] didn't want a wedding that was about logistics. They wanted one that was about people. Look around this room, every single person here was chosen because they matter to this couple.\n\nThat's the kind of intention these two bring to everything. Their relationship, their friendships, their lives. They don't do things halfway, even when they do them in secret.\n\nSo from one very surprised but very happy guest, congratulations. [Bride's name] and [Groom's name], this was the best plot twist of the year. To the newlyweds!`,
+    authorName: 'Amy Fielding',
+    weddingRole: 'Guest',
+    tags: ['balanced', 'surprise wedding', 'guest'],
+  },
+
+  // ── Vow Renewal Speech (Family Member) ─────────────────────
+
+  {
+    slug: 'vow-renewal-family-heartfelt-1',
+    title: `Twenty-Five Years and Still Going Strong`,
+    category: 'renewal-of-vows-speech',
+    tone: 'heartfelt',
+    durationMinutes: 2.0,
+    wordCount: 264,
+    excerpt: `Good evening, everyone. I'm [Your name], and I'm the eldest child of the two incredible people we're here to celebrate tonight. Growing up, I didn't always appreciate what I was s...`,
+    content: `Good evening, everyone. I'm [Your name], and I'm the eldest child of the two incredible people we're here to celebrate tonight. Growing up, I didn't always appreciate what I was seeing. When you're a kid, your parents' marriage is just background noise. It's the wallpaper of your life.\n\nBut as I got older, I started to notice things. The way Dad still opens the car door for Mum. The way Mum always makes Dad's tea exactly the way he likes it without being asked. The way they argue about directions in the car and then laugh about it five minutes later.\n\nTwenty-five years. That's nine thousand one hundred and twenty-five days of choosing each other. Of morning routines and late-night conversations. Of holding each other up when things got hard, and there were hard times, because that's life.\n\nBut here's what I want to say to both of you. You didn't just stay married for twenty-five years. You stayed in love. And there's a difference. I've seen couples who endure. You two don't endure. You enjoy each other. You make each other laugh. You're still each other's favourite person.\n\nWatching you renew your vows today reminded me of something. Marriage isn't a single promise made on one day. It's a promise renewed in a thousand tiny ways, every day, for years and years.\n\nMum and Dad, you've given all of us the greatest gift - a living example of what love looks like when it's real. Thank you for that. To twenty-five more years and beyond. We love you.`,
+    authorName: 'Rachel Thornton',
+    weddingRole: 'Family Member',
+    tags: ['heartfelt', 'vow renewal', 'family'],
+  },
+
+  {
+    slug: 'vow-renewal-family-funny-2',
+    title: `How Are You Two Still Putting Up With Each Other?`,
+    category: 'renewal-of-vows-speech',
+    tone: 'funny',
+    durationMinutes: 1.8,
+    wordCount: 233,
+    excerpt: `Hello, everyone. I'm [Your name], the youngest of the family, and when my parents told me they were renewing their vows, my first reaction was, "Why? Did the first ones expire?" T...`,
+    content: `Hello, everyone. I'm [Your name], the youngest of the family, and when my parents told me they were renewing their vows, my first reaction was, "Why? Did the first ones expire?" Turns out, no, they just wanted an excuse to throw another party. And honestly, fair enough.\n\nNow, for those of you who know my parents well, you know they are not a perfect couple. Dad still can't remember their anniversary without his phone reminding him. Mum has a habit of "tidying" Dad's things into locations so creative that we've considered filing missing person reports for his reading glasses.\n\nBut somehow, miraculously, it works. It's been thirty years and they still bicker about the thermostat like it's an Olympic sport. Dad turns it down. Mum turns it up. It's been going on since 1996 and neither of them has conceded a single degree.\n\nThe truth is, though, underneath all the bickering and the lost glasses and the thermostat wars, there's something rock solid. These two genuinely like each other. And after thirty years, that's not nothing. That's everything.\n\nI once asked Dad what the secret to a long marriage was, and he said, "Selective hearing and a good sense of humour." Mum overheard and said, "See? Selective hearing." They both laughed for ten minutes.\n\nSo here's to my wonderful, ridiculous, deeply in love parents. Thirty years down, and somehow still going strong. To Mum and Dad!`,
+    authorName: 'Jake Thornton',
+    weddingRole: 'Family Member',
+    tags: ['funny', 'vow renewal', 'family'],
+  },
+
+  {
+    slug: 'vow-renewal-family-balanced-3',
+    title: `A Love Story Written in Decades`,
+    category: 'renewal-of-vows-speech',
+    tone: 'balanced',
+    durationMinutes: 1.7,
+    wordCount: 217,
+    excerpt: `Good evening. I'm [Your name], sister of [Bride's name], and I've had a front-row seat to this love story for longer than I care to admit. When [Bride's name] and [Groom's name]...`,
+    content: `Good evening. I'm [Your name], sister of [Bride's name], and I've had a front-row seat to this love story for longer than I care to admit. When [Bride's name] and [Groom's name] first got together, I was sceptical. [Groom's name] was too quiet, I thought. My sister needed someone louder, bigger, more obvious. I was wrong.\n\nWhat [Groom's name] is, is steady. He's the person who drove through a snowstorm to pick up [Bride's name]'s prescription. He's the one who learned to bake because she mentioned once that she missed their grandmother's lemon cake. He doesn't do grand gestures. He does a thousand small ones, and they add up to something extraordinary.\n\nAnd [Bride's name], you matched him every step of the way. You built a home together. You raised children who are, and I say this as their aunt, genuinely lovely humans. You weathered storms that would have broken weaker couples.\n\nSeeing you both stand up today and choose each other again, with full knowledge of everything that means, was one of the most moving things I've witnessed. The first time you got married, it was a promise. Today, it was a proof.\n\nSo to my sister and the brother I gained all those years ago, here's to the next chapter. May it be as beautiful and as solid as everything that came before. To [Bride's name] and [Groom's name].`,
+    authorName: 'Karen Mallory',
+    weddingRole: 'Family Member',
+    tags: ['balanced', 'vow renewal', 'family'],
+  },
+
+  // ── Engagement Party Speech (Friend) ───────────────────────
+
+  {
+    slug: 'engagement-party-friend-funny-1',
+    title: `It's About Time, You Two`,
+    category: 'engagement-party-speech',
+    tone: 'funny',
+    durationMinutes: 1.7,
+    wordCount: 216,
+    excerpt: `Evening, everyone! I'm [Your name], and I've been waiting for this announcement for approximately four years, seven months, and twelve days. Not that I was counting. When [Groom'...`,
+    content: `Evening, everyone! I'm [Your name], and I've been waiting for this announcement for approximately four years, seven months, and twelve days. Not that I was counting. When [Groom's name] told me he was going to propose, I said, "Mate, it's about time." He'd been carrying that ring around for three weeks. Three weeks! He was so nervous he nearly proposed at a petrol station.\n\nLet me tell you about the actual proposal, because [Groom's name] will undersell it and [Bride's name] will oversell it, so you need the unbiased version. He took her to that restaurant they went to on their first date. Very romantic. He'd arranged for flowers on the table. Also romantic. Then he got so flustered that he knocked over the wine, and proposed while a waiter was mopping up Merlot at their feet. Peak [Groom's name].\n\nBut [Bride's name] said yes. She said yes with red wine on her dress and tears in her eyes and apparently the whole restaurant clapped. I wasn't there, but I've heard the story forty-seven times now.\n\nHere's what I know about these two. They are each other's favourite person. [Groom's name] lights up when [Bride's name] walks into a room, and she looks at him like he's the only person in it.\n\nSo here's to the engagement. The wedding planning starts now, and I personally cannot wait to watch [Groom's name] have opinions about centrepieces. To [Bride's name] and [Groom's name]!`,
+    authorName: 'Chris Delaney',
+    weddingRole: 'Friend',
+    tags: ['funny', 'engagement party', 'friend'],
+  },
+
+  {
+    slug: 'engagement-party-friend-heartfelt-2',
+    title: `The Beginning of Something Beautiful`,
+    category: 'engagement-party-speech',
+    tone: 'heartfelt',
+    durationMinutes: 1.8,
+    wordCount: 230,
+    excerpt: `Hi, everyone. I'm [Your name], and [Bride's name] has been my closest friend for twelve years. When she called to tell me about the engagement, I cried before she even finished t...`,
+    content: `Hi, everyone. I'm [Your name], and [Bride's name] has been my closest friend for twelve years. When she called to tell me about the engagement, I cried before she even finished the sentence. She barely got past "he asked" before I was gone.\n\nI cried because I remember who [Bride's name] was before [Groom's name]. She was wonderful then, too. But she was guarded. Careful. She'd been hurt before, and she wasn't about to let it happen again. So when [Groom's name] came along, she didn't make it easy for him. She tested him. She kept her distance. And he just, stayed. Patiently, consistently, without any games.\n\nI watched him earn her trust one quiet act at a time. He remembered her coffee order. He showed up when he said he would. He met her family and didn't flinch when her dad gave him the interrogation of a lifetime.\n\nAnd slowly, I watched my best friend open up again. She started laughing louder. Planning further ahead. Talking about the future like it was something to look forward to, not something to worry about.\n\n[Groom's name], you gave her that. And [Bride's name], you gave him someone worth being patient for.\n\nTonight is just the beginning. There's a wedding to plan, a life to build, and so much happiness ahead. I'm honoured to be here at the start of it. To [Bride's name] and [Groom's name], with all my love.`,
+    authorName: 'Megan Foster',
+    weddingRole: 'Friend',
+    tags: ['heartfelt', 'engagement party', 'friend'],
+  },
+
+  {
+    slug: 'engagement-party-friend-balanced-3',
+    title: `To the Next Chapter`,
+    category: 'engagement-party-speech',
+    tone: 'balanced',
+    durationMinutes: 1.5,
+    wordCount: 194,
+    excerpt: `Hello, everyone. I'm [Your name], and I've known [Groom's name] since we were both making terrible decisions at university. He's graduated from terrible decisions to excellent one...`,
+    content: `Hello, everyone. I'm [Your name], and I've known [Groom's name] since we were both making terrible decisions at university. He's graduated from terrible decisions to excellent ones, and [Bride's name] is proof of that.\n\nI remember the first time he brought [Bride's name] to meet the friend group. He was visibly nervous, which was funny because [Groom's name] is never nervous. But [Bride's name] walked in, made everyone laugh within five minutes, and by the end of the night we were all a little bit in love with her. [Groom's name] just looked at me and said, "I know."\n\nWhat I appreciate about these two is that they don't try to be a perfect couple. They're just a real one. They disagree about films. They have completely different ideas about what constitutes a tidy kitchen. But they handle it all with humour and respect, and that's what makes them work.\n\nAn engagement party is a brilliant thing because it's all anticipation. There's no pressure tonight, just excitement. The planning, the stress, the seating charts, that all comes later. Tonight, we just get to be happy for two people who deserve it.\n\nTo [Bride's name] and [Groom's name], may the wedding be as good as this party. Cheers!`,
+    authorName: 'Tom Ashworth',
+    weddingRole: 'Friend',
+    tags: ['balanced', 'engagement party', 'friend'],
+  },
+
+  // ── Rehearsal Dinner Speech (Family Member) ────────────────
+
+  {
+    slug: 'rehearsal-dinner-family-funny-1',
+    title: `The Night Before the Big Show`,
+    category: 'rehearsal-dinner-speech',
+    tone: 'funny',
+    durationMinutes: 1.7,
+    wordCount: 222,
+    excerpt: `Good evening, everyone. I'm [Your name], [Bride's name]'s brother, and I want to start by saying that I'm giving this speech tonight because tomorrow I'll be too busy crying. Don...`,
+    content: `Good evening, everyone. I'm [Your name], [Bride's name]'s brother, and I want to start by saying that I'm giving this speech tonight because tomorrow I'll be too busy crying. Don't judge me. I've already teared up twice today and we haven't even started yet.\n\nNow, for those of you meeting [Groom's name]'s family for the first time tonight, welcome. You're about to discover that between our two families, there is not a single person who can tell a short story. Speeches tomorrow are going to be long. Consider this your warm-up.\n\nI want to share something about [Groom's name] that I think sums him up perfectly. Last Christmas, he volunteered to cook the turkey. Nobody asked him to. In fact, several people actively warned him not to. But he did it anyway, and it was actually good. That's [Groom's name] in a nutshell - shows up, takes on the challenge, surprises everyone.\n\nAnd [Bride's name], my sister, the person who once called me at midnight because she couldn't remember if penguins have knees - tomorrow you're getting married. I still can't quite believe it.\n\nBut I can believe in this. In you two. In the way you argue about what to watch on television and then end up laughing about it. That's love.\n\nSo tonight, let's keep it relaxed. Save the big emotions for tomorrow. For now, let's eat, drink, and be grateful that we're all here together. To tomorrow!`,
+    authorName: 'James Collier',
+    weddingRole: 'Family Member',
+    tags: ['funny', 'rehearsal dinner', 'family'],
+  },
+
+  {
+    slug: 'rehearsal-dinner-family-heartfelt-2',
+    title: `Welcoming a New Family Member`,
+    category: 'rehearsal-dinner-speech',
+    tone: 'heartfelt',
+    durationMinutes: 1.9,
+    wordCount: 244,
+    excerpt: `Good evening. I'm [Your name], [Groom's name]'s mother, and I wanted to take a moment tonight, while things are still intimate and quiet, to say something I might not get through...`,
+    content: `Good evening. I'm [Your name], [Groom's name]'s mother, and I wanted to take a moment tonight, while things are still intimate and quiet, to say something I might not get through tomorrow.\n\n[Bride's name], from the very first time [Groom's name] brought you home, something shifted in our family. You didn't just fit in. You filled a space we didn't know was empty. You asked about family recipes. You looked at old photo albums with genuine interest. You laughed at my husband's terrible jokes, which honestly won you more points than you know.\n\nBut more than any of that, you made my son happy in a way I'd been hoping for. A mother watches her child grow up and wonders who they'll choose, and whether that person will see them the way she does. You see him. The real him, not just the version he shows the world.\n\nTo [Bride's name]'s family, thank you. Thank you for raising someone so warm, so kind, and so perfect for our son. Tomorrow we officially become one family, but in my heart, that happened a long time ago.\n\nAnd [Groom's name], my boy, I'm so proud of the man you've become. Tomorrow is going to be overwhelming and wonderful and it'll go faster than you think. So tonight, just look around this table. These are your people. Every one of them is here because they love you.\n\nTo tomorrow, to family, old and new, and to [Bride's name] and [Groom's name]. We love you both so much.`,
+    authorName: 'Linda Garrett',
+    weddingRole: 'Family Member',
+    tags: ['heartfelt', 'rehearsal dinner', 'family'],
+  },
+
+  {
+    slug: 'rehearsal-dinner-family-balanced-3',
+    title: `A Few Words Before the Main Event`,
+    category: 'rehearsal-dinner-speech',
+    tone: 'balanced',
+    durationMinutes: 1.6,
+    wordCount: 210,
+    excerpt: `Hello, everyone. I'm [Your name], [Bride's name]'s dad, and I promise to keep this short because I've been told I have three minutes tonight and unlimited time tomorrow. We'll see...`,
+    content: `Hello, everyone. I'm [Your name], [Bride's name]'s dad, and I promise to keep this short because I've been told I have three minutes tonight and unlimited time tomorrow. We'll see about that.\n\nI mainly want to say thank you. Thank you to [Groom's name]'s family for hosting this evening and for making our family feel so welcome. Getting to know you over the past couple of years has been one of the unexpected joys of this whole journey.\n\nI also want to say something to [Groom's name], man to man. My daughter is not easy. She's stubborn, she's opinionated, and she gets that from me, so I can't complain. But she's also the most loyal, generous, and loving person I know, and she gets that from her mother.\n\nWhat I've seen in you, [Groom's name], is someone who appreciates all of it. The stubbornness, the opinions, the heart. You don't try to change her. You just stand beside her, and that's exactly what she needs.\n\nTomorrow is going to be a big day. There'll be tears, I guarantee it, mostly mine. There'll be laughter and dancing and probably too many photos. But tonight is just for us, the inner circle, the people who matter most.\n\nSo let's enjoy this quiet moment before the beautiful chaos begins. To [Bride's name] and [Groom's name], and to tomorrow.`,
+    authorName: 'Robert Clayton',
+    weddingRole: 'Family Member',
+    tags: ['balanced', 'rehearsal dinner', 'family'],
+  },
+// ── Farewell to Single Life (Bachelor/Bachelorette) ──────────
+
+  {
+    slug: 'hilarious-bachelor-sendoff-1',
+    title: `The Last Night of Freedom`,
+    category: 'farewell-to-single-life-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.1,
+    wordCount: 268,
+    excerpt: `Alright everyone, gather round. Tonight we say goodbye to the man who once ate an entire pizza at 3am and called it "meal prep." [Groom's name], your single days are numbere...`,
+    content: `Alright everyone, gather round. Tonight we say goodbye to the man who once ate an entire pizza at 3am and called it "meal prep." [Groom's name], your single days are numbered, mate, and honestly, it's about time.
+
+For those who don't know me, I'm [Your name], and I've had a front-row seat to this man's dating life for the past twelve years. And let me tell you, it's been a journey. There was the girl he tried to impress by cooking a "gourmet dinner" that turned out to be burnt spaghetti with ketchup on top. There was the time he showed up to a first date at the wrong restaurant and sat there for forty-five minutes before he figured it out.
+
+But then [Bride's name] came along, and suddenly this disaster of a human being started ironing his shirts. He started using coasters. He even bought a plant and kept it alive for more than a week. Honestly, we were all shocked.
+
+So tonight, we celebrate the end of an era. No more questionable late-night kebab runs. No more falling asleep on my couch because he "missed the last train." No more dodgy haircuts because he decided to save ten quid and do it himself.
+
+[Groom's name], you absolute legend, you've found someone who actually wants to deal with you every single day for the rest of her life. That's not just love, that's heroism.
+
+So raise your glasses, everyone. To [Groom's name] - may your marriage be as strong as your WiFi signal and as long as your Netflix queue. Cheers!`,
+    authorName: 'Jake Morrison',
+    weddingRole: 'Best Friend',
+    tags: ['funny', 'bachelor party', 'send-off'],
+  },
+
+  {
+    slug: 'heartfelt-bachelorette-farewell-2',
+    title: `A Beautiful New Chapter`,
+    category: 'farewell-to-single-life-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.0,
+    wordCount: 260,
+    excerpt: `[Bride's name], I've been trying to figure out how to say what's in my heart tonight without completely losing it. We've been best friends since that first day of secondary sch...`,
+    content: `[Bride's name], I've been trying to figure out how to say what's in my heart tonight without completely losing it. We've been best friends since that first day of secondary school when you shared your lunch with me because I'd forgotten mine. That small act of kindness told me everything I needed to know about who you are.
+
+We've been through so much together. Late-night phone calls about boys who didn't deserve a single tear. Road trips where we got hopelessly lost and somehow found the best little cafe in the middle of nowhere. That awful flat we shared in our twenties where the heating never worked, so we'd sit wrapped in blankets watching terrible reality TV.
+
+I remember the night you called me after your first date with [Groom's name]. Your voice was different. Not excited in the usual way, but calm, certain. You said, "I think this is it." And I knew you were right, because I'd never heard you sound so sure about anything.
+
+Watching you fall in love has been one of the great privileges of my life. You deserve someone who sees you the way [Groom's name] does, someone who makes you laugh until you can't breathe, someone who holds your hand through the hard parts.
+
+So tonight isn't really goodbye to anything. It's the start of the most beautiful chapter of your life. And I'll be right here, cheering you on, just like always.
+
+To [Bride's name], my best friend, my person. I love you endlessly.`,
+    authorName: 'Megan Clarke',
+    weddingRole: 'Best Friend',
+    tags: ['heartfelt', 'bachelorette', 'friendship'],
+  },
+
+  {
+    slug: 'balanced-bachelor-party-toast-3',
+    title: `One Last Round for the Single Man`,
+    category: 'farewell-to-single-life-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.8,
+    wordCount: 234,
+    excerpt: `Can I get everyone's attention for just a minute? I promise I'll keep this short so we can get back to the important business of making sure [Groom's name] has the best night...`,
+    content: `Can I get everyone's attention for just a minute? I promise I'll keep this short so we can get back to the important business of making sure [Groom's name] has the best night of his life. Well, second best - we'll leave the top spot for the wedding.
+
+I've known [Groom's name] since we were sixteen, sitting in the back of Mr. Henderson's maths class, passing notes about absolutely nothing important. He was the kind of friend who'd drop everything if you needed him. Still is. When my dad was in hospital last year, [Groom's name] drove three hours on a Tuesday night just to sit with me. Didn't say much. Didn't need to. That's the kind of man he is.
+
+He's also the kind of man who once tried to chat up a girl using a line he'd memorised from a film, forgot it halfway through, and just stood there blinking. So there's that.
+
+But here's what matters. [Bride's name] brings out the very best version of him. He's more confident, more thoughtful, more at ease with himself. She didn't change him - she just helped him see what the rest of us already knew.
+
+So tonight, we celebrate our boy. We embarrass him a little, we remind him where he came from, and we send him off into married life knowing he's got a whole crew behind him.
+
+To [Groom's name] and [Bride's name]. The best is yet to come.`,
+    authorName: 'Ryan Patel',
+    weddingRole: 'Best Friend',
+    tags: ['balanced', 'bachelor party', 'friendship', 'celebration'],
+  },
+
+  // ── Indian Wedding Speech ────────────────────────────────────
+
+  {
+    slug: 'funny-indian-wedding-speech-1',
+    title: `From Sangeet Rehearsals to Forever`,
+    category: 'indian-wedding-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.2,
+    wordCount: 281,
+    excerpt: `Namaste everyone, and welcome to what our family has been planning for approximately seven hundred years. I'm [Your name], [Bride's name]'s older brother, and I've been offici...`,
+    content: `Namaste everyone, and welcome to what our family has been planning for approximately seven hundred years. I'm [Your name], [Bride's name]'s older brother, and I've been officially assigned the role of "give the speech and don't embarrass anyone." Let's see how that goes.
+
+First, can we talk about the sangeet last night? I spent three months learning that Bollywood routine, and [Bride's name] still managed to outshine everyone in about thirty seconds flat. Some things never change. She's been stealing the spotlight since we were kids putting on performances in Nani's living room.
+
+Now, when [Groom's name] first came to our house for chai, our mother had already prepared enough food to feed a small village. That's not an exaggeration. There were samosas, there were sweets, there was rice, there was dal - it was basically a full wedding rehearsal disguised as "just a casual tea." [Groom's name] handled it like a champion. He ate everything, complimented everything, and even asked Mum for her paneer recipe. At that moment, I knew this man understood the assignment.
+
+What I love most about [Groom's name] is how he embraces our family's chaos. The group chats that never stop. The aunties who ask when the babies are coming before the mehendi has even dried. The uncle who insists on giving life advice at every gathering. He just smiles and fits right in.
+
+[Bride's name], you've found someone who matches your energy, respects our traditions, and can survive a Sharma family WhatsApp group. That's true love.
+
+So please, raise your glasses. To [Bride's name] and [Groom's name] - may your life together be as colourful as this wedding. Cheers!`,
+    authorName: 'Arjun Sharma',
+    weddingRole: 'Family Member',
+    tags: ['funny', 'indian wedding', 'family'],
+  },
+
+  {
+    slug: 'heartfelt-indian-wedding-speech-2',
+    title: `A Mother's Blessing at the Mandap`,
+    category: 'indian-wedding-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.3,
+    wordCount: 296,
+    excerpt: `My dearest [Bride's name], today as I watched you take your pheras around the sacred fire, I saw the little girl who used to sit on my lap while I told her stories about Radha...`,
+    content: `My dearest [Bride's name], today as I watched you take your pheras around the sacred fire, I saw the little girl who used to sit on my lap while I told her stories about Radha and Krishna. I saw the teenager who argued with me about everything but always came back for a hug before bed. And I saw the woman you've become, strong, graceful, full of love.
+
+In our culture, we say that a daughter is Lakshmi, the goddess of prosperity, and that is what you have been to our family. Every room you walk into becomes brighter. Every person you meet feels seen. Your father and I have watched you grow with so much pride that sometimes I think my heart might burst from holding it all.
+
+When you brought [Groom's name] home, I watched him carefully. Not just the big moments, but the small ones. The way he listened when you talked. The way he remembered the little things, your favourite flowers, the way you like your chai with extra cardamom. I saw how he looked at you during the baraat today, and I knew that he sees the same light in you that we have always seen.
+
+Beta, marriage is a journey of patience, compromise, and deep devotion. There will be days when everything feels easy and days when it takes work. Hold onto each other through both.
+
+[Groom's name], I am not losing a daughter today. I am gaining a son. Welcome to our family with all my heart.
+
+To both of you, may your home be filled with laughter, warmth, and the smell of good food cooking. May God bless this union with every happiness.
+
+With all my love, always.`,
+    authorName: 'Priya Kapoor',
+    weddingRole: 'Family Member',
+    tags: ['heartfelt', 'indian wedding', 'mother', 'blessing'],
+  },
+
+  {
+    slug: 'balanced-indian-wedding-speech-3',
+    title: `Two Families Becoming One`,
+    category: 'indian-wedding-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 2.0,
+    wordCount: 262,
+    excerpt: `Good evening everyone. For those who don't know me, I'm [Your name], [Groom's name]'s uncle, and I've had the privilege of watching this young man grow from a mischievous boy w...`,
+    content: `Good evening everyone. For those who don't know me, I'm [Your name], [Groom's name]'s uncle, and I've had the privilege of watching this young man grow from a mischievous boy who used to steal jalebis off my plate into the remarkable man standing here today.
+
+[Groom's name], I remember when you were twelve and you told me you were going to be a cricketer. Then it was an astronaut. Then a chef. Your mother called me in a panic each time. But through every phase, one thing stayed constant - your determination and your heart.
+
+When our families first met for the roka, I could feel something special in the room. It wasn't just two families sitting across from each other with too many sweets on the table. It was the beginning of something bigger. In our tradition, we don't just join two people in marriage - we weave two families together, thread by thread, until you can't tell where one ends and the other begins.
+
+[Bride's name], you've brought so much joy into our family already. The way you participated in every ceremony this week, from the mehendi to the haldi, with such grace and enthusiasm - it tells us everything about who you are.
+
+My brother, [Groom's name]'s father, often says that the best marriages are built on respect first and romance second. I think he's right. And when I look at you two, I see both in abundance.
+
+So from the entire family, we wish you a life filled with prosperity, good health, and just the right amount of healthy disagreement to keep things interesting.
+
+Sab ko bahut bahut badhai. Congratulations to all.`,
+    authorName: 'Vikram Mehta',
+    weddingRole: 'Family Member',
+    tags: ['balanced', 'indian wedding', 'family', 'traditions'],
+  },
+
+  // ── Jewish Wedding Speech ────────────────────────────────────
+
+  {
+    slug: 'funny-jewish-wedding-speech-1',
+    title: `Under the Chuppah and Over the Moon`,
+    category: 'jewish-wedding-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.1,
+    wordCount: 278,
+    excerpt: `Mazel tov! I'm [Your name], [Groom's name]'s older sister, and yes, I'm the one who's been giving him unsolicited advice since 1994. First of all, can we acknowledge that [Gro...`,
+    content: `Mazel tov! I'm [Your name], [Groom's name]'s older sister, and yes, I'm the one who's been giving him unsolicited advice since 1994. First of all, can we acknowledge that [Groom's name] actually managed to stomp on the glass on his first try? Our cousin David needed three attempts at his wedding, so the bar was low, but still - well done.
+
+Growing up, [Groom's name] was the kid who argued with the rabbi during Hebrew school. Not because he didn't care, but because he cared too much. He had questions about everything. "Why this prayer? Why that tradition?" The rabbi once told our mother, "Your son will either become a great scholar or a great lawyer." He became an accountant. Close enough.
+
+When [Groom's name] told our family he was getting married, our mother immediately started planning. And by planning, I mean she called every relative within a three-hundred-mile radius before he'd even hung up the phone. By the time he got home, Aunt Miriam had already offered to make her famous brisket and Uncle Saul had volunteered to DJ. Nobody asked Uncle Saul. He just decided.
+
+[Bride's name], welcome to the family. You should know that Friday night dinners are non-negotiable, you will be asked about grandchildren before you've finished your soup, and my mother will send you home with enough leftovers to feed your entire office.
+
+But in all seriousness, you make my brother the happiest I've ever seen him. And that means more to me than I can say.
+
+So, l'chaim! To [Bride's name] and [Groom's name] - may your love be as enduring as a Jewish guilt trip, which is to say, forever. L'chaim!`,
+    authorName: 'Rachel Goldstein',
+    weddingRole: 'Family Member',
+    tags: ['funny', 'jewish wedding', 'family', 'humor'],
+  },
+
+  {
+    slug: 'heartfelt-jewish-wedding-speech-2',
+    title: `From Generation to Generation`,
+    category: 'jewish-wedding-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.3,
+    wordCount: 295,
+    excerpt: `Standing here under this beautiful chuppah, I'm reminded that this canopy represents the home that [Bride's name] and [Groom's name] will build together. I'm [Your name], [Bri...`,
+    content: `Standing here under this beautiful chuppah, I'm reminded that this canopy represents the home that [Bride's name] and [Groom's name] will build together. I'm [Your name], [Bride's name]'s father, and today my heart is so full I'm not sure these words will be enough.
+
+There's a saying, l'dor v'dor, from generation to generation. Today I feel the weight and the beauty of that phrase more than ever. My own parents, may their memory be a blessing, fled Europe with nothing but each other and the hope that their children would have a better life. My father used to say that love isn't a feeling, it's a decision you make every morning when you wake up.
+
+[Bride's name], you are the best decision your mother and I ever made. From the moment you were born, you filled our home with music, with laughter, with a stubbornness that drove us absolutely mad and made us incredibly proud. You challenged us to be better. You questioned everything, just like your grandfather.
+
+[Groom's name], I've watched you carefully over the past three years. I've seen how you show up for my daughter, not just in the big moments, but in the quiet ones. The way you drove across town to bring her soup when she was ill. The way you sit and listen, really listen, when she talks. That's not something you can fake.
+
+The Talmud teaches us that when a couple is worthy, the divine presence rests between them. Looking at you two today, I believe that with all my heart.
+
+May your home be filled with Shabbat candles, with the sound of children laughing, with books and debate and always, always love.
+
+Mazel tov, my darlings. Your grandparents are smiling down today.`,
+    authorName: 'David Levine',
+    weddingRole: 'Family Member',
+    tags: ['heartfelt', 'jewish wedding', 'father', 'tradition'],
+  },
+
+  {
+    slug: 'balanced-jewish-wedding-speech-3',
+    title: `Building a Home Together`,
+    category: 'jewish-wedding-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.8,
+    wordCount: 240,
+    excerpt: `Good evening, everyone. I'm [Your name], [Bride's name]'s aunt, and I've been looking forward to this moment since the day she called me to say she'd met someone special. For...`,
+    content: `Good evening, everyone. I'm [Your name], [Bride's name]'s aunt, and I've been looking forward to this moment since the day she called me to say she'd met someone special. For the record, she tried to play it cool. She failed completely. I could hear the smile through the phone.
+
+[Bride's name] has always been the heart of our family. At every Passover seder, she's the one asking the real questions, not just the four from the Haggadah, but the ones that make the whole table think. "Why do we do this? What does it actually mean?" She never accepts easy answers. That's what makes her extraordinary.
+
+And then she found [Groom's name], someone who doesn't give easy answers either. Someone who matches her curiosity, her depth, and her appetite for rugelach. Seriously, the two of you went through three trays at Hanukkah.
+
+I remember my own wedding day, standing under the chuppah, terrified and thrilled in equal measure. My mother told me something I've never forgotten: "Marriage isn't about finding someone you can live with. It's about finding someone you can't imagine living without." Looking at you two, I know you've found that.
+
+The glass has been broken. The celebration has begun. And somewhere between the hora and the cake cutting tonight, I hope you take one quiet moment to look at each other and remember exactly how this feels.
+
+May your lives together be sweet, purposeful, and full of meaning.
+
+Mazel tov, to [Bride's name] and [Groom's name]. We love you both.`,
+    authorName: 'Sarah Friedman',
+    weddingRole: 'Family Member',
+    tags: ['balanced', 'jewish wedding', 'family', 'celebration'],
+  },
+
+  // ── Irish Wedding Speech ─────────────────────────────────────
+
+  {
+    slug: 'funny-irish-wedding-speech-1',
+    title: `The Craic and the Commitment`,
+    category: 'irish-wedding-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.2,
+    wordCount: 282,
+    excerpt: `Right, settle down now, settle down. I'm [Your name], [Groom's name]'s brother, and I've been dreading this moment since he asked me to say a few words. "A few words," he says...`,
+    content: `Right, settle down now, settle down. I'm [Your name], [Groom's name]'s brother, and I've been dreading this moment since he asked me to say a few words. "A few words," he says. In this family, nobody has ever said just a few words about anything.
+
+Now, I have to be careful here because Mammy's watching, and she's already told me twice today, "Don't you dare say anything that'll make me look bad in front of the Murphys." So, Mrs. Murphy, everything you're about to hear is completely fictional.
+
+[Groom's name] was always the golden child. Got the good looks, the charm, the whole lot. I got the height and the receding hairline, so fair play to him. But I do remember a certain incident involving Da's car, a ditch in Ballymore, and a very unconvincing story about a cow being in the road. There was no cow, [Groom's name]. There was never a cow. We all know it.
+
+But in all fairness, there's not a better man in the county. He'd give you the shirt off his back and then apologise that it wasn't ironed. When [Bride's name] came along, we all saw the change in him. He started using words like "brunch" and "throw pillows." We were concerned. But then we met her, and it all made sense.
+
+[Bride's name], you're one of us now. That means Sunday dinners, unsolicited opinions from every aunt in Connacht, and at least three people telling you the same story at every family gathering.
+
+So, as the Irish blessing goes - may your troubles be less, and your blessings be more, and nothing but happiness come through your door.
+
+Slainte!`,
+    authorName: 'Cormac O\'Brien',
+    weddingRole: 'Family Member',
+    tags: ['funny', 'irish wedding', 'brother', 'humor'],
+  },
+
+  {
+    slug: 'heartfelt-irish-wedding-speech-2',
+    title: `May the Road Rise to Meet You`,
+    category: 'irish-wedding-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.1,
+    wordCount: 270,
+    excerpt: `Good evening, everyone. I'm [Your name], [Bride's name]'s mother, and I want to start by saying that this is the proudest day of my life. Now I know I said that at her graduat...`,
+    content: `Good evening, everyone. I'm [Your name], [Bride's name]'s mother, and I want to start by saying that this is the proudest day of my life. Now I know I said that at her graduation, and again when she got her first job, but today I really mean it.
+
+[Bride's name], you were born on the stormiest night County Kerry had seen in twenty years. The power went out, the roads were flooded, and your father drove through all of it to get us to the hospital. You came into this world fighting, and you haven't stopped since. You get that from your grandmother, God rest her.
+
+I think about my own mother today. She used to say that the best thing a parent can do is raise a child who doesn't need you but still wants you around. Well, [Bride's name], I think we managed that. You've built a beautiful life for yourself, and you chose a partner who makes that life even richer.
+
+[Groom's name], the first time you came to our house, you sat in the kitchen for three hours talking to my husband about hurling. I knew right then you'd fit in. But more than that, I saw how you looked at my daughter, like she was the most important person in any room. That's all a mother needs to see.
+
+Ireland has a long tradition of blessings, and I've heard them all. But tonight I'll keep it simple.
+
+May your home always be warm. May your hearts always be kind. May you always find your way back to each other, no matter how far the road takes you.
+
+I love you both. Slainte.`,
+    authorName: 'Siobhan Murphy',
+    weddingRole: 'Family Member',
+    tags: ['heartfelt', 'irish wedding', 'mother', 'blessing'],
+  },
+
+  {
+    slug: 'balanced-irish-wedding-speech-3',
+    title: `A Toast from the Ould Fella`,
+    category: 'irish-wedding-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.9,
+    wordCount: 247,
+    excerpt: `Ah now, they've given me the microphone. That's either very brave or very foolish. I'm [Your name], [Groom's name]'s father, and I'll try to keep this short, though if you kne...`,
+    content: `Ah now, they've given me the microphone. That's either very brave or very foolish. I'm [Your name], [Groom's name]'s father, and I'll try to keep this short, though if you knew the Doyles, you'd know brevity isn't our strong suit.
+
+[Groom's name], you were a handful from the start. You climbed everything - fences, trees, the roof of the parish hall that one time Father Brennan still hasn't forgiven us for. I spent most of your childhood running after you and the other half pretending I didn't see what you were up to.
+
+But somewhere along the way, that wild little boy turned into a man I'm incredibly proud of. You work hard. You show up for the people you love. And you picked a partner who makes you better, which, between us, wasn't a small job.
+
+[Bride's name], from the first time you walked through our front door, you felt like family. You laughed at my terrible jokes, which already puts you ahead of my own children. But seriously, you've brought a calmness and a joy to [Groom's name]'s life that we can all see. He's steadier with you, more himself.
+
+My own father, rest his soul, used to say that marriage is like a good pint of Guinness - it takes patience to get it right, but when it settles, there's nothing finer.
+
+So to [Bride's name] and [Groom's name], may your lives be full of the good craic, may your home always be full of laughter, and may you never run out of things to talk about.
+
+Slainte mhaith!`,
+    authorName: 'Padraig Doyle',
+    weddingRole: 'Family Member',
+    tags: ['balanced', 'irish wedding', 'father', 'blessing'],
+  },
+
+  // ── African Wedding Speech ───────────────────────────────────
+
+  {
+    slug: 'funny-african-wedding-speech-1',
+    title: `When Two Families Finally Agree`,
+    category: 'african-wedding-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.2,
+    wordCount: 280,
+    excerpt: `Good evening, beautiful people! I am [Your name], [Bride's name]'s brother, and I need to start by saying - the negotiations for this wedding were longer than some peace treat...`,
+    content: `Good evening, beautiful people! I am [Your name], [Bride's name]'s brother, and I need to start by saying - the negotiations for this wedding were longer than some peace treaties. Our family sat down with [Groom's name]'s family, and the back and forth over the bride price was like watching a football match. Offer, counter-offer, Auntie Grace walking out for dramatic effect, only to come back ten minutes later with more demands. It was magnificent.
+
+But we got here. And that's what matters.
+
+[Bride's name] is my little sister, and growing up she was always the responsible one. She did her homework first. She cleaned without being asked. Meanwhile, I was the one Mama was chasing around the compound with a slipper. So when [Groom's name] showed up looking nervous at our family home, I thought, "Finally, someone else for Mama to interrogate."
+
+And interrogate she did. "What do you do? Where is your family from? What are your intentions?" [Groom's name] answered every question like he was in a job interview for the most important position of his life. Which, to be fair, he was.
+
+What I respect most about [Groom's name] is that he didn't just come for my sister - he came for the whole family. He shows up to every gathering. He eats everything our mother cooks and asks for seconds. He even learned a few words of our language, though his pronunciation still needs work. We'll get there.
+
+Today, two families become one. And if the energy on this dance floor is anything to go by, we're going to be just fine.
+
+To [Bride's name] and [Groom's name]!`,
+    authorName: 'Kwame Asante',
+    weddingRole: 'Family Member',
+    tags: ['funny', 'african wedding', 'family', 'celebration'],
+  },
+
+  {
+    slug: 'heartfelt-african-wedding-speech-2',
+    title: `Ubuntu - I Am Because We Are`,
+    category: 'african-wedding-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.3,
+    wordCount: 298,
+    excerpt: `My beloved family and friends, I am [Your name], [Groom's name]'s grandmother, and my heart is overflowing today. In our tradition, we say "Ubuntu" - I am because we are. This...`,
+    content: `My beloved family and friends, I am [Your name], [Groom's name]'s grandmother, and my heart is overflowing today. In our tradition, we say "Ubuntu" - I am because we are. This wedding is proof of that. Look around this room. Every person here is a thread in the fabric of these two lives.
+
+[Groom's name], you are named after your grandfather, my late husband, who built our family from nothing with his two hands and his faith. He would be so proud to see you standing here today, a man of integrity, of strength, of tenderness. You carry his name well.
+
+I remember when you were small, you used to sit at my feet while I cooked, asking me questions about everything. "Gogo, why does the sun set? Gogo, why do we pray? Gogo, when will I be grown?" And here you are now, grown and choosing your life partner.
+
+[Bride's name], the first time [Groom's name] brought you to visit me, you sat in my kitchen and helped me prepare the meal without being asked. You peeled the vegetables, you stirred the pot, you listened to my stories. That told me everything. You have a servant's heart, and that is the foundation of a strong marriage.
+
+In our culture, marriage is not just between two people. It is a covenant between two families, two communities, two histories coming together to create a future. Every ancestor who came before you is celebrating today.
+
+My prayer for you both is simple. May your love be rooted deep like the baobab tree, strong enough to weather any storm, wide enough to shelter all who come to you. May you always remember where you come from, and may you always move forward together.
+
+God bless this union. I love you both beyond words.`,
+    authorName: 'Grace Ndlovu',
+    weddingRole: 'Family Member',
+    tags: ['heartfelt', 'african wedding', 'grandmother', 'ubuntu'],
+  },
+
+  {
+    slug: 'balanced-african-wedding-speech-3',
+    title: `Honouring Heritage, Building Tomorrow`,
+    category: 'african-wedding-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 2.0,
+    wordCount: 264,
+    excerpt: `Good evening, everyone. I am [Your name], [Bride's name]'s uncle, and it is my honour to speak on behalf of our family today. You know, in our community, an uncle has a very sp...`,
+    content: `Good evening, everyone. I am [Your name], [Bride's name]'s uncle, and it is my honour to speak on behalf of our family today. You know, in our community, an uncle has a very specific role - you're part advisor, part comedian, and part referee when the family gets too loud. Today I'll try to be all three.
+
+[Bride's name], I've watched you grow from the little girl who used to dance in the rain at my compound to this extraordinary woman. You were always determined, always kind, and always a little bit stubborn. That stubbornness served you well. It got you through university, through challenges that would have broken someone with less spirit, and into the arms of a good man.
+
+[Groom's name], when you came to our family to declare your intentions, you spoke with respect and humility. You brought your elders with you. You honoured the process. That told us you understand that love isn't just about two hearts - it's about two communities choosing to walk the same road.
+
+There's a proverb that says, "If you want to go fast, go alone. If you want to go far, go together." This marriage is about going far. Together, with your families behind you, with your friends around you, and with God above you.
+
+I also want to say, [Groom's name], that you are gaining not just a wife but an entire support system. We are loud, we are many, and we will show up at your house unannounced. Consider yourself warned.
+
+May this marriage bring honour to both families. May it bring children who will carry on our traditions. And may the food at this reception never run out.
+
+Cheers!`,
+    authorName: 'Emmanuel Okafor',
+    weddingRole: 'Family Member',
+    tags: ['balanced', 'african wedding', 'uncle', 'heritage'],
+  },
+
+  // ── Latin Wedding Speech ─────────────────────────────────────
+
+  {
+    slug: 'funny-latin-wedding-speech-1',
+    title: `La Familia Gets a New Member`,
+    category: 'latin-wedding-speech',
+    tone: 'funny' as const,
+    durationMinutes: 2.1,
+    wordCount: 275,
+    excerpt: `Buenas noches, familia! I'm [Your name], [Bride's name]'s older sister, and if you think this wedding is big, you should have seen Mami's face when [Bride's name] told her the...`,
+    content: `Buenas noches, familia! I'm [Your name], [Bride's name]'s older sister, and if you think this wedding is big, you should have seen Mami's face when [Bride's name] told her the guest list was "only two hundred people." Mami added another hundred before lunch. That's just how we do things.
+
+Growing up with [Bride's name] was never boring. This is the girl who choreographed a full dance routine for her quinceanera and made all fourteen of her damas rehearse it for three months. Three months. She was fifteen and already running operations like a general. I should have known she'd grow up to plan the most beautiful wedding any of us have ever seen.
+
+Now, [Groom's name], I need to prepare you for a few things. First, you will never be hungry again. Mami will feed you until you physically cannot move. Second, every tia in this room will have an opinion about everything in your life, from your career to your curtains. Third, if you think you're on time for a family event and you arrive before anyone else, you're too early. We operate on our own schedule. Always have.
+
+But here's the thing about joining this family - you'll never feel alone. Not for a single day. There's always someone calling, someone showing up with a container of food, someone who just "happened to be in the neighbourhood." We love hard, and we love loud.
+
+[Bride's name] and [Groom's name], you two are perfect together. She brings the fire, he brings the calm, and together you bring the most adorable couple we've ever seen.
+
+Salud, mi gente! To love, to family, to the party that's about to go all night!`,
+    authorName: 'Isabella Reyes',
+    weddingRole: 'Family Member',
+    tags: ['funny', 'latin wedding', 'sister', 'familia'],
+  },
+
+  {
+    slug: 'heartfelt-latin-wedding-speech-2',
+    title: `De Padre a Hija, Con Todo Mi Amor`,
+    category: 'latin-wedding-speech',
+    tone: 'heartfelt' as const,
+    durationMinutes: 2.4,
+    wordCount: 307,
+    excerpt: `Mi hija, my beautiful daughter. I have been thinking about what to say today for months, and every time I sit down to write, the words don't feel big enough. So I'll speak from...`,
+    content: `Mi hija, my beautiful daughter. I have been thinking about what to say today for months, and every time I sit down to write, the words don't feel big enough. So I'll speak from the heart and hope that's enough.
+
+When your mother and I came to this country, we had very little. A suitcase, some photographs, and a dream that our children would have the life we imagined for them. Every sacrifice, every long shift, every moment of missing home - it was all for this. For you. For nights like tonight, where I can stand in a room full of people who love you and know that the dream came true.
+
+[Bride's name], you have always been my strength. When things were hard, when I felt like giving up, I'd come home and you'd be sitting at the kitchen table, doing your homework, focused, determined, unstoppable. You reminded me what we were fighting for.
+
+I remember your quinceanera like it was yesterday. You wore that pink dress and you danced with me, and I remember thinking, "One day, some young man is going to take my place." I wasn't ready then. Honestly, I'm not sure I'm ready now. But [Groom's name], you have earned my trust and my respect.
+
+You treat my daughter the way she deserves to be treated. You honour her. You support her dreams. And you love her family, which means you love where she comes from. That is everything to me.
+
+Mi hija, nunca olvides de donde vienes. Never forget where you come from. Carry our traditions forward. Fill your home with music, with food, with love, with faith.
+
+[Groom's name], cuida a mi hija. Take care of my daughter. She is the best thing I've ever given this world.
+
+Los quiero mucho. I love you both so much. Salud.`,
+    authorName: 'Carlos Gutierrez',
+    weddingRole: 'Family Member',
+    tags: ['heartfelt', 'latin wedding', 'father', 'immigrant story'],
+  },
+
+  {
+    slug: 'balanced-latin-wedding-speech-3',
+    title: `Abuela Knows Best`,
+    category: 'latin-wedding-speech',
+    tone: 'balanced' as const,
+    durationMinutes: 1.8,
+    wordCount: 238,
+    excerpt: `Mijo, come here. Let your abuela say something. I know everyone's been giving speeches, but I'm the oldest one in this room, so I get the last word. That's how it works in thi...`,
+    content: `Mijo, come here. Let your abuela say something. I know everyone's been giving speeches, but I'm the oldest one in this room, so I get the last word. That's how it works in this family.
+
+[Groom's name], you were my first grandchild. When they put you in my arms, I made you a promise that I would always be there for you. I've kept that promise for thirty years, and I'm not stopping now.
+
+I've seen you grow, mijo. I've seen you fall and get back up. I've seen you make mistakes and learn from them. And I've seen the way you are with [Bride's name], gentle, patient, silly, real. That's how your abuelo was with me. He used to bring me flowers every Friday, not because it was a special occasion, but because he said every Friday with me was special. Fifty-two years we had together. I pray you get even more.
+
+[Bride's name], mi amor, you are already family. You've been family since the first time you sat in my kitchen and let me teach you how to make tamales. You didn't complain, you didn't rush, you just listened and learned. That's love, mija. That's respect.
+
+Marriage is not always a fiesta. Some days it's quiet work, patience, forgiveness, choosing each other again and again. But if you build your home on faith and family, you will never lose your way.
+
+Que Dios los bendiga siempre. May God bless you always.
+
+Now someone get me to the dance floor. This abuela didn't get dressed up for nothing.`,
+    authorName: 'Rosa Delgado',
+    weddingRole: 'Family Member',
+    tags: ['balanced', 'latin wedding', 'grandmother', 'wisdom'],
+  }
 ];
 
 

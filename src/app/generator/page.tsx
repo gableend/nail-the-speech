@@ -20,6 +20,252 @@ import { useUser } from "@clerk/nextjs";
 import { getPreviewText } from "@/lib/speechPreview";
 import { speechRoles, getRoleBySlug } from "@/data/speechRoles";
 
+// ── Role-contextual connection prompts for Step 3 ─────────────────
+interface ConnectionPrompt {
+  question: string;
+  placeholder: string;
+  examples: string[];
+}
+
+function getConnectionPrompt(roleSlug: string, groomName: string, brideName: string): ConnectionPrompt {
+  const groom = groomName || 'the groom';
+  const bride = brideName || 'the bride';
+
+  const prompts: Record<string, ConnectionPrompt> = {
+    'best-man': {
+      question: `How did you become best friends with ${groom}?`,
+      placeholder: `e.g., We met in college as roommates and bonded over terrible cooking and late-night FIFA tournaments...`,
+      examples: [
+        `We met in college as roommates and instantly clicked over our shared love of terrible movies and good pizza. Five years later, here we are...`,
+        `We've been friends since primary school. I remember when he moved to our neighbourhood, shy and nervous. I invited him to play football and we've been inseparable since.`,
+        `We met at work and bonded over our mutual confusion during training. What started as a work friendship became a brotherhood.`,
+      ],
+    },
+    'maid-of-honor': {
+      question: `How did you and ${bride} become so close?`,
+      placeholder: `e.g., We've been best friends since school. She's the one I call first for everything...`,
+      examples: [
+        `We were college roommates who stayed up talking until 3am every night. Some things never change.`,
+        `We met at our first job and immediately bonded over our shared hatred of early meetings and love of strong coffee.`,
+        `She's my cousin, but she's always felt more like a sister. We grew up spending every summer together.`,
+      ],
+    },
+    'father-of-bride': {
+      question: `Tell us a bit about your relationship with ${bride}`,
+      placeholder: `e.g., She's my youngest daughter. She's been keeping me on my toes since the day she could talk...`,
+      examples: [
+        `She's my eldest and she's always been fiercely independent. Even at three, she insisted on doing everything herself.`,
+        `We're very alike, which means we butt heads sometimes. But I couldn't be prouder of the woman she's become.`,
+        `She's always been daddy's girl, even when she pretends she isn't. She still calls me first when something goes wrong.`,
+      ],
+    },
+    'mother-of-bride': {
+      question: `Tell us about your bond with ${bride}`,
+      placeholder: `e.g., She's not just my daughter, she's my best friend. We talk every single day...`,
+      examples: [
+        `We're incredibly close. She calls me for everything, from career advice to what to have for dinner.`,
+        `She's my mini-me. Same stubborn streak, same laugh, same habit of crying at TV adverts.`,
+        `We didn't always see eye to eye when she was a teenager, but now she's my favourite person to spend time with.`,
+      ],
+    },
+    'father-of-groom': {
+      question: `Tell us about your relationship with ${groom}`,
+      placeholder: `e.g., He's my son and honestly, he turned out better than I expected...`,
+      examples: [
+        `He's my eldest boy. Watching him grow into the man he is today has been the highlight of my life.`,
+        `We bonded over football and terrible DIY projects. The shed we built together is still standing. Barely.`,
+        `He's quieter than me, more thoughtful. He gets that from his mother. The stubbornness, that's all mine.`,
+      ],
+    },
+    'mother-of-groom': {
+      question: `Tell us about your relationship with ${groom}`,
+      placeholder: `e.g., He's my baby, even though he towers over me now. He'll always be my little boy...`,
+      examples: [
+        `He's always been my gentle giant. Big heart, terrible at remembering to call, but always there when it matters.`,
+        `We're very close. He still comes round for Sunday dinner every week without fail.`,
+        `He was a handful growing up, but he's turned into the most caring, thoughtful man. I take full credit.`,
+      ],
+    },
+    'groom': {
+      question: `How would you describe your relationship with ${bride}?`,
+      placeholder: `e.g., She's my best friend and the funniest person I know. She makes everything better...`,
+      examples: [
+        `She's the person I want to tell everything to first. Good news, bad news, a funny thing I saw on the bus.`,
+        `We balance each other perfectly. She's the planner, I'm the one who loses the plan. Together, we somehow make it work.`,
+        `She saw through all my nonsense from day one and decided to stick around anyway. That's real love.`,
+      ],
+    },
+    'bride': {
+      question: `How would you describe your relationship with ${groom}?`,
+      placeholder: `e.g., He makes me laugh harder than anyone. He's my person...`,
+      examples: [
+        `He's the calmest person I know. When I'm spiralling about something, he just makes me a cup of tea and listens.`,
+        `We're total opposites in some ways, but we want all the same things. That's what makes it work.`,
+        `He remembers every small thing I've ever told him. That kind of attention is rare and I never take it for granted.`,
+      ],
+    },
+    'best-woman': {
+      question: `How did you and ${groom} become close friends?`,
+      placeholder: `e.g., We met through work and quickly became best mates. He's like a brother to me...`,
+      examples: [
+        `We've been friends since uni. He was the first person to make me feel welcome in a new city.`,
+        `We worked together for five years. What started as desk-neighbour chat became one of my closest friendships.`,
+        `We met through mutual friends and just clicked. He's one of those rare people who's exactly the same in every situation.`,
+      ],
+    },
+    'groomsman': {
+      question: `How do you know ${groom}?`,
+      placeholder: `e.g., We played rugby together for years. He's one of my closest mates...`,
+      examples: [
+        `We've been friends since school. Same football team, same terrible taste in music, same group chat for 15 years.`,
+        `We met at uni and lived together for three years. I've seen things I can never unsee.`,
+        `He's been one of my best mates since we started our first jobs on the same day, equally clueless.`,
+      ],
+    },
+    'bridesmaid': {
+      question: `How do you know ${bride}?`,
+      placeholder: `e.g., We've been friends since school. She's the one who always organises everything...`,
+      examples: [
+        `We met at a yoga class and bonded over being equally terrible at it. The friendship stuck even though the yoga didn't.`,
+        `She's been my closest friend since we were twelve. We've been through everything together.`,
+        `We worked together and she was the first person to invite me for coffee on my first day. I've never forgotten that.`,
+      ],
+    },
+    'brother-of-bride': {
+      question: `What's it like being ${bride}'s brother?`,
+      placeholder: `e.g., She's my older sister and she's been bossing me around since day one. Wouldn't have it any other way...`,
+      examples: [
+        `She's my big sister and my biggest supporter. She was at every school play, every match, every terrible haircut phase.`,
+        `We fought constantly growing up but she's genuinely one of my favourite people now. Don't tell her I said that.`,
+        `We're two years apart and completely different, but somehow we just get each other.`,
+      ],
+    },
+    'sister-of-bride': {
+      question: `What's your sisterly bond with ${bride} like?`,
+      placeholder: `e.g., She's my older sister and my best friend. We shared a room growing up and we've shared everything since...`,
+      examples: [
+        `We shared a room for 16 years. I know her better than anyone, including all the things she'd rather I didn't mention today.`,
+        `She's always been the brave one. First to jump, first to speak up. I've spent my whole life trying to keep up with her.`,
+        `We're so close that people think we're twins. We're not. She's three years older but I'm clearly the mature one.`,
+      ],
+    },
+    'brother-of-groom': {
+      question: `What's it like being ${groom}'s brother?`,
+      placeholder: `e.g., He's my little brother and honestly, he's always been the cooler one...`,
+      examples: [
+        `He's my older brother and growing up I wanted to be exactly like him. I still do, but I'd never admit it to his face.`,
+        `We shared a room until I was fourteen. The negotiations over whose side was whose prepared us both for adult life.`,
+        `We're very different people but fiercely loyal to each other. That's what brothers are.`,
+      ],
+    },
+    'sister-of-groom': {
+      question: `What's your relationship with ${groom} like?`,
+      placeholder: `e.g., He's my big brother. Annoying, protective, and secretly the most caring person I know...`,
+      examples: [
+        `He's my little brother and I've been looking out for him since the day he was born. Old habits die hard.`,
+        `We bicker about everything but I'd do anything for him. He knows that.`,
+        `Growing up, he was the quiet one and I was the loud one. He balanced me out and I dragged him into adventures.`,
+      ],
+    },
+    'bride-and-groom': {
+      question: `Tell us about your relationship as a couple`,
+      placeholder: `e.g., We met at a friend's party and talked until everyone else had gone home...`,
+      examples: [
+        `We met online and our first date lasted seven hours. We closed down the restaurant and moved to a park bench.`,
+        `We were friends for years before anything happened. Everyone saw it coming except us.`,
+        `We're total opposites. She's organised, I'm chaos. She's early, I'm late. But somehow it just works.`,
+      ],
+    },
+    'man-of-honor': {
+      question: `How did you and ${bride} become close?`,
+      placeholder: `e.g., We've been best friends since freshman year. She's basically my sister...`,
+      examples: [
+        `We met in our first week of uni and haven't gone more than three days without talking since.`,
+        `She's been my best friend for over a decade. She knows every version of me and likes most of them.`,
+        `We worked together and she was the first person who made me actually look forward to Mondays.`,
+      ],
+    },
+  };
+
+  if (prompts[roleSlug]) return prompts[roleSlug];
+
+  // Category fallbacks
+  const roleData = getRoleBySlug(roleSlug) ?? null;
+  const category = roleData?.category;
+  const person = roleData?.label.includes('Bride') ? bride : groom;
+
+  if (category === 'Grandparents') {
+    return {
+      question: `Tell us about your relationship with ${person}`,
+      placeholder: `e.g., I've watched ${person} grow up and they've always been a special one...`,
+      examples: [
+        `${person} used to spend every summer with us. Those are some of my happiest memories.`,
+        `I've been there for every milestone. First steps, first day of school, graduation. And now this.`,
+        `We have a special bond. ${person} is the one who always calls, always visits, always remembers.`,
+      ],
+    };
+  }
+
+  if (category === 'Step-Parents') {
+    return {
+      question: `Tell us about your bond with ${person}`,
+      placeholder: `e.g., I came into ${person}'s life when they were a teenager. It took time, but we found our way...`,
+      examples: [
+        `I married their parent when ${person} was twelve. It wasn't easy at first, but we built something real.`,
+        `I've been in ${person}'s life for over a decade now. They've made me a better person.`,
+        `We bonded slowly, over shared dinners and bad jokes. Now I can't imagine my life without them.`,
+      ],
+    };
+  }
+
+  if (category === 'In-Laws') {
+    return {
+      question: `How did you become close with ${person}?`,
+      placeholder: `e.g., When ${person} joined the family, it felt like they'd always been there...`,
+      examples: [
+        `${person} married into our family and somehow made it better. Which is saying something.`,
+        `We bonded at family gatherings over being the quiet ones in a very loud family.`,
+        `I gained a proper friend when ${person} joined the family. Not just an in-law.`,
+      ],
+    };
+  }
+
+  if (category === 'Extended Family') {
+    return {
+      question: `What's your relationship with ${person} like?`,
+      placeholder: `e.g., I've known ${person} their whole life. Watched them grow up at every family gathering...`,
+      examples: [
+        `I've been the fun uncle/aunt since day one. ${person} always came to me for the stuff they couldn't ask their parents.`,
+        `We're close in age so we grew up more like siblings than cousins. Family gatherings were our playground.`,
+        `I've watched ${person} grow from a cheeky kid into someone I genuinely admire.`,
+      ],
+    };
+  }
+
+  if (category === 'Friends') {
+    return {
+      question: `How do you know ${person}?`,
+      placeholder: `e.g., We've been close friends for years. Met through work / school / mutual friends...`,
+      examples: [
+        `We met through mutual friends and just clicked. One of those friendships that felt easy from the start.`,
+        `We've known each other since school. Through every phase, every move, every life change.`,
+        `I'm a family friend. I've known ${person} since they were running around the garden in wellies.`,
+      ],
+    };
+  }
+
+  // Special roles and catch-all
+  return {
+    question: `How do you know the couple?`,
+    placeholder: `e.g., I've known them for years through work, family, or friendship...`,
+    examples: [
+      `I've known them both separately for years and was thrilled when they got together.`,
+      `I've watched their relationship grow from the very beginning. It's been a privilege.`,
+      `They asked me to speak today, which is either a great honour or a sign they've run out of options.`,
+    ],
+  };
+}
+
 // ── Role-contextual story prompts for Step 4 ──────────────────────
 interface StoryPrompt {
   question: string;
@@ -1552,58 +1798,80 @@ function GeneratorContent() {
               </div>
             )}
 
-            {/* Step 3: Connection + Tone */}
-            {currentStep === 3 && (
-              <div className="space-y-6 max-w-lg mx-auto">
-                <div>
-                  <label className="block text-base font-medium text-[#181615] mb-2">
-                    How do you know the couple?
-                  </label>
-                  <Input
-                    placeholder="e.g., best friends since uni, the groom's brother"
-                    value={formData.relationshipToGroom}
-                    onChange={(e) => updateFormData('relationshipToGroom', e.target.value)}
-                    className="darker-placeholder text-lg py-3"
-                    autoFocus
-                  />
-                  <div className="flex items-center justify-end mt-2">
-                    <VoiceInput
-                      onTranscription={(text) => updateFormData('relationshipToGroom', text)}
-                      placeholder="Say it instead"
-                      disabled={isGenerating}
-                    />
-                  </div>
-                </div>
+            {/* Step 3: Connection + Tone (contextual to role) */}
+            {currentStep === 3 && (() => {
+              const connectionPrompts = getConnectionPrompt(formData.selectedRole, formData.groomName, formData.brideName);
+              return (
+                <div className="space-y-6 max-w-lg mx-auto">
+                  <div>
+                    <label className="block text-base font-medium text-[#181615] mb-2">
+                      {connectionPrompts.question}
+                    </label>
 
-                <div>
-                  <label className="block text-base font-medium text-[#181615] mb-3">
-                    What vibe are you going for?
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { value: "light-funny", label: "Light & Funny", emoji: "😄" },
-                      { value: "sentimental", label: "Sentimental", emoji: "🥹" },
-                      { value: "balanced", label: "Balanced", emoji: "👌" },
-                      { value: "clean-roast", label: "Clean Roast", emoji: "🔥" }
-                    ].map((option) => (
-                      <button
-                        key={option.value}
-                        type="button"
-                        onClick={() => updateFormData('tone', option.value)}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all duration-200 ${
-                          formData.tone === option.value
-                            ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
-                            : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
-                        }`}
-                      >
-                        <span className="text-xl">{option.emoji}</span>
-                        <span className="font-medium">{option.label}</span>
-                      </button>
-                    ))}
+                    {/* Expandable examples */}
+                    <details className="mb-4 group">
+                      <summary className="flex items-center gap-2 text-sm font-medium text-[#da5389] cursor-pointer select-none hover:text-[#c4447a] transition-colors">
+                        <span className="transition-transform group-open:rotate-90">▶</span>
+                        <span className="group-open:hidden">Show Examples</span>
+                        <span className="hidden group-open:inline">Hide Examples</span>
+                      </summary>
+                      <div className="mt-3 bg-[#faf7f4] border border-[#e8e1d8] rounded-xl p-4 space-y-3">
+                        <p className="text-xs font-semibold text-[#8f867e] uppercase tracking-wide">Examples:</p>
+                        {connectionPrompts.examples.map((ex, i) => (
+                          <p key={i} className="text-sm text-[#5a534e] italic leading-relaxed">
+                            &ldquo;{ex}&rdquo;
+                          </p>
+                        ))}
+                      </div>
+                    </details>
+
+                    <Textarea
+                      placeholder={connectionPrompts.placeholder}
+                      value={formData.relationshipToGroom}
+                      onChange={(e) => updateFormData('relationshipToGroom', e.target.value)}
+                      rows={3}
+                      className="darker-placeholder text-base"
+                      autoFocus
+                    />
+                    <div className="flex items-center justify-end mt-2">
+                      <VoiceInput
+                        onTranscription={(text) => updateFormData('relationshipToGroom', text)}
+                        placeholder="Say it instead"
+                        disabled={isGenerating}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-base font-medium text-[#181615] mb-3">
+                      What vibe are you going for?
+                    </label>
+                    <div className="grid grid-cols-2 gap-3">
+                      {[
+                        { value: "light-funny", label: "Light & Funny", emoji: "😄" },
+                        { value: "sentimental", label: "Sentimental", emoji: "🥹" },
+                        { value: "balanced", label: "Balanced", emoji: "👌" },
+                        { value: "clean-roast", label: "Clean Roast", emoji: "🔥" }
+                      ].map((option) => (
+                        <button
+                          key={option.value}
+                          type="button"
+                          onClick={() => updateFormData('tone', option.value)}
+                          className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all duration-200 ${
+                            formData.tone === option.value
+                              ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
+                              : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                          }`}
+                        >
+                          <span className="text-xl">{option.emoji}</span>
+                          <span className="font-medium">{option.label}</span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Step 4: Story (contextual to role) */}
             {currentStep === 4 && (() => {

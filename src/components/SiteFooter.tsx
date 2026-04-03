@@ -47,8 +47,8 @@ export default function SiteFooter() {
             © {new Date().getFullYear()} Nail The Speech. All rights reserved.
           </p>
           <div className="flex space-x-6 text-sm text-gray-300 mt-4 md:mt-0">
-            <Link href="/generator" className="hover:text-[#da5389]">Privacy Policy</Link>
-            <Link href="/generator" className="hover:text-[#da5389]">Terms of Service</Link>
+            <Link href="/privacy" className="hover:text-[#da5389]">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-[#da5389]">Terms of Service</Link>
             <Link href="/data-deletion" className="hover:text-[#da5389]">Data Deletion</Link>
           </div>
         </div>

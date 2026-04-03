@@ -15,7 +15,7 @@ export type { Stripe };
 export const STRIPE_CONFIG = {
   currency: 'usd',
   mode: 'payment' as const,
-  priceAmount: 999, // $9.99 in cents
+  priceAmount: 1999, // $19.99 in cents
   productName: 'Nail The Speech Pro',
   productDescription: 'Unlimited speech regeneration and premium features',
 };

@@ -33,7 +33,7 @@ export default function PaymentSuccessBanner({ sessionId }: PaymentSuccessBanner
         // In production, you'd fetch real data from your server
         await new Promise(resolve => setTimeout(resolve, 1000));
         setPaymentDetails({
-          amount: '$9.99',
+          amount: '$19.99',
           product: 'Nail The Speech Pro'
         });
       } catch (error) {

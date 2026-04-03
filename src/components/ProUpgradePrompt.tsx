@@ -267,8 +267,8 @@ export default function ProUpgradePrompt({
             <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e84f98]/5 border border-[#da5389]/20 rounded-lg p-4 mb-6">
               <div className="text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-2xl font-bold text-[#181615]">$9.99</span>
-                  <span className="text-lg text-[#8f867e] line-through">$19.99</span>
+                  <span className="text-2xl font-bold text-[#181615]">$19.99</span>
+                  <span className="text-lg text-[#8f867e] line-through">$39.99</span>
                   <Badge className="bg-[#da5389] text-white">50% OFF</Badge>
                 </div>
                 <div className="text-sm text-[#8f867e]">One-time payment • Lifetime access</div>
@@ -351,8 +351,8 @@ export default function ProUpgradePrompt({
         </div>
 
         <div className="flex items-center justify-center gap-2 mb-4">
-          <span className="text-2xl font-bold text-[#181615]">$9.99</span>
-          <span className="text-lg text-[#8f867e] line-through">$19.99</span>
+          <span className="text-2xl font-bold text-[#181615]">$19.99</span>
+          <span className="text-lg text-[#8f867e] line-through">$39.99</span>
           <Badge className="bg-[#da5389] text-white">50% OFF</Badge>
         </div>
 
@@ -426,8 +426,8 @@ export default function ProUpgradePrompt({
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-xl font-bold text-[#181615]">$9.99</span>
-            <span className="text-sm text-[#8f867e] line-through">$19.99</span>
+            <span className="text-xl font-bold text-[#181615]">$19.99</span>
+            <span className="text-sm text-[#8f867e] line-through">$39.99</span>
             <Badge className="bg-[#da5389] text-white text-xs">50% OFF</Badge>
           </div>
           <Button

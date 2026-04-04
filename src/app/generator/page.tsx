@@ -1613,7 +1613,7 @@ function GeneratorContent() {
 
   // Split text into chunks ≤4000 chars at paragraph boundaries
   const splitForTTS = (text: string): string[] => {
-    const MAX = 1000;
+    const MAX = 500;
     const paragraphs = text.split(/\n+/).filter(p => p.trim());
     const chunks: string[] = [];
     let current = '';
@@ -1674,23 +1674,26 @@ function GeneratorContent() {
   };
 
   const handleListenToSpeech = async () => {
-    // If player is showing, hide it
+    // If player is showing, hide it (keep cache)
     if (audioUrl) {
       setAudioUrl(null);
       return;
     }
 
-    if (aiCreditsExhausted && !audioCacheRef.current) return;
     if (isLoadingAudio) return;
 
+    // Check cache synchronously — if cached, show player instantly (no loading state)
     const hash = textHashFor(generatedSpeech);
     const isCached = audioCacheRef.current?.textHash === hash;
 
-    // Only charge a credit if we need to call the API
-    if (!isCached) {
-      setTtsCreditsUsed(prev => prev + 1);
+    if (isCached && audioCacheRef.current) {
+      setAudioUrl(audioCacheRef.current.url);
+      return;
     }
 
+    // Not cached — need API call
+    if (aiCreditsExhausted) return;
+    setTtsCreditsUsed(prev => prev + 1);
     setIsLoadingAudio(true);
     try {
       const url = await generateTTSAudio();
@@ -3191,7 +3194,7 @@ function GeneratorContent() {
                                 onClick={handleListenToSpeech}
                                 disabled={isRefining || isLoadingAudio || (!audioUrl && !audioCacheRef.current && aiCreditsExhausted)}
                                 title={audioUrl ? 'Hide audio player' : isLoadingAudio ? 'Generating...' : 'Listen to your speech'}
-                                className={`flex items-center justify-center space-x-1.5 min-w-[180px] px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                                className={`flex items-center justify-center space-x-1.5 w-[200px] px-3 py-2 text-sm font-medium rounded-lg transition-colors overflow-hidden ${
                                   isLoadingAudio || audioUrl
                                     ? 'bg-[#da5389] text-white'
                                     : aiCreditsExhausted && !audioCacheRef.current
@@ -3224,6 +3227,19 @@ function GeneratorContent() {
                               <span>⧉</span>
                               <span>Copy Speech</span>
                             </button>
+                          </div>
+                        )}
+
+                        {/* Audio player — sits under the Listen button row */}
+                        {audioUrl && (
+                          <div className="mt-2">
+                            <audio
+                              src={audioUrl}
+                              controls
+                              autoPlay
+                              className="w-full rounded-lg"
+                              style={{ height: '40px' }}
+                            />
                           </div>
                         )}
                       </div>
@@ -3373,18 +3389,6 @@ function GeneratorContent() {
                           </div>
                         )}
 
-                        {/* Native audio player — shown when audio is ready */}
-                        {audioUrl && (
-                          <div className="mt-3 pt-3 border-t border-[#e8e1d8]/50">
-                            <audio
-                              src={audioUrl}
-                              controls
-                              autoPlay
-                              className="w-full rounded-lg"
-                              style={{ height: '40px' }}
-                            />
-                          </div>
-                        )}
                       </div>
 
                       {/* Inline upgrade CTA for paywalled content */}

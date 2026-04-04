@@ -7,6 +7,7 @@
 SITE="https://www.nailthespeech.com"
 CRON_SECRET="${CRON_SECRET:-}"
 TEST_EMAIL="${1:-test@example.com}"
+WAIT_SECONDS=130  # 2 minutes + 10 seconds buffer
 
 if [ -z "$CRON_SECRET" ]; then
   echo "Error: CRON_SECRET environment variable is not set."
@@ -18,6 +19,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
+BOLD='\033[1m'
 NC='\033[0m' # No Color
 
 step=0
@@ -35,6 +37,21 @@ wait_for_enter() {
   read -r
 }
 
+countdown() {
+  local secs=$1
+  local label="${2:-Waiting}"
+  echo ""
+  while [ $secs -gt 0 ]; do
+    local mins=$((secs / 60))
+    local s=$((secs % 60))
+    printf "\r  ${YELLOW}⏳ ${label}... %d:%02d remaining${NC}  " $mins $s
+    sleep 1
+    secs=$((secs - 1))
+  done
+  printf "\r  ${GREEN}✓ Wait complete!                          ${NC}\n"
+  echo ""
+}
+
 run_cron() {
   echo ""
   echo -e "  Running cron..."
@@ -50,7 +67,8 @@ run_cron() {
 echo ""
 echo -e "${CYAN}╔══════════════════════════════════════════════════════╗${NC}"
 echo -e "${CYAN}║     Email Cadence End-to-End Test                   ║${NC}"
-echo -e "${CYAN}║     Test email: $TEST_EMAIL${NC}"
+echo -e "${CYAN}║     Test email: ${BOLD}$TEST_EMAIL${NC}"
+echo -e "${CYAN}║     Wait time:  ${BOLD}${WAIT_SECONDS}s${NC} (2min + 10s buffer)"
 echo -e "${CYAN}╚══════════════════════════════════════════════════════╝${NC}"
 
 # ─── Step 1: Reset ──────────────────────────────────────────
@@ -95,10 +113,7 @@ fi
 # ─── Step 4: Wait + send Email 1 ────────────────────────────
 
 next_step "Send Email 1 (claim speech + 20% off)"
-echo ""
-echo -e "  ${YELLOW}Wait at least 2 minutes since you clicked Next on Step 0${NC}"
-echo "  Then press ENTER to trigger the cron."
-wait_for_enter
+countdown $WAIT_SECONDS "Waiting for lead to age past 2-minute threshold"
 RESULT=$(run_cron)
 echo ""
 if echo "$RESULT" | grep -q '"email1Sent":1'; then
@@ -126,10 +141,7 @@ wait_for_enter
 # ─── Step 6: Wait + send Email 2 (reminder) ─────────────────
 
 next_step "Send Email 2 (discount expiring reminder)"
-echo ""
-echo -e "  ${YELLOW}Wait at least 2 minutes since you clicked the Email 1 link${NC}"
-echo "  Then press ENTER to trigger the cron."
-wait_for_enter
+countdown $WAIT_SECONDS "Waiting for Email 1 click to age past 2-minute threshold"
 RESULT=$(run_cron)
 echo ""
 if echo "$RESULT" | grep -q '"email2Sent":1'; then

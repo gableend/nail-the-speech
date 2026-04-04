@@ -4,6 +4,9 @@ import { auth } from "@clerk/nextjs/server";
 import { checkProStatusForRequest } from "@/lib/userStatus";
 import { rateLimit } from "@/lib/rateLimit";
 
+// Allow up to 60s for TTS generation (full speeches can take a while)
+export const maxDuration = 60;
+
 // OpenAI TTS voices — warm, natural-sounding options for wedding speeches
 const ALLOWED_VOICES = ['alloy', 'ash', 'ballad', 'coral', 'echo', 'fable', 'nova', 'onyx', 'sage', 'shimmer', 'verse'] as const;
 type TTSVoice = typeof ALLOWED_VOICES[number];
@@ -130,18 +133,46 @@ export async function POST(request: NextRequest) {
     console.log(`🔊 [TTS API] Processing ${chunks.length} chunk(s)`);
 
     // Generate audio for each chunk
+    // Try gpt-4o-mini-tts first (supports instructions), fall back to tts-1
     const audioBuffers: ArrayBuffer[] = [];
+    let ttsModel = 'gpt-4o-mini-tts';
+
     for (let i = 0; i < chunks.length; i++) {
-      const response = await openai.audio.speech.create({
-        model: 'gpt-4o-mini-tts',
-        voice: selectedVoice,
-        input: chunks[i],
-        response_format: selectedFormat,
-        instructions: 'Speak in a warm, confident, and slightly emotional tone — as if delivering a heartfelt wedding speech at a reception. Pace yourself naturally, pausing slightly between paragraphs.',
-      });
-      const buffer = await response.arrayBuffer();
-      audioBuffers.push(buffer);
-      console.log(`🔊 [TTS API] Chunk ${i + 1}/${chunks.length} generated (${buffer.byteLength} bytes)`);
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const ttsParams: any = {
+          model: ttsModel,
+          voice: selectedVoice,
+          input: chunks[i],
+          response_format: selectedFormat,
+        };
+        // gpt-4o-mini-tts supports instructions for tone control
+        if (ttsModel === 'gpt-4o-mini-tts') {
+          ttsParams.instructions = 'Speak in a warm, confident, and slightly emotional tone — as if delivering a heartfelt wedding speech at a reception. Pace yourself naturally, pausing slightly between paragraphs.';
+        }
+        const response = await openai.audio.speech.create(ttsParams);
+        const buffer = await response.arrayBuffer();
+        audioBuffers.push(buffer);
+        console.log(`🔊 [TTS API] Chunk ${i + 1}/${chunks.length} generated with ${ttsModel} (${buffer.byteLength} bytes)`);
+      } catch (chunkError: unknown) {
+        // If gpt-4o-mini-tts fails on first chunk, fall back to tts-1 for all remaining
+        if (i === 0 && ttsModel === 'gpt-4o-mini-tts') {
+          console.warn('⚠️ [TTS API] gpt-4o-mini-tts failed, falling back to tts-1:', chunkError instanceof Error ? chunkError.message : chunkError);
+          ttsModel = 'tts-1';
+          // Retry this chunk with tts-1
+          const response = await openai.audio.speech.create({
+            model: 'tts-1',
+            voice: selectedVoice as 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer',
+            input: chunks[i],
+            response_format: selectedFormat,
+          });
+          const buffer = await response.arrayBuffer();
+          audioBuffers.push(buffer);
+          console.log(`🔊 [TTS API] Chunk ${i + 1}/${chunks.length} generated with tts-1 fallback (${buffer.byteLength} bytes)`);
+        } else {
+          throw chunkError;
+        }
+      }
     }
 
     // Concatenate buffers

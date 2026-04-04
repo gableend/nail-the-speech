@@ -861,34 +861,44 @@ function GeneratorContent() {
               setFormData(parsedFormData);
             }
 
-            // Initialize version history from DB or fallback to current content
-            if (speechData.versions && speechData.versions.length > 0) {
-              const versionContents = speechData.versions.map((v: { content: string }) => v.content);
-              setSpeechVersions(versionContents);
-              setCurrentVersionIndex(versionContents.length - 1); // Point to latest
-              setGeneratedSpeech(versionContents[versionContents.length - 1]);
-              console.log(`🎯 Speech loaded with ${versionContents.length} versions from DB`);
-            } else {
-              // Fallback for speeches created before version tracking
+            // Check if this is a preview (anonymous/returning user)
+            if (speechData.isPreview) {
               setGeneratedSpeech(speechData.content);
               setSpeechVersions([speechData.content]);
               setCurrentVersionIndex(0);
-              console.log('🎯 Speech loaded (no DB versions, using current content)');
+              setIsSpeechPaywalled(true);
+              setCurrentSpeechId(speechData.id);
+              console.log('🎯 Speech loaded as preview (paywall mode)');
+            } else {
+              // Initialize version history from DB or fallback to current content
+              if (speechData.versions && speechData.versions.length > 0) {
+                const versionContents = speechData.versions.map((v: { content: string }) => v.content);
+                setSpeechVersions(versionContents);
+                setCurrentVersionIndex(versionContents.length - 1); // Point to latest
+                setGeneratedSpeech(versionContents[versionContents.length - 1]);
+                console.log(`🎯 Speech loaded with ${versionContents.length} versions from DB`);
+              } else {
+                // Fallback for speeches created before version tracking
+                setGeneratedSpeech(speechData.content);
+                setSpeechVersions([speechData.content]);
+                setCurrentVersionIndex(0);
+                console.log('🎯 Speech loaded (no DB versions, using current content)');
+              }
+
+              // Restore paragraph edit metadata from localStorage
+              const savedMeta = loadParagraphMeta(speechIdFromUrl);
+              if (savedMeta) {
+                setSpeechParagraphs(prev => prev.map((p, i) => {
+                  const meta = savedMeta[i];
+                  if (meta && meta.source === 'user-edited') {
+                    return { ...p, source: 'user-edited' as const, originalText: meta.originalText };
+                  }
+                  return p;
+                }));
+              }
             }
             setDbRegenCount(speechData.regenCount || 0);
             setIsFinal(speechData.isFinal || false);
-
-            // Restore paragraph edit metadata from localStorage
-            const savedMeta = loadParagraphMeta(speechIdFromUrl);
-            if (savedMeta) {
-              setSpeechParagraphs(prev => prev.map((p, i) => {
-                const meta = savedMeta[i];
-                if (meta && meta.source === 'user-edited') {
-                  return { ...p, source: 'user-edited' as const, originalText: meta.originalText };
-                }
-                return p;
-              }));
-            }
 
             setSpeechGenerated(true);
           } else {

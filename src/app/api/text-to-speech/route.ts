@@ -4,15 +4,34 @@ import { auth } from "@clerk/nextjs/server";
 import { checkProStatusForRequest } from "@/lib/userStatus";
 import { rateLimit } from "@/lib/rateLimit";
 
-// Allow up to 60s for TTS generation on Netlify
-export const maxDuration = 60;
+// Allow up to 120s for full-speech TTS streaming
+export const maxDuration = 120;
 
 // OpenAI TTS voices supported by tts-1
 const ALLOWED_VOICES = ['alloy', 'echo', 'fable', 'nova', 'onyx', 'shimmer'] as const;
 type TTSVoice = typeof ALLOWED_VOICES[number];
 
+// Merge paragraphs into ~800-char chunks for natural pacing
+function buildChunks(text: string): string[] {
+  const TARGET = 800;
+  const paragraphs = text.split(/\n+/).filter(p => p.trim().length > 0);
+  const chunks: string[] = [];
+  let current = '';
+
+  for (const para of paragraphs) {
+    if (current.length + para.length + 2 > TARGET && current.length > 0) {
+      chunks.push(current.trim());
+      current = para;
+    } else {
+      current += (current ? '\n\n' : '') + para;
+    }
+  }
+  if (current.trim()) chunks.push(current.trim());
+  return chunks;
+}
+
 export async function POST(request: NextRequest) {
-  console.log('🔊 [TTS API] Text-to-speech request received');
+  console.log('🔊 [TTS API] Streaming text-to-speech request received');
 
   try {
     // Authentication
@@ -26,7 +45,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { text, voice = 'nova', format = 'mp3', clientAnonUserId } = body;
+    const { text, voice = 'nova', clientAnonUserId } = body;
 
     if (!userId) {
       anonUserId = clientAnonUserId || null;
@@ -36,86 +55,93 @@ export async function POST(request: NextRequest) {
     const isProUser = await checkProStatusForRequest(userId, anonUserId);
     if (!isProUser) {
       return new Response(
-        JSON.stringify({ error: "pro_required", message: "Upgrade to Pro to listen to and export your speech as audio." }),
+        JSON.stringify({ error: "pro_required", message: "Upgrade to Pro to listen to your speech." }),
         { status: 403, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    // Rate limit: 5 TTS requests per hour (audio generation is expensive)
+    // Rate limit: 5 TTS requests per hour
     const rateLimitKey = `tts:${userId || anonUserId || request.headers.get('x-forwarded-for') || 'unknown'}`;
     const { allowed, remaining } = rateLimit(rateLimitKey, 5, 60 * 60 * 1000);
     if (!allowed) {
       return new Response(
-        JSON.stringify({ error: "rate_limited", message: "You've used all your audio generations for this hour. Please try again later." }),
-        { status: 429, headers: { 'Content-Type': 'application/json', 'X-RateLimit-Remaining': '0' } }
+        JSON.stringify({ error: "rate_limited", message: "Audio generation limit reached. Try again later." }),
+        { status: 429, headers: { 'Content-Type': 'application/json' } }
       );
     }
-    console.log(`⏱️ [TTS API] Rate limit OK (${remaining} remaining)`);
 
     // Validate text
     if (!text || typeof text !== 'string' || text.trim().length === 0) {
       return new Response(
-        JSON.stringify({ error: "Missing text", message: "Please provide speech text to convert to audio." }),
+        JSON.stringify({ error: "missing_text", message: "No speech text provided." }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    // Cap text length — tts-1 supports up to 4096 chars per request
-    const MAX_CHARS = 4096;
-    const speechText = text.length > MAX_CHARS ? text.substring(0, MAX_CHARS) : text;
-
-    // Validate voice — fall back to nova for unsupported voices
     const selectedVoice: TTSVoice = ALLOWED_VOICES.includes(voice as TTSVoice) ? (voice as TTSVoice) : 'nova';
 
     if (!process.env.OPENAI_API_KEY) {
       return new Response(
-        JSON.stringify({ error: "AI service unavailable", message: "OpenAI API key not configured." }),
+        JSON.stringify({ error: "service_unavailable", message: "OpenAI not configured." }),
         { status: 503, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const chunks = buildChunks(text);
 
-    console.log('🔊 [TTS API] Generating audio:', {
-      textLength: speechText.length,
-      wordCount: speechText.split(/\s+/).length,
-      voice: selectedVoice,
+    console.log('🔊 [TTS API] Generating', chunks.length, 'chunks, voice:', selectedVoice);
+
+    // Stream binary audio chunks back to client
+    // Protocol: [4-byte big-endian length][MP3 bytes] repeated, then 4 zero bytes as EOF
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          for (let i = 0; i < chunks.length; i++) {
+            const response = await openai.audio.speech.create({
+              model: 'tts-1',
+              voice: selectedVoice,
+              input: chunks[i],
+              response_format: 'mp3',
+            });
+
+            const buffer = await response.arrayBuffer();
+            const audioBytes = new Uint8Array(buffer);
+
+            // Write 4-byte length header (big-endian)
+            const header = new Uint8Array(4);
+            const view = new DataView(header.buffer);
+            view.setUint32(0, audioBytes.length, false);
+            controller.enqueue(header);
+
+            // Write audio data
+            controller.enqueue(audioBytes);
+
+            console.log(`🔊 [TTS API] Chunk ${i + 1}/${chunks.length} streamed (${audioBytes.length} bytes)`);
+          }
+
+          // EOF marker: 4 zero bytes
+          controller.enqueue(new Uint8Array(4));
+          controller.close();
+        } catch (error) {
+          console.error('💥 [TTS API] Error in stream:', error);
+          controller.error(error);
+        }
+      },
     });
 
-    // Generate audio — single request, stream the response through
-    const response = await openai.audio.speech.create({
-      model: 'tts-1',
-      voice: selectedVoice,
-      input: speechText,
-      response_format: format === 'mp3' ? 'mp3' : 'mp3', // stick with mp3
-    });
-
-    // Get the response as a ReadableStream and pass it through
-    // This avoids buffering the entire audio in memory
-    const audioBody = response.body;
-
-    if (!audioBody) {
-      console.error('💥 [TTS API] No response body from OpenAI');
-      return new Response(
-        JSON.stringify({ error: "Failed to generate audio", message: "No audio data received." }),
-        { status: 503, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    console.log('🎉 [TTS API] Streaming audio response to client');
-
-    return new Response(audioBody as ReadableStream, {
+    return new Response(stream, {
       headers: {
-        'Content-Type': 'audio/mpeg',
+        'Content-Type': 'application/octet-stream',
+        'X-TTS-Chunks': chunks.length.toString(),
         'X-RateLimit-Remaining': remaining.toString(),
       },
     });
 
   } catch (error) {
-    console.error('💥 [TTS API] Error generating audio:', error);
-    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error('💥 [TTS API] Error:', error);
     return new Response(
-      JSON.stringify({ error: "Failed to generate audio", message, details: String(error) }),
+      JSON.stringify({ error: "tts_failed", message: "Please try again." }),
       { status: 503, headers: { 'Content-Type': 'application/json' } }
     );
   }

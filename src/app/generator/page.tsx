@@ -728,7 +728,7 @@ function GeneratorContent() {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isPausedAudio, setIsPausedAudio] = useState(false);
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
-  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
+  // audioElement removed — now using AudioContext for gapless playback
   const [selectedVoice, setSelectedVoice] = useState<string>('nova');
   const [currentAudioParagraph, setCurrentAudioParagraph] = useState(-1);
   const [totalAudioParagraphs, setTotalAudioParagraphs] = useState(0);
@@ -1608,66 +1608,40 @@ function GeneratorContent() {
     }
   };
 
-  // ── Text-to-Speech: chunked playback with pre-fetching ──────────
-  // Merge paragraphs into ~800-char chunks to reduce API calls
-  interface TTSChunk { text: string; paraStart: number; paraEnd: number; }
-
-  const buildTTSChunks = (paragraphs: string[]): TTSChunk[] => {
-    const TARGET_CHUNK_SIZE = 800;
-    const chunks: TTSChunk[] = [];
-    let currentText = '';
-    let chunkStart = 0;
-
-    for (let i = 0; i < paragraphs.length; i++) {
-      const para = paragraphs[i];
-      if (currentText.length + para.length + 2 > TARGET_CHUNK_SIZE && currentText.length > 0) {
-        chunks.push({ text: currentText.trim(), paraStart: chunkStart, paraEnd: i - 1 });
-        currentText = para;
-        chunkStart = i;
-      } else {
-        currentText += (currentText ? '\n\n' : '') + para;
-      }
-    }
-    if (currentText.trim()) {
-      chunks.push({ text: currentText.trim(), paraStart: chunkStart, paraEnd: paragraphs.length - 1 });
-    }
-    return chunks;
-  };
-
-  const fetchChunkAudio = async (text: string): Promise<Blob | null> => {
-    try {
-      const response = await fetch('/api/text-to-speech', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text,
-          voice: selectedVoice,
-          format: 'mp3',
-          clientAnonUserId: typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null,
-        }),
-      });
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error('TTS error:', errorData);
-        return null;
-      }
-      return await response.blob();
-    } catch (err) {
-      console.error('Error fetching TTS audio:', err);
-      return null;
-    }
-  };
-
-  // Track which paragraph range is currently playing (for highlight)
+  // ── Text-to-Speech: AudioContext + server-streamed chunks ────────
+  // Single API call streams audio chunks back as they're generated.
+  // AudioContext (created on user click) schedules them gaplessly.
+  const audioCtxRef = React.useRef<AudioContext | null>(null);
   const [currentAudioParaRange, setCurrentAudioParaRange] = useState<[number, number]>([-1, -1]);
 
+  // Build paragraph→chunk mapping (mirrors server-side buildChunks)
+  const buildParaChunkMap = (text: string) => {
+    const TARGET = 800;
+    const paragraphs = text.split(/\n+/).filter(p => p.trim().length > 0);
+    const ranges: Array<[number, number]> = []; // [paraStart, paraEnd] per chunk
+    let current = '';
+    let chunkStart = 0;
+    for (let i = 0; i < paragraphs.length; i++) {
+      const para = paragraphs[i];
+      if (current.length + para.length + 2 > TARGET && current.length > 0) {
+        ranges.push([chunkStart, i - 1]);
+        current = para;
+        chunkStart = i;
+      } else {
+        current += (current ? '\n\n' : '') + para;
+      }
+    }
+    if (current.trim()) ranges.push([chunkStart, paragraphs.length - 1]);
+    return { paragraphs, ranges };
+  };
+
   const handleListenToSpeech = async () => {
-    // If playing, stop completely
+    // Stop if already playing
     if (isPlayingAudio || isPausedAudio) {
       audioQueueRef.current.cancelled = true;
-      if (audioElement) {
-        audioElement.pause();
-        audioElement.currentTime = 0;
+      if (audioCtxRef.current) {
+        await audioCtxRef.current.close().catch(() => {});
+        audioCtxRef.current = null;
       }
       setIsPlayingAudio(false);
       setIsPausedAudio(false);
@@ -1677,103 +1651,160 @@ function GeneratorContent() {
       return;
     }
 
-    // Credit check
     if (aiCreditsExhausted) return;
-
     const speechText = generatedSpeech;
     if (!speechText.trim()) return;
 
-    // Split into paragraphs and build chunks
-    const paragraphs = speechText.split('\n').filter(p => p.trim().length > 0);
-    if (paragraphs.length === 0) return;
-    const chunks = buildTTSChunks(paragraphs);
+    // Build paragraph→chunk map for highlighting
+    const { ranges } = buildParaChunkMap(speechText);
+    const totalChunks = ranges.length;
+    if (totalChunks === 0) return;
 
-    // Deduct 1 credit for listening
+    // Deduct 1 credit
     setTtsCreditsUsed(prev => prev + 1);
 
-    // Set up playback session
+    // Create AudioContext on user gesture (crucial for autoplay)
+    const audioCtx = new AudioContext();
+    audioCtxRef.current = audioCtx;
+
     const session = { cancelled: false };
     audioQueueRef.current = session;
-    setTotalAudioParagraphs(chunks.length);
+    setTotalAudioParagraphs(totalChunks);
     setIsPlayingAudio(true);
     setIsPausedAudio(false);
     setIsLoadingAudio(true);
     setCurrentAudioParagraph(0);
+    if (ranges[0]) setCurrentAudioParaRange(ranges[0]);
 
-    // Pre-fetch first 2 chunks immediately (parallel)
-    const prefetchCache: Map<number, Promise<Blob | null>> = new Map();
-    prefetchCache.set(0, fetchChunkAudio(chunks[0].text));
-    if (chunks.length > 1) {
-      prefetchCache.set(1, fetchChunkAudio(chunks[1].text));
-    }
-
-    for (let i = 0; i < chunks.length; i++) {
-      if (session.cancelled) break;
-
-      const chunk = chunks[i];
-      setCurrentAudioParagraph(i);
-      setCurrentAudioParaRange([chunk.paraStart, chunk.paraEnd]);
-
-      // Get audio from cache or fetch
-      const blobPromise = prefetchCache.get(i) || fetchChunkAudio(chunk.text);
-      prefetchCache.delete(i);
-      const blob = await blobPromise;
-      if (session.cancelled || !blob) break;
-
-      // Pre-fetch next 2 chunks while this one plays
-      for (let ahead = 1; ahead <= 2; ahead++) {
-        const nextIdx = i + ahead;
-        if (nextIdx < chunks.length && !prefetchCache.has(nextIdx)) {
-          prefetchCache.set(nextIdx, fetchChunkAudio(chunks[nextIdx].text));
-        }
-      }
-
-      setIsLoadingAudio(false);
-
-      // Play this chunk
-      const audioUrl = URL.createObjectURL(blob);
-      const audio = new Audio(audioUrl);
-      setAudioElement(audio);
-
-      const playResult = await new Promise<'ended' | 'error' | 'cancelled'>((resolve) => {
-        // Listen for cancellation
-        const checkCancel = setInterval(() => {
-          if (session.cancelled) { clearInterval(checkCancel); resolve('cancelled'); }
-        }, 200);
-
-        audio.onended = () => { clearInterval(checkCancel); URL.revokeObjectURL(audioUrl); resolve('ended'); };
-        audio.onerror = () => { clearInterval(checkCancel); URL.revokeObjectURL(audioUrl); resolve('error'); };
-
-        audio.play().catch(() => {
-          clearInterval(checkCancel);
-          URL.revokeObjectURL(audioUrl);
-          resolve('error');
-        });
+    try {
+      // Single streaming request — server generates chunks and streams back
+      const response = await fetch('/api/text-to-speech', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: speechText,
+          voice: selectedVoice,
+          clientAnonUserId: typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null,
+        }),
       });
 
-      if (playResult === 'cancelled' || playResult === 'error') {
-        if (playResult === 'cancelled') break;
-        // On error, try next chunk
-        continue;
+      if (!response.ok || !response.body) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('TTS stream error:', errorData);
+        setIsPlayingAudio(false);
+        setIsLoadingAudio(false);
+        return;
       }
-    }
 
-    // Playback complete or cancelled
-    if (!session.cancelled) {
-      setIsPlayingAudio(false);
-      setCurrentAudioParagraph(-1);
-      setCurrentAudioParaRange([-1, -1]);
+      // Read the binary stream: [4-byte length][MP3 data] repeated, [0000] = EOF
+      const reader = response.body.getReader();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let buffer: any = new Uint8Array(0);
+      let scheduledTime = audioCtx.currentTime + 0.05; // tiny lead-in
+      let chunkIndex = 0;
+      let lastSourceNode: AudioBufferSourceNode | null = null;
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const appendBuffer = (existing: Uint8Array, incoming: any): Uint8Array => {
+        const merged = new Uint8Array(existing.length + incoming.length);
+        merged.set(existing);
+        merged.set(new Uint8Array(incoming), existing.length);
+        return merged;
+      };
+
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        if (session.cancelled) break;
+
+        const { done, value } = await reader.read();
+        if (value) buffer = appendBuffer(buffer, value);
+        if (done && buffer.length === 0) break;
+
+        // Extract complete chunks from buffer
+        while (buffer.length >= 4) {
+          const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
+          const chunkLen = view.getUint32(0, false);
+
+          // EOF marker
+          if (chunkLen === 0) {
+            buffer = new Uint8Array(0);
+            break;
+          }
+
+          if (buffer.length < 4 + chunkLen) break; // incomplete, wait for more data
+
+          const audioData = buffer.slice(4, 4 + chunkLen);
+          buffer = buffer.slice(4 + chunkLen);
+
+          if (session.cancelled) break;
+
+          // Decode MP3 → AudioBuffer
+          try {
+            const audioBuffer = await audioCtx.decodeAudioData(audioData.buffer.slice(audioData.byteOffset, audioData.byteOffset + audioData.byteLength));
+
+            // Schedule gapless playback
+            const source = audioCtx.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(audioCtx.destination);
+
+            // Ensure we don't schedule in the past
+            if (scheduledTime < audioCtx.currentTime) {
+              scheduledTime = audioCtx.currentTime + 0.02;
+            }
+            source.start(scheduledTime);
+            lastSourceNode = source;
+
+            // Update UI — first chunk removes loading state
+            if (chunkIndex === 0) setIsLoadingAudio(false);
+            setCurrentAudioParagraph(chunkIndex);
+            if (ranges[chunkIndex]) setCurrentAudioParaRange(ranges[chunkIndex]);
+
+            // Schedule next chunk right after this one ends
+            scheduledTime += audioBuffer.duration;
+            chunkIndex++;
+          } catch (decodeErr) {
+            console.warn('Failed to decode audio chunk:', decodeErr);
+            chunkIndex++;
+          }
+        }
+
+        if (done) break;
+      }
+
+      // Wait for all audio to finish playing
+      if (lastSourceNode && !session.cancelled) {
+        await new Promise<void>((resolve) => {
+          lastSourceNode!.onended = () => resolve();
+          // Safety timeout: if onended doesn't fire
+          const maxWait = (scheduledTime - audioCtx.currentTime + 1) * 1000;
+          setTimeout(resolve, Math.max(maxWait, 1000));
+        });
+      }
+    } catch (err) {
+      console.error('Error in TTS streaming playback:', err);
+    } finally {
+      if (!session.cancelled) {
+        setIsPlayingAudio(false);
+        setCurrentAudioParagraph(-1);
+        setCurrentAudioParaRange([-1, -1]);
+      }
+      // Close AudioContext
+      if (audioCtxRef.current === audioCtx) {
+        audioCtx.close().catch(() => {});
+        audioCtxRef.current = null;
+      }
     }
   };
 
   const handlePauseResumeAudio = () => {
-    if (!audioElement) return;
-    if (audioElement.paused) {
-      audioElement.play();
-      setIsPausedAudio(false);
-    } else {
-      audioElement.pause();
+    const ctx = audioCtxRef.current;
+    if (!ctx) return;
+    if (ctx.state === 'running') {
+      ctx.suspend();
       setIsPausedAudio(true);
+    } else if (ctx.state === 'suspended') {
+      ctx.resume();
+      setIsPausedAudio(false);
     }
   };
 
@@ -1787,25 +1818,51 @@ function GeneratorContent() {
     setExportingFormat('mp3');
 
     try {
-      // For export, send full text (user will wait for download)
+      // Fetch the full stream and concatenate all chunks into one MP3 blob
       const response = await fetch('/api/text-to-speech', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          text: speechText.substring(0, 4096), // API limit
+          text: speechText,
           voice: selectedVoice,
-          format: 'mp3',
           clientAnonUserId: typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null,
         }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error('TTS export error:', errorData);
+      if (!response.ok || !response.body) {
+        console.error('TTS export error');
         return;
       }
 
-      const blob = await response.blob();
+      // Read stream and extract MP3 data (skip length headers)
+      const reader = response.body.getReader();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mp3Parts: any[] = [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let buf: any = new Uint8Array(0);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const append = (a: any, b: any) => {
+        const c = new Uint8Array(a.length + b.length);
+        c.set(new Uint8Array(a)); c.set(new Uint8Array(b), a.length);
+        return c;
+      };
+
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const { done, value } = await reader.read();
+        if (value) buf = append(buf, value);
+        while (buf.length >= 4) {
+          const len = new DataView(buf.buffer, buf.byteOffset, buf.byteLength).getUint32(0, false);
+          if (len === 0) { buf = new Uint8Array(0); break; }
+          if (buf.length < 4 + len) break;
+          mp3Parts.push(buf.slice(4, 4 + len));
+          buf = buf.slice(4 + len);
+        }
+        if (done) break;
+      }
+
+      const blob = new Blob(mp3Parts, { type: 'audio/mpeg' });
       const title = formData.groomName && formData.brideName
         ? `Speech for ${formData.groomName} & ${formData.brideName}`
         : 'speech';
@@ -1824,16 +1881,15 @@ function GeneratorContent() {
     }
   };
 
-  // Clean up audio on unmount
+  // Clean up AudioContext on unmount
   React.useEffect(() => {
     return () => {
       audioQueueRef.current.cancelled = true;
-      if (audioElement) {
-        audioElement.pause();
-        audioElement.currentTime = 0;
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close().catch(() => {});
       }
     };
-  }, [audioElement]);
+  }, []);
 
   // Handle direct paragraph editing
   const handleParagraphEdit = (paraId: string, newText: string) => {

@@ -725,15 +725,10 @@ function GeneratorContent() {
   const [isFinal, setIsFinal] = useState(false);
   const [showFinalToast, setShowFinalToast] = useState(false);
   const [exportingFormat, setExportingFormat] = useState<string | null>(null);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [isPausedAudio, setIsPausedAudio] = useState(false);
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
-  // audioElement removed — now using AudioContext for gapless playback
+  const [audioUrl, setAudioUrl] = useState<string | null>(null); // blob URL for generated MP3
   const [selectedVoice, setSelectedVoice] = useState<string>('nova');
-  const [currentAudioParagraph, setCurrentAudioParagraph] = useState(-1);
-  const [totalAudioParagraphs, setTotalAudioParagraphs] = useState(0);
   const [ttsCreditsUsed, setTtsCreditsUsed] = useState(0);
-  const audioQueueRef = React.useRef<{ cancelled: boolean }>({ cancelled: false });
   const [currentSpeechId, setCurrentSpeechId] = useState<string | null>(speechIdFromUrl);
   const fullSpeechRef = React.useRef<string>("");
   const speechCardRef = React.useRef<HTMLDivElement>(null);
@@ -1608,80 +1603,23 @@ function GeneratorContent() {
     }
   };
 
-  // ── Text-to-Speech: AudioContext + server-streamed chunks ────────
-  // Single API call streams audio chunks back as they're generated.
-  // AudioContext (created on user click) schedules them gaplessly.
-  const audioCtxRef = React.useRef<AudioContext | null>(null);
-  const [currentAudioParaRange, setCurrentAudioParaRange] = useState<[number, number]>([-1, -1]);
-
-  // Build paragraph→chunk mapping (mirrors server-side buildChunks)
-  const buildParaChunkMap = (text: string) => {
-    const FIRST_TARGET = 400;
-    const REST_TARGET = 1000;
-    const paragraphs = text.split(/\n+/).filter(p => p.trim().length > 0);
-    const ranges: Array<[number, number]> = [];
-    let current = '';
-    let chunkStart = 0;
-    let isFirst = true;
-    for (let i = 0; i < paragraphs.length; i++) {
-      const para = paragraphs[i];
-      const target = isFirst ? FIRST_TARGET : REST_TARGET;
-      if (current.length + para.length + 2 > target && current.length > 0) {
-        ranges.push([chunkStart, i - 1]);
-        current = para;
-        chunkStart = i;
-        isFirst = false;
-      } else {
-        current += (current ? '\n\n' : '') + para;
-      }
-    }
-    if (current.trim()) ranges.push([chunkStart, paragraphs.length - 1]);
-    return { paragraphs, ranges };
-  };
-
-  const handleListenToSpeech = async () => {
-    // Stop if already playing
-    if (isPlayingAudio || isPausedAudio) {
-      audioQueueRef.current.cancelled = true;
-      if (audioCtxRef.current) {
-        await audioCtxRef.current.close().catch(() => {});
-        audioCtxRef.current = null;
-      }
-      setIsPlayingAudio(false);
-      setIsPausedAudio(false);
-      setIsLoadingAudio(false);
-      setCurrentAudioParagraph(-1);
-      setCurrentAudioParaRange([-1, -1]);
-      return;
-    }
-
-    if (aiCreditsExhausted) return;
+  // ── Text-to-Speech: generate full MP3, then native audio player ──
+  const handleGenerateAudio = async () => {
+    if (aiCreditsExhausted || isLoadingAudio) return;
     const speechText = generatedSpeech;
     if (!speechText.trim()) return;
 
-    // Build paragraph→chunk map for highlighting
-    const { ranges } = buildParaChunkMap(speechText);
-    const totalChunks = ranges.length;
-    if (totalChunks === 0) return;
+    // If audio already generated, just clear it (toggle off)
+    if (audioUrl) {
+      URL.revokeObjectURL(audioUrl);
+      setAudioUrl(null);
+      return;
+    }
 
-    // Deduct 1 credit
     setTtsCreditsUsed(prev => prev + 1);
-
-    // Create AudioContext on user gesture (crucial for autoplay)
-    const audioCtx = new AudioContext();
-    audioCtxRef.current = audioCtx;
-
-    const session = { cancelled: false };
-    audioQueueRef.current = session;
-    setTotalAudioParagraphs(totalChunks);
-    setIsPlayingAudio(true);
-    setIsPausedAudio(false);
     setIsLoadingAudio(true);
-    setCurrentAudioParagraph(0);
-    if (ranges[0]) setCurrentAudioParaRange(ranges[0]);
 
     try {
-      // Single streaming request — server generates chunks and streams back
       const response = await fetch('/api/text-to-speech', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1692,150 +1630,43 @@ function GeneratorContent() {
         }),
       });
 
-      if (!response.ok || !response.body) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error('TTS stream error:', errorData);
-        setIsPlayingAudio(false);
-        setIsLoadingAudio(false);
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        console.error('TTS error:', err);
         return;
       }
 
-      // Read the binary stream: [4-byte length][MP3 data] repeated, [0000] = EOF
-      const reader = response.body.getReader();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let buffer: any = new Uint8Array(0);
-      let scheduledTime = audioCtx.currentTime + 0.05; // tiny lead-in
-      let chunkIndex = 0;
-      let lastSourceNode: AudioBufferSourceNode | null = null;
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const appendBuffer = (existing: Uint8Array, incoming: any): Uint8Array => {
-        const merged = new Uint8Array(existing.length + incoming.length);
-        merged.set(existing);
-        merged.set(new Uint8Array(incoming), existing.length);
-        return merged;
-      };
-
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        if (session.cancelled) break;
-
-        const { done, value } = await reader.read();
-        if (value) buffer = appendBuffer(buffer, value);
-        if (done && buffer.length === 0) break;
-
-        // Extract complete chunks from buffer
-        while (buffer.length >= 4) {
-          const view = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
-          const chunkLen = view.getUint32(0, false);
-
-          // EOF marker
-          if (chunkLen === 0) {
-            buffer = new Uint8Array(0);
-            break;
-          }
-
-          if (buffer.length < 4 + chunkLen) break; // incomplete, wait for more data
-
-          const audioData = buffer.slice(4, 4 + chunkLen);
-          buffer = buffer.slice(4 + chunkLen);
-
-          if (session.cancelled) break;
-
-          // Decode MP3 → AudioBuffer
-          try {
-            const audioBuffer = await audioCtx.decodeAudioData(audioData.buffer.slice(audioData.byteOffset, audioData.byteOffset + audioData.byteLength));
-
-            // Schedule gapless playback
-            const source = audioCtx.createBufferSource();
-            source.buffer = audioBuffer;
-            source.connect(audioCtx.destination);
-
-            // Ensure we don't schedule in the past
-            if (scheduledTime < audioCtx.currentTime) {
-              scheduledTime = audioCtx.currentTime + 0.02;
-            }
-            source.start(scheduledTime);
-            lastSourceNode = source;
-
-            // Update UI — first chunk removes loading state
-            if (chunkIndex === 0) setIsLoadingAudio(false);
-            setCurrentAudioParagraph(chunkIndex);
-            if (ranges[chunkIndex]) setCurrentAudioParaRange(ranges[chunkIndex]);
-
-            // Schedule next chunk right after this one ends
-            scheduledTime += audioBuffer.duration;
-            chunkIndex++;
-          } catch (decodeErr) {
-            console.warn('Failed to decode audio chunk:', decodeErr);
-            chunkIndex++;
-          }
-        }
-
-        if (done) break;
-      }
-
-      // Wait for all scheduled audio to finish playing
-      if (scheduledTime > audioCtx.currentTime && !session.cancelled) {
-        const remainingMs = (scheduledTime - audioCtx.currentTime) * 1000;
-        // Use a timer that accounts for suspend/resume
-        await new Promise<void>((resolve) => {
-          const check = () => {
-            if (session.cancelled) { resolve(); return; }
-            if (audioCtx.state === 'closed') { resolve(); return; }
-            // Check if we've passed the scheduled end time
-            if (audioCtx.currentTime >= scheduledTime - 0.1) {
-              resolve();
-            } else {
-              setTimeout(check, 250);
-            }
-          };
-          // Start checking, with a safety max based on remaining audio
-          setTimeout(check, Math.min(remainingMs * 0.8, 500));
-          // Hard safety: resolve after 2x the remaining time + buffer
-          setTimeout(resolve, remainingMs + 5000);
-        });
-      }
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setAudioUrl(url);
     } catch (err) {
-      console.error('Error in TTS streaming playback:', err);
+      console.error('Error generating audio:', err);
     } finally {
-      if (!session.cancelled) {
-        setIsPlayingAudio(false);
-        setIsLoadingAudio(false);
-        setCurrentAudioParagraph(-1);
-        setCurrentAudioParaRange([-1, -1]);
-      }
-      // Close AudioContext AFTER audio finishes (not prematurely)
-      if (audioCtxRef.current === audioCtx) {
-        audioCtx.close().catch(() => {});
-        audioCtxRef.current = null;
-      }
-    }
-  };
-
-  const handlePauseResumeAudio = () => {
-    const ctx = audioCtxRef.current;
-    if (!ctx) return;
-    if (ctx.state === 'running') {
-      ctx.suspend();
-      setIsPausedAudio(true);
-    } else if (ctx.state === 'suspended') {
-      ctx.resume();
-      setIsPausedAudio(false);
+      setIsLoadingAudio(false);
     }
   };
 
   const handleExportAudio = async () => {
     const speechText = generatedSpeech;
-    if (!speechText.trim() || !currentSpeechId) return;
+    if (!speechText.trim()) return;
     if (aiCreditsExhausted) return;
 
-    // Deduct 1 credit for export
-    setTtsCreditsUsed(prev => prev + 1);
     setExportingFormat('mp3');
 
     try {
-      // Fetch the full stream and concatenate all chunks into one MP3 blob
+      // If we already have audio, download it directly
+      if (audioUrl) {
+        const a = document.createElement('a');
+        a.href = audioUrl;
+        a.download = `${formData.groomName && formData.brideName ? `Speech for ${formData.groomName} & ${formData.brideName}` : 'speech'}.mp3`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        return;
+      }
+
+      // Otherwise generate and download
+      setTtsCreditsUsed(prev => prev + 1);
       const response = await fetch('/api/text-to-speech', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1846,51 +1677,20 @@ function GeneratorContent() {
         }),
       });
 
-      if (!response.ok || !response.body) {
-        console.error('TTS export error');
-        return;
-      }
+      if (!response.ok) return;
 
-      // Read stream and extract MP3 data (skip length headers)
-      const reader = response.body.getReader();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mp3Parts: any[] = [];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let buf: any = new Uint8Array(0);
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const append = (a: any, b: any) => {
-        const c = new Uint8Array(a.length + b.length);
-        c.set(new Uint8Array(a)); c.set(new Uint8Array(b), a.length);
-        return c;
-      };
-
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        const { done, value } = await reader.read();
-        if (value) buf = append(buf, value);
-        while (buf.length >= 4) {
-          const len = new DataView(buf.buffer, buf.byteOffset, buf.byteLength).getUint32(0, false);
-          if (len === 0) { buf = new Uint8Array(0); break; }
-          if (buf.length < 4 + len) break;
-          mp3Parts.push(buf.slice(4, 4 + len));
-          buf = buf.slice(4 + len);
-        }
-        if (done) break;
-      }
-
-      const blob = new Blob(mp3Parts, { type: 'audio/mpeg' });
+      const blob = await response.blob();
       const title = formData.groomName && formData.brideName
         ? `Speech for ${formData.groomName} & ${formData.brideName}`
         : 'speech';
-      const url = window.URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = `${title}.mp3`;
       document.body.appendChild(a);
       a.click();
       a.remove();
-      window.URL.revokeObjectURL(url);
+      URL.revokeObjectURL(url);
     } catch (err) {
       console.error('Error exporting audio:', err);
     } finally {
@@ -1898,15 +1698,21 @@ function GeneratorContent() {
     }
   };
 
-  // Clean up AudioContext on unmount
+  // Clean up audio blob URL on unmount or when speech changes
   React.useEffect(() => {
     return () => {
-      audioQueueRef.current.cancelled = true;
-      if (audioCtxRef.current) {
-        audioCtxRef.current.close().catch(() => {});
-      }
+      if (audioUrl) URL.revokeObjectURL(audioUrl);
     };
-  }, []);
+  }, [audioUrl]);
+
+  // Clear generated audio when speech content changes (edit/refine/regen)
+  React.useEffect(() => {
+    if (audioUrl) {
+      URL.revokeObjectURL(audioUrl);
+      setAudioUrl(null);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [generatedSpeech]);
 
   // Handle direct paragraph editing
   const handleParagraphEdit = (paraId: string, newText: string) => {
@@ -3315,48 +3121,31 @@ function GeneratorContent() {
                                 </button>
                               </div>
                             )}
-                            {/* Listen to speech — Pro only, with pause/resume */}
+                            {/* Listen to speech — Pro only, generates full MP3 */}
                             {isProUser && (
-                              <div className="flex items-center gap-1">
-                                {/* Play / Stop button */}
-                                <button
-                                  onClick={handleListenToSpeech}
-                                  disabled={isRefining || (!isPlayingAudio && !isPausedAudio && !isLoadingAudio && aiCreditsExhausted)}
-                                  title={isPlayingAudio || isPausedAudio || isLoadingAudio ? 'Stop listening' : aiCreditsExhausted ? 'No credits remaining' : 'Listen to your speech (1 credit)'}
-                                  className={`flex items-center space-x-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                                    isPlayingAudio || isPausedAudio || isLoadingAudio
-                                      ? 'bg-[#da5389] text-white'
-                                      : aiCreditsExhausted
-                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                        : 'bg-[#faf7f4] text-[#181615] hover:bg-[#da5389]/10 border border-[#e8e1d8]'
-                                  }`}
-                                >
-                                  {isLoadingAudio ? (
-                                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
-                                  ) : isPlayingAudio || isPausedAudio ? (
-                                    <span>⏹</span>
-                                  ) : (
-                                    <span>🔊</span>
-                                  )}
-                                  <span>
-                                    {isLoadingAudio
-                                      ? 'Preparing...'
-                                      : isPlayingAudio || isPausedAudio
-                                        ? `${currentAudioParagraph + 1}/${totalAudioParagraphs}`
-                                        : 'Listen'}
-                                  </span>
-                                </button>
-                                {/* Pause / Resume button — only visible during active playback */}
-                                {(isPlayingAudio || isPausedAudio) && !isLoadingAudio && (
-                                  <button
-                                    onClick={handlePauseResumeAudio}
-                                    title={isPausedAudio ? 'Resume' : 'Pause'}
-                                    className="flex items-center px-2 py-2 text-sm font-medium rounded-lg bg-[#da5389]/80 text-white hover:bg-[#da5389] transition-colors"
-                                  >
-                                    {isPausedAudio ? '▶' : '⏸'}
-                                  </button>
+                              <button
+                                onClick={handleGenerateAudio}
+                                disabled={isRefining || isLoadingAudio || (!audioUrl && aiCreditsExhausted)}
+                                title={audioUrl ? 'Hide audio player' : aiCreditsExhausted ? 'No credits remaining' : 'Listen to your speech (1 credit)'}
+                                className={`flex items-center space-x-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                                  isLoadingAudio || audioUrl
+                                    ? 'bg-[#da5389] text-white'
+                                    : aiCreditsExhausted
+                                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                      : 'bg-[#faf7f4] text-[#181615] hover:bg-[#da5389]/10 border border-[#e8e1d8]'
+                                }`}
+                              >
+                                {isLoadingAudio ? (
+                                  <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                                ) : audioUrl ? (
+                                  <span>✕</span>
+                                ) : (
+                                  <span>🔊</span>
                                 )}
-                              </div>
+                                <span>
+                                  {isLoadingAudio ? 'Generating audio...' : audioUrl ? 'Hide Player' : 'Listen'}
+                                </span>
+                              </button>
                             )}
                             <button
                               onClick={() => {
@@ -3389,7 +3178,7 @@ function GeneratorContent() {
                                 key={para.id}
                                 className={`mb-4 rounded px-2 -mx-2 transition-colors ${
                                   para.source === 'user-edited' ? 'bg-[#da5389]/5 border-l-2 border-[#da5389]/30 pl-3 ml-0' : ''
-                                } ${isPlayingAudio && paraIndex >= currentAudioParaRange[0] && paraIndex <= currentAudioParaRange[1] ? 'bg-[#da5389]/8 ring-1 ring-[#da5389]/20' : ''}`}
+                                }`}
                               >
                                 <p
                                   contentEditable={isProUser && !isSpeechPaywalled && !isRefining}
@@ -3505,6 +3294,19 @@ function GeneratorContent() {
                                 ))}
                               </div>
                             </div>
+                          </div>
+                        )}
+
+                        {/* Native audio player — shown when MP3 is ready */}
+                        {audioUrl && (
+                          <div className="mt-3 pt-3 border-t border-[#e8e1d8]/50">
+                            <audio
+                              src={audioUrl}
+                              controls
+                              autoPlay
+                              className="w-full rounded-lg"
+                              style={{ height: '40px' }}
+                            />
                           </div>
                         )}
                       </div>

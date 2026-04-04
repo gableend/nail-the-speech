@@ -2882,7 +2882,7 @@ function GeneratorContent() {
                             </div>
                           )}
 
-                          {/* Direct Action Pills — all route through refinement */}
+                          {/* Direct Action Pills — solid pink, immediate action */}
                           <div>
                             <label className="block text-sm font-medium text-[#181615] mb-3">
                               Quick refinements:
@@ -2896,7 +2896,7 @@ function GeneratorContent() {
                                   className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                                     isGenerating
                                       ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                      : 'bg-white border border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-[#da5389]/5'
+                                      : 'bg-[#da5389] text-white hover:bg-[#da5389]/85 shadow-sm hover:shadow-md'
                                   }`}
                                 >
                                   {suggestion}
@@ -2933,7 +2933,7 @@ function GeneratorContent() {
                             </div>
                           </div>
 
-                          {/* Custom Instructions */}
+                          {/* Custom Instructions + Voice Input */}
                           <div>
                             <label className="block text-sm font-medium text-[#181615] mb-2">
                               {selectedPill ? `Provide details for "${selectedPill}":` : "Or describe your own changes:"}
@@ -2956,10 +2956,17 @@ function GeneratorContent() {
                               rows={3}
                               className="w-full p-3 border border-[#e8e1d8] rounded-lg text-[#181615] placeholder-[#8f867e] focus:border-[#da5389] focus:outline-none focus:ring-1 focus:ring-[#da5389]"
                             />
-                            <div className="text-xs text-[#8f867e] mt-1 text-right">{regenerationInstructions.length}/500</div>
+                            <div className="flex items-center justify-between mt-1">
+                              <VoiceInput
+                                onTranscription={(text) => setRegenerationInstructions((prev) => (prev + ' ' + text).trim().slice(0, 500))}
+                                placeholder="Describe changes by voice"
+                                disabled={isGenerating}
+                              />
+                              <div className="text-xs text-[#8f867e]">{regenerationInstructions.length}/500</div>
+                            </div>
                           </div>
 
-                          {/* Action Buttons — Refine (primary) + Start Over (de-emphasized) */}
+                          {/* Action Buttons — Refine (outlined→filled) + Start Over (de-emphasized) */}
                           <div className="flex items-center justify-between gap-3">
                             {selectedPill && (
                               <button
@@ -2987,29 +2994,34 @@ function GeneratorContent() {
                                 Start Over
                               </button>
 
-                              {/* Refine Speech — primary action */}
+                              {/* Refine Speech — outlined when inactive, filled when ready */}
                               <button
                                 onClick={() => {
                                   const instruction = selectedPill && regenerationInstructions.trim()
                                     ? `${selectedPill}: ${regenerationInstructions}`
                                     : regenerationInstructions.trim();
 
-                                  if (instruction) {
-                                    handleRefineSpeech(instruction);
-                                    setRegenerationInstructions("");
-                                    setSelectedPill(null);
+                                  if (!instruction || instruction.trim().length < 10) {
+                                    showToast('Describe your change in a bit more detail so the AI knows what to refine.', 'hint');
+                                    return;
                                   }
+
+                                  handleRefineSpeech(instruction);
+                                  setRegenerationInstructions("");
+                                  setSelectedPill(null);
                                 }}
-                                disabled={isGenerating || (!regenerationInstructions.trim() && !selectedPill)}
+                                disabled={isGenerating}
                                 className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                                  isGenerating || (!regenerationInstructions.trim() && !selectedPill)
-                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                    : 'bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-md hover:shadow-lg'
+                                  isGenerating
+                                    ? 'border-2 border-gray-300 text-gray-400 cursor-not-allowed'
+                                    : regenerationInstructions.trim().length >= 10 || selectedPill
+                                    ? 'bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-md hover:shadow-lg'
+                                    : 'border-2 border-[#da5389] text-[#da5389] bg-transparent hover:bg-[#da5389]/5'
                                 }`}
                               >
                                 {isGenerating ? (
                                   <>
-                                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block mr-2" />
+                                    <div className="animate-spin h-4 w-4 border-2 border-[#da5389] border-t-transparent rounded-full inline-block mr-2" />
                                     Refining...
                                   </>
                                 ) : (

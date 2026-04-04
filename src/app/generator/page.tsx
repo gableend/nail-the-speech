@@ -969,6 +969,7 @@ function GeneratorContent() {
   const getDemoData = (role: string) => {
     const demoData: Record<string, Partial<FormData>> = {
       'best-man': {
+        selectedRole: "best-man",
         email: "demo@example.com",
         yourName: "Michael",
         groomName: "James",
@@ -985,6 +986,7 @@ function GeneratorContent() {
         momentSeenTogether: "Last Christmas, I watched them decorate their tree together. James kept trying to direct where ornaments should go, and Sarah would just smile and move them when he wasn't looking. When he finally noticed, instead of being annoyed, he just laughed and said 'your way is better.' That's when I knew they were perfect for each other."
       },
       'maid-of-honor': {
+        selectedRole: "maid-of-honor",
         email: "emma.demo@nailthespeech.com",
         yourName: "Emma",
         groomName: "David",
@@ -1001,6 +1003,7 @@ function GeneratorContent() {
         momentSeenTogether: "At Jessica's birthday last year, David surprised her by donating to the animal shelter in her name and arranging for all her friends to volunteer for a day. Watching her face light up, and seeing how proud he was to make her happy, I knew he truly understood what makes her heart sing."
       },
       'father-of-bride': {
+        selectedRole: "father-of-bride",
         email: "robert.demo@nailthespeech.com",
         yourName: "Robert",
         groomName: "Alexander",
@@ -1017,6 +1020,7 @@ function GeneratorContent() {
         momentSeenTogether: "Last Thanksgiving, I watched Alexander quietly help Emily's grandmother to her seat and spend the entire dinner patiently listening to her stories he'd heard before. Emily looked at him with such love and gratitude. In that moment, I knew she'd found someone who would cherish not just her, but our entire family."
       },
       'mother-of-bride': {
+        selectedRole: "mother-of-bride",
         email: "margaret.demo@nailthespeech.com",
         yourName: "Margaret",
         groomName: "Thomas",
@@ -1033,6 +1037,7 @@ function GeneratorContent() {
         momentSeenTogether: "During Catherine's bout with flu last winter, Thomas showed up with homemade soup, tissues, and every season of her favorite show. He didn't just drop them off - he stayed to take care of her, even though he was terrified of getting sick before an important work presentation. Watching him fuss over her like a mother hen, I knew my daughter had found her perfect match."
       },
       'groom': {
+        selectedRole: "groom",
         email: "matthew.demo@nailthespeech.com",
         yourName: "Matthew",
         groomName: "Matthew",
@@ -1049,6 +1054,7 @@ function GeneratorContent() {
         momentSeenTogether: "Last month, Amanda surprised me by planning a proposal picnic at the exact spot where we had our first real conversation. She'd remembered every detail about that night and wanted to give me a perfect memory to match it."
       },
       'bride': {
+        selectedRole: "bride",
         email: "sophia.demo@nailthespeech.com",
         yourName: "Sophia",
         groomName: "Daniel",
@@ -1695,7 +1701,7 @@ function GeneratorContent() {
                   <span className="text-white text-sm">✓</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-green-800">Payment Successful!</div>
+                  <div className="font-semibold text-green-800">Payment Successful{currency?.displayPrice ? ` — ${currency.displayPrice}` : ''}!</div>
                   <div className="text-sm text-green-700">You now have access to all Pro features. You can now access step 3 to add premium details!</div>
                 </div>
               </div>

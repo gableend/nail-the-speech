@@ -731,6 +731,7 @@ function GeneratorContent() {
   const [selectedVoice, setSelectedVoice] = useState<string>('nova');
   const [currentSpeechId, setCurrentSpeechId] = useState<string | null>(speechIdFromUrl);
   const fullSpeechRef = React.useRef<string>("");
+  const speechCardRef = React.useRef<HTMLDivElement>(null);
 
   // Paragraph-level editing: track AI vs user-edited paragraphs
   interface SpeechParagraph {
@@ -913,6 +914,8 @@ function GeneratorContent() {
             setIsFinal(speechData.isFinal || false);
 
             setSpeechGenerated(true);
+            // Scroll to speech after load
+            setTimeout(() => speechCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
           } else {
             console.error('❌ Failed to load speech for edit');
           }
@@ -1824,6 +1827,8 @@ function GeneratorContent() {
               }
               setSpeechGenerated(true);
               setIsGenerating(false);
+              // Scroll to the speech card after render
+              setTimeout(() => speechCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
             } else if (data.type === 'error') {
               throw new Error(data.error);
             }
@@ -1882,6 +1887,8 @@ function GeneratorContent() {
       setShowUndoBanner(true);
       // Auto-hide after 8 seconds
       setTimeout(() => setShowUndoBanner(false), 8000);
+      // Scroll to the updated speech
+      setTimeout(() => speechCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
     } catch (error) {
       console.error('Error refining speech:', error);
       setSpeechError(error instanceof Error ? error.message : 'Failed to refine speech');
@@ -3040,7 +3047,7 @@ function GeneratorContent() {
 
                 {/* Generated Speech Display */}
                 {speechGenerated && generatedSpeech && !isGenerating && (
-                  <div className="space-y-6">
+                  <div ref={speechCardRef} className="space-y-6">
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-xl font-bold text-[#181615]">

@@ -729,6 +729,7 @@ function GeneratorContent() {
   const [audioUrl, setAudioUrl] = useState<string | null>(null); // blob URL for generated MP3
   const [selectedVoice, setSelectedVoice] = useState<string>('nova');
   const [ttsCreditsUsed, setTtsCreditsUsed] = useState(0);
+  const [ttsLoadingMsgIndex, setTtsLoadingMsgIndex] = useState(0);
   const [currentSpeechId, setCurrentSpeechId] = useState<string | null>(speechIdFromUrl);
   const fullSpeechRef = React.useRef<string>("");
   const speechCardRef = React.useRef<HTMLDivElement>(null);
@@ -1713,6 +1714,29 @@ function GeneratorContent() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [generatedSpeech]);
+
+  // Rotate TTS loading messages every 2s while generating
+  const TTS_LOADING_MESSAGES = [
+    'Warming up the voice...',
+    'Converting your words to speech...',
+    'Recording your masterpiece...',
+    'Almost there, sounding great...',
+    'Adding the finishing touches...',
+    'Polishing the delivery...',
+    'Just a few more seconds...',
+    'Your speech is nearly ready...',
+  ];
+  React.useEffect(() => {
+    if (!isLoadingAudio) {
+      setTtsLoadingMsgIndex(0);
+      return;
+    }
+    const interval = setInterval(() => {
+      setTtsLoadingMsgIndex(prev => (prev + 1) % TTS_LOADING_MESSAGES.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoadingAudio]);
 
   // Handle direct paragraph editing
   const handleParagraphEdit = (paraId: string, newText: string) => {
@@ -3143,7 +3167,7 @@ function GeneratorContent() {
                                   <span>🔊</span>
                                 )}
                                 <span>
-                                  {isLoadingAudio ? 'Generating audio...' : audioUrl ? 'Hide Player' : 'Listen'}
+                                  {isLoadingAudio ? TTS_LOADING_MESSAGES[ttsLoadingMsgIndex] : audioUrl ? 'Hide Player' : 'Listen'}
                                 </span>
                               </button>
                             )}

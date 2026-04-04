@@ -1608,8 +1608,33 @@ function GeneratorContent() {
     }
   };
 
-  // ── Text-to-Speech: paragraph-by-paragraph playback ─────────────
-  const fetchParagraphAudio = async (text: string): Promise<Blob | null> => {
+  // ── Text-to-Speech: chunked playback with pre-fetching ──────────
+  // Merge paragraphs into ~800-char chunks to reduce API calls
+  interface TTSChunk { text: string; paraStart: number; paraEnd: number; }
+
+  const buildTTSChunks = (paragraphs: string[]): TTSChunk[] => {
+    const TARGET_CHUNK_SIZE = 800;
+    const chunks: TTSChunk[] = [];
+    let currentText = '';
+    let chunkStart = 0;
+
+    for (let i = 0; i < paragraphs.length; i++) {
+      const para = paragraphs[i];
+      if (currentText.length + para.length + 2 > TARGET_CHUNK_SIZE && currentText.length > 0) {
+        chunks.push({ text: currentText.trim(), paraStart: chunkStart, paraEnd: i - 1 });
+        currentText = para;
+        chunkStart = i;
+      } else {
+        currentText += (currentText ? '\n\n' : '') + para;
+      }
+    }
+    if (currentText.trim()) {
+      chunks.push({ text: currentText.trim(), paraStart: chunkStart, paraEnd: paragraphs.length - 1 });
+    }
+    return chunks;
+  };
+
+  const fetchChunkAudio = async (text: string): Promise<Blob | null> => {
     try {
       const response = await fetch('/api/text-to-speech', {
         method: 'POST',
@@ -1633,6 +1658,9 @@ function GeneratorContent() {
     }
   };
 
+  // Track which paragraph range is currently playing (for highlight)
+  const [currentAudioParaRange, setCurrentAudioParaRange] = useState<[number, number]>([-1, -1]);
+
   const handleListenToSpeech = async () => {
     // If playing, stop completely
     if (isPlayingAudio || isPausedAudio) {
@@ -1645,6 +1673,7 @@ function GeneratorContent() {
       setIsPausedAudio(false);
       setIsLoadingAudio(false);
       setCurrentAudioParagraph(-1);
+      setCurrentAudioParaRange([-1, -1]);
       return;
     }
 
@@ -1654,9 +1683,10 @@ function GeneratorContent() {
     const speechText = generatedSpeech;
     if (!speechText.trim()) return;
 
-    // Split into paragraphs
+    // Split into paragraphs and build chunks
     const paragraphs = speechText.split('\n').filter(p => p.trim().length > 0);
     if (paragraphs.length === 0) return;
+    const chunks = buildTTSChunks(paragraphs);
 
     // Deduct 1 credit for listening
     setTtsCreditsUsed(prev => prev + 1);
@@ -1664,36 +1694,43 @@ function GeneratorContent() {
     // Set up playback session
     const session = { cancelled: false };
     audioQueueRef.current = session;
-    setTotalAudioParagraphs(paragraphs.length);
+    setTotalAudioParagraphs(chunks.length);
     setIsPlayingAudio(true);
     setIsPausedAudio(false);
-
-    // Pre-fetch first paragraph while showing loading
     setIsLoadingAudio(true);
     setCurrentAudioParagraph(0);
 
-    // Play paragraphs sequentially, pre-fetching the next one
-    let nextBlob: Promise<Blob | null> | null = null;
+    // Pre-fetch first 2 chunks immediately (parallel)
+    const prefetchCache: Map<number, Promise<Blob | null>> = new Map();
+    prefetchCache.set(0, fetchChunkAudio(chunks[0].text));
+    if (chunks.length > 1) {
+      prefetchCache.set(1, fetchChunkAudio(chunks[1].text));
+    }
 
-    for (let i = 0; i < paragraphs.length; i++) {
+    for (let i = 0; i < chunks.length; i++) {
       if (session.cancelled) break;
 
+      const chunk = chunks[i];
       setCurrentAudioParagraph(i);
+      setCurrentAudioParaRange([chunk.paraStart, chunk.paraEnd]);
 
-      // Use pre-fetched blob or fetch fresh
-      const blob = nextBlob ? await nextBlob : await fetchParagraphAudio(paragraphs[i]);
+      // Get audio from cache or fetch
+      const blobPromise = prefetchCache.get(i) || fetchChunkAudio(chunk.text);
+      prefetchCache.delete(i);
+      const blob = await blobPromise;
       if (session.cancelled || !blob) break;
 
-      // Pre-fetch next paragraph while current plays
-      if (i + 1 < paragraphs.length) {
-        nextBlob = fetchParagraphAudio(paragraphs[i + 1]);
-      } else {
-        nextBlob = null;
+      // Pre-fetch next 2 chunks while this one plays
+      for (let ahead = 1; ahead <= 2; ahead++) {
+        const nextIdx = i + ahead;
+        if (nextIdx < chunks.length && !prefetchCache.has(nextIdx)) {
+          prefetchCache.set(nextIdx, fetchChunkAudio(chunks[nextIdx].text));
+        }
       }
 
       setIsLoadingAudio(false);
 
-      // Play this paragraph
+      // Play this chunk
       const audioUrl = URL.createObjectURL(blob);
       const audio = new Audio(audioUrl);
       setAudioElement(audio);
@@ -1711,10 +1748,8 @@ function GeneratorContent() {
       });
 
       // Wait while paused
-      while (session.cancelled === false) {
-        // Check if audio is actually done (not just paused)
+      while (!session.cancelled) {
         if (audio.ended || audio.error) break;
-        // If paused, wait a bit and check again
         if (audio.paused) {
           await new Promise(r => setTimeout(r, 100));
         } else {
@@ -1727,6 +1762,7 @@ function GeneratorContent() {
     if (!session.cancelled) {
       setIsPlayingAudio(false);
       setCurrentAudioParagraph(-1);
+      setCurrentAudioParaRange([-1, -1]);
     }
   };
 
@@ -3280,7 +3316,7 @@ function GeneratorContent() {
                                 key={para.id}
                                 className={`mb-4 rounded px-2 -mx-2 transition-colors ${
                                   para.source === 'user-edited' ? 'bg-[#da5389]/5 border-l-2 border-[#da5389]/30 pl-3 ml-0' : ''
-                                } ${isPlayingAudio && paraIndex === currentAudioParagraph ? 'bg-[#da5389]/8 ring-1 ring-[#da5389]/20' : ''}`}
+                                } ${isPlayingAudio && paraIndex >= currentAudioParaRange[0] && paraIndex <= currentAudioParaRange[1] ? 'bg-[#da5389]/8 ring-1 ring-[#da5389]/20' : ''}`}
                               >
                                 <p
                                   contentEditable={isProUser && !isSpeechPaywalled && !isRefining}

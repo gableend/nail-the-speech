@@ -52,19 +52,34 @@ export async function getUserProStatus(): Promise<{
  * Check Pro status for a request where we already have userId/anonUserId.
  * Used in API routes that handle both authenticated and anonymous users.
  */
+// Short-lived cache for pro status checks (avoids DB hit on rapid successive calls e.g. TTS chunks)
+const proStatusCache = new Map<string, { isPro: boolean; expiresAt: number }>();
+const PRO_CACHE_TTL_MS = 30_000; // 30 seconds
+
 export async function checkProStatusForRequest(
   userId: string | null,
   anonUserId: string | null
 ): Promise<boolean> {
   if (!userId) return false;
 
+  // Check cache first
+  const cached = proStatusCache.get(userId);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.isPro;
+  }
+
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { isProUser: true, proExpiresAt: true },
     });
-    return user?.isProUser === true &&
+    const isPro = user?.isProUser === true &&
       (!user.proExpiresAt || user.proExpiresAt > new Date());
+
+    // Cache result
+    proStatusCache.set(userId, { isPro, expiresAt: Date.now() + PRO_CACHE_TTL_MS });
+
+    return isPro;
   } catch (error) {
     console.error('Error checking pro status for request:', error);
     return false;

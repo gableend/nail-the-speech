@@ -74,8 +74,8 @@ export async function sendPaymentConfirmation(email: string, expiresAt: Date) {
 
 // ── Abandoned session: Email 1 — Confirm subscription ─────
 
-export async function sendConfirmSubscription(email: string, name: string | null, leadId: string) {
-  const confirmUrl = `${BASE_URL}/api/confirm-email?id=${leadId}`;
+export async function sendConfirmSubscription(email: string, name: string | null, leadId: string, speechId: string | null = null) {
+  const confirmUrl = `${BASE_URL}/api/confirm-email?id=${leadId}${speechId ? `&speechId=${speechId}` : ''}`;
   const greeting = name ? `Hi ${name},` : 'Hi there,';
 
   await client.sendEmail({
@@ -115,8 +115,10 @@ export async function sendConfirmSubscription(email: string, name: string | null
 
 // ── Abandoned session: Email 2 — Discount code ────────────
 
-export async function sendDiscountEmail(email: string, name: string | null, discountCode: string) {
-  const claimUrl = `${BASE_URL}/generator?discount=${discountCode}`;
+export async function sendDiscountEmail(email: string, name: string | null, discountCode: string, speechId: string | null = null) {
+  const claimUrl = speechId
+    ? `${BASE_URL}/generator?speechId=${speechId}&discount=${discountCode}`
+    : `${BASE_URL}/generator?discount=${discountCode}`;
   const greeting = name ? `Hi ${name},` : 'Hi there,';
 
   await client.sendEmail({

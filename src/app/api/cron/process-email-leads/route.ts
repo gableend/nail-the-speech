@@ -40,7 +40,13 @@ export async function POST(request: Request) {
 
     for (const lead of leadsForEmail1) {
       try {
-        await sendConfirmSubscription(lead.email, lead.name, lead.id);
+        // Find the lead's most recent speech to link back in the email
+        const latestSpeech = await prisma.speech.findFirst({
+          where: { formData: { contains: lead.email } },
+          orderBy: { createdAt: 'desc' },
+          select: { id: true },
+        });
+        await sendConfirmSubscription(lead.email, lead.name, lead.id, latestSpeech?.id || null);
         await prisma.emailLead.update({
           where: { id: lead.id },
           data: { email1SentAt: now },
@@ -85,7 +91,13 @@ export async function POST(request: Request) {
 
         const code = promoCode.code;
 
-        await sendDiscountEmail(lead.email, lead.name, code);
+        // Find the lead's most recent speech to link back in the email
+        const latestSpeech = await prisma.speech.findFirst({
+          where: { formData: { contains: lead.email } },
+          orderBy: { createdAt: 'desc' },
+          select: { id: true },
+        });
+        await sendDiscountEmail(lead.email, lead.name, code, latestSpeech?.id || null);
         await prisma.emailLead.update({
           where: { id: lead.id },
           data: { email2SentAt: now, discountCode: code },

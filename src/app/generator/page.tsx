@@ -728,10 +728,12 @@ function GeneratorContent() {
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
   const [audioQueue, setAudioQueue] = useState<string[]>([]);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [selectedVoice, setSelectedVoice] = useState<string>('nova');
   const [ttsCreditsUsed, setTtsCreditsUsed] = useState(0);
   const [ttsLoadingMsgIndex, setTtsLoadingMsgIndex] = useState(0);
   const audioCacheRef = React.useRef<{ textHash: string; urls: string[] } | null>(null);
+  const audioElRef = React.useRef<HTMLAudioElement | null>(null);
   const [currentSpeechId, setCurrentSpeechId] = useState<string | null>(speechIdFromUrl);
   const fullSpeechRef = React.useRef<string>("");
   const speechCardRef = React.useRef<HTMLDivElement>(null);
@@ -1645,15 +1647,19 @@ function GeneratorContent() {
   const textHashFor = (text: string) => `${text.length}:${text.slice(0, 80)}`;
   const playerIsShowing = audioQueue.length > 0;
 
-  // Split text into chunks ≤500 chars at paragraph boundaries
+  // Split text into chunks at paragraph boundaries.
+  // First 2 chunks are small (≤200 chars) for fast time-to-first-audio,
+  // remaining chunks are larger (≤500 chars) for efficiency.
   const splitForTTS = (text: string): string[] => {
-    const MAX = 500;
     const paragraphs = text.split(/\n+/).filter(p => p.trim());
     const chunks: string[] = [];
     let current = '';
+    let chunkCount = 0;
     for (const para of paragraphs) {
-      if (current.length + para.length + 2 > MAX && current) {
+      const limit = chunkCount < 2 ? 200 : 500;
+      if (current.length + para.length + 2 > limit && current) {
         chunks.push(current.trim());
+        chunkCount++;
         current = para;
       } else {
         current += (current ? '\n\n' : '') + para;
@@ -1663,11 +1669,31 @@ function GeneratorContent() {
     return chunks;
   };
 
+  const handleStopAudio = () => {
+    if (audioElRef.current) {
+      audioElRef.current.pause();
+      audioElRef.current.currentTime = 0;
+    }
+    setAudioQueue([]);
+    setCurrentAudioIndex(0);
+    setIsPlayingAudio(false);
+  };
+
+  const handlePauseResumeAudio = () => {
+    if (!audioElRef.current) return;
+    if (audioElRef.current.paused) {
+      audioElRef.current.play();
+      setIsPlayingAudio(true);
+    } else {
+      audioElRef.current.pause();
+      setIsPlayingAudio(false);
+    }
+  };
+
   const handleListenToSpeech = async () => {
-    // If player is showing, hide it (keep cache)
+    // If player is showing, stop it (keep cache)
     if (playerIsShowing) {
-      setAudioQueue([]);
-      setCurrentAudioIndex(0);
+      handleStopAudio();
       return;
     }
 
@@ -1678,6 +1704,7 @@ function GeneratorContent() {
     if (audioCacheRef.current?.textHash === hash) {
       setAudioQueue(audioCacheRef.current.urls);
       setCurrentAudioIndex(0);
+      setIsPlayingAudio(true);
       return;
     }
 
@@ -1728,7 +1755,10 @@ function GeneratorContent() {
         setAudioQueue(prev => [...prev, url]);
 
         // Stop showing loading spinner after first chunk is ready
-        if (i === 0) setIsLoadingAudio(false);
+        if (i === 0) {
+          setIsLoadingAudio(false);
+          setIsPlayingAudio(true);
+        }
       }
 
       // Cache all URLs
@@ -3257,13 +3287,13 @@ function GeneratorContent() {
                               </div>
                             )}
                             {/* Listen to speech — OpenAI TTS with caching */}
-                            {isProUser && (
+                            {isProUser && !playerIsShowing && (
                               <button
                                 onClick={handleListenToSpeech}
-                                disabled={isRefining || isLoadingAudio || (!playerIsShowing && !audioCacheRef.current && aiCreditsExhausted)}
-                                title={playerIsShowing ? 'Hide audio player' : isLoadingAudio ? 'Generating...' : 'Listen to your speech'}
+                                disabled={isRefining || isLoadingAudio || (!audioCacheRef.current && aiCreditsExhausted)}
+                                title={isLoadingAudio ? 'Generating...' : 'Listen to your speech'}
                                 className={`flex items-center justify-center space-x-1.5 w-[200px] px-3 py-2 text-sm font-medium rounded-lg transition-colors overflow-hidden ${
-                                  isLoadingAudio || playerIsShowing
+                                  isLoadingAudio
                                     ? 'bg-[#da5389] text-white'
                                     : aiCreditsExhausted && !audioCacheRef.current
                                       ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -3272,19 +3302,34 @@ function GeneratorContent() {
                               >
                                 {isLoadingAudio ? (
                                   <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full flex-shrink-0" />
-                                ) : playerIsShowing ? (
-                                  <span>✕</span>
                                 ) : (
                                   <span>🔊</span>
                                 )}
                                 <span className="truncate">
                                   {isLoadingAudio
                                     ? TTS_LOADING_MESSAGES[ttsLoadingMsgIndex]
-                                    : playerIsShowing
-                                      ? 'Hide Player'
-                                      : audioCacheRef.current ? 'Listen (cached)' : 'Listen'}
+                                    : audioCacheRef.current ? 'Listen (cached)' : 'Listen'}
                                 </span>
                               </button>
+                            )}
+                            {/* Play/Pause/Stop controls — shown during playback */}
+                            {isProUser && playerIsShowing && (
+                              <div className="flex items-center gap-1">
+                                <button
+                                  onClick={handlePauseResumeAudio}
+                                  title={isPlayingAudio ? 'Pause' : 'Resume'}
+                                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#da5389] text-white hover:bg-[#da5389]/85 transition-colors"
+                                >
+                                  {isPlayingAudio ? '⏸' : '▶'}
+                                </button>
+                                <button
+                                  onClick={handleStopAudio}
+                                  title="Stop"
+                                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#da5389]/80 text-white hover:bg-[#da5389] transition-colors"
+                                >
+                                  ⏹
+                                </button>
+                              </div>
                             )}
                             <button
                               onClick={() => {
@@ -3300,23 +3345,24 @@ function GeneratorContent() {
 
                       </div>
 
-                      {/* Audio player — sits under the header row, above the speech text */}
+                      {/* Hidden audio element — controlled via play/pause/stop buttons */}
                       {audioQueue.length > 0 && (
-                        <div className="-mt-2 mb-4">
-                          <audio
-                            key={audioQueue[currentAudioIndex]}
-                            src={audioQueue[currentAudioIndex]}
-                            controls
-                            autoPlay
-                            className="w-full rounded-lg"
-                            style={{ height: '40px' }}
-                            onEnded={() => {
-                              if (currentAudioIndex < audioQueue.length - 1) {
-                                setCurrentAudioIndex(prev => prev + 1);
-                              }
-                            }}
-                          />
-                        </div>
+                        <audio
+                          key={audioQueue[currentAudioIndex]}
+                          ref={audioElRef}
+                          src={audioQueue[currentAudioIndex]}
+                          autoPlay
+                          onEnded={() => {
+                            if (currentAudioIndex < audioQueue.length - 1) {
+                              setCurrentAudioIndex(prev => prev + 1);
+                            } else {
+                              setIsPlayingAudio(false);
+                            }
+                          }}
+                          onPlay={() => setIsPlayingAudio(true)}
+                          onPause={() => setIsPlayingAudio(false)}
+                          style={{ display: 'none' }}
+                        />
                       )}
 
                       <div className="relative">

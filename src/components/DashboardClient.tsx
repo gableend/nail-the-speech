@@ -357,7 +357,7 @@ export default function DashboardClient() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
-            { icon: '📄', label: 'Completed Speeches' },
+            { icon: '📄', label: 'Total Speeches' },
             { icon: '✏️', label: 'Drafts' },
             { icon: '⏱️', label: 'Total Speaking Time' },
             { icon: '⭐', label: 'Final Speeches' }
@@ -484,8 +484,7 @@ export default function DashboardClient() {
     );
   }
 
-  const completedSpeeches = speeches.filter(s => s.isCompleted);
-  const draftSpeeches = speeches.filter(s => !s.isCompleted);
+  const draftSpeeches = speeches.filter(s => !s.isFinal);
   const finalSpeeches = speeches.filter(s => s.isFinal);
   const totalSpeakingTime = speeches.reduce((acc, speech) => acc + (speech.estimatedTime || 0), 0);
 
@@ -529,9 +528,9 @@ export default function DashboardClient() {
           <CardContent className="p-6 text-center">
             <FileText className="h-8 w-8 text-[#da5389] mx-auto mb-2" />
             <div className="text-2xl font-bold text-[#181615]">
-              {completedSpeeches.length}
+              {speeches.length}
             </div>
-            <div className="text-sm text-[#8f867e]">Completed Speeches</div>
+            <div className="text-sm text-[#8f867e]">Total Speeches</div>
           </CardContent>
         </Card>
 
@@ -694,34 +693,42 @@ export default function DashboardClient() {
                               </Badge>
                             </div>
 
-                            {speech.isCompleted ? (
-                              <div className="flex items-center space-x-4 text-sm">
+                            <div className="flex items-center space-x-4 text-sm">
+                              {speech.isFinal ? (
+                                <Badge variant="outline" className="text-green-600 border-green-600">
+                                  <CheckCircle className="h-3 w-3 mr-1" />
+                                  Final
+                                </Badge>
+                              ) : (
+                                <Badge variant="outline" className="text-[#da5389] border-[#da5389]">
+                                  Draft
+                                </Badge>
+                              )}
+                              {speech.wordCount ? (
                                 <div className="flex items-center space-x-1">
                                   <FileText className="h-4 w-4 text-[#8f867e]" />
-                                  <span className="text-[#8f867e]">{speech.wordCount || 0} words</span>
+                                  <span className="text-[#8f867e]">{speech.wordCount} words</span>
                                 </div>
+                              ) : null}
+                              {speech.estimatedTime ? (
                                 <div className="flex items-center space-x-1">
                                   <Clock className="h-4 w-4 text-[#8f867e]" />
-                                  <span className="text-[#8f867e]">{speech.estimatedTime || 0} min read</span>
+                                  <span className="text-[#8f867e]">{speech.estimatedTime} min read</span>
                                 </div>
-                                {speech.regenCount > 0 && (
-                                  <div className="flex items-center space-x-1">
-                                    <span className="text-[#da5389]">↩️</span>
-                                    <span className="text-[#da5389] font-medium">v{speech.regenCount + 1}</span>
-                                    <span className="text-[#8f867e]">({speech.regenCount} {speech.regenCount === 1 ? 'edit' : 'edits'})</span>
-                                  </div>
-                                )}
-                              </div>
-                            ) : (
-                              <Badge variant="outline" className="text-orange-600 border-orange-600">
-                                Draft - Incomplete
-                              </Badge>
-                            )}
+                              ) : null}
+                              {speech.regenCount > 0 && (
+                                <div className="flex items-center space-x-1">
+                                  <span className="text-[#da5389]">↩️</span>
+                                  <span className="text-[#da5389] font-medium">v{speech.regenCount + 1}</span>
+                                  <span className="text-[#8f867e]">({speech.regenCount} {speech.regenCount === 1 ? 'edit' : 'edits'})</span>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
 
                         <div className="flex flex-wrap gap-2">
-                          {speech.isCompleted ? (
+                          {speech.wordCount ? (
                             <>
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -772,45 +779,29 @@ export default function DashboardClient() {
                                 )}
                                 {speech.isFinal ? 'Unmark Final' : 'Mark Final'}
                               </Button>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="rounded-full text-red-600 border-red-300 hover:bg-red-50 hover:text-red-700"
-                                onClick={() => handleDeleteSpeech(speech.id)}
-                                disabled={deletingSpeeches.has(speech.id)}
-                              >
-                                {deletingSpeeches.has(speech.id) ? (
-                                  <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full mr-1" />
-                                ) : (
-                                  <Trash2 className="h-4 w-4 mr-1" />
-                                )}
-                                Delete
-                              </Button>
                             </>
                           ) : (
-                            <>
-                              <Link href="/generator?step=2">
-                                <Button size="sm" className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full">
-                                  <Edit className="h-4 w-4 mr-1" />
-                                  Continue
-                                </Button>
-                              </Link>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="rounded-full text-red-600 border-red-300 hover:bg-red-50 hover:text-red-700"
-                                onClick={() => handleDeleteSpeech(speech.id)}
-                                disabled={deletingSpeeches.has(speech.id)}
-                              >
-                                {deletingSpeeches.has(speech.id) ? (
-                                  <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full mr-1" />
-                                ) : (
-                                  <Trash2 className="h-4 w-4 mr-1" />
-                                )}
-                                Delete
+                            <Link href={`/generator?step=5&speechId=${speech.id}`}>
+                              <Button size="sm" className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full">
+                                <Edit className="h-4 w-4 mr-1" />
+                                Continue
                               </Button>
-                            </>
+                            </Link>
                           )}
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="rounded-full text-red-600 border-red-300 hover:bg-red-50 hover:text-red-700"
+                            onClick={() => handleDeleteSpeech(speech.id)}
+                            disabled={deletingSpeeches.has(speech.id)}
+                          >
+                            {deletingSpeeches.has(speech.id) ? (
+                              <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full mr-1" />
+                            ) : (
+                              <Trash2 className="h-4 w-4 mr-1" />
+                            )}
+                            Delete
+                          </Button>
                         </div>
                       </div>
                     </CardContent>

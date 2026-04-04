@@ -129,13 +129,14 @@ echo ""
 echo "  1. Open the email from Nail The Speech"
 echo "  2. Click 'Claim My Speech'"
 echo "  3. You should land on your speech preview with the paywall"
-echo "  4. The discount code should be in the URL (?discount=XXX)"
-echo "  5. DO NOT pay yet"
+echo "  4. The URL should contain ?speechId=XXX&discount=XXX"
+echo "  5. DO NOT pay yet — we'll test checkout in a later step"
 echo ""
 echo "  Verify:"
 echo "  - Your speech text is visible (preview)"
 echo "  - The Pro upgrade prompt is showing"
-echo "  - The URL contains speechId and discount params"
+echo "  - The URL contains both speechId and discount params"
+echo "  - (The discount will auto-apply when you click pay later)"
 wait_for_enter
 
 # ─── Step 6: Wait + send Email 2 (reminder) ─────────────────
@@ -162,13 +163,13 @@ wait_for_enter
 
 # ─── Step 8: Test the discount code ──────────────────────────
 
-next_step "Verify discount code at checkout"
+next_step "Verify discount auto-applied at checkout"
 echo ""
 echo "  1. Click the upgrade/pay button to go to Stripe checkout"
-echo "  2. Look for a promo code field"
-echo "  3. Enter the discount code from the email"
-echo "  4. Verify 20% is applied to the price"
-echo "  5. You can complete or cancel the payment"
+echo "  2. The 20% discount should be PRE-APPLIED automatically"
+echo "     (no need to enter a code — it's passed from the URL)"
+echo "  3. Verify the discounted price is shown"
+echo "  4. You can complete or cancel the payment"
 wait_for_enter
 
 # ─── Step 9: Verify no more emails ──────────────────────────

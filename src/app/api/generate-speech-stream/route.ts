@@ -364,6 +364,20 @@ export async function POST(request: NextRequest) {
             console.error('⚠️ [SPEECH STREAM API] Failed to log usage:', logError);
           }
 
+          // Fetch updated counts for the frontend credit system
+          let regenCount = 0;
+          let refineCount = 0;
+          if (savedSpeechId) {
+            try {
+              const updatedSpeech = await prisma.speech.findUnique({
+                where: { id: savedSpeechId },
+                select: { regenCount: true, refineCount: true },
+              });
+              regenCount = updatedSpeech?.regenCount ?? 0;
+              refineCount = updatedSpeech?.refineCount ?? 0;
+            } catch { /* non-critical */ }
+          }
+
           // Send completion message with speechId and Pro status
           const completionData = JSON.stringify({
             type: 'complete',
@@ -372,6 +386,8 @@ export async function POST(request: NextRequest) {
             isProUser,
             actionType,
             model: modelForAction,
+            regenCount,
+            refineCount,
             wordCount: fullSpeech.split(/\s+/).filter(word => word.length > 0).length,
             estimatedTime: Math.ceil(fullSpeech.split(/\s+/).filter(word => word.length > 0).length / 150),
             dataCompleteness: determineDataCompleteness(formData)

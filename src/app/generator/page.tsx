@@ -717,7 +717,10 @@ function GeneratorContent() {
   // Speech version history for undo
   const [speechVersions, setSpeechVersions] = useState<string[]>([]);
   const [currentVersionIndex, setCurrentVersionIndex] = useState(-1);
-  const [dbRegenCount, setDbRegenCount] = useState(0); // Total edits from DB
+  const [dbRegenCount, setDbRegenCount] = useState(0); // Total start-overs from DB
+  const [dbRefineCount, setDbRefineCount] = useState(0); // Total refinements from DB
+  const [lastActionType, setLastActionType] = useState<string | null>(null); // For undo banner labelling
+  const [lastActionLabel, setLastActionLabel] = useState<string | null>(null); // Pill/instruction text
   const [isSpeechPaywalled, setIsSpeechPaywalled] = useState(false);
   const [isFinal, setIsFinal] = useState(false);
   const [showFinalToast, setShowFinalToast] = useState(false);
@@ -902,6 +905,7 @@ function GeneratorContent() {
               }
             }
             setDbRegenCount(speechData.regenCount || 0);
+            setDbRefineCount(speechData.refineCount || 0);
             setIsFinal(speechData.isFinal || false);
 
             setSpeechGenerated(true);
@@ -1210,6 +1214,35 @@ function GeneratorContent() {
   const canUndo = currentVersionIndex > 0;
   const canRedo = currentVersionIndex < speechVersions.length - 1;
 
+  // ── AI credit system ────────────────────────────────────────────
+  // Start Over = 3 credits (GPT-4o), Refine = 1 credit (GPT-4o-mini), Inline edit = free
+  const AI_CREDIT_BUDGET = 30;
+  const creditsUsed = (dbRegenCount * 3) + (dbRefineCount * 1);
+  const creditsRemaining = Math.max(0, AI_CREDIT_BUDGET - creditsUsed);
+  const creditPercent = Math.min(100, Math.round((creditsUsed / AI_CREDIT_BUDGET) * 100));
+  const aiCreditsExhausted = creditsRemaining <= 0;
+
+  // ── Cmd+Z / Ctrl+Z keyboard shortcut for undo ──────────────────
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'z' && !e.shiftKey) {
+        // Don't intercept when user is typing in an input/textarea
+        const tag = (e.target as HTMLElement)?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        // Also skip contentEditable elements
+        if ((e.target as HTMLElement)?.isContentEditable) return;
+
+        if (canUndo) {
+          e.preventDefault();
+          undoSpeechVersion();
+          setShowUndoBanner(false);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [canUndo]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Persist form progress to localStorage so returning users resume where they left off
   useEffect(() => {
     // Don't save on initial mount (step 0 with empty form) or when editing a saved speech
@@ -1323,39 +1356,65 @@ function GeneratorContent() {
   };
 
   // Generate contextual regeneration suggestions based on user's speech
+  // Generate contextual refinement suggestions based on role + tone
   const getRegenerationSuggestions = () => {
-    const directSuggestions = []; // These can be used directly
-    const contextualSuggestions = []; // These need more info from user
+    const directSuggestions: string[] = [];
+    const contextualSuggestions: string[] = [];
+    const role = formData.selectedRole;
+    const groom = formData.groomName || 'the groom';
+    const bride = formData.brideName || 'the bride';
 
-    // Direct suggestions (can be used as-is)
-    if (formData.tone === 'light-funny') {
-      directSuggestions.push("Make it more heartfelt", "Add more humor");
-    } else if (formData.tone === 'sentimental') {
-      directSuggestions.push("Add some light humor", "Make it more emotional");
-    } else if (formData.tone === 'balanced') {
+    // ── Tone-based direct suggestions ───────────────────────────
+    if (formData.tone === 'light-funny' || formData.tone === 'clean-roast') {
+      directSuggestions.push("Make it more heartfelt", "Add cleverer jokes");
+    } else if (formData.tone === 'sentimental' || formData.tone === 'loving') {
+      directSuggestions.push("Add a touch of humour", "Make it more emotional");
+    } else if (formData.tone === 'heartfelt' || formData.tone === 'sincere') {
+      directSuggestions.push("Make it funnier", "Add more warmth");
+    } else {
       directSuggestions.push("Make it funnier", "Make it more touching");
-    } else if (formData.tone === 'clean-roast') {
-      directSuggestions.push("Add more playful teasing", "Make it more clever");
     }
 
-    // Length-based (direct)
+    // ── Role-specific direct suggestions ────────────────────────
+    if (role === 'best-man' || role === 'groomsman' || role === 'best-woman') {
+      directSuggestions.push(`More about my friendship with ${groom}`, "Add a funnier opening");
+    } else if (role === 'maid-of-honor' || role === 'bridesmaid' || role === 'man-of-honor') {
+      directSuggestions.push(`More about my bond with ${bride}`, "Strengthen the ending");
+    } else if (role === 'father-of-bride' || role === 'mother-of-bride') {
+      directSuggestions.push(`More about watching ${bride} grow up`, `Warmer welcome to ${groom}`);
+    } else if (role === 'father-of-groom' || role === 'mother-of-groom') {
+      directSuggestions.push(`More about ${groom} growing up`, `Warmer welcome to ${bride}`);
+    } else if (role === 'groom') {
+      directSuggestions.push(`More gratitude to ${bride}'s family`, "Stronger vow moment");
+    } else if (role === 'bride') {
+      directSuggestions.push(`More gratitude to ${groom}'s family`, "Stronger vow moment");
+    } else if (role === 'bride-and-groom') {
+      directSuggestions.push("More about how we met", "Add gratitude to parents");
+    } else if (role?.includes('brother') || role?.includes('sister')) {
+      directSuggestions.push("Add more sibling banter", "Make the ending more emotional");
+    } else {
+      directSuggestions.push(`Focus more on ${groom} & ${bride} together`, "Strengthen the toast");
+    }
+
+    // ── Length (always useful) ──────────────────────────────────
     directSuggestions.push("Make it shorter", "Make it longer");
 
-    // Content-focused (direct)
-    directSuggestions.push("Focus more on the couple together", "Add more about the groom");
+    // ── Contextual suggestions (need user details) ──────────────
+    contextualSuggestions.push("Add a specific story", "Include a particular memory");
 
-    // Contextual suggestions (need more info)
-    contextualSuggestions.push("Add a specific story", "Include a particular memory", "Mention someone special");
-
-    // Role-specific contextual suggestions
-    if (formData.selectedRole === 'best-man') {
-      contextualSuggestions.push("Add friendship details", "Include specific advice");
-    } else if (formData.selectedRole === 'maid-of-honor') {
-      contextualSuggestions.push("Add sisterly moments", "Include specific qualities");
-    } else if (formData.selectedRole === 'father-of-bride') {
-      contextualSuggestions.push("Add childhood memory", "Include parental wisdom");
-    } else if (formData.selectedRole === 'mother-of-bride') {
-      contextualSuggestions.push("Add mother-daughter moment", "Include proud memory");
+    // Role-specific contextual
+    if (role === 'best-man' || role === 'groomsman' || role === 'best-woman') {
+      contextualSuggestions.push("Add a friendship anecdote", `Include advice for ${groom}`);
+    } else if (role === 'maid-of-honor' || role === 'bridesmaid' || role === 'man-of-honor') {
+      contextualSuggestions.push(`Add a favourite moment with ${bride}`, "Include a quality I admire");
+    } else if (role === 'father-of-bride' || role === 'father-of-groom') {
+      contextualSuggestions.push("Add a childhood memory", "Include fatherly wisdom");
+    } else if (role === 'mother-of-bride' || role === 'mother-of-groom') {
+      contextualSuggestions.push("Add a proud parenting moment", "Include a heartfelt message");
+    } else if (role === 'groom' || role === 'bride' || role === 'bride-and-groom') {
+      contextualSuggestions.push("Add how we knew it was love", "Mention someone special");
+    } else {
+      contextualSuggestions.push("Mention someone special", "Add a personal touch");
     }
 
     return {
@@ -1511,6 +1570,11 @@ function GeneratorContent() {
               }
               console.log('📊 [GENERATOR] Complete:', { speechId: data.speechId, actionType: data.actionType, model: data.model, wordCount: data.wordCount });
 
+              // Update credit counters from server
+              if (data.regenCount !== undefined) setDbRegenCount(data.regenCount);
+              if (data.refineCount !== undefined) setDbRefineCount(data.refineCount);
+              if (data.actionType) setLastActionType(data.actionType);
+
               if (data.isProUser) {
                 setGeneratedSpeech(data.speech);
                 pushSpeechVersion(data.speech);
@@ -1539,6 +1603,13 @@ function GeneratorContent() {
       return;
     }
     if (!instruction.trim()) return;
+    if (aiCreditsExhausted) {
+      showToast('You\'ve used all your AI edits for this speech. Click any paragraph to edit directly — it\'s free!', 'hint');
+      return;
+    }
+
+    // Store the label for the undo banner
+    setLastActionLabel(instruction.length > 60 ? instruction.substring(0, 57) + '...' : instruction);
 
     try {
       setIsGenerating(true);
@@ -1586,6 +1657,10 @@ function GeneratorContent() {
   const handleStartOver = (customInstructions?: string) => {
     if (!isProUser && speechGenerated) {
       redirectToCheckout();
+      return;
+    }
+    if (aiCreditsExhausted) {
+      showToast('You\'ve used all your AI edits for this speech. Click any paragraph to edit directly — it\'s free!', 'hint');
       return;
     }
     setPendingStartOverInstructions(customInstructions);
@@ -1806,7 +1881,7 @@ function GeneratorContent() {
                 </div>
                 <div>
                   <div className="font-semibold text-green-800">Payment Successful!</div>
-                  <div className="text-sm text-green-700">You now have access to all Pro features. You can now access step 3 to add premium details!</div>
+                  <div className="text-sm text-green-700">You can now refine, edit and export your speech. Add extra details below to make it even more personal!</div>
                 </div>
               </div>
               <button
@@ -2482,11 +2557,11 @@ function GeneratorContent() {
                           <span className="relative flex items-center">
                             {(formData.howLongKnown || formData.sharedHobbiesJokes || formData.groomIn3Words || formData.whatYouAdmire || formData.relationshipWithBride || formData.momentSeenTogether) ? (
                               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200">
-                                ✓ Pro details added
+                                ✓ Extra details added
                               </span>
                             ) : (
                               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389] text-white animate-pulse">
-                                ✨ Add Pro details for a better speech
+                                ✨ Add more detail for a better speech
                               </span>
                             )}
                           </span>
@@ -2543,18 +2618,18 @@ function GeneratorContent() {
                         <div>
                           <label className="block text-sm font-medium text-[#181615] mb-1">Tone</label>
                           <div className="flex flex-wrap gap-2">
-                            {['Light & Funny', 'Sentimental', 'Balanced', 'Clean Roast'].map((tone) => (
+                            {allTones.map((tone) => (
                               <button
-                                key={tone}
+                                key={tone.value}
                                 type="button"
-                                onClick={() => setFormData({...formData, tone})}
-                                className={`px-4 py-2 rounded-full text-sm border transition-all ${
-                                  formData.tone === tone
+                                onClick={() => setFormData({...formData, tone: tone.value})}
+                                className={`px-3 py-1.5 rounded-full text-sm border transition-all ${
+                                  formData.tone === tone.value
                                     ? 'bg-[#da5389] text-white border-[#da5389]'
                                     : 'bg-white text-[#181615] border-[#e8e1d8] hover:border-[#da5389]'
                                 }`}
                               >
-                                {tone}
+                                {tone.emoji} {tone.label}
                               </button>
                             ))}
                           </div>
@@ -2574,12 +2649,12 @@ function GeneratorContent() {
                           <>
                             <div className="border-t border-[#e8e1d8] pt-4 mt-2">
                               <h4 className="text-sm font-semibold text-[#da5389] mb-3">
-                                Pro Details
+                                Make It Personal
                                 {!(formData.howLongKnown || formData.sharedHobbiesJokes || formData.groomIn3Words || formData.whatYouAdmire || formData.relationshipWithBride || formData.momentSeenTogether) && (
                                   <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389]/10 text-[#da5389] border border-[#da5389]/20">NEW</span>
                                 )}
                               </h4>
-                              <p className="text-xs text-[#8f867e] mb-3">Add these details to make your speech more personal and memorable</p>
+                              <p className="text-xs text-[#8f867e] mb-3">The more you share, the more unique and heartfelt your speech will be</p>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                   <label className="block text-sm font-medium text-[#181615] mb-1">How long have you known the groom?</label>
@@ -2745,8 +2820,8 @@ function GeneratorContent() {
                         <div className="text-sm font-medium text-[#8f867e]">Minutes</div>
                       </div>
                       <div className="bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg p-4 text-center">
-                        <div className="text-2xl font-bold text-green-600">{formData.tone === 'light-funny' ? '😄' : formData.tone === 'sentimental' ? '💝' : formData.tone === 'balanced' ? '⚖️' : '😏'}</div>
-                        <div className="text-sm font-medium text-[#8f867e] capitalize">{formData.tone.replace('-', ' ')}</div>
+                        <div className="text-2xl font-bold text-green-600">{allTones.find(t => t.value === formData.tone)?.emoji || '😊'}</div>
+                        <div className="text-sm font-medium text-[#8f867e]">{allTones.find(t => t.value === formData.tone)?.label || formData.tone.replace('-', ' ')}</div>
                       </div>
                       <div className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-lg p-4 text-center">
                         <div className="text-2xl font-bold text-blue-600">{getRoleTitle(formData.selectedRole, formData.customRoleLabel).split(' ')[0]}</div>
@@ -2866,18 +2941,29 @@ function GeneratorContent() {
                           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/95 to-transparent pointer-events-none" />
                         )}
 
-                        {/* Undo banner — shown after refinement completes */}
+                        {/* Undo banner — shown after refinement/start-over completes */}
                         {showUndoBanner && canUndo && (
-                          <div className="mt-3 flex items-center justify-between bg-[#faf7f4] border border-[#e8e1d8] rounded-lg px-4 py-2.5 animate-in fade-in slide-in-from-top-2">
-                            <span className="text-sm text-[#181615]">
-                              ✨ Speech refined
-                            </span>
+                          <div className="mt-3 flex items-center justify-between bg-[#faf7f4] border border-[#e8e1d8] rounded-lg px-4 py-2.5">
+                            <div className="text-sm text-[#181615] min-w-0 mr-3">
+                              {lastActionType === 'start_over' ? (
+                                <span>🔄 New speech generated</span>
+                              ) : (
+                                <span>
+                                  ✨ {lastActionLabel ? <span>Refined: <span className="text-[#8f867e] italic">{lastActionLabel}</span></span> : 'Speech refined'}
+                                </span>
+                              )}
+                              {creditsUsed > 0 && creditPercent >= 50 && (
+                                <span className="text-xs text-[#8f867e] ml-2">
+                                  — or click any paragraph to edit for free
+                                </span>
+                              )}
+                            </div>
                             <button
                               onClick={() => {
                                 undoSpeechVersion();
                                 setShowUndoBanner(false);
                               }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-[#da5389] bg-white border border-[#da5389]/30 hover:bg-[#da5389]/5 transition-colors"
+                              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-[#da5389] bg-white border border-[#da5389]/30 hover:bg-[#da5389]/5 transition-colors"
                             >
                               ↩ Undo
                             </button>
@@ -2911,16 +2997,39 @@ function GeneratorContent() {
                       )}
                     </div>
 
+                    {/* Divider between speech and AI tools */}
+                    {!isSpeechPaywalled && isProUser && speechGenerated && (
+                      <div className="flex items-center gap-3 text-xs text-[#8f867e]">
+                        <div className="flex-1 h-px bg-[#e8e1d8]" />
+                        <span>Edit directly above, or use AI below</span>
+                        <div className="flex-1 h-px bg-[#e8e1d8]" />
+                      </div>
+                    )}
+
                     {/* Refine Your Speech - Only for Pro users */}
                     {!isSpeechPaywalled && isProUser && (
                       <div className="bg-[#faf7f4] rounded-lg p-6 border border-[#e8e1d8]">
                         <div className="mb-4">
-                          <h4 className="font-semibold text-[#181615] flex items-center mb-2">
-                            <span className="text-lg mr-2">✨</span>
-                            Refine Your Speech
-                          </h4>
-                          <div className="text-xs text-[#8f867e]">
-                            Quick refinements keep your speech intact — only the relevant parts change
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-semibold text-[#181615] flex items-center">
+                              <span className="text-lg mr-2">✨</span>
+                              Refine Your Speech
+                            </h4>
+                            {/* Usage guidance — only shows when relevant */}
+                            {creditPercent >= 50 && !aiCreditsExhausted && (
+                              <span className={`text-xs ${creditPercent >= 70 ? 'text-[#b08968]' : 'text-[#8f867e]'}`}>
+                                {creditsRemaining} AI edit{creditsRemaining !== 1 ? 's' : ''} remaining
+                              </span>
+                            )}
+                            {aiCreditsExhausted && (
+                              <span className="text-xs text-[#b08968]">AI edits used up</span>
+                            )}
+                          </div>
+                          <div className="text-xs text-[#8f867e] mt-1">
+                            {aiCreditsExhausted
+                              ? 'You can still click any paragraph above to edit it directly — it\'s free'
+                              : 'Quick refinements keep your speech intact — only the relevant parts change'
+                            }
                           </div>
                         </div>
 
@@ -2943,9 +3052,9 @@ function GeneratorContent() {
                                 <button
                                   key={`direct-${index}`}
                                   onClick={() => handleRefineSpeech(suggestion)}
-                                  disabled={isGenerating}
+                                  disabled={isGenerating || aiCreditsExhausted}
                                   className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                                    isGenerating
+                                    isGenerating || aiCreditsExhausted
                                       ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                       : 'bg-[#da5389] text-white hover:bg-[#da5389]/85 shadow-sm hover:shadow-md'
                                   }`}
@@ -2969,11 +3078,11 @@ function GeneratorContent() {
                                     setSelectedPill(suggestion);
                                     setRegenerationInstructions("");
                                   }}
-                                  disabled={isGenerating}
+                                  disabled={isGenerating || aiCreditsExhausted}
                                   className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                                     selectedPill === suggestion
                                       ? 'bg-[#da5389] text-white'
-                                      : isGenerating
+                                      : isGenerating || aiCreditsExhausted
                                       ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                       : 'bg-white border border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-[#da5389]/5'
                                   }`}
@@ -3311,6 +3420,11 @@ function GeneratorContent() {
               <p className="text-sm text-[#8f867e] mt-2">
                 This will generate a completely new speech from scratch. Your current version will be saved in version history so you can always go back.
               </p>
+              {creditsRemaining > 0 && (
+                <p className="text-xs text-[#b08968] mt-2">
+                  Uses 3 AI edits (refinements use 1). You have {creditsRemaining} remaining.
+                </p>
+              )}
             </div>
             <div className="flex gap-3">
               <button

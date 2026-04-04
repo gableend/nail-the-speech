@@ -3,6 +3,7 @@ import { stripe, type Stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { clerkClient } from "@clerk/nextjs/server";
+import { sendPaymentConfirmation } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -140,6 +141,15 @@ export async function POST(request: NextRequest) {
         });
 
         console.log(`✅ [STRIPE WEBHOOK] User ${finalUserId} upgraded to Pro successfully`);
+
+        // Send payment confirmation email
+        try {
+          await sendPaymentConfirmation(customerEmail, proExpiresAt);
+          console.log(`📧 [STRIPE WEBHOOK] Payment confirmation email sent to ${customerEmail}`);
+        } catch (emailError) {
+          console.error('⚠️ [STRIPE WEBHOOK] Failed to send confirmation email:', emailError);
+          // Don't fail the webhook if email fails
+        }
       }
     }
 

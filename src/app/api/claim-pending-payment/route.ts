@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
+import { sendPaymentConfirmation } from "@/lib/email";
 
 /**
  * Called after a user signs up or signs in.
@@ -75,6 +76,14 @@ export async function POST(request: NextRequest) {
 
         claimed = true;
         console.log(`✅ [CLAIM] User ${userId} upgraded to Pro via pending payment`);
+
+        // Send payment confirmation email
+        try {
+          await sendPaymentConfirmation(email, proExpiresAt);
+          console.log(`📧 [CLAIM] Payment confirmation email sent to ${email}`);
+        } catch (emailError) {
+          console.error('⚠️ [CLAIM] Failed to send confirmation email:', emailError);
+        }
       }
     }
 

@@ -949,7 +949,9 @@ function GeneratorContent() {
           // Only restore if saved within the last 7 days
           if (savedAt && Date.now() - savedAt < 7 * 24 * 60 * 60 * 1000) {
             setFormData(prev => ({ ...prev, ...savedFormData }));
-            setCurrentStep(savedStep);
+            // Cap at step 4 (last input step) — step 5 needs a generated speech
+            // which isn't stored in progress. Users with saved speeches use the dashboard.
+            setCurrentStep(Math.min(savedStep, 4));
           } else {
             localStorage.removeItem('speechProgress');
           }

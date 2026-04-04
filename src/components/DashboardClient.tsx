@@ -577,7 +577,7 @@ export default function DashboardClient() {
               <Link href="/generator">
                 <Button className="bg-[#da5389] hover:bg-[#c4447a] text-white rounded-full px-6">
                   <Star className="h-4 w-4 mr-2" />
-                  Renew Pro Access — $19.99
+                  Renew Pro Access
                 </Button>
               </Link>
             </div>

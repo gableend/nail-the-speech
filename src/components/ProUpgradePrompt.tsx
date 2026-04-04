@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Crown, X, Zap } from 'lucide-react';
 import { useAuth } from '@clerk/nextjs';
 import { showToast } from '@/components/ui/toast';
+import { useCurrency } from '@/hooks/useCurrency';
 
 // Define specific types instead of 'any'
 interface SpeechData {
@@ -39,6 +40,7 @@ export default function ProUpgradePrompt({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
+  const { currency, availableCurrencies, setCurrency } = useCurrency();
 
   const features = [
     {
@@ -115,7 +117,8 @@ export default function ProUpgradePrompt({
       // Prepare data for checkout
       const checkoutData: Record<string, unknown> = {
         email: null, // Will be filled by Stripe checkout
-        returnUrl: '/dashboard'
+        returnUrl: '/dashboard',
+        currency: currency.key,
       };
 
       // If we have speech data, save it to localStorage for retrieval after payment and login
@@ -268,11 +271,24 @@ export default function ProUpgradePrompt({
             <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e84f98]/5 border border-[#da5389]/20 rounded-lg p-4 mb-6">
               <div className="text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-2xl font-bold text-[#181615]">$19.99</span>
-                  <span className="text-lg text-[#8f867e] line-through">$39.99</span>
+                  <span className="text-2xl font-bold text-[#181615]">{currency.displayPrice}</span>
+                  <span className="text-lg text-[#8f867e] line-through">{currency.originalPrice}</span>
                   <Badge className="bg-[#da5389] text-white">50% OFF</Badge>
                 </div>
-                <div className="text-sm text-[#8f867e]">One-time payment • Lifetime access</div>
+                <div className="text-sm text-[#8f867e]">
+                  One-time payment • 90-day access
+                  {availableCurrencies.length > 1 && (
+                    <select
+                      value={currency.key}
+                      onChange={(e) => setCurrency(e.target.value)}
+                      className="ml-2 text-xs bg-transparent border border-[#e8e1d8] rounded px-1 py-0.5 text-[#8f867e] cursor-pointer"
+                    >
+                      {availableCurrencies.map(c => (
+                        <option key={c.key} value={c.key}>{c.key} ({c.symbol})</option>
+                      ))}
+                    </select>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -351,11 +367,24 @@ export default function ProUpgradePrompt({
           ))}
         </div>
 
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <span className="text-2xl font-bold text-[#181615]">$19.99</span>
-          <span className="text-lg text-[#8f867e] line-through">$39.99</span>
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <span className="text-2xl font-bold text-[#181615]">{currency.displayPrice}</span>
+          <span className="text-lg text-[#8f867e] line-through">{currency.originalPrice}</span>
           <Badge className="bg-[#da5389] text-white">50% OFF</Badge>
         </div>
+        {availableCurrencies.length > 1 && (
+          <div className="mb-4">
+            <select
+              value={currency.key}
+              onChange={(e) => setCurrency(e.target.value)}
+              className="text-xs bg-transparent border border-[#e8e1d8] rounded px-1 py-0.5 text-[#8f867e] cursor-pointer"
+            >
+              {availableCurrencies.map(c => (
+                <option key={c.key} value={c.key}>{c.key} ({c.symbol})</option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <Button
           onClick={handleUpgrade}
@@ -427,9 +456,20 @@ export default function ProUpgradePrompt({
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-xl font-bold text-[#181615]">$19.99</span>
-            <span className="text-sm text-[#8f867e] line-through">$39.99</span>
+            <span className="text-xl font-bold text-[#181615]">{currency.displayPrice}</span>
+            <span className="text-sm text-[#8f867e] line-through">{currency.originalPrice}</span>
             <Badge className="bg-[#da5389] text-white text-xs">50% OFF</Badge>
+            {availableCurrencies.length > 1 && (
+              <select
+                value={currency.key}
+                onChange={(e) => setCurrency(e.target.value)}
+                className="text-xs bg-transparent border border-[#e8e1d8] rounded px-1 py-0.5 text-[#8f867e] cursor-pointer"
+              >
+                {availableCurrencies.map(c => (
+                  <option key={c.key} value={c.key}>{c.key}</option>
+                ))}
+              </select>
+            )}
           </div>
           <Button
             onClick={handleUpgrade}

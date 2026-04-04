@@ -13,9 +13,38 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 export type { Stripe };
 
 export const STRIPE_CONFIG = {
-  currency: 'usd',
   mode: 'payment' as const,
-  priceAmount: 1999, // $19.99 in cents
   productName: 'Nail The Speech Pro',
   productDescription: 'Unlimited speech regeneration and premium features',
 };
+
+export interface CurrencyConfig {
+  code: string;
+  symbol: string;
+  amount: number;       // in smallest unit (cents/pence)
+  displayPrice: string; // e.g. "$19.99"
+  originalPrice: string; // e.g. "$39.99" (strike-through)
+}
+
+export const CURRENCY_CONFIGS: Record<string, CurrencyConfig> = {
+  USD: { code: 'usd', symbol: '$',  amount: 1999, displayPrice: '$19.99',  originalPrice: '$39.99' },
+  GBP: { code: 'gbp', symbol: '£',  amount: 1599, displayPrice: '£15.99',  originalPrice: '£31.99' },
+  EUR: { code: 'eur', symbol: '€',  amount: 1799, displayPrice: '€17.99',  originalPrice: '€35.99' },
+  AUD: { code: 'aud', symbol: 'A$', amount: 2999, displayPrice: 'A$29.99', originalPrice: 'A$59.99' },
+  CAD: { code: 'cad', symbol: 'C$', amount: 2699, displayPrice: 'C$26.99', originalPrice: 'C$53.99' },
+};
+
+// Map countries to currencies
+const COUNTRY_CURRENCY: Record<string, string> = {
+  US: 'USD', GB: 'GBP', IE: 'EUR', DE: 'EUR', FR: 'EUR', ES: 'EUR', IT: 'EUR',
+  NL: 'EUR', BE: 'EUR', AT: 'EUR', PT: 'EUR', GR: 'EUR', FI: 'EUR',
+  AU: 'AUD', NZ: 'AUD', CA: 'CAD',
+};
+
+export function getCurrencyForCountry(countryCode: string | null): CurrencyConfig {
+  if (!countryCode) return CURRENCY_CONFIGS.USD;
+  const currency = COUNTRY_CURRENCY[countryCode.toUpperCase()];
+  return currency ? CURRENCY_CONFIGS[currency] : CURRENCY_CONFIGS.USD;
+}
+
+export const DEFAULT_CURRENCY = CURRENCY_CONFIGS.USD;

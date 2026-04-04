@@ -22,6 +22,7 @@ import { speechRoles, getRoleBySlug } from "@/data/speechRoles";
 import FAQ from "@/components/FAQ";
 import { generatorFaqs } from "@/data/faqData";
 import { showToast } from "@/components/ui/toast";
+import { useCurrency } from "@/hooks/useCurrency";
 
 // ── Speech tones with role-specific recommendations ───────────────
 interface SpeechTone {
@@ -768,12 +769,14 @@ function GeneratorContent() {
   // Regeneration with instructions state
   const [regenerationInstructions, setRegenerationInstructions] = useState("");
   const [selectedPill, setSelectedPill] = useState<string | null>(null);
+  const { currency } = useCurrency();
   // Pro checkout redirect helper
   const redirectToCheckout = async () => {
     try {
       const checkoutData: Record<string, unknown> = {
         email: null,
-        returnUrl: '/dashboard'
+        returnUrl: '/dashboard',
+        currency: currency.key,
       };
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',

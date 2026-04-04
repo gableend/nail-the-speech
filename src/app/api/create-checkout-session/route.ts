@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { stripe, STRIPE_CONFIG } from "@/lib/stripe";
+import { stripe, STRIPE_CONFIG, CURRENCY_CONFIGS, DEFAULT_CURRENCY, type CurrencyConfig } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
@@ -12,6 +12,8 @@ export async function POST(request: Request) {
     const prefillEmail = body.email;
     const speechMetadata = body.speechMetadata || null;
     const returnUrl = body.returnUrl || null;
+    const currencyKey = body.currency || 'USD';
+    const currencyConfig: CurrencyConfig = CURRENCY_CONFIGS[currencyKey] || DEFAULT_CURRENCY;
 
     // Check if user is already authenticated (optional)
     const { userId } = await auth();
@@ -53,12 +55,12 @@ export async function POST(request: Request) {
       line_items: [
         {
           price_data: {
-            currency: STRIPE_CONFIG.currency,
+            currency: currencyConfig.code,
             product_data: {
               name: STRIPE_CONFIG.productName,
               description: STRIPE_CONFIG.productDescription,
             },
-            unit_amount: STRIPE_CONFIG.priceAmount,
+            unit_amount: currencyConfig.amount,
           },
           quantity: 1,
         },

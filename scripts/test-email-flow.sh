@@ -5,8 +5,14 @@
 # ─────────────────────────────────────────────────────────────
 
 SITE="https://www.nailthespeech.com"
-CRON_SECRET="ns_cronSecret123"
+CRON_SECRET="${CRON_SECRET:-}"
 TEST_EMAIL="${1:-test@example.com}"
+
+if [ -z "$CRON_SECRET" ]; then
+  echo "Error: CRON_SECRET environment variable is not set."
+  echo "Run with: CRON_SECRET=your_secret ./scripts/test-email-flow.sh your@email.com"
+  exit 1
+fi
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'

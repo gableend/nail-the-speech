@@ -1355,7 +1355,134 @@ function GeneratorContent() {
     }
   };
 
-  // Generate contextual regeneration suggestions based on user's speech
+  // ── Role-contextual "Make It Personal" field labels & placeholders ──
+  const getRoleContextualFields = () => {
+    const role = formData.selectedRole;
+    const groom = formData.groomName || 'the groom';
+    const bride = formData.brideName || 'the bride';
+
+    // Determine the "subject" of the speech — who the speaker is talking about
+    const isBrideSide = [
+      'maid-of-honor', 'bridesmaid', 'father-of-bride', 'mother-of-bride',
+      'stepfather-of-bride', 'stepmother-of-bride', 'brother-of-bride',
+      'sister-of-bride',
+    ].includes(role);
+    const isGroomSide = [
+      'best-man', 'best-woman', 'groomsman', 'man-of-honor',
+      'father-of-groom', 'mother-of-groom', 'stepfather-of-groom',
+      'stepmother-of-groom', 'brother-of-groom', 'sister-of-groom',
+    ].includes(role);
+    const isCouple = ['bride', 'groom', 'bride-and-groom'].includes(role);
+    const isParent = [
+      'father-of-bride', 'mother-of-bride', 'father-of-groom', 'mother-of-groom',
+      'stepfather-of-bride', 'stepmother-of-bride', 'stepfather-of-groom', 'stepmother-of-groom',
+    ].includes(role);
+    const isSibling = [
+      'brother-of-bride', 'sister-of-bride', 'brother-of-groom', 'sister-of-groom',
+    ].includes(role);
+
+    // Primary subject name (who you're speaking about)
+    const subject = isCouple
+      ? (role === 'bride' ? groom : role === 'groom' ? bride : `${bride} & ${groom}`)
+      : isBrideSide ? bride : groom;
+    const partner = isBrideSide ? groom : bride;
+
+    // Field 1: howLongKnown
+    let howLongKnownLabel = `How long have you known ${subject}?`;
+    let howLongKnownPlaceholder = 'e.g., 8 years';
+    if (isParent || isSibling) {
+      howLongKnownLabel = isParent
+        ? `A favourite memory of ${subject} growing up?`
+        : `What was it like growing up with ${subject}?`;
+      howLongKnownPlaceholder = isParent
+        ? 'e.g., always making everyone laugh at the dinner table'
+        : 'e.g., we were inseparable as kids';
+    } else if (isCouple) {
+      howLongKnownLabel = `How did you and ${subject} meet?`;
+      howLongKnownPlaceholder = 'e.g., through mutual friends at university';
+    }
+
+    // Field 2: sharedHobbiesJokes
+    let sharedLabel = 'Inside jokes or shared hobbies?';
+    let sharedPlaceholder = 'e.g., hiking buddies';
+    if (isParent) {
+      sharedLabel = `Something you love doing together?`;
+      sharedPlaceholder = 'e.g., Sunday morning walks, cooking together';
+    } else if (isSibling) {
+      sharedLabel = `Favourite thing you do together?`;
+      sharedPlaceholder = 'e.g., gaming marathons, family holidays';
+    } else if (isCouple) {
+      sharedLabel = `What do you love doing together?`;
+      sharedPlaceholder = 'e.g., travelling, cooking, lazy Sunday mornings';
+    }
+
+    // Field 3: groomIn3Words (describe the subject)
+    const describeLabel = `Describe ${subject} in 3 words`;
+    const describePlaceholder = isParent
+      ? 'e.g., kind, determined, brilliant'
+      : isCouple
+        ? 'e.g., loving, adventurous, hilarious'
+        : 'e.g., loyal, funny, caring';
+
+    // Field 4: relationshipWithBride/partner
+    let partnerLabel = `How well do you know ${partner}?`;
+    let partnerPlaceholder = `e.g., known ${partner} for 3 years`;
+    if (isCouple) {
+      partnerLabel = `What do your family/friends say about ${subject}?`;
+      partnerPlaceholder = `e.g., everyone says they've never seen me happier`;
+    } else if (isParent) {
+      partnerLabel = `How do you feel about ${partner} joining the family?`;
+      partnerPlaceholder = `e.g., knew they were special from the first visit`;
+    } else if (isSibling) {
+      partnerLabel = `What do you think of ${partner}?`;
+      partnerPlaceholder = `e.g., they bring out the best in ${subject}`;
+    }
+
+    // Field 5: whatYouAdmire
+    let admireLabel = `What do you admire about ${subject}?`;
+    let admirePlaceholder = `What makes ${subject} special?`;
+    if (isCouple) {
+      admireLabel = `What do you love most about ${subject}?`;
+      admirePlaceholder = `The qualities that made you fall in love`;
+    } else if (isParent) {
+      admireLabel = `What makes you proudest about ${subject}?`;
+      admirePlaceholder = `A quality or achievement that fills you with pride`;
+    }
+
+    // Field 6: momentSeenTogether
+    let momentLabel = `A moment between them that stood out?`;
+    let momentPlaceholder = `A sweet or funny moment you witnessed`;
+    if (isCouple) {
+      momentLabel = `A moment you knew this was forever?`;
+      momentPlaceholder = `A turning point or special memory in your relationship`;
+    } else if (isParent) {
+      momentLabel = `When did you know they were right for each other?`;
+      momentPlaceholder = `A moment that showed you how happy they are together`;
+    }
+
+    // Bonus: mentionBrideEnding checkbox label
+    let specialMessageLabel = `Add a special message to ${partner} at the end`;
+    if (isCouple) {
+      specialMessageLabel = `Add a special thank-you to families at the end`;
+    }
+
+    // Summary labels for the "Refresh" button
+    const subjectLabel = isCouple ? 'Partner' : isBrideSide ? 'Bride' : 'Groom';
+    const partnerSummaryLabel = isCouple ? 'Perception' : isBrideSide ? 'Groom' : 'Bride';
+
+    return {
+      howLongKnown: { label: howLongKnownLabel, placeholder: howLongKnownPlaceholder },
+      sharedHobbiesJokes: { label: sharedLabel, placeholder: sharedPlaceholder },
+      groomIn3Words: { label: describeLabel, placeholder: describePlaceholder },
+      relationshipWithBride: { label: partnerLabel, placeholder: partnerPlaceholder },
+      whatYouAdmire: { label: admireLabel, placeholder: admirePlaceholder },
+      momentSeenTogether: { label: momentLabel, placeholder: momentPlaceholder },
+      specialMessageLabel,
+      subjectLabel,
+      partnerSummaryLabel,
+    };
+  };
+
   // Generate contextual refinement suggestions based on role + tone
   const getRegenerationSuggestions = () => {
     const directSuggestions: string[] = [];
@@ -2334,13 +2461,14 @@ function GeneratorContent() {
                   </div>
                 </div>
 
+                {(() => { const f = getRoleContextualFields(); return (<>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-base font-medium text-[#181615] mb-2">
-                      How long have you known the groom?
+                      {f.howLongKnown.label}
                     </label>
                     <Input
-                      placeholder="e.g., 'Since college,' '20 years'"
+                      placeholder={f.howLongKnown.placeholder}
                       value={formData.howLongKnown}
                       onChange={(e) => updateFormData('howLongKnown', e.target.value)}
                       className="darker-placeholder"
@@ -2348,10 +2476,10 @@ function GeneratorContent() {
                   </div>
                   <div>
                     <label className="block text-base font-medium text-[#181615] mb-2">
-                      Any inside jokes or mutual hobbies?
+                      {f.sharedHobbiesJokes.label}
                     </label>
                     <Input
-                      placeholder="Shared interests or inside references"
+                      placeholder={f.sharedHobbiesJokes.placeholder}
                       value={formData.sharedHobbiesJokes}
                       onChange={(e) => updateFormData('sharedHobbiesJokes', e.target.value)}
                       className="darker-placeholder"
@@ -2362,10 +2490,10 @@ function GeneratorContent() {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-base font-medium text-[#181615] mb-2">
-                      Describe the groom in three words
+                      {f.groomIn3Words.label}
                     </label>
                     <Input
-                      placeholder="Three adjectives that capture him"
+                      placeholder={f.groomIn3Words.placeholder}
                       value={formData.groomIn3Words}
                       onChange={(e) => updateFormData('groomIn3Words', e.target.value)}
                       className="darker-placeholder"
@@ -2373,10 +2501,10 @@ function GeneratorContent() {
                   </div>
                   <div>
                     <label className="block text-base font-medium text-[#181615] mb-2">
-                      How well do you know the bride?
+                      {f.relationshipWithBride.label}
                     </label>
                     <Input
-                      placeholder="Your relationship with her"
+                      placeholder={f.relationshipWithBride.placeholder}
                       value={formData.relationshipWithBride}
                       onChange={(e) => updateFormData('relationshipWithBride', e.target.value)}
                       className="darker-placeholder"
@@ -2386,10 +2514,10 @@ function GeneratorContent() {
 
                 <div>
                   <label className="block text-base font-medium text-[#181615] mb-2">
-                    What do you really respect or admire about him?
+                    {f.whatYouAdmire.label}
                   </label>
                   <Textarea
-                    placeholder="Share what makes him special as a person and friend"
+                    placeholder={f.whatYouAdmire.placeholder}
                     value={formData.whatYouAdmire}
                     onChange={(e) => updateFormData('whatYouAdmire', e.target.value)}
                     rows={3}
@@ -2399,16 +2527,17 @@ function GeneratorContent() {
 
                 <div>
                   <label className="block text-base font-medium text-[#181615] mb-2">
-                    Have you seen a moment between them that stood out to you?
+                    {f.momentSeenTogether.label}
                   </label>
                   <Textarea
-                    placeholder="A special moment that shows their connection"
+                    placeholder={f.momentSeenTogether.placeholder}
                     value={formData.momentSeenTogether}
                     onChange={(e) => updateFormData('momentSeenTogether', e.target.value)}
                     rows={3}
                     className="darker-placeholder"
                   />
                 </div>
+                </>); })()}
 
                 {/* Speech Length Selection */}
                 <div>
@@ -2655,32 +2784,34 @@ function GeneratorContent() {
                                 )}
                               </h4>
                               <p className="text-xs text-[#8f867e] mb-3">The more you share, the more unique and heartfelt your speech will be</p>
+                              {(() => { const f = getRoleContextualFields(); return (<>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                  <label className="block text-sm font-medium text-[#181615] mb-1">How long have you known the groom?</label>
-                                  <input type="text" value={formData.howLongKnown} onChange={(e) => setFormData({...formData, howLongKnown: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder="e.g., 8 years" />
+                                  <label className="block text-sm font-medium text-[#181615] mb-1">{f.howLongKnown.label}</label>
+                                  <input type="text" value={formData.howLongKnown} onChange={(e) => setFormData({...formData, howLongKnown: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder={f.howLongKnown.placeholder} />
                                 </div>
                                 <div>
-                                  <label className="block text-sm font-medium text-[#181615] mb-1">Inside jokes or hobbies?</label>
-                                  <input type="text" value={formData.sharedHobbiesJokes} onChange={(e) => setFormData({...formData, sharedHobbiesJokes: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder="e.g., hiking buddies" />
+                                  <label className="block text-sm font-medium text-[#181615] mb-1">{f.sharedHobbiesJokes.label}</label>
+                                  <input type="text" value={formData.sharedHobbiesJokes} onChange={(e) => setFormData({...formData, sharedHobbiesJokes: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder={f.sharedHobbiesJokes.placeholder} />
                                 </div>
                                 <div>
-                                  <label className="block text-sm font-medium text-[#181615] mb-1">Describe the groom in 3 words</label>
-                                  <input type="text" value={formData.groomIn3Words} onChange={(e) => setFormData({...formData, groomIn3Words: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder="e.g., loyal, funny, caring" />
+                                  <label className="block text-sm font-medium text-[#181615] mb-1">{f.groomIn3Words.label}</label>
+                                  <input type="text" value={formData.groomIn3Words} onChange={(e) => setFormData({...formData, groomIn3Words: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder={f.groomIn3Words.placeholder} />
                                 </div>
                                 <div>
-                                  <label className="block text-sm font-medium text-[#181615] mb-1">How well do you know the bride?</label>
-                                  <input type="text" value={formData.relationshipWithBride} onChange={(e) => setFormData({...formData, relationshipWithBride: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder="e.g., known her for 3 years" />
+                                  <label className="block text-sm font-medium text-[#181615] mb-1">{f.relationshipWithBride.label}</label>
+                                  <input type="text" value={formData.relationshipWithBride} onChange={(e) => setFormData({...formData, relationshipWithBride: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder={f.relationshipWithBride.placeholder} />
                                 </div>
                               </div>
                               <div className="mt-4">
-                                <label className="block text-sm font-medium text-[#181615] mb-1">What do you admire about him?</label>
-                                <textarea value={formData.whatYouAdmire} onChange={(e) => setFormData({...formData, whatYouAdmire: e.target.value})} rows={2} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical" placeholder="What makes him special?" />
+                                <label className="block text-sm font-medium text-[#181615] mb-1">{f.whatYouAdmire.label}</label>
+                                <textarea value={formData.whatYouAdmire} onChange={(e) => setFormData({...formData, whatYouAdmire: e.target.value})} rows={2} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical" placeholder={f.whatYouAdmire.placeholder} />
                               </div>
                               <div className="mt-4">
-                                <label className="block text-sm font-medium text-[#181615] mb-1">A moment between them that stood out?</label>
-                                <textarea value={formData.momentSeenTogether} onChange={(e) => setFormData({...formData, momentSeenTogether: e.target.value})} rows={2} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical" placeholder="A sweet or funny moment you witnessed" />
+                                <label className="block text-sm font-medium text-[#181615] mb-1">{f.momentSeenTogether.label}</label>
+                                <textarea value={formData.momentSeenTogether} onChange={(e) => setFormData({...formData, momentSeenTogether: e.target.value})} rows={2} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical" placeholder={f.momentSeenTogether.placeholder} />
                               </div>
+                              </>); })()}
                             </div>
 
                             <div className="border-t border-[#e8e1d8] pt-4 mt-2">
@@ -2693,7 +2824,7 @@ function GeneratorContent() {
                               <div className="space-y-3">
                                 <label className="flex items-center gap-2 text-sm">
                                   <input type="checkbox" checked={!!formData.mentionBrideEnding} onChange={(e) => setFormData({...formData, mentionBrideEnding: e.target.checked})} className="rounded border-[#e8e1d8]" />
-                                  Add a special message to the bride at the end
+                                  {getRoleContextualFields().specialMessageLabel}
                                 </label>
                                 <div>
                                   <label className="block text-sm font-medium text-[#181615] mb-1">Anyone to mention? (family, friends)</label>
@@ -2719,14 +2850,15 @@ function GeneratorContent() {
                         <Button
                           onClick={() => {
                             setShowEditDetails(false);
+                            const rcf = getRoleContextualFields();
                             const proDetails = [
-                              formData.howLongKnown && `Known groom: ${formData.howLongKnown}`,
-                              formData.sharedHobbiesJokes && `Shared interests: ${formData.sharedHobbiesJokes}`,
-                              formData.groomIn3Words && `Groom in 3 words: ${formData.groomIn3Words}`,
-                              formData.whatYouAdmire && `Admire: ${formData.whatYouAdmire}`,
-                              formData.relationshipWithBride && `Bride relationship: ${formData.relationshipWithBride}`,
-                              formData.momentSeenTogether && `Special moment: ${formData.momentSeenTogether}`,
-                              formData.mentionBrideEnding && 'Include special message to bride at end',
+                              formData.howLongKnown && `${rcf.howLongKnown.label}: ${formData.howLongKnown}`,
+                              formData.sharedHobbiesJokes && `${rcf.sharedHobbiesJokes.label}: ${formData.sharedHobbiesJokes}`,
+                              formData.groomIn3Words && `${rcf.groomIn3Words.label}: ${formData.groomIn3Words}`,
+                              formData.whatYouAdmire && `${rcf.whatYouAdmire.label}: ${formData.whatYouAdmire}`,
+                              formData.relationshipWithBride && `${rcf.relationshipWithBride.label}: ${formData.relationshipWithBride}`,
+                              formData.momentSeenTogether && `${rcf.momentSeenTogether.label}: ${formData.momentSeenTogether}`,
+                              formData.mentionBrideEnding && rcf.specialMessageLabel,
                               formData.includeShoutOuts && `Mention: ${formData.includeShoutOuts}`,
                               formData.humorLevel && `Humor level: ${formData.humorLevel}`,
                               formData.includeToastClosing && 'End with traditional toast',

@@ -1453,8 +1453,120 @@ function GeneratorContent() {
   };
 
   // New function for Step 2: Generate speech outline with streaming and stay on page
-  const handleGenerateSpeech = async (customInstructions?: string) => {
-    // Non-Pro users cannot regenerate — redirect to checkout
+  // ── Shared streaming response processor ────────────────────────────
+  const streamSpeechResponse = async (requestData: Record<string, unknown>) => {
+    const response = await fetch('/api/generate-speech-stream', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestData),
+    });
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        setIsGenerating(false);
+        redirectToCheckout();
+        return;
+      }
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.message || 'Failed to generate speech');
+    }
+
+    const reader = response.body?.getReader();
+    const decoder = new TextDecoder();
+    if (!reader) throw new Error('No response stream available');
+
+    let buffer = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          try {
+            const jsonStr = line.slice(6).trim();
+            if (!jsonStr) continue;
+            const data = JSON.parse(jsonStr);
+
+            if (data.type === 'chunk') {
+              setGeneratedSpeech(data.fullContent);
+            } else if (data.type === 'complete') {
+              fullSpeechRef.current = data.speech;
+              incrementSpeechGenerationCount();
+
+              if (data.speechId) {
+                console.log('✅ [GENERATOR] Speech saved to DB:', data.speechId);
+                setCurrentSpeechId(data.speechId);
+              }
+              console.log('📊 [GENERATOR] Complete:', { speechId: data.speechId, actionType: data.actionType, model: data.model, wordCount: data.wordCount });
+
+              if (data.isProUser) {
+                setGeneratedSpeech(data.speech);
+                pushSpeechVersion(data.speech);
+                setIsSpeechPaywalled(false);
+              } else {
+                setGeneratedSpeech(getPreviewText(data.speech));
+                setIsSpeechPaywalled(true);
+              }
+              setSpeechGenerated(true);
+              setIsGenerating(false);
+            } else if (data.type === 'error') {
+              throw new Error(data.error);
+            }
+          } catch (parseError) {
+            console.warn('Failed to parse streaming data:', parseError);
+          }
+        }
+      }
+    }
+  };
+
+  // ── Refinement handler (uses GPT-4o-mini, surgical edits) ──────────
+  const handleRefineSpeech = async (instruction: string) => {
+    if (!isProUser && speechGenerated) {
+      redirectToCheckout();
+      return;
+    }
+    if (!instruction.trim()) return;
+
+    try {
+      setIsGenerating(true);
+      setSpeechError("");
+      setGeneratedSpeech(""); // Clear to show streaming
+
+      // Build preservation instructions for user-edited paragraphs
+      const userEditedParas = speechParagraphs.filter(p => p.source === 'user-edited');
+      let finalInstruction = instruction;
+      if (userEditedParas.length > 0) {
+        finalInstruction += '\n\nIMPORTANT - USER-EDITED PARAGRAPHS (keep these EXACTLY as written, do not change them):\n' +
+          userEditedParas.map((p, i) => `[User Edit ${i + 1}]: "${p.text}"`).join('\n') +
+          '\n\nModify ONLY the AI-generated paragraphs. Keep all user-edited paragraphs in their current position and exact wording.';
+      }
+
+      const requestData = {
+        ...formData,
+        isRefinement: true,
+        isStartOver: false,
+        refinementInstruction: finalInstruction,
+        existingSpeechContent: generatedSpeech, // send current speech for context
+        isRegeneration: true,
+        clientAnonUserId: getOrCreateAnonymousUserId(),
+        existingSpeechId: speechIdFromUrl || null,
+      };
+
+      await streamSpeechResponse(requestData);
+    } catch (error) {
+      console.error('Error refining speech:', error);
+      setSpeechError(error instanceof Error ? error.message : 'Failed to refine speech');
+      setIsGenerating(false);
+    }
+  };
+
+  // ── Start Over handler (uses GPT-4o, full regeneration) ──────────
+  const handleStartOver = async (customInstructions?: string) => {
     if (!isProUser && speechGenerated) {
       redirectToCheckout();
       return;
@@ -1463,111 +1575,64 @@ function GeneratorContent() {
     try {
       setIsGenerating(true);
       setSpeechError("");
-      setGeneratedSpeech(""); // Clear previous speech to show streaming
-
-      // Build preservation instructions for user-edited paragraphs
-      const userEditedParas = speechParagraphs.filter(p => p.source === 'user-edited');
-      let finalInstructions = customInstructions || '';
-      if (userEditedParas.length > 0) {
-        finalInstructions += '\n\nIMPORTANT - USER-EDITED PARAGRAPHS (keep these EXACTLY as written, do not change them):\n' +
-          userEditedParas.map((p, i) => `[User Edit ${i + 1}]: "${p.text}"`).join('\n') +
-          '\n\nRegenerate ONLY the AI-generated paragraphs. Keep all user-edited paragraphs in their current position and exact wording.';
-      }
+      setGeneratedSpeech("");
 
       const requestData = {
         ...formData,
-        regenerationInstructions: finalInstructions || null,
-        isRegeneration: !!customInstructions || speechGenerated,
+        isRefinement: false,
+        isStartOver: true,
+        regenerationInstructions: customInstructions || null,
+        isRegeneration: true,
         clientAnonUserId: getOrCreateAnonymousUserId(),
         existingSpeechId: speechIdFromUrl || null,
       };
 
-      const response = await fetch('/api/generate-speech-stream', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
+      await streamSpeechResponse(requestData);
+    } catch (error) {
+      console.error('Error regenerating speech:', error);
+      setSpeechError(error instanceof Error ? error.message : 'Failed to regenerate speech');
+      setIsGenerating(false);
+    }
+  };
 
-      if (!response.ok) {
-        // 403 = paywall (pro_required or free_generation_limit) → redirect to checkout
-        if (response.status === 403) {
-          setIsGenerating(false);
-          redirectToCheckout();
-          return;
-        }
-        const errorData = await response.json().catch(() => null);
-        throw new Error(errorData?.message || 'Failed to generate speech');
+  // Legacy handler — kept for initial generation + backward compat
+  const handleGenerateSpeech = async (customInstructions?: string) => {
+    // Non-Pro users cannot regenerate — redirect to checkout
+    if (!isProUser && speechGenerated) {
+      redirectToCheckout();
+      return;
+    }
+
+    // If speech already exists and instructions provided, route to refine
+    if (speechGenerated && customInstructions) {
+      // Classify: does this look like "start over" or "refine"?
+      const { classifyInstruction } = await import('@/lib/openai');
+      const classified = classifyInstruction(customInstructions);
+      if (classified === 'start_over') {
+        return handleStartOver(customInstructions);
       }
+      return handleRefineSpeech(customInstructions);
+    }
 
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
+    // If speech exists but no instructions (simple regenerate) → start over
+    if (speechGenerated && !customInstructions) {
+      return handleStartOver();
+    }
 
-      if (!reader) {
-        throw new Error('No response stream available');
-      }
+    try {
+      setIsGenerating(true);
+      setSpeechError("");
+      setGeneratedSpeech(""); // Clear previous speech to show streaming
 
-      let buffer = '';
+      const requestData = {
+        ...formData,
+        regenerationInstructions: null,
+        isRegeneration: false,
+        clientAnonUserId: getOrCreateAnonymousUserId(),
+        existingSpeechId: speechIdFromUrl || null,
+      };
 
-      while (true) {
-        const { done, value } = await reader.read();
-
-        if (done) break;
-
-        // Add new chunk to buffer
-        buffer += decoder.decode(value, { stream: true });
-
-        // Process complete lines from buffer
-        const lines = buffer.split('\n');
-        // Keep incomplete line in buffer
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            try {
-              const jsonStr = line.slice(6).trim();
-              if (jsonStr) {
-                const data = JSON.parse(jsonStr);
-
-                if (data.type === 'chunk') {
-                  setGeneratedSpeech(data.fullContent);
-                } else if (data.type === 'complete') {
-                  fullSpeechRef.current = data.speech;
-                  incrementSpeechGenerationCount();
-
-                  // Verify speech was saved to DB
-                  if (data.speechId) {
-                    console.log('✅ [GENERATOR] Speech saved to DB:', data.speechId);
-                    setCurrentSpeechId(data.speechId);
-                  } else {
-                    console.error('❌ [GENERATOR] Speech NOT saved to DB (speechId null) — DB save failed silently');
-                  }
-                  console.log('📊 [GENERATOR] Complete:', { speechId: data.speechId, isProUser: data.isProUser, wordCount: data.wordCount });
-
-                  if (data.isProUser) {
-                    // Pro user: show full speech
-                    setGeneratedSpeech(data.speech);
-                    pushSpeechVersion(data.speech);
-                    setIsSpeechPaywalled(false);
-                  } else {
-                    // Free user: show preview only
-                    setGeneratedSpeech(getPreviewText(data.speech));
-                    setIsSpeechPaywalled(true);
-                  }
-                  setSpeechGenerated(true);
-                  setIsGenerating(false);
-                } else if (data.type === 'error') {
-                  throw new Error(data.error);
-                }
-              }
-            } catch (parseError) {
-              console.warn('Failed to parse streaming data:', parseError);
-            }
-          }
-        }
-      }
-
+      await streamSpeechResponse(requestData);
     } catch (error) {
       console.error('Error generating speech:', error);
       setSpeechError(error instanceof Error ? error.message : 'Failed to generate speech');
@@ -1609,90 +1674,7 @@ function GeneratorContent() {
         existingSpeechId: speechIdFromUrl || null,
       };
 
-      const response = await fetch('/api/generate-speech-stream', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
-
-      if (!response.ok) {
-        // 403 = paywall → redirect to checkout
-        if (response.status === 403) {
-          setIsGenerating(false);
-          redirectToCheckout();
-          return;
-        }
-        const errorData = await response.json().catch(() => null);
-        throw new Error(errorData?.message || 'Failed to generate speech');
-      }
-
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-
-      if (!reader) {
-        throw new Error('No response stream available');
-      }
-
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-
-        if (done) break;
-
-        // Add new chunk to buffer
-        buffer += decoder.decode(value, { stream: true });
-
-        // Process complete lines from buffer
-        const lines = buffer.split('\n');
-        // Keep incomplete line in buffer
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            try {
-              const jsonStr = line.slice(6).trim();
-              if (jsonStr) {
-                const data = JSON.parse(jsonStr);
-
-                if (data.type === 'chunk') {
-                  setGeneratedSpeech(data.fullContent);
-                } else if (data.type === 'complete') {
-                  fullSpeechRef.current = data.speech;
-                  incrementSpeechGenerationCount();
-
-                  // Verify speech was saved to DB
-                  if (data.speechId) {
-                    console.log('✅ [GENERATOR-S2] Speech saved to DB:', data.speechId);
-                    setCurrentSpeechId(data.speechId);
-                  } else {
-                    console.error('❌ [GENERATOR-S2] Speech NOT saved to DB (speechId null) — DB save failed silently');
-                  }
-                  console.log('📊 [GENERATOR-S2] Complete:', { speechId: data.speechId, isProUser: data.isProUser, wordCount: data.wordCount });
-
-                  if (data.isProUser) {
-                    setGeneratedSpeech(data.speech);
-                    pushSpeechVersion(data.speech);
-                    setIsSpeechPaywalled(false);
-                  } else {
-                    setGeneratedSpeech(getPreviewText(data.speech));
-                    setIsSpeechPaywalled(true);
-                  }
-                  setSpeechGenerated(true);
-                  setIsGenerating(false);
-                } else if (data.type === 'error') {
-                  throw new Error(data.error);
-                }
-              }
-            } catch (parseError) {
-              console.warn('Failed to parse streaming data:', parseError);
-            }
-          }
-        }
-      }
-
+      await streamSpeechResponse(requestData);
     } catch (error) {
       console.error('Error generating speech:', error);
       setSpeechError(error instanceof Error ? error.message : 'Failed to generate speech');
@@ -2651,13 +2633,13 @@ function GeneratorContent() {
                               formData.humorLevel && `Humor level: ${formData.humorLevel}`,
                               formData.includeToastClosing && 'End with traditional toast',
                             ].filter(Boolean).join('. ');
-                            handleGenerateSpeech(`Regenerate using all updated details including: Name=${formData.yourName}, Groom=${formData.groomName}, Bride=${formData.brideName}, Tone=${formData.tone}. ${proDetails}`);
+                            handleStartOver(`Regenerate using all updated details including: Name=${formData.yourName}, Groom=${formData.groomName}, Bride=${formData.brideName}, Tone=${formData.tone}. ${proDetails}`);
                           }}
                           disabled={isGenerating}
                           className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full"
                         >
                           <Sparkles className="mr-2 h-4 w-4" />
-                          Regenerate with Updated Details
+                          Refresh with Updated Details
                         </Button>
                       </div>
                     )}
@@ -2878,16 +2860,16 @@ function GeneratorContent() {
                       )}
                     </div>
 
-                    {/* Regeneration Options - Only for Pro users */}
+                    {/* Refine Your Speech - Only for Pro users */}
                     {!isSpeechPaywalled && isProUser && (
                       <div className="bg-[#faf7f4] rounded-lg p-6 border border-[#e8e1d8]">
                         <div className="mb-4">
                           <h4 className="font-semibold text-[#181615] flex items-center mb-2">
-                            <span className="text-lg mr-2">🔄</span>
-                            Improve Your Speech
+                            <span className="text-lg mr-2">✨</span>
+                            Refine Your Speech
                           </h4>
                           <div className="text-xs text-[#8f867e]">
-                            Unlimited edits with Pro
+                            Quick refinements keep your speech intact — only the relevant parts change
                           </div>
                         </div>
 
@@ -2896,22 +2878,20 @@ function GeneratorContent() {
                           {selectedPill && (
                             <div className="bg-white/50 border border-[#e8e1d8] rounded-lg p-3">
                               <div className="text-sm text-[#8f867e] mb-1">Selected improvement:</div>
-                              <div className="text-sm font-medium text-[#8f867e] italic">"{selectedPill}"</div>
+                              <div className="text-sm font-medium text-[#8f867e] italic">&ldquo;{selectedPill}&rdquo;</div>
                             </div>
                           )}
 
-                          {/* Direct Action Pills */}
+                          {/* Direct Action Pills — all route through refinement */}
                           <div>
                             <label className="block text-sm font-medium text-[#181615] mb-3">
-                              Quick improvements:
+                              Quick refinements:
                             </label>
                             <div className="flex flex-wrap gap-2">
                               {getRegenerationSuggestions().direct.map((suggestion, index) => (
                                 <button
                                   key={`direct-${index}`}
-                                  onClick={() => {
-                                    handleGenerateSpeech(suggestion);
-                                  }}
+                                  onClick={() => handleRefineSpeech(suggestion)}
                                   disabled={isGenerating}
                                   className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                                     isGenerating
@@ -2960,7 +2940,7 @@ function GeneratorContent() {
                             </label>
                             <textarea
                               value={regenerationInstructions}
-                              onChange={(e) => setRegenerationInstructions(e.target.value)}
+                              onChange={(e) => setRegenerationInstructions(e.target.value.slice(0, 500))}
                               placeholder={
                                 selectedPill
                                   ? selectedPill === "Add a specific story"
@@ -2972,12 +2952,14 @@ function GeneratorContent() {
                                     : `Provide details for: ${selectedPill}...`
                                   : "e.g., Make it funnier, add more details about our college days, include a specific memory..."
                               }
+                              maxLength={500}
                               rows={3}
                               className="w-full p-3 border border-[#e8e1d8] rounded-lg text-[#181615] placeholder-[#8f867e] focus:border-[#da5389] focus:outline-none focus:ring-1 focus:ring-[#da5389]"
                             />
+                            <div className="text-xs text-[#8f867e] mt-1 text-right">{regenerationInstructions.length}/500</div>
                           </div>
 
-                          {/* Action Buttons */}
+                          {/* Action Buttons — Refine (primary) + Start Over (de-emphasized) */}
                           <div className="flex items-center justify-between gap-3">
                             {selectedPill && (
                               <button
@@ -2992,18 +2974,20 @@ function GeneratorContent() {
                             )}
 
                             <div className="flex gap-2 ml-auto">
+                              {/* Start Over — secondary, de-emphasized */}
                               <button
-                                onClick={() => handleGenerateSpeech()}
+                                onClick={() => handleStartOver()}
                                 disabled={isGenerating}
                                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                                   isGenerating
-                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                    : 'bg-gray-100 text-[#181615] hover:bg-gray-200'
+                                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                    : 'text-[#8f867e] hover:text-[#181615] hover:bg-gray-100'
                                 }`}
                               >
-                                🔄 Simple Regenerate
+                                Start Over
                               </button>
 
+                              {/* Refine Speech — primary action */}
                               <button
                                 onClick={() => {
                                   const instruction = selectedPill && regenerationInstructions.trim()
@@ -3011,16 +2995,14 @@ function GeneratorContent() {
                                     : regenerationInstructions.trim();
 
                                   if (instruction) {
-                                    handleGenerateSpeech(instruction);
+                                    handleRefineSpeech(instruction);
                                     setRegenerationInstructions("");
                                     setSelectedPill(null);
-                                  } else {
-                                    handleGenerateSpeech();
                                   }
                                 }}
-                                disabled={isGenerating || (!!selectedPill && !regenerationInstructions.trim())}
+                                disabled={isGenerating || (!regenerationInstructions.trim() && !selectedPill)}
                                 className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                                  isGenerating || (!!selectedPill && !regenerationInstructions.trim())
+                                  isGenerating || (!regenerationInstructions.trim() && !selectedPill)
                                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                     : 'bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-md hover:shadow-lg'
                                 }`}
@@ -3028,11 +3010,11 @@ function GeneratorContent() {
                                 {isGenerating ? (
                                   <>
                                     <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block mr-2" />
-                                    Regenerating...
+                                    Refining...
                                   </>
                                 ) : (
                                   <>
-                                    ✨ Regenerate with {selectedPill || regenerationInstructions.trim() ? 'Changes' : 'Instructions'}
+                                    ✨ Refine Speech
                                   </>
                                 )}
                               </button>

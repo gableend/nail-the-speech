@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { generateWeddingSpeechStream } from "@/lib/openai";
+import { generateWeddingSpeechStream, generateRefinementStream, classifyInstruction } from "@/lib/openai";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { checkProStatusForRequest, countUserSpeeches } from "@/lib/userStatus";
@@ -182,31 +182,63 @@ export async function POST(request: NextRequest) {
       formData.lengthPreference = 'medium';
     }
 
-    // Choose model based on premium status
-    const speechOptions = {
-      isPremium: isProUser,
-      model: 'gpt-4o' as const,
-      maxTokens: 2000,
-      regenerationInstructions: formData.regenerationInstructions || null,
-      isRegeneration: formData.isRegeneration || false
-    };
+    // ── Determine action type: refine vs start_over vs generate ───────
+    const refinementInstruction = formData.refinementInstruction || formData.regenerationInstructions || null;
+    const existingSpeechContent = formData.existingSpeechContent || null;
+    const isRefinement = formData.isRefinement === true;
+    const isStartOver = formData.isStartOver === true;
+
+    // Server-side classification as failsafe
+    let actionType: 'generate' | 'refine' | 'start_over' = 'generate';
+    if (isRefinement && existingSpeechContent && refinementInstruction) {
+      // Double-check with server-side classifier
+      const classified = classifyInstruction(refinementInstruction);
+      actionType = classified === 'start_over' ? 'start_over' : 'refine';
+    } else if (isStartOver || (formData.isRegeneration && !isRefinement)) {
+      actionType = 'start_over';
+    }
+
+    // Model routing: refinements use gpt-4o-mini, full generation uses gpt-4o
+    const modelForAction = actionType === 'refine' ? 'gpt-4o-mini' : 'gpt-4o';
+    const maxTokensForAction = actionType === 'refine' ? 1500 : 2000;
 
     console.log('🤖 [SPEECH STREAM API] Starting OpenAI streaming generation with options:', {
-      model: speechOptions.model,
-      isPremium: speechOptions.isPremium,
-      maxTokens: speechOptions.maxTokens,
+      actionType,
+      model: modelForAction,
+      isPremium: isProUser,
+      maxTokens: maxTokensForAction,
       dataCompleteness: determineDataCompleteness(formData),
-      isRegeneration: speechOptions.isRegeneration,
-      hasCustomInstructions: !!speechOptions.regenerationInstructions
+      isRegeneration: formData.isRegeneration || false,
+      hasCustomInstructions: !!refinementInstruction
     });
 
     // Create readable stream for streaming response
     const encoder = new TextEncoder();
+    const startTime = Date.now();
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          // Generate speech with OpenAI streaming
-          const speechStream = await generateWeddingSpeechStream(formData, speechOptions);
+          // ── Route to correct stream based on action type ───────
+          let speechStream;
+          if (actionType === 'refine' && existingSpeechContent && refinementInstruction) {
+            // Refinement: use cheaper model with surgical edit prompt
+            speechStream = await generateRefinementStream(
+              existingSpeechContent,
+              refinementInstruction,
+              formData,
+              { model: modelForAction, maxTokens: maxTokensForAction }
+            );
+          } else {
+            // Full generation or start over: use GPT-4o
+            const speechOptions = {
+              isPremium: isProUser,
+              model: modelForAction as 'gpt-4o',
+              maxTokens: maxTokensForAction,
+              regenerationInstructions: refinementInstruction,
+              isRegeneration: actionType === 'start_over' || formData.isRegeneration || false
+            };
+            speechStream = await generateWeddingSpeechStream(formData, speechOptions);
+          }
 
           let fullSpeech = '';
 
@@ -225,9 +257,13 @@ export async function POST(request: NextRequest) {
             }
           }
 
+          const generationTimeMs = Date.now() - startTime;
           console.log('🎉 [SPEECH STREAM API] OpenAI streaming generation completed successfully!', {
+            actionType,
+            model: modelForAction,
             speechLength: fullSpeech.length,
-            wordCount: fullSpeech.split(/\s+/).filter(word => word.length > 0).length
+            wordCount: fullSpeech.split(/\s+/).filter(word => word.length > 0).length,
+            generationTimeMs
           });
 
           // Save speech to database — update existing or create new
@@ -277,10 +313,14 @@ export async function POST(request: NextRequest) {
                 data: { speechId: existingSpeechId, content: fullSpeech, versionNumber: nextVersion },
               });
 
-              // Update the speech itself
+              // Update the speech — increment regenCount for start_over, refineCount for refine
+              const incrementField = actionType === 'refine'
+                ? { refineCount: { increment: 1 } }
+                : { regenCount: { increment: 1 } };
+
               const updatedSpeech = await prisma.speech.update({
                 where: { id: existingSpeechId },
-                data: { ...speechFields, regenCount: { increment: 1 } },
+                data: { ...speechFields, ...incrementField },
               });
               savedSpeechId = updatedSpeech.id;
               console.log(`📚 [SPEECH STREAM API] Saved version ${nextVersion} for speech ${savedSpeechId}`);
@@ -306,12 +346,32 @@ export async function POST(request: NextRequest) {
             console.error("❌ [SPEECH STREAM API] Speech data that failed:", JSON.stringify({ userId, anonUserId }));
           }
 
+          // ── Usage logging ─────────────────────────────────────────
+          try {
+            await prisma.usageLog.create({
+              data: {
+                speechId: savedSpeechId,
+                userId,
+                anonUserId,
+                action: actionType,
+                model: modelForAction,
+                instruction: refinementInstruction?.substring(0, 500) || null,
+                // Token counts not available from streaming — leave null
+              },
+            });
+            console.log('📊 [SPEECH STREAM API] Usage logged:', { actionType, model: modelForAction });
+          } catch (logError) {
+            console.error('⚠️ [SPEECH STREAM API] Failed to log usage:', logError);
+          }
+
           // Send completion message with speechId and Pro status
           const completionData = JSON.stringify({
             type: 'complete',
             speech: fullSpeech,
             speechId: savedSpeechId,
             isProUser,
+            actionType,
+            model: modelForAction,
             wordCount: fullSpeech.split(/\s+/).filter(word => word.length > 0).length,
             estimatedTime: Math.ceil(fullSpeech.split(/\s+/).filter(word => word.length > 0).length / 150),
             dataCompleteness: determineDataCompleteness(formData)

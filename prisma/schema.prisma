@@ -48,7 +48,8 @@ model Speech {
   estimatedTime Int?     // in minutes
   isAIGenerated Boolean  @default(true)
   formData      String   // JSON string of form data
-  regenCount    Int      @default(0) // Track regeneration count for paywall
+  regenCount    Int      @default(0) // Track full regeneration count
+  refineCount   Int      @default(0) // Track refinement count
   userId        String?  // Clerk user ID (set after auth)
   anonUserId    String?  // Client-generated anonymous user ID (set before auth)
   isCompleted   Boolean  @default(true) // false for draft speeches
@@ -79,6 +80,25 @@ model EmailLead {
   @@unique([email])
   @@index([hasPaid, email1SentAt])
   @@map("email_leads")
+}
+
+model UsageLog {
+  id               String   @id @default(cuid())
+  speechId         String?
+  userId           String?
+  anonUserId       String?
+  action           String   // "generate" | "refine" | "start_over"
+  model            String   // "gpt-4o" | "gpt-4o-mini"
+  promptTokens     Int?
+  completionTokens Int?
+  totalTokens      Int?
+  estimatedCost    Float?   // in USD cents
+  instruction      String?
+  createdAt        DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+  @@map("usage_logs")
 }
 
 model SpeechVersion {

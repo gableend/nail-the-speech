@@ -32,10 +32,84 @@ interface SpeechFormData {
 
 interface SpeechOptions {
   isPremium?: boolean;
-  model?: 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4o';
+  model?: 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4o' | 'gpt-4o-mini';
   maxTokens?: number;
   regenerationInstructions?: string | null;
   isRegeneration?: boolean;
+}
+
+// ── Instruction classifier ──────────────────────────────────
+const START_OVER_PATTERNS = [
+  /\b(rewrite|re-write)\b/i,
+  /\bstart\s*(over|from scratch|again|fresh)\b/i,
+  /\b(completely|totally|entirely)\s*(new|different|change|rewrite)\b/i,
+  /\b(scrap|throw\s*(it\s*)?out|redo|re-do)\b/i,
+  /\bwrite\s*a?\s*new\s*(speech|one)\b/i,
+  /\bbegin\s*again\b/i,
+];
+
+export function classifyInstruction(instruction: string): 'refine' | 'start_over' {
+  if (!instruction || instruction.trim().length === 0) return 'refine';
+  for (const pattern of START_OVER_PATTERNS) {
+    if (pattern.test(instruction)) return 'start_over';
+  }
+  return 'refine';
+}
+
+// ── Refinement stream (cheaper model, surgical edits) ───────
+export async function generateRefinementStream(
+  existingSpeech: string,
+  instruction: string,
+  formData: SpeechFormData,
+  options: { model?: string; maxTokens?: number } = {}
+) {
+  const { model = 'gpt-4o-mini', maxTokens = 1500 } = options;
+
+  const roleContext = getRoleContext(formData.selectedRole, formData.customRoleLabel);
+
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+  console.log('🔧 [OPENAI LIB] Starting refinement stream...');
+
+  const stream = await openai.chat.completions.create({
+    model,
+    messages: [
+      {
+        role: 'system',
+        content: `You are an expert wedding speech editor. You have been given an existing speech and a specific refinement instruction. Your job is to modify ONLY the parts of the speech that are relevant to the instruction. Keep everything else exactly as written.
+
+RULES:
+1. Preserve the overall structure, length, and flow of the speech
+2. Only modify sections directly relevant to the instruction
+3. Keep all names, facts, and personal details accurate
+4. Maintain the same tone unless the instruction specifically asks to change it
+5. Do NOT expand the speech length unless explicitly asked — keep it within 10% of the original
+6. Return the COMPLETE speech with your modifications integrated
+7. Do NOT add explanations, notes, or commentary — return ONLY the speech text
+8. Preserve any paragraphs the user has manually edited — only change what the instruction asks for`
+      },
+      {
+        role: 'user',
+        content: `EXISTING SPEECH:
+${existingSpeech}
+
+REFINEMENT INSTRUCTION:
+${instruction}
+
+SPEECH CONTEXT (for reference only — do NOT regenerate from these details):
+- Speaker: ${formData.yourName}, Role: ${roleContext.title}
+- Groom: ${formData.groomName}, Bride: ${formData.brideName}
+- Tone: ${formData.tone}
+
+Return the complete refined speech:`
+      }
+    ],
+    max_tokens: maxTokens,
+    temperature: 0.5, // Lower temperature for more precise edits
+    stream: true,
+  });
+
+  return stream;
 }
 
 export async function generateWeddingSpeechStream(

@@ -1735,26 +1735,26 @@ function GeneratorContent() {
       const audio = new Audio(audioUrl);
       setAudioElement(audio);
 
-      await new Promise<void>((resolve) => {
-        audio.onended = () => {
+      const playResult = await new Promise<'ended' | 'error' | 'cancelled'>((resolve) => {
+        // Listen for cancellation
+        const checkCancel = setInterval(() => {
+          if (session.cancelled) { clearInterval(checkCancel); resolve('cancelled'); }
+        }, 200);
+
+        audio.onended = () => { clearInterval(checkCancel); URL.revokeObjectURL(audioUrl); resolve('ended'); };
+        audio.onerror = () => { clearInterval(checkCancel); URL.revokeObjectURL(audioUrl); resolve('error'); };
+
+        audio.play().catch(() => {
+          clearInterval(checkCancel);
           URL.revokeObjectURL(audioUrl);
-          resolve();
-        };
-        audio.onerror = () => {
-          URL.revokeObjectURL(audioUrl);
-          resolve();
-        };
-        audio.play().catch(() => resolve());
+          resolve('error');
+        });
       });
 
-      // Wait while paused
-      while (!session.cancelled) {
-        if (audio.ended || audio.error) break;
-        if (audio.paused) {
-          await new Promise(r => setTimeout(r, 100));
-        } else {
-          break;
-        }
+      if (playResult === 'cancelled' || playResult === 'error') {
+        if (playResult === 'cancelled') break;
+        // On error, try next chunk
+        continue;
       }
     }
 

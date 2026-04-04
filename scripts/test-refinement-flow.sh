@@ -1,8 +1,8 @@
 #!/bin/bash
 # ─────────────────────────────────────────────────────────────
-# Interactive test script for the refinement architecture
-# Tests: model routing, refine vs start-over, usage logging,
-#        instruction classification, UI buttons
+# Interactive test script for the refinement & editing UX
+# Tests: model routing, AI credits, undo, start-over confirm,
+#        role-contextual pills, tone fix, labelling, Cmd+Z
 # ─────────────────────────────────────────────────────────────
 
 SITE="${SITE_URL:-http://localhost:3000}"
@@ -49,276 +49,417 @@ check_result() {
   fi
 }
 
-countdown() {
-  local secs=$1
-  local label="${2:-Waiting}"
-  echo ""
-  while [ $secs -gt 0 ]; do
-    local mins=$((secs / 60))
-    local s=$((secs % 60))
-    printf "\r  ${YELLOW}⏳ ${label}... %d:%02d remaining${NC}  " $mins $s
-    sleep 1
-    secs=$((secs - 1))
-  done
-  printf "\r  ${GREEN}✓ Wait complete!                          ${NC}\n"
-  echo ""
-}
-
 # ─────────────────────────────────────────────────────────────
 
 echo ""
 echo -e "${CYAN}╔══════════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║     Refinement Architecture Test                    ║${NC}"
+echo -e "${CYAN}║     Refinement & Editing UX Test Suite               ║${NC}"
 echo -e "${CYAN}║     Site: ${BOLD}$SITE${NC}"
 echo -e "${CYAN}║                                                      ║${NC}"
-echo -e "${CYAN}║     Tests model routing (GPT-4o vs GPT-4o-mini),    ║${NC}"
-echo -e "${CYAN}║     refine vs start-over classification, UI,        ║${NC}"
-echo -e "${CYAN}║     usage logging, and instruction limits.           ║${NC}"
+echo -e "${CYAN}║     18 tests covering: model routing, AI credits,    ║${NC}"
+echo -e "${CYAN}║     undo/redo, start-over confirm, role-contextual   ║${NC}"
+echo -e "${CYAN}║     pills, tone fix, labelling, keyboard shortcuts   ║${NC}"
 echo -e "${CYAN}╚══════════════════════════════════════════════════════╝${NC}"
 
 echo ""
 echo -e "  ${BOLD}Prerequisites:${NC}"
-echo "  1. You must be logged in as a Pro user"
-echo "  2. Browser DevTools Console open (to check logs)"
-echo "  3. Network tab open (to inspect API payloads)"
+echo "  1. Logged in as a Pro user"
+echo "  2. Browser DevTools open (Console + Network tabs)"
 echo ""
 echo -e "  ${DIM}Tip: Use ?demo=true to auto-fill form data${NC}"
 wait_for_enter
 
-# ─── Test 1: Initial Speech Generation ─────────────────────
+# ═══════════════════════════════════════════════════════════════
+# SECTION A: Core Generation & Routing
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${BOLD}  ── Section A: Core Generation & Routing ──${NC}"
+
+# ─── Test 1 ────────────────────────────────────────────────
 
 next_step "Initial Speech Generation (GPT-4o)"
 echo ""
 echo "  Actions:"
 echo "  1. Go to ${SITE}/generator?demo=true"
-echo "  2. Walk through the form steps (data should be pre-filled)"
-echo "  3. Click 'Generate My Speech' on the final step"
+echo "  2. Walk through the form (data should be pre-filled)"
+echo "  3. Click 'Generate My Speech' on the story step"
 echo "  4. Wait for the speech to stream in"
 echo ""
-echo "  ${BOLD}What to verify in Network tab:${NC}"
-echo "  - Open the generate-speech-stream request"
-echo "  - In the Request Payload, confirm:"
-echo "    ${GREEN}isRegeneration: false${NC}"
-echo "    ${GREEN}No isRefinement or isStartOver fields${NC}"
-echo ""
-echo "  ${BOLD}What to verify in Console:${NC}"
-echo "  - Look for: ${GREEN}[GENERATOR] Complete: { actionType: 'generate', model: 'gpt-4o' }${NC}"
-echo ""
-echo "  ${BOLD}What to verify in UI:${NC}"
-echo "  - Speech generates successfully (4-5 minutes / 600+ words)"
-echo "  - 'Refine Your Speech' section appears below (not 'Improve')"
-echo "  - Primary button says '✨ Refine Speech' (disabled until text entered)"
-echo "  - Secondary button says 'Start Over' (subtle/de-emphasized)"
+echo "  ${BOLD}What to verify:${NC}"
+echo "  - Console: ${GREEN}actionType: 'generate', model: 'gpt-4o'${NC}"
+echo "  - Speech is 4-5 minutes / 600+ words"
+echo "  - Below the speech: ${GREEN}\"Edit directly above, or use AI below\"${NC} divider"
+echo "  - 'Refine Your Speech' section with solid pink quick-action pills"
+echo "  - Outlined '✨ Refine Speech' button (not greyed out — outlined pink)"
+echo "  - De-emphasised 'Start Over' text button"
+echo "  - ${RED}No${NC} credit counter visible yet (fresh speech = 0% used)"
 
 wait_for_enter
-check_result "Initial generation uses GPT-4o, speech is 4-5 mins, 'Refine Your Speech' UI appears"
+check_result "Initial generation: GPT-4o, divider shown, no credit counter yet"
 
-# ─── Test 2: Quick Refinement Pill ──────────────────────────
+# ─── Test 2 ────────────────────────────────────────────────
 
-next_step "Quick Refinement Pill (GPT-4o-mini)"
+next_step "Quick Refinement Pill — Overlay + Undo"
 echo ""
 echo "  Actions:"
-echo "  1. In the 'Quick refinements' section, click any pill"
-echo "     (e.g., 'Make it funnier', 'Add more emotion', etc.)"
-echo "  2. Watch the speech regenerate"
+echo "  1. Note the current speech content"
+echo "  2. Click a solid pink quick-refinement pill"
 echo ""
-echo "  ${BOLD}What to verify in Network tab:${NC}"
-echo "  - New generate-speech-stream request"
-echo "  - In the Request Payload, confirm:"
-echo "    ${GREEN}isRefinement: true${NC}"
-echo "    ${GREEN}isStartOver: false${NC}"
-echo "    ${GREEN}existingSpeechContent: (the full speech text)${NC}"
-echo "    ${GREEN}refinementInstruction: (the pill text)${NC}"
+echo "  ${BOLD}What to verify during refinement:${NC}"
+echo "  - Old speech stays visible with a ${GREEN}subtle white blur overlay${NC}"
+echo "  - Centered pill shows: ${GREEN}\"Refining your speech...\"${NC} with spinner"
+echo "  - Speech is NOT blanked out"
 echo ""
-echo "  ${BOLD}What to verify in Console:${NC}"
-echo "  - Look for: ${GREEN}actionType: 'refine', model: 'gpt-4o-mini'${NC}"
-echo ""
-echo "  ${BOLD}What to verify in UI:${NC}"
-echo "  - Speech updates (not a complete rewrite — structure mostly preserved)"
-echo "  - The refinement is targeted to what the pill described"
+echo "  ${BOLD}What to verify after completion:${NC}"
+echo "  - Overlay disappears, new speech replaces old"
+echo "  - Undo banner appears: ${GREEN}\"✨ Refined: [pill text]\"${NC}"
+echo "  - Banner has ${GREEN}\"↩ Undo\"${NC} button"
+echo "  - Console: ${GREEN}actionType: 'refine', model: 'gpt-4o-mini'${NC}"
 
 wait_for_enter
-check_result "Quick pill uses GPT-4o-mini refinement (not full regen)"
+check_result "Refinement: overlay during, undo banner after, GPT-4o-mini used"
 
-# ─── Test 3: Custom Refinement Instruction ──────────────────
+# ─── Test 3 ────────────────────────────────────────────────
 
-next_step "Custom Refinement Instruction (GPT-4o-mini)"
+next_step "Undo Banner — Revert Refinement"
 echo ""
 echo "  Actions:"
-echo "  1. In the text area, type a refinement like:"
-echo "     ${BOLD}'Add a joke about how he's always late to everything'${NC}"
+echo "  1. The undo banner from Test 2 should still be visible"
+echo "     (or repeat a quick pill refinement)"
+echo "  2. Click the ${BOLD}\"↩ Undo\"${NC} button"
+echo ""
+echo "  ${BOLD}What to verify:${NC}"
+echo "  - Speech reverts to the previous version"
+echo "  - Undo banner disappears"
+echo "  - Version counter (top-right of speech card) updates"
+
+wait_for_enter
+check_result "Undo reverts to previous version, banner dismissed"
+
+# ─── Test 4 ────────────────────────────────────────────────
+
+next_step "Cmd+Z / Ctrl+Z Keyboard Shortcut"
+echo ""
+echo "  Actions:"
+echo "  1. Do another quick pill refinement to create a new version"
+echo "  2. Click somewhere in the page (NOT in a text input)"
+echo "  3. Press ${BOLD}Cmd+Z${NC} (Mac) or ${BOLD}Ctrl+Z${NC} (Windows)"
+echo ""
+echo "  ${BOLD}What to verify:${NC}"
+echo "  - Speech reverts to previous version"
+echo "  - Works the same as clicking the ↩ undo button"
+echo ""
+echo "  ${BOLD}Also verify it does NOT undo when:${NC}"
+echo "  - Cursor is inside the instruction textarea"
+echo "  - Cursor is inside a contentEditable paragraph"
+
+wait_for_enter
+check_result "Cmd+Z undoes speech version (but not inside text fields)"
+
+# ─── Test 5 ────────────────────────────────────────────────
+
+next_step "Custom Refinement + Min Length Validation"
+echo ""
+echo "  Actions:"
+echo "  1. Type just 2-3 characters in the instruction box (e.g., 'hi')"
 echo "  2. Click '✨ Refine Speech'"
-echo "  3. Watch the speech update"
-echo ""
-echo "  ${BOLD}What to verify in Network tab:${NC}"
-echo "  - Request Payload shows:"
-echo "    ${GREEN}isRefinement: true${NC}"
-echo "    ${GREEN}refinementInstruction: 'Add a joke about...'${NC}"
-echo ""
-echo "  ${BOLD}What to verify in Console:${NC}"
-echo "  - ${GREEN}actionType: 'refine', model: 'gpt-4o-mini'${NC}"
-echo ""
-echo "  ${BOLD}What to verify in UI:${NC}"
-echo "  - The joke is added without rewriting the entire speech"
-echo "  - Overall structure/length stays roughly the same"
-
-wait_for_enter
-check_result "Custom instruction routes to GPT-4o-mini refinement"
-
-# ─── Test 4: Instruction Max Length ─────────────────────────
-
-next_step "Instruction Max Length (500 chars)"
-echo ""
-echo "  Actions:"
-echo "  1. In the instruction text area, try pasting a very long string"
-echo "     (500+ characters)"
 echo ""
 echo "  ${BOLD}What to verify:${NC}"
-echo "  - Character counter shows at bottom right (e.g., '500/500')"
-echo "  - Text is truncated at 500 characters — cannot type beyond that"
-
-wait_for_enter
-check_result "Instruction textarea is capped at 500 characters with counter"
-
-# ─── Test 5: Start Over Button ──────────────────────────────
-
-next_step "Start Over Button (GPT-4o full regen)"
+echo "  - Hint toast appears: ${GREEN}\"Describe your change in a bit more detail...\"${NC}"
+echo "  - Refinement does NOT fire"
+echo "  - Button is ${GREEN}outlined pink${NC} (not filled) — short text isn't 'ready'"
 echo ""
-echo "  Actions:"
-echo "  1. Click the 'Start Over' button (de-emphasized, next to Refine)"
-echo "  2. Watch the speech regenerate completely"
-echo ""
-echo "  ${BOLD}What to verify in Network tab:${NC}"
-echo "  - Request Payload shows:"
-echo "    ${GREEN}isRefinement: false${NC}"
-echo "    ${GREEN}isStartOver: true${NC}"
-echo "    ${GREEN}No existingSpeechContent field${NC}"
-echo ""
-echo "  ${BOLD}What to verify in Console:${NC}"
-echo "  - ${GREEN}actionType: 'start_over', model: 'gpt-4o'${NC}"
-echo ""
-echo "  ${BOLD}What to verify in UI:${NC}"
-echo "  - Speech is completely different (new structure, new wording)"
-echo "  - Still matches the tone/length from original form data"
-
-wait_for_enter
-check_result "Start Over uses GPT-4o and produces a completely new speech"
-
-# ─── Test 6: Contextual Pill + Details ──────────────────────
-
-next_step "Contextual Pill with Details"
-echo ""
-echo "  Actions:"
-echo "  1. Under 'Add specific details', click a contextual pill"
-echo "     (e.g., 'Add a specific story →', 'Mention someone special →')"
-echo "  2. The pill should highlight and the text area label changes"
-echo "  3. Type details in the text area (e.g., a story to include)"
-echo "  4. Click '✨ Refine Speech'"
+echo "  Then:"
+echo "  3. Type 10+ characters (e.g., 'Add a joke about how he is always late')"
+echo "  4. Button should turn ${GREEN}solid pink${NC} (filled)"
+echo "  5. Click it"
 echo ""
 echo "  ${BOLD}What to verify:${NC}"
-echo "  - Pill is highlighted in pink when selected"
-echo "  - Text area label updates to show the selected pill"
-echo "  - 'Clear selection' link appears"
-echo "  - On submit, the instruction combines pill + details"
-echo "  - ${GREEN}isRefinement: true${NC} in Network tab"
-echo "  - Speech is refined (not fully rewritten)"
+echo "  - Refinement fires, speech is updated"
+echo "  - Console: ${GREEN}actionType: 'refine', model: 'gpt-4o-mini'${NC}"
 
 wait_for_enter
-check_result "Contextual pill + details flow works and routes to refinement"
+check_result "Min 10 chars enforced, outlined→filled transition, custom refine works"
 
-# ─── Test 7: Instruction Classification (start-over language) ──
+# ─── Test 6 ────────────────────────────────────────────────
 
-next_step "Instruction Classification — 'Start Over' Detection"
+next_step "Voice Input for Instructions"
 echo ""
 echo "  Actions:"
-echo "  1. In the instruction text area, type:"
+echo "  1. Below the instruction textarea, find the ${BOLD}microphone button${NC}"
+echo "  2. Click it and speak a refinement instruction"
+echo "  3. Wait for transcription to appear in the textarea"
+echo ""
+echo "  ${BOLD}What to verify:${NC}"
+echo "  - Voice input button is present below the textarea"
+echo "  - Transcription appends to existing text (doesn't replace)"
+echo "  - Character counter updates"
+echo "  - Text capped at 500 chars even with long voice input"
+
+wait_for_enter
+check_result "Voice input works for refinement instructions"
+
+# ─── Test 7 ────────────────────────────────────────────────
+
+next_step "Start Over — Confirmation Dialog"
+echo ""
+echo "  Actions:"
+echo "  1. Click the 'Start Over' button"
+echo ""
+echo "  ${BOLD}What to verify:${NC}"
+echo "  - A modal dialog appears (NOT an immediate regeneration)"
+echo "  - Title: ${GREEN}\"Start Over?\"${NC}"
+echo "  - Body mentions version history is preserved"
+echo "  - Shows credit cost: ${GREEN}\"Uses 3 AI edits (refinements use 1). You have X remaining.\"${NC}"
+echo "  - Two buttons: 'Cancel' and 'Yes, Start Over'"
+echo ""
+echo "  2. Click 'Cancel' — dialog closes, nothing happens"
+echo "  3. Click 'Start Over' again, then 'Yes, Start Over'"
+echo ""
+echo "  ${BOLD}What to verify after confirming:${NC}"
+echo "  - Speech clears and streams a completely new version"
+echo "  - Console: ${GREEN}actionType: 'start_over', model: 'gpt-4o'${NC}"
+echo "  - Undo banner shows: ${GREEN}\"🔄 New speech generated\"${NC}"
+
+wait_for_enter
+check_result "Start Over shows confirm dialog with credit info, GPT-4o used"
+
+# ─── Test 8 ────────────────────────────────────────────────
+
+next_step "Instruction Classification — Start-Over Detection"
+echo ""
+echo "  Actions:"
+echo "  1. Type in the instruction box:"
 echo "     ${BOLD}'Completely rewrite this from scratch'${NC}"
 echo "  2. Click '✨ Refine Speech'"
 echo ""
-echo "  ${BOLD}What to verify in Console:${NC}"
-echo "  - Despite clicking Refine, the classifier should detect"
-echo "    start-over intent and route to full generation:"
-echo "    ${GREEN}actionType: 'start_over', model: 'gpt-4o'${NC}"
+echo "  ${BOLD}What to verify:${NC}"
+echo "  - Despite clicking Refine, server-side classifier detects"
+echo "    start-over intent and routes to full generation"
+echo "  - Console: ${GREEN}actionType: 'start_over', model: 'gpt-4o'${NC}"
 echo ""
-echo "  ${BOLD}Why:${NC} The instruction classifier catches phrases like"
-echo "  'rewrite', 'start over', 'from scratch', 'completely new'"
-echo "  and upgrades to full GPT-4o generation as a failsafe."
+echo "  ${DIM}(Phrases: 'rewrite', 'start over', 'from scratch', 'completely new')${NC}"
 
 wait_for_enter
-check_result "Start-over language in refine box correctly upgrades to GPT-4o"
+check_result "Start-over language in refine box upgrades to GPT-4o"
 
-# ─── Test 8: Refresh with Updated Details ───────────────────
+# ═══════════════════════════════════════════════════════════════
+# SECTION B: AI Credit System
+# ═══════════════════════════════════════════════════════════════
 
-next_step "Refresh with Updated Details"
+echo ""
+echo -e "${BOLD}  ── Section B: AI Credit System ──${NC}"
+
+# ─── Test 9 ────────────────────────────────────────────────
+
+next_step "Credit Counter Visibility"
+echo ""
+echo "  ${BOLD}Context:${NC} 30 credits total. Refine=1, Start Over=3."
+echo "  By now you've used several AI edits in Tests 2-8."
+echo ""
+echo "  ${BOLD}What to verify in the 'Refine Your Speech' header:${NC}"
+echo "  - If < 50% used: ${GREEN}No counter visible${NC} (user feels free)"
+echo "  - If 50-70% used: Subtle grey text: ${GREEN}\"X AI edits remaining\"${NC}"
+echo "  - If 70%+ used: Warm amber text: ${GREEN}\"X AI edits remaining\"${NC}"
+echo ""
+echo "  ${DIM}Formula: credits_used = (start_overs × 3) + (refinements × 1)${NC}"
+echo "  ${DIM}Counter appears when credits_used >= 15 (50% of 30)${NC}"
+
+wait_for_enter
+check_result "Credit counter appears at correct threshold with proper styling"
+
+# ─── Test 10 ───────────────────────────────────────────────
+
+next_step "Credit Cost in Start Over Dialog"
 echo ""
 echo "  Actions:"
-echo "  1. Click '✏️ Edit Details' (or navigate back to edit form)"
-echo "  2. Change something (e.g., the tone, or a name)"
-echo "  3. A 'Refresh with Updated Details' button should appear"
-echo "  4. Click it"
+echo "  1. Click 'Start Over' to open the confirmation dialog"
 echo ""
-echo "  ${BOLD}What to verify in Network tab:${NC}"
-echo "  - ${GREEN}isStartOver: true${NC} (this is a full regeneration)"
-echo "  - ${GREEN}model: 'gpt-4o'${NC}"
+echo "  ${BOLD}What to verify:${NC}"
+echo "  - Below the description, warm amber text shows:"
+echo "    ${GREEN}\"Uses 3 AI edits (refinements use 1). You have X remaining.\"${NC}"
+echo "  - The number matches what you see in the header counter"
 echo ""
-echo "  ${BOLD}What to verify in UI:${NC}"
-echo "  - New speech reflects the updated details"
+echo "  2. Click 'Cancel' to close"
 
 wait_for_enter
-check_result "'Refresh with Updated Details' triggers full GPT-4o regeneration"
+check_result "Start Over dialog shows accurate credit cost and remaining"
 
-# ─── Test 9: Usage Logging (DB check) ──────────────────────
+# ─── Test 11 ───────────────────────────────────────────────
 
-next_step "Usage Logging in Database"
+next_step "Inline Editing Nudge (in Undo Banner)"
+echo ""
+echo "  ${BOLD}Context:${NC} When > 50% of credits are used, the undo banner"
+echo "  should nudge users toward free inline editing."
+echo ""
+echo "  Actions:"
+echo "  1. Do a quick refinement pill click"
+echo ""
+echo "  ${BOLD}What to verify in the undo banner:${NC}"
+echo "  - If < 50% used: Just ${GREEN}\"✨ Refined: [pill text]\"${NC} + Undo"
+echo "  - If ≥ 50% used: Additionally shows:"
+echo "    ${GREEN}\"— or click any paragraph to edit for free\"${NC}"
+
+wait_for_enter
+check_result "Undo banner includes inline editing nudge at 50%+ usage"
+
+# ═══════════════════════════════════════════════════════════════
+# SECTION C: Role-Contextual UI
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${BOLD}  ── Section C: Role-Contextual Suggestions ──${NC}"
+
+# ─── Test 12 ───────────────────────────────────────────────
+
+next_step "Quick Pills Are Role-Specific"
+echo ""
+echo "  ${BOLD}What to verify:${NC}"
+echo "  Look at the solid pink 'Quick refinements' pills."
+echo "  They should be specific to the speech role, e.g.:"
+echo ""
+echo "  - Best Man: ${GREEN}\"More about my friendship with [groom]\"${NC}"
+echo "  - Father of Bride: ${GREEN}\"More about watching [bride] grow up\"${NC}"
+echo "  - Groom: ${GREEN}\"More gratitude to [bride]'s family\"${NC}"
+echo "  - Siblings: ${GREEN}\"Add more sibling banter\"${NC}"
+echo ""
+echo "  Also check tone-based pills:"
+echo "  - Funny/Clean Roast: ${GREEN}\"Make it more heartfelt\", \"Add cleverer jokes\"${NC}"
+echo "  - Sentimental: ${GREEN}\"Add a touch of humour\", \"Make it more emotional\"${NC}"
+echo ""
+echo "  ${DIM}Demo uses best-man role. To test other roles, generate a new speech.${NC}"
+
+wait_for_enter
+check_result "Quick pills show role-specific and tone-specific suggestions"
+
+# ─── Test 13 ───────────────────────────────────────────────
+
+next_step "Contextual Pills Are Role-Specific"
+echo ""
+echo "  ${BOLD}What to verify:${NC}"
+echo "  The 'Add specific details' contextual pills (with → arrows)"
+echo "  should also be role-specific:"
+echo ""
+echo "  - Best Man: ${GREEN}\"Add a friendship anecdote\"${NC}, ${GREEN}\"Include advice for [groom]\"${NC}"
+echo "  - Father of Bride: ${GREEN}\"Add a childhood memory\"${NC}, ${GREEN}\"Include fatherly wisdom\"${NC}"
+echo "  - Maid of Honor: ${GREEN}\"Add a favourite moment with [bride]\"${NC}"
+echo "  - Groom/Bride: ${GREEN}\"Add how we knew it was love\"${NC}"
+
+wait_for_enter
+check_result "Contextual pills are role-specific with names injected"
+
+# ═══════════════════════════════════════════════════════════════
+# SECTION D: Speech Details & Labelling
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${BOLD}  ── Section D: Speech Details & Labelling ──${NC}"
+
+# ─── Test 14 ───────────────────────────────────────────────
+
+next_step "Tone Pill Fix in Edit Details"
+echo ""
+echo "  Actions:"
+echo "  1. Click the 'Speech Details' expandable section"
+echo ""
+echo "  ${BOLD}What to verify:${NC}"
+echo "  - Tone section shows ${GREEN}all 14 tones${NC} with emojis (not just 4)"
+echo "  - The current tone is ${GREEN}highlighted in solid pink${NC}"
+echo "    (previously no tone was highlighted — this was a bug)"
+echo "  - Click a different tone — it highlights, previous deselects"
+echo "  - Tone emojis match: 💖 Heartfelt, 😄 Funny, 📷 Nostalgic, etc."
+
+wait_for_enter
+check_result "All 14 tones shown with emojis, current tone highlighted correctly"
+
+# ─── Test 15 ───────────────────────────────────────────────
+
+next_step "Tone Display in Summary Stats"
+echo ""
+echo "  ${BOLD}What to verify:${NC}"
+echo "  - The tone stat box (in the 4-box grid: Words, Minutes, Tone, Role)"
+echo "  - Shows the correct emoji for the selected tone (not always 😏)"
+echo "  - Shows the correct label (e.g., 'Heartfelt' not 'heartfelt')"
+
+wait_for_enter
+check_result "Tone stat box shows correct emoji and properly capitalised label"
+
+# ─── Test 16 ───────────────────────────────────────────────
+
+next_step "No 'Pro' Labelling — Outcome-Focused Copy"
+echo ""
+echo "  ${BOLD}What to verify in the Speech Details section:${NC}"
+echo "  - Badge says ${GREEN}\"Add more detail for a better speech\"${NC}"
+echo "    (NOT 'Add Pro details for a better speech')"
+echo "  - When details are filled: ${GREEN}\"Extra details added\"${NC}"
+echo "    (NOT 'Pro details added')"
+echo "  - Section header: ${GREEN}\"Make It Personal\"${NC}"
+echo "    (NOT 'Pro Details')"
+echo "  - Sub-text: ${GREEN}\"The more you share, the more unique and heartfelt...\"${NC}"
+echo ""
+echo "  ${BOLD}Also check the Bonus Options section:${NC}"
+echo "  - Should NOT contain the word 'Pro' anywhere"
+
+wait_for_enter
+check_result "All 'Pro' terminology replaced with outcome-focused language"
+
+# ─── Test 17 ───────────────────────────────────────────────
+
+next_step "Section Divider Between Speech & AI Tools"
+echo ""
+echo "  ${BOLD}What to verify:${NC}"
+echo "  - Between the speech card and the 'Refine Your Speech' section"
+echo "  - A centred divider line with text:"
+echo "    ${GREEN}\"— Edit directly above, or use AI below —\"${NC}"
+echo "  - Muted colour, thin horizontal rules on either side"
+
+wait_for_enter
+check_result "Divider clearly separates inline editing from AI refinement"
+
+# ═══════════════════════════════════════════════════════════════
+# SECTION E: Data Integrity
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${BOLD}  ── Section E: Data Integrity ──${NC}"
+
+# ─── Test 18 ───────────────────────────────────────────────
+
+next_step "Usage Logging & Credit Counters in Database"
 echo ""
 if [ "$DB_CHECK" = "true" ]; then
-  echo "  ${BOLD}Check the usage_logs table in your database.${NC}"
-  echo ""
-  echo "  You can run this SQL:"
+  echo "  ${BOLD}Check usage_logs:${NC}"
   echo "  ${DIM}SELECT action, model, instruction, created_at"
-  echo "  FROM usage_logs"
-  echo "  ORDER BY created_at DESC"
-  echo "  LIMIT 10;${NC}"
+  echo "  FROM usage_logs ORDER BY created_at DESC LIMIT 10;${NC}"
   echo ""
-  echo "  ${BOLD}Expected:${NC}"
-  echo "  - 'generate' actions → model = 'gpt-4o'"
-  echo "  - 'refine' actions   → model = 'gpt-4o-mini'"
-  echo "  - 'start_over' actions → model = 'gpt-4o'"
-  echo "  - instruction column populated (truncated to 500 chars)"
-  echo "  - Each test above should have a corresponding row"
+  echo "  Expected:"
+  echo "  - 'generate'   → model = 'gpt-4o'"
+  echo "  - 'refine'     → model = 'gpt-4o-mini'"
+  echo "  - 'start_over' → model = 'gpt-4o'"
+  echo "  - instruction column populated (max 500 chars)"
   echo ""
-  echo "  Also check the speech itself:"
+  echo "  ${BOLD}Check speech counters:${NC}"
   echo "  ${DIM}SELECT id, regen_count, refine_count"
-  echo "  FROM speeches"
-  echo "  ORDER BY updated_at DESC"
-  echo "  LIMIT 1;${NC}"
+  echo "  FROM speeches ORDER BY updated_at DESC LIMIT 1;${NC}"
   echo ""
-  echo "  - refine_count should match number of refinement tests (2-3)"
-  echo "  - regen_count should match number of start-over tests (2-3)"
+  echo "  - refine_count = number of refinements done"
+  echo "  - regen_count = number of start-overs done"
+  echo "  - credits_used = (regen_count × 3) + refine_count"
+  echo ""
+  echo "  ${BOLD}Check SSE completion events (Network tab):${NC}"
+  echo "  - Last complete event should include:"
+  echo "    ${GREEN}regenCount${NC} and ${GREEN}refineCount${NC} fields"
 else
   echo "  ${DIM}(DB check skipped — set DB_CHECK=true to enable)${NC}"
 fi
 
 wait_for_enter
-check_result "Usage logs recorded with correct action types and models"
+check_result "Usage logs, speech counters, and SSE events all correct"
 
-# ─── Test 10: Refine button disabled without instruction ────
-
-next_step "Refine Button State"
-echo ""
-echo "  Actions:"
-echo "  1. Clear the instruction text area (make it empty)"
-echo "  2. Make sure no contextual pill is selected"
-echo ""
-echo "  ${BOLD}What to verify:${NC}"
-echo "  - '✨ Refine Speech' button is ${RED}disabled${NC} (greyed out)"
-echo "  - 'Start Over' button is still ${GREEN}enabled${NC}"
-echo "  - This prevents accidental refinements with no instruction"
-
-wait_for_enter
-check_result "Refine button disabled when no instruction; Start Over always enabled"
-
-# ─── Summary ────────────────────────────────────────────────
+# ═══════════════════════════════════════════════════════════════
+# Summary
+# ═══════════════════════════════════════════════════════════════
 
 echo ""
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -331,13 +472,21 @@ echo -e "  Total:  $((passed + failed))"
 echo ""
 
 if [ $failed -eq 0 ]; then
-  echo -e "  ${GREEN}${BOLD}All tests passed! Refinement architecture is working correctly.${NC}"
+  echo -e "  ${GREEN}${BOLD}All 18 tests passed!${NC}"
   echo ""
-  echo -e "  ${BOLD}Cost savings summary:${NC}"
-  echo "  - Quick pills:     GPT-4o → GPT-4o-mini  (~10x cheaper)"
-  echo "  - Custom refine:   GPT-4o → GPT-4o-mini  (~10x cheaper)"
-  echo "  - Start Over:      GPT-4o (unchanged — intentionally de-emphasized)"
-  echo "  - Initial gen:     GPT-4o (unchanged)"
+  echo -e "  ${BOLD}Architecture summary:${NC}"
+  echo "  ┌────────────────────────┬─────────────┬─────────┐"
+  echo "  │ Action                 │ Model       │ Credits │"
+  echo "  ├────────────────────────┼─────────────┼─────────┤"
+  echo "  │ Initial generation     │ GPT-4o      │ 0       │"
+  echo "  │ Quick pill refinement  │ GPT-4o-mini │ 1       │"
+  echo "  │ Custom refinement      │ GPT-4o-mini │ 1       │"
+  echo "  │ Start Over             │ GPT-4o      │ 3       │"
+  echo "  │ Inline paragraph edit  │ None        │ 0       │"
+  echo "  └────────────────────────┴─────────────┴─────────┘"
+  echo ""
+  echo "  Budget: 30 credits per speech"
+  echo "  = up to 30 refinements, or 10 start-overs, or any mix"
 else
   echo -e "  ${RED}${BOLD}$failed test(s) failed. Review the failures above.${NC}"
 fi

@@ -1605,6 +1605,38 @@ function GeneratorContent() {
     }
   };
 
+  // ── Default TTS voice based on speech role gender ───────────────
+  const FEMALE_ROLES = new Set([
+    'bride', 'maid-of-honor', 'best-woman', 'bridesmaid',
+    'mother-of-bride', 'mother-of-groom',
+    'stepmother-of-bride', 'stepmother-of-groom',
+    'sister-of-bride', 'sister-of-groom',
+    'grandmother-of-bride', 'grandmother-of-groom',
+    'mother-in-law', 'sister-in-law',
+    'female-friend',
+  ]);
+  const MALE_ROLES = new Set([
+    'groom', 'best-man', 'man-of-honor', 'groomsman',
+    'father-of-bride', 'father-of-groom',
+    'stepfather-of-bride', 'stepfather-of-groom',
+    'brother-of-bride', 'brother-of-groom',
+    'grandfather-of-bride', 'grandfather-of-groom',
+    'father-in-law', 'brother-in-law',
+    'male-friend',
+  ]);
+
+  React.useEffect(() => {
+    const role = formData.selectedRole;
+    if (!role) return;
+    if (FEMALE_ROLES.has(role)) {
+      setSelectedVoice('nova');
+    } else if (MALE_ROLES.has(role)) {
+      setSelectedVoice('onyx');
+    }
+    // For neutral/joint roles (bride-and-groom, other), keep whatever is selected
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData.selectedRole]);
+
   // ── Text-to-Speech: OpenAI TTS with client-side chunking & caching ──
   // Chunks text client-side and fetches all chunks concurrently to avoid
   // Netlify function timeout. First listen costs 1 credit; repeats are cached.

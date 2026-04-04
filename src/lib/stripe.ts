@@ -15,7 +15,7 @@ export type { Stripe };
 export const STRIPE_CONFIG = {
   mode: 'payment' as const,
   productName: 'Nail The Speech Pro',
-  productDescription: 'Unlimited speech regeneration and premium features',
+  productDescription: 'Generate, refine and perfect your wedding speech with premium features',
 };
 
 export interface CurrencyConfig {

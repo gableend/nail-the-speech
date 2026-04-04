@@ -48,8 +48,8 @@ export default function ProUpgradePrompt({
 
   const features = [
     {
-      title: "Unlimited Regeneration",
-      description: "Tweak your speech as many times as you want",
+      title: "Generate & Refine Your Speech",
+      description: "Regenerate and edit until it's perfect",
       icon: <Zap className="h-4 w-4 text-green-600" />
     },
     {
@@ -74,9 +74,9 @@ export default function ProUpgradePrompt({
       return "Your speech is ready! Unlock it to copy, download, and edit.";
     }
     if (context === 'generator') {
-      return `Unlock unlimited regeneration (${currentEditCount}/${maxEditCount} free edits used)`;
+      return `Unlock speech editing (${currentEditCount}/${maxEditCount} free edits used)`;
     }
-    return "Unlock premium features and unlimited regeneration";
+    return "Unlock premium features and speech editing";
   };
 
   const paywallFeatures = [
@@ -91,8 +91,8 @@ export default function ProUpgradePrompt({
       icon: <Crown className="h-4 w-4 text-green-600" />
     },
     {
-      title: "Unlimited Regeneration",
-      description: "Tweak your speech as many times as you want",
+      title: "Generate & Refine Your Speech",
+      description: "Regenerate and edit until it's perfect",
       icon: <Zap className="h-4 w-4 text-green-600" />
     },
     {
@@ -223,7 +223,7 @@ export default function ProUpgradePrompt({
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold">Upgrade to Pro</h2>
-                  <p className="text-white/90 text-sm">Unlock unlimited editing & premium features</p>
+                  <p className="text-white/90 text-sm">Generate, refine & perfect your speech</p>
                 </div>
               </div>
               {showCloseButton && (

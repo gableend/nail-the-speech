@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { checkProStatusForRequest, countUserSpeeches } from "@/lib/userStatus";
 import { getRoleBySlug } from "@/data/speechRoles";
+import { rateLimit } from "@/lib/rateLimit";
 
 function determineDataCompleteness(formData: Record<string, unknown>): 'minimal' | 'enriched' | 'premium' {
   const hasEnrichmentData = !!(
@@ -53,6 +54,24 @@ export async function POST(request: NextRequest) {
       console.log('👤 [SPEECH STREAM API] Using client anonymous ID:', { anonUserId });
     }
 
+    // Rate limit: 10 generations per hour per user/IP
+    const rateLimitKey = userId || anonUserId || request.headers.get('x-forwarded-for') || 'unknown';
+    const { allowed, remaining } = rateLimit(rateLimitKey, 10, 60 * 60 * 1000);
+    if (!allowed) {
+      console.log('🚫 [SPEECH STREAM API] Rate limit exceeded', { rateLimitKey });
+      return new Response(
+        JSON.stringify({
+          error: "rate_limited",
+          message: "You're generating speeches too quickly. Please wait a while before trying again."
+        }),
+        {
+          status: 429,
+          headers: { 'Content-Type': 'application/json', 'X-RateLimit-Remaining': '0' }
+        }
+      );
+    }
+    console.log(`⏱️ [SPEECH STREAM API] Rate limit OK (${remaining} remaining)`);
+
     // Check Pro status
     const isProUser = await checkProStatusForRequest(userId, anonUserId);
 
@@ -69,6 +88,28 @@ export async function POST(request: NextRequest) {
           headers: { 'Content-Type': 'application/json' }
         }
       );
+    }
+
+    // Gate: Cap regenerations at 15 for Pro users
+    const MAX_REGENERATIONS = 15;
+    if (formData.isRegeneration && isProUser && formData.existingSpeechId) {
+      const existingSpeech = await prisma.speech.findUnique({
+        where: { id: formData.existingSpeechId },
+        select: { regenCount: true },
+      });
+      if (existingSpeech && existingSpeech.regenCount >= MAX_REGENERATIONS) {
+        console.log('🚫 [SPEECH STREAM API] Regeneration cap reached', { regenCount: existingSpeech.regenCount });
+        return new Response(
+          JSON.stringify({
+            error: "regen_limit_reached",
+            message: `You've used all ${MAX_REGENERATIONS} regenerations for this speech. You can still edit it directly using the inline editor.`
+          }),
+          {
+            status: 403,
+            headers: { 'Content-Type': 'application/json' }
+          }
+        );
+      }
     }
 
     // Gate: Block 2nd+ generation for non-Pro users
@@ -144,8 +185,8 @@ export async function POST(request: NextRequest) {
     // Choose model based on premium status
     const speechOptions = {
       isPremium: isProUser,
-      model: 'gpt-3.5-turbo' as const,
-      maxTokens: 1500,
+      model: 'gpt-4o' as const,
+      maxTokens: 2000,
       regenerationInstructions: formData.regenerationInstructions || null,
       isRegeneration: formData.isRegeneration || false
     };

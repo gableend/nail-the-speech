@@ -38,7 +38,7 @@ export const faqs: FAQItem[] = [
   {
     question: "What does Pro include?",
     answer:
-      "Unlimited regenerations, direct text editing, version history with undo/redo, export to PDF and Word, and the ability to mark your speech as final when you're ready for the big day.",
+      "Generate and refine your speech with up to 15 regenerations, direct text editing, version history with undo/redo, export to PDF and Word, and the ability to mark your speech as final when you're ready for the big day.",
   },
   {
     question: "How do I practise delivering my speech?",
@@ -87,7 +87,7 @@ export const generatorFaqs: FAQItem[] = [
   {
     question: "Is my first speech really free?",
     answer:
-      "Yes. One full speech, no credit card required. If you want unlimited regenerations, editing tools, and export options, you can upgrade to Pro.",
+      "Yes. One full speech, no credit card required. If you want to regenerate, edit, and export your speech, you can upgrade to Pro.",
   },
   {
     question: "Can I save my speech and come back to it later?",

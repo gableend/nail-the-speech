@@ -87,7 +87,7 @@ function discountBadge(code: string): string {
 
 function featureList(): string {
   const features = [
-    'Unlimited speech regenerations',
+    'Generate &amp; refine your speech',
     'Inline editing with change tracking',
     'Export to TXT, PDF &amp; DOCX',
     'Save and manage multiple speeches',

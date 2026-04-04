@@ -977,7 +977,30 @@ function GeneratorContent() {
     }
   }, [needsRoleSelection, speechIdFromUrl]);
 
+  // Max character limits per field (protects against accidental long voice recordings)
+  const FIELD_MAX_LENGTHS: Partial<Record<keyof FormData, number>> = {
+    yourName: 100,
+    email: 200,
+    groomName: 100,
+    brideName: 100,
+    customRoleLabel: 100,
+    relationshipToGroom: 2000,
+    greatStoryMemory: 5000,
+    howLongKnown: 200,
+    sharedHobbiesJokes: 2000,
+    groomIn3Words: 200,
+    whatYouAdmire: 2000,
+    relationshipWithBride: 2000,
+    momentSeenTogether: 3000,
+    includeShoutOuts: 500,
+  };
+
   const updateFormData = (field: keyof FormData, value: string | boolean) => {
+    // Enforce max length on string fields
+    if (typeof value === 'string' && FIELD_MAX_LENGTHS[field]) {
+      value = value.slice(0, FIELD_MAX_LENGTHS[field]);
+    }
+
     setFormData(prev => {
       const updated = { ...prev, [field]: value };
 
@@ -2063,6 +2086,7 @@ function GeneratorContent() {
                       value={formData.relationshipToGroom}
                       onChange={(e) => updateFormData('relationshipToGroom', e.target.value)}
                       rows={3}
+                      maxLength={2000}
                       className="darker-placeholder text-base"
                       autoFocus
                     />
@@ -2194,6 +2218,7 @@ function GeneratorContent() {
                       value={formData.greatStoryMemory}
                       onChange={(e) => updateFormData('greatStoryMemory', e.target.value)}
                       rows={5}
+                      maxLength={5000}
                       className="darker-placeholder text-base"
                       autoFocus
                     />

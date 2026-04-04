@@ -32,7 +32,7 @@ interface SpeechFormData {
 
 interface SpeechOptions {
   isPremium?: boolean;
-  model?: 'gpt-3.5-turbo' | 'gpt-4';
+  model?: 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4o';
   maxTokens?: number;
   regenerationInstructions?: string | null;
   isRegeneration?: boolean;

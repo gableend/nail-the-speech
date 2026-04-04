@@ -3,6 +3,7 @@ import { generateWeddingSpeech, estimateReadingTime, countWords } from "@/lib/op
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { getRoleBySlug } from "@/data/speechRoles";
+import { rateLimit } from "@/lib/rateLimit";
 
 function determineDataCompleteness(formData: Record<string, unknown>): 'minimal' | 'enriched' | 'premium' {
   const hasEnrichmentData = !!(
@@ -49,6 +50,16 @@ export async function POST(request: NextRequest) {
     if (!userId) {
       anonUserId = formData.clientAnonUserId || null;
       console.log('👤 [SPEECH API] Using client anonymous ID:', { anonUserId });
+    }
+
+    // Rate limit: 10 generations per hour per user/IP
+    const rateLimitKey = userId || anonUserId || request.headers.get('x-forwarded-for') || 'unknown';
+    const { allowed } = rateLimit(rateLimitKey, 10, 60 * 60 * 1000);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: "You're generating speeches too quickly. Please wait a while before trying again." },
+        { status: 429 }
+      );
     }
 
     console.log('📝 [SPEECH API] Form data received:', {
@@ -99,7 +110,7 @@ export async function POST(request: NextRequest) {
     // Choose model based on premium status
     const speechOptions = {
       isPremium,
-      model: 'gpt-3.5-turbo' as const,
+      model: 'gpt-4o' as const,
       maxTokens: 2000
     };
 

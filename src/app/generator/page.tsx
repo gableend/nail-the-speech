@@ -1613,7 +1613,7 @@ function GeneratorContent() {
 
   // Split text into chunks ≤4000 chars at paragraph boundaries
   const splitForTTS = (text: string): string[] => {
-    const MAX = 4000;
+    const MAX = 1000;
     const paragraphs = text.split(/\n+/).filter(p => p.trim());
     const chunks: string[] = [];
     let current = '';

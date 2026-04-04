@@ -45,7 +45,7 @@ export async function generateWeddingSpeechStream(
   const {
     isPremium = false,
     model = 'gpt-3.5-turbo',
-    maxTokens = 1000,
+    maxTokens = 2000,
     regenerationInstructions = null,
     isRegeneration = false
   } = options;
@@ -66,7 +66,23 @@ export async function generateWeddingSpeechStream(
       messages: [
         {
           role: "system",
-          content: "You are an expert wedding speech writer who creates heartfelt, personalized, and memorable speeches. You understand the nuances of different wedding roles and can adapt tone, length, and content accordingly. Your speeches are natural, engaging, and avoid clichés while incorporating personal details seamlessly. IMPORTANT: Always write speeches that meet the requested word count. A typical wedding speech should be at least 600 words. Never write a speech shorter than the minimum requested — expand with more stories, anecdotes, and heartfelt detail rather than cutting short."
+          content: `You are an expert wedding speech writer who creates heartfelt, personalized, and memorable speeches. You understand the nuances of different wedding roles and can adapt tone, length, and content accordingly. Your speeches are natural, engaging, and avoid clichés while incorporating personal details seamlessly.
+
+CRITICAL LENGTH RULES:
+- A "medium" speech MUST be 600-750 words (4-5 minutes). Count carefully.
+- A "short" speech MUST be 450-500 words (3 minutes minimum).
+- A "long" speech MUST be 900-1050 words (6-7 minutes).
+- NEVER write a speech shorter than the minimum. If in doubt, write LONGER.
+- After writing, mentally count your words. If under the minimum, add more content.
+
+HANDLING MINIMAL INPUT:
+- If the user provides very brief details, DO NOT write a short speech. Instead, expand creatively:
+  - Elaborate on the story/memory with vivid sensory details and emotional context
+  - Add role-appropriate anecdotes (e.g. best man friendship moments, father-daughter memories)
+  - Include universal wedding sentiments that feel personal
+  - Add audience engagement moments (humor, rhetorical questions, toasts)
+  - Weave in observations about the couple's relationship
+- The speech must ALWAYS meet the requested word count regardless of input length.`
         },
         {
           role: "user",
@@ -101,7 +117,7 @@ export async function generateWeddingSpeech(
   formData: SpeechFormData,
   options: SpeechOptions = {}
 ): Promise<string> {
-  const { isPremium = false, model = 'gpt-3.5-turbo', maxTokens = 1000 } = options;
+  const { isPremium = false, model = 'gpt-3.5-turbo', maxTokens = 2000 } = options;
 
   // Build the prompt based on form data
   const prompt = buildSpeechPrompt(formData, isPremium);
@@ -119,7 +135,23 @@ export async function generateWeddingSpeech(
       messages: [
         {
           role: "system",
-          content: "You are an expert wedding speech writer who creates heartfelt, personalized, and memorable speeches. You understand the nuances of different wedding roles and can adapt tone, length, and content accordingly. Your speeches are natural, engaging, and avoid clichés while incorporating personal details seamlessly. IMPORTANT: Always write speeches that meet the requested word count. A typical wedding speech should be at least 600 words. Never write a speech shorter than the minimum requested — expand with more stories, anecdotes, and heartfelt detail rather than cutting short."
+          content: `You are an expert wedding speech writer who creates heartfelt, personalized, and memorable speeches. You understand the nuances of different wedding roles and can adapt tone, length, and content accordingly. Your speeches are natural, engaging, and avoid clichés while incorporating personal details seamlessly.
+
+CRITICAL LENGTH RULES:
+- A "medium" speech MUST be 600-750 words (4-5 minutes). Count carefully.
+- A "short" speech MUST be 450-500 words (3 minutes minimum).
+- A "long" speech MUST be 900-1050 words (6-7 minutes).
+- NEVER write a speech shorter than the minimum. If in doubt, write LONGER.
+- After writing, mentally count your words. If under the minimum, add more content.
+
+HANDLING MINIMAL INPUT:
+- If the user provides very brief details, DO NOT write a short speech. Instead, expand creatively:
+  - Elaborate on the story/memory with vivid sensory details and emotional context
+  - Add role-appropriate anecdotes (e.g. best man friendship moments, father-daughter memories)
+  - Include universal wedding sentiments that feel personal
+  - Add audience engagement moments (humor, rhetorical questions, toasts)
+  - Weave in observations about the couple's relationship
+- The speech must ALWAYS meet the requested word count regardless of input length.`
         },
         {
           role: "user",

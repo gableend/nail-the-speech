@@ -1547,8 +1547,14 @@ function GeneratorContent() {
   };
 
   // New function: Navigate to Step 2 and start streaming speech generation
+  const MIN_STORY_LENGTH = 50; // ~2 sentences minimum
+
   const handleGenerateAndGoToStep2 = async () => {
     if (!formData.greatStoryMemory) return;
+    if (formData.greatStoryMemory.trim().length < MIN_STORY_LENGTH) {
+      showToast('Please add a bit more detail to your story — even a couple of sentences helps us write a much better speech!');
+      return;
+    }
 
     // Navigate to Step 5 (speech output) first
     setCurrentStep(5);
@@ -2179,7 +2185,12 @@ function GeneratorContent() {
                       className="darker-placeholder text-base"
                       autoFocus
                     />
-                    <div className="flex items-center justify-end mt-2">
+                    <div className="flex items-center justify-between mt-2">
+                      <p className={`text-xs ${formData.greatStoryMemory.trim().length >= MIN_STORY_LENGTH ? 'text-green-600' : 'text-[#8f867e]'}`}>
+                        {formData.greatStoryMemory.trim().length < MIN_STORY_LENGTH
+                          ? `${MIN_STORY_LENGTH - formData.greatStoryMemory.trim().length} more characters needed — the more detail, the better your speech!`
+                          : '✓ Great — enough detail to generate a quality speech'}
+                      </p>
                       <VoiceInput
                         onTranscription={(text) => updateFormData('greatStoryMemory', text)}
                         placeholder="Tell your story by voice"

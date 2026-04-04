@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
     const speechOptions = {
       isPremium,
       model: 'gpt-3.5-turbo' as const,
-      maxTokens: 1000
+      maxTokens: 2000
     };
 
     console.log('🤖 [SPEECH API] Starting OpenAI generation with options:', {

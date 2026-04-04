@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ArrowRight, Users, Clock, Sparkles, User, ChevronDown, ChevronUp, DownloadCloud, File, FileImage, FileSpreadsheet } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { countWords, estimateReadingTime } from "@/lib/openai";
@@ -725,6 +725,10 @@ function GeneratorContent() {
   const [isFinal, setIsFinal] = useState(false);
   const [showFinalToast, setShowFinalToast] = useState(false);
   const [exportingFormat, setExportingFormat] = useState<string | null>(null);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [isLoadingAudio, setIsLoadingAudio] = useState(false);
+  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState<string>('nova');
   const [currentSpeechId, setCurrentSpeechId] = useState<string | null>(speechIdFromUrl);
   const fullSpeechRef = React.useRef<string>("");
 
@@ -1595,6 +1599,114 @@ function GeneratorContent() {
       setExportingFormat(null);
     }
   };
+
+  // ── Text-to-Speech: Listen & Export as MP3 ─────────────────
+  const handleListenToSpeech = async () => {
+    // If already playing, stop
+    if (isPlayingAudio && audioElement) {
+      audioElement.pause();
+      audioElement.currentTime = 0;
+      setIsPlayingAudio(false);
+      return;
+    }
+
+    const speechText = generatedSpeech;
+    if (!speechText.trim()) return;
+
+    setIsLoadingAudio(true);
+    try {
+      const response = await fetch('/api/text-to-speech', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: speechText,
+          voice: selectedVoice,
+          format: 'mp3',
+          clientAnonUserId: typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('TTS error:', errorData);
+        return;
+      }
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+
+      audio.onended = () => {
+        setIsPlayingAudio(false);
+        URL.revokeObjectURL(audioUrl);
+      };
+      audio.onerror = () => {
+        setIsPlayingAudio(false);
+        URL.revokeObjectURL(audioUrl);
+      };
+
+      setAudioElement(audio);
+      setIsPlayingAudio(true);
+      await audio.play();
+    } catch (err) {
+      console.error('Error playing speech audio:', err);
+      setIsPlayingAudio(false);
+    } finally {
+      setIsLoadingAudio(false);
+    }
+  };
+
+  const handleExportAudio = async () => {
+    const speechText = generatedSpeech;
+    if (!speechText.trim() || !currentSpeechId) return;
+
+    setExportingFormat('mp3');
+    try {
+      const response = await fetch('/api/text-to-speech', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: speechText,
+          voice: selectedVoice,
+          format: 'mp3',
+          clientAnonUserId: typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('TTS export error:', errorData);
+        return;
+      }
+
+      const blob = await response.blob();
+      const title = formData.groomName && formData.brideName
+        ? `Speech for ${formData.groomName} & ${formData.brideName}`
+        : 'speech';
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${title}.mp3`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Error exporting audio:', err);
+    } finally {
+      setExportingFormat(null);
+    }
+  };
+
+  // Clean up audio on unmount
+  React.useEffect(() => {
+    return () => {
+      if (audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+      }
+    };
+  }, [audioElement]);
 
   // Handle direct paragraph editing
   const handleParagraphEdit = (paraId: string, newText: string) => {
@@ -2999,6 +3111,28 @@ function GeneratorContent() {
                                 </button>
                               </div>
                             )}
+                            {/* Listen to speech — Pro only */}
+                            {isProUser && (
+                              <button
+                                onClick={handleListenToSpeech}
+                                disabled={isLoadingAudio || isRefining}
+                                title={isPlayingAudio ? 'Stop listening' : 'Listen to your speech'}
+                                className={`flex items-center space-x-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                                  isPlayingAudio
+                                    ? 'bg-[#da5389] text-white animate-pulse'
+                                    : 'bg-[#faf7f4] text-[#181615] hover:bg-[#da5389]/10 border border-[#e8e1d8]'
+                                }`}
+                              >
+                                {isLoadingAudio ? (
+                                  <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
+                                ) : isPlayingAudio ? (
+                                  <span>⏹</span>
+                                ) : (
+                                  <span>🔊</span>
+                                )}
+                                <span>{isLoadingAudio ? 'Loading...' : isPlayingAudio ? 'Stop' : 'Listen'}</span>
+                              </button>
+                            )}
                             <button
                               onClick={() => {
                                 navigator.clipboard.writeText(generatedSpeech);
@@ -3114,6 +3248,42 @@ function GeneratorContent() {
                             )}
                             {saveStatus === 'saving' && <span className="text-[#da5389]">Saving...</span>}
                             {saveStatus === 'saved' && <span className="text-green-600">Saved ✓</span>}
+                          </div>
+                        )}
+
+                        {/* Voice selector for TTS — compact strip */}
+                        {isProUser && !isSpeechPaywalled && speechGenerated && (
+                          <div className="mt-3 pt-3 border-t border-[#e8e1d8]/50">
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs text-[#8f867e] flex-shrink-0">🎙 Voice:</span>
+                              <div className="flex flex-wrap gap-1.5">
+                                {[
+                                  { id: 'nova', label: 'Nova', desc: 'Warm female' },
+                                  { id: 'shimmer', label: 'Shimmer', desc: 'Gentle female' },
+                                  { id: 'coral', label: 'Coral', desc: 'Friendly female' },
+                                  { id: 'sage', label: 'Sage', desc: 'Calm female' },
+                                  { id: 'alloy', label: 'Alloy', desc: 'Neutral' },
+                                  { id: 'echo', label: 'Echo', desc: 'Warm male' },
+                                  { id: 'ash', label: 'Ash', desc: 'Confident male' },
+                                  { id: 'onyx', label: 'Onyx', desc: 'Deep male' },
+                                  { id: 'fable', label: 'Fable', desc: 'Expressive' },
+                                  { id: 'ballad', label: 'Ballad', desc: 'Soulful' },
+                                ].map((v) => (
+                                  <button
+                                    key={v.id}
+                                    onClick={() => setSelectedVoice(v.id)}
+                                    title={v.desc}
+                                    className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
+                                      selectedVoice === v.id
+                                        ? 'bg-[#da5389] text-white shadow-sm'
+                                        : 'bg-[#faf7f4] text-[#8f867e] hover:bg-[#da5389]/10 hover:text-[#181615]'
+                                    }`}
+                                  >
+                                    {v.label}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -3343,6 +3513,7 @@ function GeneratorContent() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
+                            <DropdownMenuLabel className="text-xs text-[#8f867e]">Document</DropdownMenuLabel>
                             <DropdownMenuItem onClick={() => handleExport('txt')}>
                               <File className="h-4 w-4 mr-2" />
                               TXT
@@ -3354,6 +3525,13 @@ function GeneratorContent() {
                             <DropdownMenuItem onClick={() => handleExport('docx')}>
                               <FileSpreadsheet className="h-4 w-4 mr-2" />
                               DOCX
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuLabel className="text-xs text-[#8f867e]">Audio</DropdownMenuLabel>
+                            <DropdownMenuItem onClick={handleExportAudio}>
+                              <span className="h-4 w-4 mr-2 text-center">🎧</span>
+                              MP3
+                              <span className="ml-auto text-xs text-[#8f867e]">{selectedVoice}</span>
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>

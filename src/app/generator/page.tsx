@@ -3262,19 +3262,20 @@ function GeneratorContent() {
                           </div>
                         )}
 
-                        {/* Audio player — sits under the Listen button row */}
-                        {audioUrl && (
-                          <div className="mt-2">
-                            <audio
-                              src={audioUrl}
-                              controls
-                              autoPlay
-                              className="w-full rounded-lg"
-                              style={{ height: '40px' }}
-                            />
-                          </div>
-                        )}
                       </div>
+
+                      {/* Audio player — sits under the header row, above the speech text */}
+                      {audioUrl && (
+                        <div className="-mt-2 mb-4">
+                          <audio
+                            src={audioUrl}
+                            controls
+                            autoPlay
+                            className="w-full rounded-lg"
+                            style={{ height: '40px' }}
+                          />
+                        </div>
+                      )}
 
                       <div className="relative">
                         {/* Refinement overlay — keeps old speech visible with subtle dimming */}

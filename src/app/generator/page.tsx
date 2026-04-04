@@ -3265,16 +3265,12 @@ function GeneratorContent() {
                               <span className="text-xs text-[#8f867e] flex-shrink-0">🎙 Voice:</span>
                               <div className="flex flex-wrap gap-1.5">
                                 {[
-                                  { id: 'nova', label: 'Nova', desc: 'Warm female' },
-                                  { id: 'shimmer', label: 'Shimmer', desc: 'Gentle female' },
-                                  { id: 'coral', label: 'Coral', desc: 'Friendly female' },
-                                  { id: 'sage', label: 'Sage', desc: 'Calm female' },
-                                  { id: 'alloy', label: 'Alloy', desc: 'Neutral' },
-                                  { id: 'echo', label: 'Echo', desc: 'Warm male' },
-                                  { id: 'ash', label: 'Ash', desc: 'Confident male' },
-                                  { id: 'onyx', label: 'Onyx', desc: 'Deep male' },
-                                  { id: 'fable', label: 'Fable', desc: 'Expressive' },
-                                  { id: 'ballad', label: 'Ballad', desc: 'Soulful' },
+                                  { id: 'nova', label: 'Nova', desc: 'Warm, friendly' },
+                                  { id: 'shimmer', label: 'Shimmer', desc: 'Gentle, clear' },
+                                  { id: 'alloy', label: 'Alloy', desc: 'Balanced, neutral' },
+                                  { id: 'echo', label: 'Echo', desc: 'Warm, resonant' },
+                                  { id: 'fable', label: 'Fable', desc: 'Expressive, British' },
+                                  { id: 'onyx', label: 'Onyx', desc: 'Deep, authoritative' },
                                 ].map((v) => (
                                   <button
                                     key={v.id}

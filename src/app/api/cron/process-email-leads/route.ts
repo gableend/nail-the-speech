@@ -17,7 +17,11 @@ export async function POST(request: Request) {
   }
 
   const now = new Date();
-  const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
+  // Use short delays for testing: ?test=true on the cron call uses 2 min instead of 2 hours
+  const { searchParams } = new URL(request.url);
+  const testMode = searchParams.get('test') === 'true';
+  const delayMs = testMode ? 2 * 60 * 1000 : 2 * 60 * 60 * 1000; // 2 min vs 2 hours
+  const cutoff = new Date(now.getTime() - delayMs);
   let email1Count = 0;
   let email2Count = 0;
 
@@ -29,7 +33,7 @@ export async function POST(request: Request) {
         hasPaid: false,
         unsubscribed: false,
         email1SentAt: null,
-        createdAt: { lte: twoHoursAgo },
+        createdAt: { lte: cutoff },
       },
       take: 50, // batch size
     });
@@ -49,13 +53,13 @@ export async function POST(request: Request) {
 
     // ── Email 2: Discount code ──
     // Confirmed >2 hours ago, email 1 sent, email 2 not yet sent, not paid
-    const twoHoursAfterConfirm = new Date(now.getTime() - 2 * 60 * 60 * 1000);
+    const confirmCutoff = new Date(now.getTime() - delayMs);
     const leadsForEmail2 = await prisma.emailLead.findMany({
       where: {
         hasPaid: false,
         unsubscribed: false,
         confirmed: true,
-        confirmedAt: { lte: twoHoursAfterConfirm },
+        confirmedAt: { lte: confirmCutoff },
         email1SentAt: { not: null },
         email2SentAt: null,
       },

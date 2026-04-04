@@ -314,12 +314,12 @@ export default function ProUpgradePrompt({
                   <span>Secure Payment</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <span>💰</span>
-                  <span>30-Day Refund</span>
-                </div>
-                <div className="flex items-center gap-1">
                   <span>⚡</span>
                   <span>Instant Access</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span>📅</span>
+                  <span>90-Day Access</span>
                 </div>
               </div>
             </div>
@@ -381,12 +381,12 @@ export default function ProUpgradePrompt({
             <span>Secure Payment</span>
           </div>
           <div className="flex items-center gap-1">
-            <span>💰</span>
-            <span>30-Day Refund</span>
-          </div>
-          <div className="flex items-center gap-1">
             <span>⚡</span>
             <span>Instant Access</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span>📅</span>
+            <span>90-Day Access</span>
           </div>
         </div>
       </div>

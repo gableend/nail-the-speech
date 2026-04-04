@@ -31,7 +31,6 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  manifest: '/manifest.json',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },

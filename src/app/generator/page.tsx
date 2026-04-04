@@ -700,6 +700,7 @@ function GeneratorContent() {
   // hideStep3 and totalSteps are now computed below after isProUser is available
 
   const [currentStep, setCurrentStep] = useState(initialStep);
+  const demoEnabled = searchParams.get('demo') === 'true';
   const [demoMode, setDemoMode] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isRestored, setIsRestored] = useState(false);
@@ -1641,18 +1642,20 @@ function GeneratorContent() {
                 </div>
               )}
 
-              {/* Demo Mode Toggle - Subtle */}
-              <button
-                onClick={toggleDemoMode}
-                className={`text-xs px-2 py-1 rounded-full border transition-all duration-200 ${
-                  demoMode
-                    ? 'bg-[#da5389] text-white border-[#da5389]'
-                    : 'bg-white text-[#8f867e] border-[#e8e1d8] hover:border-[#da5389] hover:text-[#da5389]'
-                }`}
-                title={demoMode ? "Click to clear demo data" : "Click to fill with demo data"}
-              >
-                {demoMode ? "Demo ON" : "Demo"}
-              </button>
+              {/* Demo Mode Toggle - hidden unless ?demo=true */}
+              {demoEnabled && (
+                <button
+                  onClick={toggleDemoMode}
+                  className={`text-xs px-2 py-1 rounded-full border transition-all duration-200 ${
+                    demoMode
+                      ? 'bg-[#da5389] text-white border-[#da5389]'
+                      : 'bg-white text-[#8f867e] border-[#e8e1d8] hover:border-[#da5389] hover:text-[#da5389]'
+                  }`}
+                  title={demoMode ? "Click to clear demo data" : "Click to fill with demo data"}
+                >
+                  {demoMode ? "Demo ON" : "Demo"}
+                </button>
+              )}
 
               <Link href={isSignedIn ? "/dashboard" : "/"}>
                 <Button className="hidden md:block bg-black hover:bg-black/90 text-white rounded-full">

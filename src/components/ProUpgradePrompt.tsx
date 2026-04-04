@@ -43,6 +43,7 @@ export default function ProUpgradePrompt({
   const { userId } = useAuth();
   const searchParams = useSearchParams();
   const isDemo = searchParams.get('demo') === 'true';
+  const discountCode = searchParams.get('discount') || null;
   const { currency, availableCurrencies, setCurrency } = useCurrency();
 
   const features = [
@@ -123,6 +124,7 @@ export default function ProUpgradePrompt({
         returnUrl: '/dashboard',
         currency: currency.key,
         demo: isDemo,
+        ...(discountCode ? { discountCode } : {}),
       };
 
       // If we have speech data, save it to localStorage for retrieval after payment and login

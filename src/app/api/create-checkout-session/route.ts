@@ -50,6 +50,20 @@ export async function POST(request: Request) {
       metadata.speechRole = speechMetadata.role || 'Unknown';
     }
 
+    // If a discount code was passed, look up the Stripe promotion code ID to auto-apply it
+    let promotionCodeId: string | null = null;
+    if (discountCode) {
+      try {
+        const promoCodes = await stripe.promotionCodes.list({ code: discountCode, active: true, limit: 1 });
+        if (promoCodes.data.length > 0) {
+          promotionCodeId = promoCodes.data[0].id;
+          console.log(`🎟️ [CHECKOUT SESSION] Auto-applying promo code: ${discountCode} (${promotionCodeId})`);
+        }
+      } catch (err) {
+        console.error('[CHECKOUT SESSION] Failed to look up promo code:', err);
+      }
+    }
+
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -67,7 +81,10 @@ export async function POST(request: Request) {
           quantity: 1,
         },
       ],
-      allow_promotion_codes: true,
+      // Auto-apply discount if we have one, otherwise allow manual entry
+      ...(promotionCodeId
+        ? { discounts: [{ promotion_code: promotionCodeId }] }
+        : { allow_promotion_codes: true }),
       ...(prefillEmail ? { customer_email: prefillEmail } : {}), // Pre-fill if provided
       billing_address_collection: 'auto',
       customer_creation: 'always', // Always create a Stripe customer

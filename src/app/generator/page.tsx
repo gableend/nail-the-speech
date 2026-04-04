@@ -725,11 +725,12 @@ function GeneratorContent() {
   const [isFinal, setIsFinal] = useState(false);
   const [showFinalToast, setShowFinalToast] = useState(false);
   const [exportingFormat, setExportingFormat] = useState<string | null>(null);
-  const [isLoadingAudio, setIsLoadingAudio] = useState(false);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null); // blob URL for generated MP3
-  const [selectedVoice, setSelectedVoice] = useState<string>('nova');
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isPausedSpeech, setIsPausedSpeech] = useState(false);
+  const [selectedVoice, setSelectedVoice] = useState<string>(''); // browser voice URI
+  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [ttsCreditsUsed, setTtsCreditsUsed] = useState(0);
-  const [ttsLoadingMsgIndex, setTtsLoadingMsgIndex] = useState(0);
+  const [isLoadingAudio, setIsLoadingAudio] = useState(false); // for MP3 export only
   const [currentSpeechId, setCurrentSpeechId] = useState<string | null>(speechIdFromUrl);
   const fullSpeechRef = React.useRef<string>("");
   const speechCardRef = React.useRef<HTMLDivElement>(null);
@@ -1604,20 +1605,104 @@ function GeneratorContent() {
     }
   };
 
-  // ── Text-to-Speech: generate full MP3, then native audio player ──
-  const handleGenerateAudio = async () => {
-    if (aiCreditsExhausted || isLoadingAudio) return;
-    const speechText = generatedSpeech;
-    if (!speechText.trim()) return;
+  // ── Text-to-Speech: Browser SpeechSynthesis (instant, free) ──────
 
-    // If audio already generated, just clear it (toggle off)
-    if (audioUrl) {
-      URL.revokeObjectURL(audioUrl);
-      setAudioUrl(null);
+  // Load available browser voices
+  React.useEffect(() => {
+    const loadVoices = () => {
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length === 0) return;
+      // Prefer English voices, sort by name
+      const englishVoices = voices
+        .filter(v => v.lang.startsWith('en'))
+        .sort((a, b) => a.name.localeCompare(b.name));
+      setAvailableVoices(englishVoices.length > 0 ? englishVoices : voices);
+      // Auto-select a good default if none selected
+      if (!selectedVoice) {
+        const preferred = englishVoices.find(v =>
+          v.name.toLowerCase().includes('samantha') ||
+          v.name.toLowerCase().includes('karen') ||
+          v.name.toLowerCase().includes('daniel') ||
+          v.name.toLowerCase().includes('google') ||
+          v.name.toLowerCase().includes('natural')
+        );
+        setSelectedVoice((preferred || englishVoices[0] || voices[0])?.voiceURI || '');
+      }
+    };
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    return () => { window.speechSynthesis.onvoiceschanged = null; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleListenToggle = () => {
+    const synth = window.speechSynthesis;
+
+    // If speaking, stop
+    if (isSpeaking) {
+      synth.cancel();
+      setIsSpeaking(false);
+      setIsPausedSpeech(false);
       return;
     }
 
+    const speechText = generatedSpeech;
+    if (!speechText.trim()) return;
+
+    const utterance = new SpeechSynthesisUtterance(speechText);
+
+    // Set voice
+    const voice = availableVoices.find(v => v.voiceURI === selectedVoice);
+    if (voice) utterance.voice = voice;
+    utterance.rate = 0.95; // Slightly slower for speech delivery feel
+    utterance.pitch = 1;
+
+    utterance.onend = () => {
+      setIsSpeaking(false);
+      setIsPausedSpeech(false);
+    };
+    utterance.onerror = () => {
+      setIsSpeaking(false);
+      setIsPausedSpeech(false);
+    };
+
+    synth.speak(utterance);
+    setIsSpeaking(true);
+    setIsPausedSpeech(false);
+  };
+
+  const handlePauseResumeSpeech = () => {
+    const synth = window.speechSynthesis;
+    if (synth.paused) {
+      synth.resume();
+      setIsPausedSpeech(false);
+    } else if (synth.speaking) {
+      synth.pause();
+      setIsPausedSpeech(true);
+    }
+  };
+
+  // Stop speech when content changes or on unmount
+  React.useEffect(() => {
+    return () => { window.speechSynthesis.cancel(); };
+  }, []);
+  React.useEffect(() => {
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      setIsPausedSpeech(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [generatedSpeech]);
+
+  // ── MP3 Export: still uses OpenAI API (Pro + credit) ───────────
+  const handleExportAudio = async () => {
+    const speechText = generatedSpeech;
+    if (!speechText.trim()) return;
+    if (aiCreditsExhausted) return;
+
     setTtsCreditsUsed(prev => prev + 1);
+    setExportingFormat('mp3');
     setIsLoadingAudio(true);
 
     try {
@@ -1626,54 +1711,7 @@ function GeneratorContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: speechText,
-          voice: selectedVoice,
-          clientAnonUserId: typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null,
-        }),
-      });
-
-      if (!response.ok) {
-        const err = await response.json().catch(() => ({}));
-        console.error('TTS error:', err);
-        return;
-      }
-
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      setAudioUrl(url);
-    } catch (err) {
-      console.error('Error generating audio:', err);
-    } finally {
-      setIsLoadingAudio(false);
-    }
-  };
-
-  const handleExportAudio = async () => {
-    const speechText = generatedSpeech;
-    if (!speechText.trim()) return;
-    if (aiCreditsExhausted) return;
-
-    setExportingFormat('mp3');
-
-    try {
-      // If we already have audio, download it directly
-      if (audioUrl) {
-        const a = document.createElement('a');
-        a.href = audioUrl;
-        a.download = `${formData.groomName && formData.brideName ? `Speech for ${formData.groomName} & ${formData.brideName}` : 'speech'}.mp3`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        return;
-      }
-
-      // Otherwise generate and download
-      setTtsCreditsUsed(prev => prev + 1);
-      const response = await fetch('/api/text-to-speech', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: speechText,
-          voice: selectedVoice,
+          voice: 'nova', // OpenAI voice for export
           clientAnonUserId: typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null,
         }),
       });
@@ -1696,47 +1734,9 @@ function GeneratorContent() {
       console.error('Error exporting audio:', err);
     } finally {
       setExportingFormat(null);
+      setIsLoadingAudio(false);
     }
   };
-
-  // Clean up audio blob URL on unmount or when speech changes
-  React.useEffect(() => {
-    return () => {
-      if (audioUrl) URL.revokeObjectURL(audioUrl);
-    };
-  }, [audioUrl]);
-
-  // Clear generated audio when speech content changes (edit/refine/regen)
-  React.useEffect(() => {
-    if (audioUrl) {
-      URL.revokeObjectURL(audioUrl);
-      setAudioUrl(null);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [generatedSpeech]);
-
-  // Rotate TTS loading messages every 2s while generating
-  const TTS_LOADING_MESSAGES = [
-    'Warming up the voice...',
-    'Converting your words to speech...',
-    'Recording your masterpiece...',
-    'Almost there, sounding great...',
-    'Adding the finishing touches...',
-    'Polishing the delivery...',
-    'Just a few more seconds...',
-    'Your speech is nearly ready...',
-  ];
-  React.useEffect(() => {
-    if (!isLoadingAudio) {
-      setTtsLoadingMsgIndex(0);
-      return;
-    }
-    const interval = setInterval(() => {
-      setTtsLoadingMsgIndex(prev => (prev + 1) % TTS_LOADING_MESSAGES.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoadingAudio]);
 
   // Handle direct paragraph editing
   const handleParagraphEdit = (paraId: string, newText: string) => {
@@ -3145,31 +3145,32 @@ function GeneratorContent() {
                                 </button>
                               </div>
                             )}
-                            {/* Listen to speech — Pro only, generates full MP3 */}
+                            {/* Listen to speech — browser TTS, instant & free */}
                             {isProUser && (
-                              <button
-                                onClick={handleGenerateAudio}
-                                disabled={isRefining || isLoadingAudio || (!audioUrl && aiCreditsExhausted)}
-                                title={audioUrl ? 'Hide audio player' : aiCreditsExhausted ? 'No credits remaining' : 'Listen to your speech (1 credit)'}
-                                className={`flex items-center space-x-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                                  isLoadingAudio || audioUrl
-                                    ? 'bg-[#da5389] text-white'
-                                    : aiCreditsExhausted
-                                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                              <div className="flex items-center gap-1">
+                                <button
+                                  onClick={handleListenToggle}
+                                  disabled={isRefining}
+                                  title={isSpeaking ? 'Stop listening' : 'Listen to your speech'}
+                                  className={`flex items-center space-x-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                                    isSpeaking
+                                      ? 'bg-[#da5389] text-white'
                                       : 'bg-[#faf7f4] text-[#181615] hover:bg-[#da5389]/10 border border-[#e8e1d8]'
-                                }`}
-                              >
-                                {isLoadingAudio ? (
-                                  <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
-                                ) : audioUrl ? (
-                                  <span>✕</span>
-                                ) : (
-                                  <span>🔊</span>
+                                  }`}
+                                >
+                                  <span>{isSpeaking ? '⏹' : '🔊'}</span>
+                                  <span>{isSpeaking ? 'Stop' : 'Listen'}</span>
+                                </button>
+                                {isSpeaking && (
+                                  <button
+                                    onClick={handlePauseResumeSpeech}
+                                    title={isPausedSpeech ? 'Resume' : 'Pause'}
+                                    className="flex items-center px-2 py-2 text-sm font-medium rounded-lg bg-[#da5389]/80 text-white hover:bg-[#da5389] transition-colors"
+                                  >
+                                    {isPausedSpeech ? '▶' : '⏸'}
+                                  </button>
                                 )}
-                                <span>
-                                  {isLoadingAudio ? TTS_LOADING_MESSAGES[ttsLoadingMsgIndex] : audioUrl ? 'Hide Player' : 'Listen'}
-                                </span>
-                              </button>
+                              </div>
                             )}
                             <button
                               onClick={() => {
@@ -3289,48 +3290,23 @@ function GeneratorContent() {
                           </div>
                         )}
 
-                        {/* Voice selector for TTS — compact strip */}
-                        {isProUser && !isSpeechPaywalled && speechGenerated && (
+                        {/* Voice selector for browser TTS */}
+                        {isProUser && !isSpeechPaywalled && speechGenerated && availableVoices.length > 1 && (
                           <div className="mt-3 pt-3 border-t border-[#e8e1d8]/50">
                             <div className="flex items-center gap-2">
                               <span className="text-xs text-[#8f867e] flex-shrink-0">🎙 Voice:</span>
-                              <div className="flex flex-wrap gap-1.5">
-                                {[
-                                  { id: 'nova', label: 'Nova', desc: 'Warm, friendly' },
-                                  { id: 'shimmer', label: 'Shimmer', desc: 'Gentle, clear' },
-                                  { id: 'alloy', label: 'Alloy', desc: 'Balanced, neutral' },
-                                  { id: 'echo', label: 'Echo', desc: 'Warm, resonant' },
-                                  { id: 'fable', label: 'Fable', desc: 'Expressive, British' },
-                                  { id: 'onyx', label: 'Onyx', desc: 'Deep, authoritative' },
-                                ].map((v) => (
-                                  <button
-                                    key={v.id}
-                                    onClick={() => setSelectedVoice(v.id)}
-                                    title={v.desc}
-                                    className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
-                                      selectedVoice === v.id
-                                        ? 'bg-[#da5389] text-white shadow-sm'
-                                        : 'bg-[#faf7f4] text-[#8f867e] hover:bg-[#da5389]/10 hover:text-[#181615]'
-                                    }`}
-                                  >
-                                    {v.label}
-                                  </button>
+                              <select
+                                value={selectedVoice}
+                                onChange={(e) => setSelectedVoice(e.target.value)}
+                                className="text-xs bg-[#faf7f4] border border-[#e8e1d8] rounded-lg px-2 py-1.5 text-[#181615] focus:ring-1 focus:ring-[#da5389]/30 outline-none max-w-[220px]"
+                              >
+                                {availableVoices.map((v) => (
+                                  <option key={v.voiceURI} value={v.voiceURI}>
+                                    {v.name.replace(/Microsoft |Google |Apple /, '')}
+                                  </option>
                                 ))}
-                              </div>
+                              </select>
                             </div>
-                          </div>
-                        )}
-
-                        {/* Native audio player — shown when MP3 is ready */}
-                        {audioUrl && (
-                          <div className="mt-3 pt-3 border-t border-[#e8e1d8]/50">
-                            <audio
-                              src={audioUrl}
-                              controls
-                              autoPlay
-                              className="w-full rounded-lg"
-                              style={{ height: '40px' }}
-                            />
                           </div>
                         )}
                       </div>
@@ -3575,10 +3551,10 @@ function GeneratorContent() {
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuLabel className="text-xs text-[#8f867e]">Audio</DropdownMenuLabel>
-                            <DropdownMenuItem onClick={handleExportAudio}>
-                              <span className="h-4 w-4 mr-2 text-center">🎧</span>
-                              MP3
-                              <span className="ml-auto text-xs text-[#8f867e]">{selectedVoice}</span>
+                            <DropdownMenuItem onClick={handleExportAudio} disabled={aiCreditsExhausted || isLoadingAudio}>
+                              <span className="h-4 w-4 mr-2 text-center">{isLoadingAudio ? '⏳' : '🎧'}</span>
+                              {isLoadingAudio ? 'Generating MP3...' : 'MP3'}
+                              <span className="ml-auto text-xs text-[#8f867e]">1 credit</span>
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>

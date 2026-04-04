@@ -1605,11 +1605,29 @@ function GeneratorContent() {
     }
   };
 
-  // ── Text-to-Speech: OpenAI TTS with client-side caching ─────────
-  // First listen generates via API (1 credit), subsequent plays are instant from cache.
-  // MP3 export reuses cached audio — no double generation.
+  // ── Text-to-Speech: OpenAI TTS with client-side chunking & caching ──
+  // Chunks text client-side and fetches all chunks concurrently to avoid
+  // Netlify function timeout. First listen costs 1 credit; repeats are cached.
 
   const textHashFor = (text: string) => `${text.length}:${text.slice(0, 80)}`;
+
+  // Split text into chunks ≤4000 chars at paragraph boundaries
+  const splitForTTS = (text: string): string[] => {
+    const MAX = 4000;
+    const paragraphs = text.split(/\n+/).filter(p => p.trim());
+    const chunks: string[] = [];
+    let current = '';
+    for (const para of paragraphs) {
+      if (current.length + para.length + 2 > MAX && current) {
+        chunks.push(current.trim());
+        current = para;
+      } else {
+        current += (current ? '\n\n' : '') + para;
+      }
+    }
+    if (current.trim()) chunks.push(current.trim());
+    return chunks;
+  };
 
   const generateTTSAudio = async (): Promise<string | null> => {
     const speechText = generatedSpeech;
@@ -1621,26 +1639,36 @@ function GeneratorContent() {
       return audioCacheRef.current.url;
     }
 
-    const response = await fetch('/api/text-to-speech', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text: speechText,
-        voice: selectedVoice,
-        clientAnonUserId: typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null,
-      }),
-    });
+    const chunks = splitForTTS(speechText);
+    const anonId = typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null;
 
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      console.error('TTS error:', err);
-      return null;
+    // Fetch all chunks concurrently — each is a fast single OpenAI call
+    const responses = await Promise.all(
+      chunks.map(chunk =>
+        fetch('/api/text-to-speech', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: chunk, voice: selectedVoice, clientAnonUserId: anonId }),
+        })
+      )
+    );
+
+    // Check all responses succeeded
+    for (const res of responses) {
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        console.error('TTS error:', err);
+        return null;
+      }
     }
 
-    const blob = await response.blob();
+    // Collect blobs in order and concatenate
+    const blobs = await Promise.all(responses.map(r => r.blob()));
+    const finalAudioBlob = new Blob(blobs, { type: 'audio/mpeg' });
+
     // Revoke old cached URL
     if (audioCacheRef.current) URL.revokeObjectURL(audioCacheRef.current.url);
-    const url = URL.createObjectURL(blob);
+    const url = URL.createObjectURL(finalAudioBlob);
     audioCacheRef.current = { textHash: hash, url };
     return url;
   };

@@ -964,7 +964,7 @@ function GeneratorContent() {
   const getDemoData = (role: string) => {
     const demoData: Record<string, Partial<FormData>> = {
       'best-man': {
-        email: "michael.demo@nailthespeech.com",
+        email: "demo@example.com",
         yourName: "Michael",
         groomName: "James",
         brideName: "Sarah",

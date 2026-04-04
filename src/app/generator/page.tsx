@@ -1108,6 +1108,16 @@ function GeneratorContent() {
     setDemoMode(!demoMode);
   };
 
+  // Auto-populate demo data when ?demo=true is in the URL
+  useEffect(() => {
+    if (demoEnabled && !demoMode && !speechIdFromUrl) {
+      const demoData = getDemoData('best-man');
+      setFormData(prev => ({ ...prev, ...demoData }));
+      setDemoMode(true);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [demoEnabled]);
+
   // Push a new speech version onto history (for undo)
   const pushSpeechVersion = (speech: string) => {
     setSpeechVersions(prev => {

@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import { Crown, X, Zap } from 'lucide-react';
 import { useAuth } from '@clerk/nextjs';
+import { showToast } from '@/components/ui/toast';
 
 // Define specific types instead of 'any'
 interface SpeechData {
@@ -155,7 +156,7 @@ export default function ProUpgradePrompt({
       }
     } catch (error) {
       console.error('Error creating checkout session:', error);
-      alert('Failed to start checkout. Please try again.');
+      showToast('Failed to start checkout. Please try again.');
     } finally {
       setLoading(false);
     }

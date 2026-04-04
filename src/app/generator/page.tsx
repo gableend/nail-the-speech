@@ -21,6 +21,7 @@ import { getPreviewText } from "@/lib/speechPreview";
 import { speechRoles, getRoleBySlug } from "@/data/speechRoles";
 import FAQ from "@/components/FAQ";
 import { generatorFaqs } from "@/data/faqData";
+import { showToast } from "@/components/ui/toast";
 
 // ── Speech tones with role-specific recommendations ───────────────
 interface SpeechTone {
@@ -783,7 +784,7 @@ function GeneratorContent() {
       if (url) window.location.href = url;
     } catch (error) {
       console.error('Error creating checkout session:', error);
-      alert('Failed to start checkout. Please try again.');
+      showToast('Failed to start checkout. Please try again.');
     }
   };
   // Enable polling when returning from payment
@@ -1195,7 +1196,7 @@ function GeneratorContent() {
 
     } catch (error) {
       console.error('Error starting speech generation:', error);
-      alert('Failed to start speech generation. Please try again.');
+      showToast('Failed to start speech generation. Please try again.');
     } finally {
       setIsGenerating(false);
     }

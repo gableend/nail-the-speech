@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import AuthSyncHandler from "@/components/AuthSyncHandler";
+import { ToastContainer } from "@/components/ui/toast";
 
 export default function ClientBody({
   children,
@@ -16,6 +17,7 @@ export default function ClientBody({
 
   return (
     <div className="antialiased">
+      <ToastContainer />
       <AuthSyncHandler>
         {children}
       </AuthSyncHandler>

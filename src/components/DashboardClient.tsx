@@ -35,6 +35,8 @@ import { useSearchParams } from 'next/navigation';
 import ProUpgradePrompt from '@/components/ProUpgradePrompt';
 import { useProStatus } from '@/hooks/useProStatus';
 import PendingSpeechRestorer from '@/components/PendingSpeechRestorer';
+import { Modal } from '@/components/ui/modal';
+import { showToast } from '@/components/ui/toast';
 
 interface Speech {
   id: string;
@@ -100,6 +102,9 @@ export default function DashboardClient() {
   const [updatingSpeeches, setUpdatingSpeeches] = useState<Set<string>>(new Set());
   const [deletingSpeeches, setDeletingSpeeches] = useState<Set<string>>(new Set());
   const [exportingSpeech, setExportingSpeech] = useState<string | null>(null);
+
+  // Delete speech confirmation modal
+  const [deleteSpeechId, setDeleteSpeechId] = useState<string | null>(null);
 
   // Notification for restored speech
   const [showRestoredNotification, setShowRestoredNotification] = useState(false);
@@ -177,7 +182,7 @@ export default function DashboardClient() {
       window.location.href = '/';
     } catch (err) {
       console.error('Delete account error:', err);
-      alert('Failed to delete account. Please try again or contact support.');
+      showToast('Failed to delete account. Please try again or contact support.');
     } finally {
       setDeleteLoading(false);
       setShowDeleteConfirm(false);
@@ -224,7 +229,7 @@ export default function DashboardClient() {
       setEditTitleValue('');
     } catch (err) {
       console.error('Error updating speech title:', err);
-      alert('Failed to update speech title. Please try again.');
+      showToast('Failed to update speech title. Please try again.');
     } finally {
       setUpdatingSpeeches(prev => {
         const newSet = new Set(prev);
@@ -264,7 +269,7 @@ export default function DashboardClient() {
       }
     } catch (err) {
       console.error('Error updating speech status:', err);
-      alert('Failed to update speech status. Please try again.');
+      showToast('Failed to update speech status. Please try again.');
     } finally {
       setUpdatingSpeeches(prev => {
         const newSet = new Set(prev);
@@ -274,10 +279,14 @@ export default function DashboardClient() {
     }
   };
 
-  const handleDeleteSpeech = async (speechId: string) => {
-    if (!confirm('Are you sure you want to delete this speech? This action cannot be undone.')) {
-      return;
-    }
+  const handleDeleteSpeech = (speechId: string) => {
+    setDeleteSpeechId(speechId);
+  };
+
+  const confirmDeleteSpeech = async () => {
+    if (!deleteSpeechId) return;
+    const speechId = deleteSpeechId;
+    setDeleteSpeechId(null);
 
     setDeletingSpeeches(prev => new Set(prev).add(speechId));
     try {
@@ -292,7 +301,7 @@ export default function DashboardClient() {
       setSpeeches(prev => prev.filter(speech => speech.id !== speechId));
     } catch (err) {
       console.error('Error deleting speech:', err);
-      alert('Failed to delete speech. Please try again.');
+      showToast('Failed to delete speech. Please try again.');
     } finally {
       setDeletingSpeeches(prev => {
         const newSet = new Set(prev);
@@ -324,7 +333,7 @@ export default function DashboardClient() {
       window.URL.revokeObjectURL(url);
     } catch (err) {
       console.error(`Error exporting speech as ${format}:`, err);
-      alert(`Failed to export speech as ${format}. Please try again.`);
+      showToast(`Failed to export speech as ${format}. Please try again.`);
     } finally {
       setExportingSpeech(null);
     }
@@ -919,6 +928,17 @@ export default function DashboardClient() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <Modal
+        open={!!deleteSpeechId}
+        onClose={() => setDeleteSpeechId(null)}
+        title="Delete Speech"
+        description="Are you sure you want to delete this speech? This action cannot be undone."
+        confirmLabel="Delete"
+        cancelLabel="Keep it"
+        onConfirm={confirmDeleteSpeech}
+        variant="danger"
+      />
     </div>
   );
 }

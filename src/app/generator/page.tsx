@@ -1200,6 +1200,12 @@ function GeneratorContent() {
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
+      // Validate relationship field when leaving step 3
+      if (currentStep === 3 && formData.relationshipToGroom.trim().length < MIN_RELATIONSHIP_LENGTH) {
+        showToast('Tell us a little more about your connection — or tap the mic and talk us through it!', 'hint');
+        return;
+      }
+
       // Persist email when leaving Step 0
       if (currentStep === 0 && formData.email) {
         fetch('/api/capture-email', {
@@ -1547,12 +1553,13 @@ function GeneratorContent() {
   };
 
   // New function: Navigate to Step 2 and start streaming speech generation
+  const MIN_RELATIONSHIP_LENGTH = 30; // ~1 sentence minimum
   const MIN_STORY_LENGTH = 50; // ~2 sentences minimum
 
   const handleGenerateAndGoToStep2 = async () => {
     if (!formData.greatStoryMemory) return;
     if (formData.greatStoryMemory.trim().length < MIN_STORY_LENGTH) {
-      showToast('Please add a bit more detail to your story — even a couple of sentences helps us write a much better speech!');
+      showToast('Add a bit more detail to your story — or tap the mic and tell it in your own words! The more you share, the better your speech.', 'hint');
       return;
     }
 
@@ -2059,7 +2066,12 @@ function GeneratorContent() {
                       className="darker-placeholder text-base"
                       autoFocus
                     />
-                    <div className="flex items-center justify-end mt-2">
+                    <div className="flex items-center justify-between mt-2">
+                      <p className={`text-xs ${formData.relationshipToGroom.trim().length >= MIN_RELATIONSHIP_LENGTH ? 'text-green-600' : 'text-[#8f867e]'}`}>
+                        {formData.relationshipToGroom.trim().length < MIN_RELATIONSHIP_LENGTH
+                          ? `${MIN_RELATIONSHIP_LENGTH - formData.relationshipToGroom.trim().length} more characters — or tap the mic 🎙️`
+                          : '✓ Nice — that gives us plenty to work with'}
+                      </p>
                       <VoiceInput
                         onTranscription={(text) => updateFormData('relationshipToGroom', text)}
                         placeholder="Say it instead"
@@ -2188,7 +2200,7 @@ function GeneratorContent() {
                     <div className="flex items-center justify-between mt-2">
                       <p className={`text-xs ${formData.greatStoryMemory.trim().length >= MIN_STORY_LENGTH ? 'text-green-600' : 'text-[#8f867e]'}`}>
                         {formData.greatStoryMemory.trim().length < MIN_STORY_LENGTH
-                          ? `${MIN_STORY_LENGTH - formData.greatStoryMemory.trim().length} more characters needed — the more detail, the better your speech!`
+                          ? `${MIN_STORY_LENGTH - formData.greatStoryMemory.trim().length} more characters — or tap the mic and tell your story 🎙️`
                           : '✓ Great — enough detail to generate a quality speech'}
                       </p>
                       <VoiceInput

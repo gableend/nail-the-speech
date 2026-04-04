@@ -1,30 +1,30 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
-import { X, AlertCircle } from 'lucide-react';
+import { X, AlertCircle, CheckCircle, Mic } from 'lucide-react';
 
 interface Toast {
   id: number;
   message: string;
-  type: 'error' | 'success';
+  type: 'error' | 'success' | 'hint';
 }
 
 let toastId = 0;
-let addToastFn: ((message: string, type?: 'error' | 'success') => void) | null = null;
+let addToastFn: ((message: string, type?: 'error' | 'success' | 'hint') => void) | null = null;
 
-export function showToast(message: string, type: 'error' | 'success' = 'error') {
+export function showToast(message: string, type: 'error' | 'success' | 'hint' = 'error') {
   addToastFn?.(message, type);
 }
 
 export function ToastContainer() {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const addToast = useCallback((message: string, type: 'error' | 'success' = 'error') => {
+  const addToast = useCallback((message: string, type: 'error' | 'success' | 'hint' = 'error') => {
     const id = ++toastId;
     setToasts(prev => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts(prev => prev.filter(t => t.id !== id));
-    }, 5000);
+    }, 6000);
   }, []);
 
   useEffect(() => {
@@ -39,19 +39,28 @@ export function ToastContainer() {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[60] flex flex-col gap-2 w-full max-w-sm px-4">
+    <div className="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] flex flex-col gap-3 w-full max-w-md px-4">
       {toasts.map(toast => (
         <div
           key={toast.id}
-          className={`flex items-start gap-3 px-4 py-3 rounded-xl shadow-lg border animate-in fade-in slide-in-from-top-2 duration-200 ${
+          className={`flex items-start gap-3 px-5 py-4 rounded-2xl shadow-xl border backdrop-blur-sm animate-in fade-in slide-in-from-top-4 duration-300 ${
             toast.type === 'error'
-              ? 'bg-red-50 border-red-200 text-red-800'
-              : 'bg-green-50 border-green-200 text-green-800'
+              ? 'bg-white/95 border-[#da5389]/30 text-[#181615]'
+              : toast.type === 'hint'
+              ? 'bg-white/95 border-[#da5389]/30 text-[#181615]'
+              : 'bg-white/95 border-green-300 text-[#181615]'
           }`}
+          style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}
         >
-          <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
-          <p className="text-sm font-medium flex-1">{toast.message}</p>
-          <button onClick={() => dismiss(toast.id)} className="flex-shrink-0 hover:opacity-70">
+          {toast.type === 'success' ? (
+            <CheckCircle className="h-5 w-5 flex-shrink-0 mt-0.5 text-green-500" />
+          ) : toast.type === 'hint' ? (
+            <Mic className="h-5 w-5 flex-shrink-0 mt-0.5 text-[#da5389]" />
+          ) : (
+            <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5 text-[#da5389]" />
+          )}
+          <p className="text-sm leading-relaxed flex-1">{toast.message}</p>
+          <button onClick={() => dismiss(toast.id)} className="flex-shrink-0 hover:opacity-70 text-[#8f867e]">
             <X className="h-4 w-4" />
           </button>
         </div>

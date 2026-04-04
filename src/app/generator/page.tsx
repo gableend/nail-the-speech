@@ -945,13 +945,18 @@ function GeneratorContent() {
       const savedProgress = localStorage.getItem('speechProgress');
       if (savedProgress) {
         try {
-          const { formData: savedFormData, currentStep: savedStep, savedAt } = JSON.parse(savedProgress);
+          const { formData: savedFormData, currentStep: savedStep, speechId: savedSpeechId, savedAt } = JSON.parse(savedProgress);
           // Only restore if saved within the last 7 days
           if (savedAt && Date.now() - savedAt < 7 * 24 * 60 * 60 * 1000) {
+            // If they were on Step 5 with a saved speech, redirect to the edit view
+            // which loads the speech from DB and shows it with the paywall
+            if (savedStep >= 5 && savedSpeechId) {
+              localStorage.removeItem('speechProgress');
+              window.location.href = `/generator?speechId=${savedSpeechId}`;
+              return;
+            }
             setFormData(prev => ({ ...prev, ...savedFormData }));
-            // Cap at step 4 (last input step) — step 5 needs a generated speech
-            // which isn't stored in progress. Users with saved speeches use the dashboard.
-            setCurrentStep(Math.min(savedStep, 4));
+            setCurrentStep(savedStep);
           } else {
             localStorage.removeItem('speechProgress');
           }
@@ -1177,10 +1182,11 @@ function GeneratorContent() {
       localStorage.setItem('speechProgress', JSON.stringify({
         formData,
         currentStep,
+        speechId: currentSpeechId,
         savedAt: Date.now(),
       }));
     } catch {}
-  }, [currentStep, formData, speechIdFromUrl]);
+  }, [currentStep, formData, currentSpeechId, speechIdFromUrl]);
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -1495,7 +1501,6 @@ function GeneratorContent() {
                   if (data.speechId) {
                     console.log('✅ [GENERATOR] Speech saved to DB:', data.speechId);
                     setCurrentSpeechId(data.speechId);
-                    try { localStorage.removeItem('speechProgress'); } catch {}
                   } else {
                     console.error('❌ [GENERATOR] Speech NOT saved to DB (speechId null) — DB save failed silently');
                   }

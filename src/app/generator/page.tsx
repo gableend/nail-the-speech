@@ -725,12 +725,12 @@ function GeneratorContent() {
   const [isFinal, setIsFinal] = useState(false);
   const [showFinalToast, setShowFinalToast] = useState(false);
   const [exportingFormat, setExportingFormat] = useState<string | null>(null);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isPausedSpeech, setIsPausedSpeech] = useState(false);
-  const [selectedVoice, setSelectedVoice] = useState<string>(''); // browser voice URI
-  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [isLoadingAudio, setIsLoadingAudio] = useState(false);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState<string>('nova');
   const [ttsCreditsUsed, setTtsCreditsUsed] = useState(0);
-  const [isLoadingAudio, setIsLoadingAudio] = useState(false); // for MP3 export only
+  const [ttsLoadingMsgIndex, setTtsLoadingMsgIndex] = useState(0);
+  const audioCacheRef = React.useRef<{ textHash: string; url: string } | null>(null);
   const [currentSpeechId, setCurrentSpeechId] = useState<string | null>(speechIdFromUrl);
   const fullSpeechRef = React.useRef<string>("");
   const speechCardRef = React.useRef<HTMLDivElement>(null);
@@ -1605,131 +1605,105 @@ function GeneratorContent() {
     }
   };
 
-  // ── Text-to-Speech: Browser SpeechSynthesis (instant, free) ──────
+  // ── Text-to-Speech: OpenAI TTS with client-side caching ─────────
+  // First listen generates via API (1 credit), subsequent plays are instant from cache.
+  // MP3 export reuses cached audio — no double generation.
 
-  // Load available browser voices
-  React.useEffect(() => {
-    const loadVoices = () => {
-      const voices = window.speechSynthesis.getVoices();
-      if (voices.length === 0) return;
-      // Prefer English voices, sort by name
-      const englishVoices = voices
-        .filter(v => v.lang.startsWith('en'))
-        .sort((a, b) => a.name.localeCompare(b.name));
-      setAvailableVoices(englishVoices.length > 0 ? englishVoices : voices);
-      // Auto-select a good default if none selected
-      if (!selectedVoice) {
-        const preferred = englishVoices.find(v =>
-          v.name.toLowerCase().includes('samantha') ||
-          v.name.toLowerCase().includes('karen') ||
-          v.name.toLowerCase().includes('daniel') ||
-          v.name.toLowerCase().includes('google') ||
-          v.name.toLowerCase().includes('natural')
-        );
-        setSelectedVoice((preferred || englishVoices[0] || voices[0])?.voiceURI || '');
-      }
-    };
-    loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-    return () => { window.speechSynthesis.onvoiceschanged = null; };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const textHashFor = (text: string) => `${text.length}:${text.slice(0, 80)}`;
 
-  const handleListenToggle = () => {
-    const synth = window.speechSynthesis;
+  const generateTTSAudio = async (): Promise<string | null> => {
+    const speechText = generatedSpeech;
+    if (!speechText.trim()) return null;
 
-    // If speaking, stop
-    if (isSpeaking) {
-      synth.cancel();
-      setIsSpeaking(false);
-      setIsPausedSpeech(false);
+    // Return cached audio if speech hasn't changed
+    const hash = textHashFor(speechText);
+    if (audioCacheRef.current?.textHash === hash) {
+      return audioCacheRef.current.url;
+    }
+
+    const response = await fetch('/api/text-to-speech', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: speechText,
+        voice: selectedVoice,
+        clientAnonUserId: typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null,
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      console.error('TTS error:', err);
+      return null;
+    }
+
+    const blob = await response.blob();
+    // Revoke old cached URL
+    if (audioCacheRef.current) URL.revokeObjectURL(audioCacheRef.current.url);
+    const url = URL.createObjectURL(blob);
+    audioCacheRef.current = { textHash: hash, url };
+    return url;
+  };
+
+  const handleListenToSpeech = async () => {
+    // If player is showing, hide it
+    if (audioUrl) {
+      setAudioUrl(null);
       return;
     }
 
-    const speechText = generatedSpeech;
-    if (!speechText.trim()) return;
+    if (aiCreditsExhausted && !audioCacheRef.current) return;
+    if (isLoadingAudio) return;
 
-    const utterance = new SpeechSynthesisUtterance(speechText);
+    const hash = textHashFor(generatedSpeech);
+    const isCached = audioCacheRef.current?.textHash === hash;
 
-    // Set voice
-    const voice = availableVoices.find(v => v.voiceURI === selectedVoice);
-    if (voice) utterance.voice = voice;
-    utterance.rate = 0.95; // Slightly slower for speech delivery feel
-    utterance.pitch = 1;
+    // Only charge a credit if we need to call the API
+    if (!isCached) {
+      setTtsCreditsUsed(prev => prev + 1);
+    }
 
-    utterance.onend = () => {
-      setIsSpeaking(false);
-      setIsPausedSpeech(false);
-    };
-    utterance.onerror = () => {
-      setIsSpeaking(false);
-      setIsPausedSpeech(false);
-    };
-
-    synth.speak(utterance);
-    setIsSpeaking(true);
-    setIsPausedSpeech(false);
-  };
-
-  const handlePauseResumeSpeech = () => {
-    const synth = window.speechSynthesis;
-    if (synth.paused) {
-      synth.resume();
-      setIsPausedSpeech(false);
-    } else if (synth.speaking) {
-      synth.pause();
-      setIsPausedSpeech(true);
+    setIsLoadingAudio(true);
+    try {
+      const url = await generateTTSAudio();
+      if (url) setAudioUrl(url);
+    } finally {
+      setIsLoadingAudio(false);
     }
   };
 
-  // Stop speech when content changes or on unmount
-  React.useEffect(() => {
-    return () => { window.speechSynthesis.cancel(); };
-  }, []);
-  React.useEffect(() => {
-    if (isSpeaking) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-      setIsPausedSpeech(false);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [generatedSpeech]);
-
-  // ── MP3 Export: still uses OpenAI API (Pro + credit) ───────────
   const handleExportAudio = async () => {
     const speechText = generatedSpeech;
     if (!speechText.trim()) return;
-    if (aiCreditsExhausted) return;
 
-    setTtsCreditsUsed(prev => prev + 1);
     setExportingFormat('mp3');
+
+    const hash = textHashFor(speechText);
+    const isCached = audioCacheRef.current?.textHash === hash;
+
+    // Only charge a credit if we need to call the API
+    if (!isCached) {
+      if (aiCreditsExhausted) { setExportingFormat(null); return; }
+      setTtsCreditsUsed(prev => prev + 1);
+    }
+
     setIsLoadingAudio(true);
-
     try {
-      const response = await fetch('/api/text-to-speech', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: speechText,
-          voice: 'nova', // OpenAI voice for export
-          clientAnonUserId: typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null,
-        }),
-      });
+      const url = await generateTTSAudio();
+      if (!url) return;
 
-      if (!response.ok) return;
+      // Also show the player so they can listen
+      setAudioUrl(url);
 
-      const blob = await response.blob();
       const title = formData.groomName && formData.brideName
         ? `Speech for ${formData.groomName} & ${formData.brideName}`
         : 'speech';
-      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = `${title}.mp3`;
       document.body.appendChild(a);
       a.click();
       a.remove();
-      URL.revokeObjectURL(url);
     } catch (err) {
       console.error('Error exporting audio:', err);
     } finally {
@@ -1737,6 +1711,44 @@ function GeneratorContent() {
       setIsLoadingAudio(false);
     }
   };
+
+  // Clean up audio blob URL on unmount
+  React.useEffect(() => {
+    return () => {
+      if (audioCacheRef.current) URL.revokeObjectURL(audioCacheRef.current.url);
+    };
+  }, []);
+
+  // Invalidate cache when speech content changes
+  React.useEffect(() => {
+    const hash = textHashFor(generatedSpeech);
+    if (audioCacheRef.current && audioCacheRef.current.textHash !== hash) {
+      URL.revokeObjectURL(audioCacheRef.current.url);
+      audioCacheRef.current = null;
+      setAudioUrl(null);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [generatedSpeech]);
+
+  // Rotate loading messages every 2.5s while generating
+  const TTS_LOADING_MESSAGES = [
+    'Warming up the voice…',
+    'Converting your words to speech…',
+    'Recording your masterpiece…',
+    'Almost there, sounding great…',
+    'Adding the finishing touches…',
+    'Polishing the delivery…',
+    'Just a few more seconds…',
+    'Your speech is nearly ready…',
+  ];
+  React.useEffect(() => {
+    if (!isLoadingAudio) { setTtsLoadingMsgIndex(0); return; }
+    const interval = setInterval(() => {
+      setTtsLoadingMsgIndex(prev => (prev + 1) % TTS_LOADING_MESSAGES.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoadingAudio]);
 
   // Handle direct paragraph editing
   const handleParagraphEdit = (paraId: string, newText: string) => {
@@ -3145,32 +3157,35 @@ function GeneratorContent() {
                                 </button>
                               </div>
                             )}
-                            {/* Listen to speech — browser TTS, instant & free */}
+                            {/* Listen to speech — OpenAI TTS with caching */}
                             {isProUser && (
-                              <div className="flex items-center gap-1">
-                                <button
-                                  onClick={handleListenToggle}
-                                  disabled={isRefining}
-                                  title={isSpeaking ? 'Stop listening' : 'Listen to your speech'}
-                                  className={`flex items-center space-x-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                                    isSpeaking
-                                      ? 'bg-[#da5389] text-white'
+                              <button
+                                onClick={handleListenToSpeech}
+                                disabled={isRefining || isLoadingAudio || (!audioUrl && !audioCacheRef.current && aiCreditsExhausted)}
+                                title={audioUrl ? 'Hide audio player' : isLoadingAudio ? 'Generating...' : 'Listen to your speech'}
+                                className={`flex items-center justify-center space-x-1.5 min-w-[180px] px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                                  isLoadingAudio || audioUrl
+                                    ? 'bg-[#da5389] text-white'
+                                    : aiCreditsExhausted && !audioCacheRef.current
+                                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                       : 'bg-[#faf7f4] text-[#181615] hover:bg-[#da5389]/10 border border-[#e8e1d8]'
-                                  }`}
-                                >
-                                  <span>{isSpeaking ? '⏹' : '🔊'}</span>
-                                  <span>{isSpeaking ? 'Stop' : 'Listen'}</span>
-                                </button>
-                                {isSpeaking && (
-                                  <button
-                                    onClick={handlePauseResumeSpeech}
-                                    title={isPausedSpeech ? 'Resume' : 'Pause'}
-                                    className="flex items-center px-2 py-2 text-sm font-medium rounded-lg bg-[#da5389]/80 text-white hover:bg-[#da5389] transition-colors"
-                                  >
-                                    {isPausedSpeech ? '▶' : '⏸'}
-                                  </button>
+                                }`}
+                              >
+                                {isLoadingAudio ? (
+                                  <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full flex-shrink-0" />
+                                ) : audioUrl ? (
+                                  <span>✕</span>
+                                ) : (
+                                  <span>🔊</span>
                                 )}
-                              </div>
+                                <span className="truncate">
+                                  {isLoadingAudio
+                                    ? TTS_LOADING_MESSAGES[ttsLoadingMsgIndex]
+                                    : audioUrl
+                                      ? 'Hide Player'
+                                      : audioCacheRef.current ? 'Listen (cached)' : 'Listen'}
+                                </span>
+                              </button>
                             )}
                             <button
                               onClick={() => {
@@ -3290,23 +3305,56 @@ function GeneratorContent() {
                           </div>
                         )}
 
-                        {/* Voice selector for browser TTS */}
-                        {isProUser && !isSpeechPaywalled && speechGenerated && availableVoices.length > 1 && (
+                        {/* Voice selector for TTS — compact pill strip */}
+                        {isProUser && !isSpeechPaywalled && speechGenerated && (
                           <div className="mt-3 pt-3 border-t border-[#e8e1d8]/50">
                             <div className="flex items-center gap-2">
                               <span className="text-xs text-[#8f867e] flex-shrink-0">🎙 Voice:</span>
-                              <select
-                                value={selectedVoice}
-                                onChange={(e) => setSelectedVoice(e.target.value)}
-                                className="text-xs bg-[#faf7f4] border border-[#e8e1d8] rounded-lg px-2 py-1.5 text-[#181615] focus:ring-1 focus:ring-[#da5389]/30 outline-none max-w-[220px]"
-                              >
-                                {availableVoices.map((v) => (
-                                  <option key={v.voiceURI} value={v.voiceURI}>
-                                    {v.name.replace(/Microsoft |Google |Apple /, '')}
-                                  </option>
+                              <div className="flex flex-wrap gap-1.5">
+                                {[
+                                  { id: 'nova', label: 'Nova', desc: 'Warm, friendly' },
+                                  { id: 'shimmer', label: 'Shimmer', desc: 'Gentle, clear' },
+                                  { id: 'alloy', label: 'Alloy', desc: 'Balanced, neutral' },
+                                  { id: 'echo', label: 'Echo', desc: 'Warm, resonant' },
+                                  { id: 'fable', label: 'Fable', desc: 'Expressive, British' },
+                                  { id: 'onyx', label: 'Onyx', desc: 'Deep, authoritative' },
+                                ].map((v) => (
+                                  <button
+                                    key={v.id}
+                                    onClick={() => {
+                                      setSelectedVoice(v.id);
+                                      // Changing voice invalidates the cache
+                                      if (audioCacheRef.current) {
+                                        URL.revokeObjectURL(audioCacheRef.current.url);
+                                        audioCacheRef.current = null;
+                                        setAudioUrl(null);
+                                      }
+                                    }}
+                                    title={v.desc}
+                                    className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
+                                      selectedVoice === v.id
+                                        ? 'bg-[#da5389] text-white shadow-sm'
+                                        : 'bg-[#faf7f4] text-[#8f867e] hover:bg-[#da5389]/10 hover:text-[#181615]'
+                                    }`}
+                                  >
+                                    {v.label}
+                                  </button>
                                 ))}
-                              </select>
+                              </div>
                             </div>
+                          </div>
+                        )}
+
+                        {/* Native audio player — shown when audio is ready */}
+                        {audioUrl && (
+                          <div className="mt-3 pt-3 border-t border-[#e8e1d8]/50">
+                            <audio
+                              src={audioUrl}
+                              controls
+                              autoPlay
+                              className="w-full rounded-lg"
+                              style={{ height: '40px' }}
+                            />
                           </div>
                         )}
                       </div>
@@ -3551,10 +3599,10 @@ function GeneratorContent() {
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuLabel className="text-xs text-[#8f867e]">Audio</DropdownMenuLabel>
-                            <DropdownMenuItem onClick={handleExportAudio} disabled={aiCreditsExhausted || isLoadingAudio}>
+                            <DropdownMenuItem onClick={handleExportAudio} disabled={isLoadingAudio || (!audioCacheRef.current && aiCreditsExhausted)}>
                               <span className="h-4 w-4 mr-2 text-center">{isLoadingAudio ? '⏳' : '🎧'}</span>
-                              {isLoadingAudio ? 'Generating MP3...' : 'MP3'}
-                              <span className="ml-auto text-xs text-[#8f867e]">1 credit</span>
+                              {isLoadingAudio ? 'Generating MP3…' : 'MP3'}
+                              <span className="ml-auto text-xs text-[#8f867e]">{audioCacheRef.current ? 'cached' : '1 credit'}</span>
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>

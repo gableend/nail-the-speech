@@ -1701,7 +1701,7 @@ function GeneratorContent() {
                   <span className="text-white text-sm">✓</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-green-800">Payment Successful{currency?.displayPrice ? ` — ${currency.displayPrice}` : ''}!</div>
+                  <div className="font-semibold text-green-800">Payment Successful!</div>
                   <div className="text-sm text-green-700">You now have access to all Pro features. You can now access step 3 to add premium details!</div>
                 </div>
               </div>

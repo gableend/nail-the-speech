@@ -61,7 +61,7 @@ export default function PaymentSuccessBanner({ sessionId }: PaymentSuccessBanner
                 <span className="inline-block w-32 h-4 bg-green-200 animate-pulse rounded"></span>
               ) : (
                 <>
-                  You've purchased <span className="font-medium">{paymentDetails.product}</span> for <span className="font-medium">{paymentDetails.amount}</span>.
+                  You've purchased <span className="font-medium">{paymentDetails.product}</span>. Thank you!
                 </>
               )}
             </div>

@@ -73,35 +73,36 @@ export async function POST(request: NextRequest) {
 
     console.log(`🔊 [TTS] Generating ${chunks.length} chunk(s), voice: ${selectedVoice}`);
 
-    // Generate all chunks and concatenate MP3 bytes
-    const mp3Parts: Uint8Array[] = [];
-    for (let i = 0; i < chunks.length; i++) {
-      const response = await openai.audio.speech.create({
-        model: 'tts-1',
-        voice: selectedVoice,
-        input: chunks[i],
-        response_format: 'mp3',
-      });
-      const buf = new Uint8Array(await response.arrayBuffer());
-      mp3Parts.push(buf);
-      console.log(`🔊 [TTS] Chunk ${i + 1}/${chunks.length} done (${buf.length} bytes)`);
-    }
+    // Stream MP3 bytes as each chunk completes — keeps the connection alive
+    // and avoids Netlify function timeout on long speeches.
+    // Client receives a single audio/mpeg stream it can blob().
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          for (let i = 0; i < chunks.length; i++) {
+            const response = await openai.audio.speech.create({
+              model: 'tts-1',
+              voice: selectedVoice,
+              input: chunks[i],
+              response_format: 'mp3',
+            });
+            const buf = new Uint8Array(await response.arrayBuffer());
+            controller.enqueue(buf);
+            console.log(`🔊 [TTS] Chunk ${i + 1}/${chunks.length} streamed (${buf.length} bytes)`);
+          }
+          console.log(`🎉 [TTS] All chunks streamed`);
+          controller.close();
+        } catch (err) {
+          console.error('💥 [TTS] Stream error:', err);
+          controller.error(err);
+        }
+      },
+    });
 
-    // Concatenate into single MP3
-    const totalLen = mp3Parts.reduce((s, p) => s + p.length, 0);
-    const mp3 = new Uint8Array(totalLen);
-    let offset = 0;
-    for (const part of mp3Parts) {
-      mp3.set(part, offset);
-      offset += part.length;
-    }
-
-    console.log(`🎉 [TTS] Complete: ${totalLen} bytes`);
-
-    return new Response(mp3, {
+    return new Response(stream, {
       headers: {
         'Content-Type': 'audio/mpeg',
-        'Content-Length': totalLen.toString(),
+        'Transfer-Encoding': 'chunked',
       },
     });
   } catch (error) {

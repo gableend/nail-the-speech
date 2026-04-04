@@ -777,6 +777,7 @@ function GeneratorContent() {
         email: null,
         returnUrl: '/dashboard',
         currency: currency.key,
+        demo: demoEnabled,
       };
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',

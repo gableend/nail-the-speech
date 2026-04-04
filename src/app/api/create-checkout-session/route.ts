@@ -14,6 +14,7 @@ export async function POST(request: Request) {
     const returnUrl = body.returnUrl || null;
     const currencyKey = body.currency || 'USD';
     const currencyConfig: CurrencyConfig = CURRENCY_CONFIGS[currencyKey] || DEFAULT_CURRENCY;
+    const isDemo = body.demo === true;
     const discountCode = body.discountCode || null;
 
     // Check if user is already authenticated (optional)
@@ -61,7 +62,7 @@ export async function POST(request: Request) {
               name: STRIPE_CONFIG.productName,
               description: STRIPE_CONFIG.productDescription,
             },
-            unit_amount: currencyConfig.amount,
+            unit_amount: isDemo ? 100 : currencyConfig.amount, // $1 in demo mode
           },
           quantity: 1,
         },

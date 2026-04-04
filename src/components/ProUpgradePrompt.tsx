@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import { Crown, X, Zap } from 'lucide-react';
 import { useAuth } from '@clerk/nextjs';
+import { useSearchParams } from 'next/navigation';
 import { showToast } from '@/components/ui/toast';
 import { useCurrency } from '@/hooks/useCurrency';
 
@@ -40,6 +41,8 @@ export default function ProUpgradePrompt({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
+  const searchParams = useSearchParams();
+  const isDemo = searchParams.get('demo') === 'true';
   const { currency, availableCurrencies, setCurrency } = useCurrency();
 
   const features = [
@@ -119,6 +122,7 @@ export default function ProUpgradePrompt({
         email: null, // Will be filled by Stripe checkout
         returnUrl: '/dashboard',
         currency: currency.key,
+        demo: isDemo,
       };
 
       // If we have speech data, save it to localStorage for retrieval after payment and login

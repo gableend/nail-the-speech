@@ -704,6 +704,10 @@ function GeneratorContent() {
   const demoEnabled = searchParams.get('demo') === 'true';
   const [demoMode, setDemoMode] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isRefining, setIsRefining] = useState(false); // true during refinement (keeps old speech visible)
+  const [showUndoBanner, setShowUndoBanner] = useState(false); // prompt undo after refinement
+  const [showStartOverConfirm, setShowStartOverConfirm] = useState(false);
+  const [pendingStartOverInstructions, setPendingStartOverInstructions] = useState<string | undefined>();
   const [isRestored, setIsRestored] = useState(false);
   const [showEditDetails, setShowEditDetails] = useState(false);
 
@@ -1454,7 +1458,8 @@ function GeneratorContent() {
 
   // New function for Step 2: Generate speech outline with streaming and stay on page
   // ── Shared streaming response processor ────────────────────────────
-  const streamSpeechResponse = async (requestData: Record<string, unknown>) => {
+  // When keepOldSpeech=true (refinement), old speech stays visible during streaming
+  const streamSpeechResponse = async (requestData: Record<string, unknown>, keepOldSpeech = false) => {
     const response = await fetch('/api/generate-speech-stream', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1492,7 +1497,10 @@ function GeneratorContent() {
             const data = JSON.parse(jsonStr);
 
             if (data.type === 'chunk') {
-              setGeneratedSpeech(data.fullContent);
+              // During refinement, don't replace speech with partial chunks
+              if (!keepOldSpeech) {
+                setGeneratedSpeech(data.fullContent);
+              }
             } else if (data.type === 'complete') {
               fullSpeechRef.current = data.speech;
               incrementSpeechGenerationCount();
@@ -1534,8 +1542,10 @@ function GeneratorContent() {
 
     try {
       setIsGenerating(true);
+      setIsRefining(true); // keep old speech visible with overlay
+      setShowUndoBanner(false);
       setSpeechError("");
-      setGeneratedSpeech(""); // Clear to show streaming
+      // Do NOT clear generatedSpeech — old speech stays visible during refinement
 
       // Build preservation instructions for user-edited paragraphs
       const userEditedParas = speechParagraphs.filter(p => p.source === 'user-edited');
@@ -1557,23 +1567,36 @@ function GeneratorContent() {
         existingSpeechId: speechIdFromUrl || null,
       };
 
-      await streamSpeechResponse(requestData);
+      await streamSpeechResponse(requestData, true); // keepOldSpeech=true
+      // After successful refinement, show undo banner
+      setShowUndoBanner(true);
+      // Auto-hide after 8 seconds
+      setTimeout(() => setShowUndoBanner(false), 8000);
     } catch (error) {
       console.error('Error refining speech:', error);
       setSpeechError(error instanceof Error ? error.message : 'Failed to refine speech');
       setIsGenerating(false);
+    } finally {
+      setIsRefining(false);
     }
   };
 
   // ── Start Over handler (uses GPT-4o, full regeneration) ──────────
-  const handleStartOver = async (customInstructions?: string) => {
+  // Shows confirmation first, then executes
+  const handleStartOver = (customInstructions?: string) => {
     if (!isProUser && speechGenerated) {
       redirectToCheckout();
       return;
     }
+    setPendingStartOverInstructions(customInstructions);
+    setShowStartOverConfirm(true);
+  };
 
+  const confirmStartOver = async () => {
+    setShowStartOverConfirm(false);
     try {
       setIsGenerating(true);
+      setShowUndoBanner(false);
       setSpeechError("");
       setGeneratedSpeech("");
 
@@ -1581,7 +1604,7 @@ function GeneratorContent() {
         ...formData,
         isRefinement: false,
         isStartOver: true,
-        regenerationInstructions: customInstructions || null,
+        regenerationInstructions: pendingStartOverInstructions || null,
         isRegeneration: true,
         clientAnonUserId: getOrCreateAnonymousUserId(),
         existingSpeechId: speechIdFromUrl || null,
@@ -2783,6 +2806,16 @@ function GeneratorContent() {
                       </div>
 
                       <div className="relative">
+                        {/* Refinement overlay — keeps old speech visible with subtle dimming */}
+                        {isRefining && (
+                          <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 rounded-lg flex items-center justify-center">
+                            <div className="flex items-center gap-3 bg-white border border-[#e8e1d8] rounded-full px-5 py-3 shadow-md">
+                              <div className="animate-spin h-4 w-4 border-2 border-[#da5389] border-t-transparent rounded-full" />
+                              <span className="text-sm font-medium text-[#181615]">Refining your speech...</span>
+                            </div>
+                          </div>
+                        )}
+
                         <div className={`prose prose-lg max-w-none ${isSpeechPaywalled ? 'max-h-48 overflow-hidden' : 'max-h-80 overflow-y-auto'}`}>
                           {speechParagraphs.length > 0 ? (
                             speechParagraphs.map((para) => (
@@ -2793,10 +2826,10 @@ function GeneratorContent() {
                                 }`}
                               >
                                 <p
-                                  contentEditable={isProUser && !isSpeechPaywalled}
+                                  contentEditable={isProUser && !isSpeechPaywalled && !isRefining}
                                   suppressContentEditableWarning
                                   className={`text-[#181615] leading-relaxed outline-none transition-colors ${
-                                    isProUser && !isSpeechPaywalled ? 'hover:bg-[#faf7f4] focus:ring-1 focus:ring-[#da5389]/30 focus:bg-white cursor-text rounded px-1' : ''
+                                    isProUser && !isSpeechPaywalled && !isRefining ? 'hover:bg-[#faf7f4] focus:ring-1 focus:ring-[#da5389]/30 focus:bg-white cursor-text rounded px-1' : ''
                                   }`}
                                   onFocus={(e) => {
                                     // When editing, show plain text (remove diff highlight spans)
@@ -2833,8 +2866,26 @@ function GeneratorContent() {
                           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/95 to-transparent pointer-events-none" />
                         )}
 
+                        {/* Undo banner — shown after refinement completes */}
+                        {showUndoBanner && canUndo && (
+                          <div className="mt-3 flex items-center justify-between bg-[#faf7f4] border border-[#e8e1d8] rounded-lg px-4 py-2.5 animate-in fade-in slide-in-from-top-2">
+                            <span className="text-sm text-[#181615]">
+                              ✨ Speech refined
+                            </span>
+                            <button
+                              onClick={() => {
+                                undoSpeechVersion();
+                                setShowUndoBanner(false);
+                              }}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-[#da5389] bg-white border border-[#da5389]/30 hover:bg-[#da5389]/5 transition-colors"
+                            >
+                              ↩ Undo
+                            </button>
+                          </div>
+                        )}
+
                         {/* Editing hint + legend for Pro users */}
-                        {isProUser && !isSpeechPaywalled && speechGenerated && speechParagraphs.length > 0 && (
+                        {isProUser && !isSpeechPaywalled && speechGenerated && speechParagraphs.length > 0 && !showUndoBanner && (
                           <div className="mt-3 flex items-center justify-between text-xs text-[#8f867e]">
                             <span>💡 Click any paragraph to edit directly</span>
                             {speechParagraphs.some(p => p.source === 'user-edited') && (
@@ -3249,6 +3300,35 @@ function GeneratorContent() {
           </div>
         )}
       </div>
+
+      {/* Start Over Confirmation Dialog */}
+      {showStartOverConfirm && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 animate-in fade-in zoom-in-95">
+            <div className="text-center mb-4">
+              <span className="text-3xl">🔄</span>
+              <h3 className="font-semibold text-[#181615] text-lg mt-2">Start Over?</h3>
+              <p className="text-sm text-[#8f867e] mt-2">
+                This will generate a completely new speech from scratch. Your current version will be saved in version history so you can always go back.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowStartOverConfirm(false)}
+                className="flex-1 px-4 py-2.5 rounded-full text-sm font-medium border-2 border-[#e8e1d8] text-[#181615] hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmStartOver}
+                className="flex-1 px-4 py-2.5 rounded-full text-sm font-semibold bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-md transition-colors"
+              >
+                Yes, Start Over
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

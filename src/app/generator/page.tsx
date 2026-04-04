@@ -940,6 +940,23 @@ function GeneratorContent() {
       } catch (error) {
         console.error('Failed to restore form data:', error);
       }
+    } else {
+      // No active generation restore — check for saved progress (e.g. returning from email link)
+      const savedProgress = localStorage.getItem('speechProgress');
+      if (savedProgress) {
+        try {
+          const { formData: savedFormData, currentStep: savedStep, savedAt } = JSON.parse(savedProgress);
+          // Only restore if saved within the last 7 days
+          if (savedAt && Date.now() - savedAt < 7 * 24 * 60 * 60 * 1000) {
+            setFormData(prev => ({ ...prev, ...savedFormData }));
+            setCurrentStep(savedStep);
+          } else {
+            localStorage.removeItem('speechProgress');
+          }
+        } catch {
+          localStorage.removeItem('speechProgress');
+        }
+      }
     }
   }, [needsRoleSelection, speechIdFromUrl]);
 
@@ -1149,6 +1166,17 @@ function GeneratorContent() {
   const canUndo = currentVersionIndex > 0;
   const canRedo = currentVersionIndex < speechVersions.length - 1;
 
+  // Persist form progress to localStorage so returning users resume where they left off
+  const saveProgress = (step: number) => {
+    try {
+      localStorage.setItem('speechProgress', JSON.stringify({
+        formData,
+        currentStep: step,
+        savedAt: Date.now(),
+      }));
+    } catch {}
+  };
+
   const nextStep = () => {
     if (currentStep < totalSteps) {
       // Persist email when leaving Step 0
@@ -1165,22 +1193,28 @@ function GeneratorContent() {
       }
 
       // Skip role step if role came from URL
+      let nextStepNum: number;
       if (currentStep === 0 && !needsRoleSelection) {
-        setCurrentStep(2); // jump past role selection
+        nextStepNum = 2; // jump past role selection
       } else {
-        setCurrentStep(prev => prev + 1);
+        nextStepNum = currentStep + 1;
       }
+      setCurrentStep(nextStepNum);
+      saveProgress(nextStepNum);
     }
   };
 
   const prevStep = () => {
     if (currentStep > 0) {
       // Skip role step going back if role came from URL
+      let prevStepNum: number;
       if (currentStep === 2 && !needsRoleSelection) {
-        setCurrentStep(0);
+        prevStepNum = 0;
       } else {
-        setCurrentStep(prev => prev - 1);
+        prevStepNum = currentStep - 1;
       }
+      setCurrentStep(prevStepNum);
+      saveProgress(prevStepNum);
     }
   };
 

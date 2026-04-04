@@ -726,11 +726,12 @@ function GeneratorContent() {
   const [showFinalToast, setShowFinalToast] = useState(false);
   const [exportingFormat, setExportingFormat] = useState<string | null>(null);
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [audioQueue, setAudioQueue] = useState<string[]>([]);
+  const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
   const [selectedVoice, setSelectedVoice] = useState<string>('nova');
   const [ttsCreditsUsed, setTtsCreditsUsed] = useState(0);
   const [ttsLoadingMsgIndex, setTtsLoadingMsgIndex] = useState(0);
-  const audioCacheRef = React.useRef<{ textHash: string; url: string } | null>(null);
+  const audioCacheRef = React.useRef<{ textHash: string; urls: string[] } | null>(null);
   const [currentSpeechId, setCurrentSpeechId] = useState<string | null>(speechIdFromUrl);
   const fullSpeechRef = React.useRef<string>("");
   const speechCardRef = React.useRef<HTMLDivElement>(null);
@@ -1637,13 +1638,14 @@ function GeneratorContent() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData.selectedRole]);
 
-  // ── Text-to-Speech: OpenAI TTS with client-side chunking & caching ──
-  // Chunks text client-side and fetches all chunks concurrently to avoid
-  // Netlify function timeout. First listen costs 1 credit; repeats are cached.
+  // ── Text-to-Speech: Play-As-You-Fetch queue model ──────────────
+  // Fires all chunk requests concurrently, then iterates sequentially.
+  // First chunk plays immediately while remaining chunks load in background.
 
   const textHashFor = (text: string) => `${text.length}:${text.slice(0, 80)}`;
+  const playerIsShowing = audioQueue.length > 0;
 
-  // Split text into chunks ≤4000 chars at paragraph boundaries
+  // Split text into chunks ≤500 chars at paragraph boundaries
   const splitForTTS = (text: string): string[] => {
     const MAX = 500;
     const paragraphs = text.split(/\n+/).filter(p => p.trim());
@@ -1661,75 +1663,80 @@ function GeneratorContent() {
     return chunks;
   };
 
-  const generateTTSAudio = async (): Promise<string | null> => {
-    const speechText = generatedSpeech;
-    if (!speechText.trim()) return null;
-
-    // Return cached audio if speech hasn't changed
-    const hash = textHashFor(speechText);
-    if (audioCacheRef.current?.textHash === hash) {
-      return audioCacheRef.current.url;
-    }
-
-    const chunks = splitForTTS(speechText);
-    const anonId = typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null;
-
-    // Fetch all chunks concurrently — each is a fast single OpenAI call
-    const responses = await Promise.all(
-      chunks.map(chunk =>
-        fetch('/api/text-to-speech', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: chunk, voice: selectedVoice, clientAnonUserId: anonId }),
-        })
-      )
-    );
-
-    // Check all responses succeeded
-    for (const res of responses) {
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        console.error('TTS error:', err);
-        return null;
-      }
-    }
-
-    // Collect blobs in order and concatenate
-    const blobs = await Promise.all(responses.map(r => r.blob()));
-    const finalAudioBlob = new Blob(blobs, { type: 'audio/mpeg' });
-
-    // Revoke old cached URL
-    if (audioCacheRef.current) URL.revokeObjectURL(audioCacheRef.current.url);
-    const url = URL.createObjectURL(finalAudioBlob);
-    audioCacheRef.current = { textHash: hash, url };
-    return url;
-  };
-
   const handleListenToSpeech = async () => {
     // If player is showing, hide it (keep cache)
-    if (audioUrl) {
-      setAudioUrl(null);
+    if (playerIsShowing) {
+      setAudioQueue([]);
+      setCurrentAudioIndex(0);
       return;
     }
 
     if (isLoadingAudio) return;
 
-    // Check cache synchronously — if cached, show player instantly (no loading state)
+    // Check cache synchronously — if cached, show player instantly
     const hash = textHashFor(generatedSpeech);
-    const isCached = audioCacheRef.current?.textHash === hash;
-
-    if (isCached && audioCacheRef.current) {
-      setAudioUrl(audioCacheRef.current.url);
+    if (audioCacheRef.current?.textHash === hash) {
+      setAudioQueue(audioCacheRef.current.urls);
+      setCurrentAudioIndex(0);
       return;
     }
 
-    // Not cached — need API call
+    // Not cached — need API calls
     if (aiCreditsExhausted) return;
+    const speechText = generatedSpeech;
+    if (!speechText.trim()) return;
+
     setTtsCreditsUsed(prev => prev + 1);
     setIsLoadingAudio(true);
+    setAudioQueue([]);
+    setCurrentAudioIndex(0);
+
+    // Revoke old cache
+    if (audioCacheRef.current) {
+      audioCacheRef.current.urls.forEach(u => URL.revokeObjectURL(u));
+      audioCacheRef.current = null;
+    }
+
+    const chunks = splitForTTS(speechText);
+    const anonId = typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null;
+
+    // Fire all requests concurrently
+    const fetchPromises = chunks.map(chunk =>
+      fetch('/api/text-to-speech', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: chunk, voice: selectedVoice, clientAnonUserId: anonId }),
+      })
+    );
+
+    const urls: string[] = [];
+
     try {
-      const url = await generateTTSAudio();
-      if (url) setAudioUrl(url);
+      // Iterate sequentially — as each resolves, push to queue so playback starts
+      for (let i = 0; i < fetchPromises.length; i++) {
+        const response = await fetchPromises[i];
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          console.error('TTS error:', err);
+          break;
+        }
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        urls.push(url);
+
+        // Append to queue — player starts as soon as first URL arrives
+        setAudioQueue(prev => [...prev, url]);
+
+        // Stop showing loading spinner after first chunk is ready
+        if (i === 0) setIsLoadingAudio(false);
+      }
+
+      // Cache all URLs
+      if (urls.length > 0) {
+        audioCacheRef.current = { textHash: hash, urls };
+      }
+    } catch (err) {
+      console.error('Error generating audio:', err);
     } finally {
       setIsLoadingAudio(false);
     }
@@ -1752,21 +1759,49 @@ function GeneratorContent() {
 
     setIsLoadingAudio(true);
     try {
-      const url = await generateTTSAudio();
-      if (!url) return;
+      let blobs: Blob[];
 
-      // Also show the player so they can listen
-      setAudioUrl(url);
+      if (isCached && audioCacheRef.current) {
+        // Fetch cached blob URLs back into blobs for concatenation
+        blobs = await Promise.all(
+          audioCacheRef.current.urls.map(u => fetch(u).then(r => r.blob()))
+        );
+      } else {
+        // Generate fresh
+        const chunks = splitForTTS(speechText);
+        const anonId = typeof window !== 'undefined' ? localStorage.getItem('anon_user_id') : null;
+        const responses = await Promise.all(
+          chunks.map(chunk =>
+            fetch('/api/text-to-speech', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ text: chunk, voice: selectedVoice, clientAnonUserId: anonId }),
+            })
+          )
+        );
+        for (const res of responses) {
+          if (!res.ok) { console.error('TTS export error'); return; }
+        }
+        blobs = await Promise.all(responses.map(r => r.blob()));
 
+        // Cache the URLs too
+        const urls = blobs.map(b => URL.createObjectURL(b));
+        if (audioCacheRef.current) audioCacheRef.current.urls.forEach(u => URL.revokeObjectURL(u));
+        audioCacheRef.current = { textHash: hash, urls };
+      }
+
+      const finalBlob = new Blob(blobs, { type: 'audio/mpeg' });
       const title = formData.groomName && formData.brideName
         ? `Speech for ${formData.groomName} & ${formData.brideName}`
         : 'speech';
+      const url = URL.createObjectURL(finalBlob);
       const a = document.createElement('a');
       a.href = url;
       a.download = `${title}.mp3`;
       document.body.appendChild(a);
       a.click();
       a.remove();
+      URL.revokeObjectURL(url);
     } catch (err) {
       console.error('Error exporting audio:', err);
     } finally {
@@ -1775,10 +1810,10 @@ function GeneratorContent() {
     }
   };
 
-  // Clean up audio blob URL on unmount
+  // Clean up audio blob URLs on unmount
   React.useEffect(() => {
     return () => {
-      if (audioCacheRef.current) URL.revokeObjectURL(audioCacheRef.current.url);
+      if (audioCacheRef.current) audioCacheRef.current.urls.forEach(u => URL.revokeObjectURL(u));
     };
   }, []);
 
@@ -1786,9 +1821,10 @@ function GeneratorContent() {
   React.useEffect(() => {
     const hash = textHashFor(generatedSpeech);
     if (audioCacheRef.current && audioCacheRef.current.textHash !== hash) {
-      URL.revokeObjectURL(audioCacheRef.current.url);
+      audioCacheRef.current.urls.forEach(u => URL.revokeObjectURL(u));
       audioCacheRef.current = null;
-      setAudioUrl(null);
+      setAudioQueue([]);
+      setCurrentAudioIndex(0);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [generatedSpeech]);
@@ -3224,10 +3260,10 @@ function GeneratorContent() {
                             {isProUser && (
                               <button
                                 onClick={handleListenToSpeech}
-                                disabled={isRefining || isLoadingAudio || (!audioUrl && !audioCacheRef.current && aiCreditsExhausted)}
-                                title={audioUrl ? 'Hide audio player' : isLoadingAudio ? 'Generating...' : 'Listen to your speech'}
+                                disabled={isRefining || isLoadingAudio || (!playerIsShowing && !audioCacheRef.current && aiCreditsExhausted)}
+                                title={playerIsShowing ? 'Hide audio player' : isLoadingAudio ? 'Generating...' : 'Listen to your speech'}
                                 className={`flex items-center justify-center space-x-1.5 w-[200px] px-3 py-2 text-sm font-medium rounded-lg transition-colors overflow-hidden ${
-                                  isLoadingAudio || audioUrl
+                                  isLoadingAudio || playerIsShowing
                                     ? 'bg-[#da5389] text-white'
                                     : aiCreditsExhausted && !audioCacheRef.current
                                       ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -3236,7 +3272,7 @@ function GeneratorContent() {
                               >
                                 {isLoadingAudio ? (
                                   <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full flex-shrink-0" />
-                                ) : audioUrl ? (
+                                ) : playerIsShowing ? (
                                   <span>✕</span>
                                 ) : (
                                   <span>🔊</span>
@@ -3244,7 +3280,7 @@ function GeneratorContent() {
                                 <span className="truncate">
                                   {isLoadingAudio
                                     ? TTS_LOADING_MESSAGES[ttsLoadingMsgIndex]
-                                    : audioUrl
+                                    : playerIsShowing
                                       ? 'Hide Player'
                                       : audioCacheRef.current ? 'Listen (cached)' : 'Listen'}
                                 </span>
@@ -3265,14 +3301,20 @@ function GeneratorContent() {
                       </div>
 
                       {/* Audio player — sits under the header row, above the speech text */}
-                      {audioUrl && (
+                      {audioQueue.length > 0 && (
                         <div className="-mt-2 mb-4">
                           <audio
-                            src={audioUrl}
+                            key={audioQueue[currentAudioIndex]}
+                            src={audioQueue[currentAudioIndex]}
                             controls
                             autoPlay
                             className="w-full rounded-lg"
                             style={{ height: '40px' }}
+                            onEnded={() => {
+                              if (currentAudioIndex < audioQueue.length - 1) {
+                                setCurrentAudioIndex(prev => prev + 1);
+                              }
+                            }}
                           />
                         </div>
                       )}
@@ -3402,9 +3444,10 @@ function GeneratorContent() {
                                       setSelectedVoice(v.id);
                                       // Changing voice invalidates the cache
                                       if (audioCacheRef.current) {
-                                        URL.revokeObjectURL(audioCacheRef.current.url);
+                                        audioCacheRef.current.urls.forEach(u => URL.revokeObjectURL(u));
                                         audioCacheRef.current = null;
-                                        setAudioUrl(null);
+                                        setAudioQueue([]);
+                                        setCurrentAudioIndex(0);
                                       }
                                     }}
                                     title={v.desc}

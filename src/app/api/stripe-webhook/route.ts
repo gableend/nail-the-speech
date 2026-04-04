@@ -142,6 +142,14 @@ export async function POST(request: NextRequest) {
 
         console.log(`✅ [STRIPE WEBHOOK] User ${finalUserId} upgraded to Pro successfully`);
 
+        // Mark email lead as paid (so abandoned emails stop)
+        try {
+          await prisma.emailLead.updateMany({
+            where: { email: customerEmail.toLowerCase(), hasPaid: false },
+            data: { hasPaid: true },
+          });
+        } catch {} // ignore if no lead exists
+
         // Send payment confirmation email
         try {
           await sendPaymentConfirmation(customerEmail, proExpiresAt);

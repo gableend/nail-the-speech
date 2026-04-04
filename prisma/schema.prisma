@@ -61,6 +61,26 @@ model Speech {
   @@map("speeches")
 }
 
+model EmailLead {
+  id              String    @id @default(cuid())
+  email           String
+  name            String?
+  role            String?   // Speech role they selected
+  confirmed       Boolean   @default(false)  // Clicked confirm in email 1
+  confirmedAt     DateTime?
+  hasPaid         Boolean   @default(false)  // Converted to paying customer
+  unsubscribed    Boolean   @default(false)
+  discountCode    String?   // Stripe coupon code sent in email 2
+  email1SentAt    DateTime? // Confirmation email sent
+  email2SentAt    DateTime? // Discount email sent
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([email])
+  @@index([hasPaid, email1SentAt])
+  @@map("email_leads")
+}
+
 model SpeechVersion {
   id            String   @id @default(cuid())
   speechId      String

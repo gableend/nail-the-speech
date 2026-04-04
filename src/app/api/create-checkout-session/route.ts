@@ -14,6 +14,7 @@ export async function POST(request: Request) {
     const returnUrl = body.returnUrl || null;
     const currencyKey = body.currency || 'USD';
     const currencyConfig: CurrencyConfig = CURRENCY_CONFIGS[currencyKey] || DEFAULT_CURRENCY;
+    const discountCode = body.discountCode || null;
 
     // Check if user is already authenticated (optional)
     const { userId } = await auth();
@@ -65,6 +66,7 @@ export async function POST(request: Request) {
           quantity: 1,
         },
       ],
+      allow_promotion_codes: true,
       ...(prefillEmail ? { customer_email: prefillEmail } : {}), // Pre-fill if provided
       billing_address_collection: 'auto',
       customer_creation: 'always', // Always create a Stripe customer

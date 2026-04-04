@@ -1134,6 +1134,19 @@ function GeneratorContent() {
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
+      // Persist email when leaving Step 0
+      if (currentStep === 0 && formData.email) {
+        fetch('/api/capture-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            name: formData.yourName,
+            role: formData.selectedRole || null,
+          }),
+        }).catch(() => {}); // fire-and-forget
+      }
+
       // Skip role step if role came from URL
       if (currentStep === 0 && !needsRoleSelection) {
         setCurrentStep(2); // jump past role selection

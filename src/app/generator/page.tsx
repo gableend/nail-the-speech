@@ -1167,15 +1167,18 @@ function GeneratorContent() {
   const canRedo = currentVersionIndex < speechVersions.length - 1;
 
   // Persist form progress to localStorage so returning users resume where they left off
-  const saveProgress = (step: number) => {
+  useEffect(() => {
+    // Don't save on initial mount (step 0 with empty form) or when editing a saved speech
+    if (speechIdFromUrl) return;
+    if (currentStep === 0 && !formData.yourName && !formData.email) return;
     try {
       localStorage.setItem('speechProgress', JSON.stringify({
         formData,
-        currentStep: step,
+        currentStep,
         savedAt: Date.now(),
       }));
     } catch {}
-  };
+  }, [currentStep, formData, speechIdFromUrl]);
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -1200,7 +1203,6 @@ function GeneratorContent() {
         nextStepNum = currentStep + 1;
       }
       setCurrentStep(nextStepNum);
-      saveProgress(nextStepNum);
     }
   };
 
@@ -1214,7 +1216,6 @@ function GeneratorContent() {
         prevStepNum = currentStep - 1;
       }
       setCurrentStep(prevStepNum);
-      saveProgress(prevStepNum);
     }
   };
 
@@ -1492,6 +1493,7 @@ function GeneratorContent() {
                   if (data.speechId) {
                     console.log('✅ [GENERATOR] Speech saved to DB:', data.speechId);
                     setCurrentSpeechId(data.speechId);
+                    try { localStorage.removeItem('speechProgress'); } catch {}
                   } else {
                     console.error('❌ [GENERATOR] Speech NOT saved to DB (speechId null) — DB save failed silently');
                   }

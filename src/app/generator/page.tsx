@@ -938,7 +938,20 @@ function GeneratorContent() {
   }, [needsRoleSelection, speechIdFromUrl]);
 
   const updateFormData = (field: keyof FormData, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => {
+      const updated = { ...prev, [field]: value };
+
+      // When a role is selected, auto-set the tone to the first recommended tone
+      // (unless user already picked one that's in the new recommended set)
+      if (field === 'selectedRole' && typeof value === 'string' && value) {
+        const recValues = getRecommendedToneValues(value);
+        if (!updated.tone || !recValues.includes(updated.tone)) {
+          updated.tone = recValues[0];
+        }
+      }
+
+      return updated;
+    });
 
     // If demo mode is on and user changes role, update with new role's demo data
     if (demoMode && field === 'selectedRole' && typeof value === 'string') {

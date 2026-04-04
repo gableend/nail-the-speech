@@ -11,17 +11,22 @@ export const maxDuration = 120;
 const ALLOWED_VOICES = ['alloy', 'echo', 'fable', 'nova', 'onyx', 'shimmer'] as const;
 type TTSVoice = typeof ALLOWED_VOICES[number];
 
-// Merge paragraphs into ~800-char chunks for natural pacing
+// Merge paragraphs into chunks. First chunk is small (~400 chars) for fast startup,
+// subsequent chunks are larger (~1000 chars) to reduce total API calls.
 function buildChunks(text: string): string[] {
-  const TARGET = 800;
+  const FIRST_TARGET = 400;  // Small first chunk = fast first audio
+  const REST_TARGET = 1000;  // Larger chunks = fewer calls, natural pacing
   const paragraphs = text.split(/\n+/).filter(p => p.trim().length > 0);
   const chunks: string[] = [];
   let current = '';
+  let isFirst = true;
 
   for (const para of paragraphs) {
-    if (current.length + para.length + 2 > TARGET && current.length > 0) {
+    const target = isFirst ? FIRST_TARGET : REST_TARGET;
+    if (current.length + para.length + 2 > target && current.length > 0) {
       chunks.push(current.trim());
       current = para;
+      isFirst = false;
     } else {
       current += (current ? '\n\n' : '') + para;
     }

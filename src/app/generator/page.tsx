@@ -1616,17 +1616,21 @@ function GeneratorContent() {
 
   // Build paragraph→chunk mapping (mirrors server-side buildChunks)
   const buildParaChunkMap = (text: string) => {
-    const TARGET = 800;
+    const FIRST_TARGET = 400;
+    const REST_TARGET = 1000;
     const paragraphs = text.split(/\n+/).filter(p => p.trim().length > 0);
-    const ranges: Array<[number, number]> = []; // [paraStart, paraEnd] per chunk
+    const ranges: Array<[number, number]> = [];
     let current = '';
     let chunkStart = 0;
+    let isFirst = true;
     for (let i = 0; i < paragraphs.length; i++) {
       const para = paragraphs[i];
-      if (current.length + para.length + 2 > TARGET && current.length > 0) {
+      const target = isFirst ? FIRST_TARGET : REST_TARGET;
+      if (current.length + para.length + 2 > target && current.length > 0) {
         ranges.push([chunkStart, i - 1]);
         current = para;
         chunkStart = i;
+        isFirst = false;
       } else {
         current += (current ? '\n\n' : '') + para;
       }
@@ -1771,13 +1775,25 @@ function GeneratorContent() {
         if (done) break;
       }
 
-      // Wait for all audio to finish playing
-      if (lastSourceNode && !session.cancelled) {
+      // Wait for all scheduled audio to finish playing
+      if (scheduledTime > audioCtx.currentTime && !session.cancelled) {
+        const remainingMs = (scheduledTime - audioCtx.currentTime) * 1000;
+        // Use a timer that accounts for suspend/resume
         await new Promise<void>((resolve) => {
-          lastSourceNode!.onended = () => resolve();
-          // Safety timeout: if onended doesn't fire
-          const maxWait = (scheduledTime - audioCtx.currentTime + 1) * 1000;
-          setTimeout(resolve, Math.max(maxWait, 1000));
+          const check = () => {
+            if (session.cancelled) { resolve(); return; }
+            if (audioCtx.state === 'closed') { resolve(); return; }
+            // Check if we've passed the scheduled end time
+            if (audioCtx.currentTime >= scheduledTime - 0.1) {
+              resolve();
+            } else {
+              setTimeout(check, 250);
+            }
+          };
+          // Start checking, with a safety max based on remaining audio
+          setTimeout(check, Math.min(remainingMs * 0.8, 500));
+          // Hard safety: resolve after 2x the remaining time + buffer
+          setTimeout(resolve, remainingMs + 5000);
         });
       }
     } catch (err) {
@@ -1785,10 +1801,11 @@ function GeneratorContent() {
     } finally {
       if (!session.cancelled) {
         setIsPlayingAudio(false);
+        setIsLoadingAudio(false);
         setCurrentAudioParagraph(-1);
         setCurrentAudioParaRange([-1, -1]);
       }
-      // Close AudioContext
+      // Close AudioContext AFTER audio finishes (not prematurely)
       if (audioCtxRef.current === audioCtx) {
         audioCtx.close().catch(() => {});
         audioCtxRef.current = null;
@@ -3304,33 +3321,33 @@ function GeneratorContent() {
                                 {/* Play / Stop button */}
                                 <button
                                   onClick={handleListenToSpeech}
-                                  disabled={(isLoadingAudio && !isPlayingAudio) || isRefining || (!isPlayingAudio && !isPausedAudio && aiCreditsExhausted)}
-                                  title={isPlayingAudio || isPausedAudio ? 'Stop listening' : aiCreditsExhausted ? 'No credits remaining' : 'Listen to your speech (1 credit)'}
-                                  className={`flex items-center space-x-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                                    isPlayingAudio || isPausedAudio
+                                  disabled={isRefining || (!isPlayingAudio && !isPausedAudio && !isLoadingAudio && aiCreditsExhausted)}
+                                  title={isPlayingAudio || isPausedAudio || isLoadingAudio ? 'Stop listening' : aiCreditsExhausted ? 'No credits remaining' : 'Listen to your speech (1 credit)'}
+                                  className={`flex items-center space-x-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                                    isPlayingAudio || isPausedAudio || isLoadingAudio
                                       ? 'bg-[#da5389] text-white'
                                       : aiCreditsExhausted
                                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                         : 'bg-[#faf7f4] text-[#181615] hover:bg-[#da5389]/10 border border-[#e8e1d8]'
                                   }`}
                                 >
-                                  {isLoadingAudio && !isPlayingAudio ? (
-                                    <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
+                                  {isLoadingAudio ? (
+                                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
                                   ) : isPlayingAudio || isPausedAudio ? (
                                     <span>⏹</span>
                                   ) : (
                                     <span>🔊</span>
                                   )}
                                   <span>
-                                    {isLoadingAudio && !isPlayingAudio
-                                      ? 'Loading...'
+                                    {isLoadingAudio
+                                      ? 'Preparing...'
                                       : isPlayingAudio || isPausedAudio
                                         ? `${currentAudioParagraph + 1}/${totalAudioParagraphs}`
                                         : 'Listen'}
                                   </span>
                                 </button>
-                                {/* Pause / Resume button — only visible during playback */}
-                                {(isPlayingAudio || isPausedAudio) && (
+                                {/* Pause / Resume button — only visible during active playback */}
+                                {(isPlayingAudio || isPausedAudio) && !isLoadingAudio && (
                                   <button
                                     onClick={handlePauseResumeAudio}
                                     title={isPausedAudio ? 'Resume' : 'Pause'}

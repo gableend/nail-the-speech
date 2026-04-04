@@ -907,8 +907,8 @@ export default function DashboardClient() {
                           data deletion instructions
                         </Link>
                         {' '}or contact{' '}
-                        <a href="mailto:privacy@nailthespeech.com" className="text-[#da5389] hover:underline">
-                          privacy@nailthespeech.com
+                        <a href="mailto:hello@nailthespeech.com" className="text-[#da5389] hover:underline">
+                          hello@nailthespeech.com
                         </a>
                       </p>
                     </div>

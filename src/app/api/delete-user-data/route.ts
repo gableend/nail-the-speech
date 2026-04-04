@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
     if (email && source !== 'facebook_webhook') {
       try {
         await transporter.sendMail({
-          from: process.env.SMTP_FROM || 'privacy@nailthespeech.com',
+          from: process.env.SMTP_FROM || 'hello@nailthespeech.com',
           to: email,
           subject: 'Data Deletion Confirmation - Nail The Speech',
           html: `
@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
 
               <p style="font-size: 12px; color: #666;">
                 If you believe you received this email in error, please contact us at
-                <a href="mailto:privacy@nailthespeech.com">privacy@nailthespeech.com</a>
+                <a href="mailto:hello@nailthespeech.com">hello@nailthespeech.com</a>
               </p>
             </div>
           `,

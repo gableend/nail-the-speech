@@ -4,7 +4,7 @@ import { Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import HomeCTALink from "@/components/HomeCTALink";
-import LazyHomeClient from "@/components/LazyHomeClient";
+import HomeClient from "@/components/HomeClient";
 import FAQ from "@/components/FAQ";
 import { faqs } from "@/data/faqData";
 import { majorRoles, getMinorRolesByCategory } from "@/data/speechRoles";
@@ -137,7 +137,7 @@ export default function HomePage() {
             </div>
 
             {/* Right Content - Hero Video */}
-            <LazyHomeClient />
+            <HomeClient />
           </div>
         </div>
       </section>

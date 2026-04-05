@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ChevronDown, ArrowRight } from "lucide-react";
-import LazyAuthNavigation from "@/components/LazyAuthNavigation";
-import LazyMobileNav from "@/components/LazyMobileNav";
+import AuthNavigation from "@/components/AuthNavigation";
+import MobileNav from "@/components/MobileNav";
 
 export default function SiteHeader() {
   return (
@@ -67,9 +67,9 @@ export default function SiteHeader() {
             {/* Right side */}
             <div className="flex items-center space-x-3">
               <div className="hidden md:flex items-center space-x-4">
-                <LazyAuthNavigation />
+                <AuthNavigation />
               </div>
-              <LazyMobileNav />
+              <MobileNav />
             </div>
           </div>
         </div>

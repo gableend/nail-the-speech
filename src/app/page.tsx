@@ -1,12 +1,25 @@
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import HomeCTALink from "@/components/HomeCTALink";
-import HomeClient from "@/components/HomeClient";
-import FAQ from "@/components/FAQ";
 import { faqs } from "@/data/faqData";
+
+const HomeClient = dynamic(() => import("@/components/HomeClient"), {
+  loading: () => (
+    <div className="rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-[#c44578]/10 to-[#c44578]/5 h-96 flex items-center justify-center">
+      <div className="text-center">
+        <Sparkles className="h-24 w-24 text-[#c44578] mx-auto mb-4 opacity-50" />
+      </div>
+    </div>
+  ),
+});
+
+const FAQ = dynamic(() => import("@/components/FAQ"), {
+  loading: () => null,
+});
 import { majorRoles, getMinorRolesByCategory } from "@/data/speechRoles";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";

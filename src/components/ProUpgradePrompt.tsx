@@ -176,7 +176,7 @@ export default function ProUpgradePrompt({
   if (variant === 'banner') {
     return (
       <div className="bg-gradient-to-r from-[#da5389]/10 to-[#e84f98]/10 border border-[#da5389]/20 rounded-lg p-4 mb-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-gradient-to-r from-[#da5389] to-[#e84f98] rounded-full flex items-center justify-center">
               <Crown className="h-4 w-4 text-white" />
@@ -364,7 +364,7 @@ export default function ProUpgradePrompt({
         <h3 className="text-xl font-bold text-[#181615] mb-1">Your speech is ready!</h3>
         <p className="text-[#8f867e] mb-4">Upgrade to unlock the full text, copy, download, and edit.</p>
 
-        <div className="grid grid-cols-2 gap-3 mb-5 max-w-lg mx-auto text-left">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-5 max-w-lg mx-auto text-left">
           {activeFeatures.map((feature, idx) => (
             <div key={`inline-feature-${idx}`} className="flex items-center gap-2">
               <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center shrink-0">
@@ -397,7 +397,7 @@ export default function ProUpgradePrompt({
         <Button
           onClick={handleUpgrade}
           disabled={loading}
-          className="bg-gradient-to-r from-[#da5389] to-[#e84f98] hover:from-[#da5389]/90 hover:to-[#e84f98]/90 text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg"
+          className="w-full sm:w-auto bg-gradient-to-r from-[#da5389] to-[#e84f98] hover:from-[#da5389]/90 hover:to-[#e84f98]/90 text-white px-6 sm:px-8 py-3 rounded-full font-semibold text-lg shadow-lg"
         >
           {loading ? (
             <>
@@ -451,10 +451,10 @@ export default function ProUpgradePrompt({
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mb-4 max-w-lg mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 max-w-lg mx-auto">
           {activeFeatures.map((feature, idx) => (
             <div key={`feature-card-${idx}-${feature.title}`} className="flex items-center gap-2">
-              <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center">
+              <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center shrink-0">
                 {feature.icon}
               </div>
               <span className="text-sm font-medium text-[#181615]">{feature.title}</span>
@@ -462,7 +462,7 @@ export default function ProUpgradePrompt({
           ))}
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="text-xl font-bold text-[#181615]">{currency.displayPrice}</span>
             <span className="text-sm text-[#8f867e] line-through">{currency.originalPrice}</span>

@@ -16,7 +16,7 @@ import VoiceInput from "@/components/VoiceInput";
 import { getOrCreateAnonymousUserId, clearAnonymousUserId, getSpeechGenerationCount, incrementSpeechGenerationCount } from "@/lib/clientAnonymousUser";
 import ProUpgradePrompt from "@/components/ProUpgradePrompt";
 import { useProStatus } from "@/hooks/useProStatus";
-import { useUser } from "@clerk/nextjs";
+import { useUser, SignedIn, UserButton } from "@clerk/nextjs";
 import { getPreviewText } from "@/lib/speechPreview";
 import { speechRoles, getRoleBySlug } from "@/data/speechRoles";
 import FAQ from "@/components/FAQ";
@@ -2339,6 +2339,17 @@ function GeneratorContent() {
                   {isSignedIn ? "Dashboard" : "Home"}
                 </Button>
               </Link>
+              <SignedIn>
+                <UserButton
+                  showName={false}
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-8 h-8",
+                      userButtonTrigger: "focus:shadow-none"
+                    }
+                  }}
+                />
+              </SignedIn>
             </div>
           </div>
         </div>

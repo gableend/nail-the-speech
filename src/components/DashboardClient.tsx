@@ -353,7 +353,7 @@ export default function DashboardClient() {
           <div className="animate-pulse">
             <div className="h-6 w-6 bg-gray-200 rounded-full" />
           </div>
-          <div className="text-[#8f867e]">Loading your speeches...</div>
+          <div className="text-[#756c64]">Loading your speeches...</div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {[
@@ -413,7 +413,7 @@ export default function DashboardClient() {
             ))}
           </div>
         </div>
-        <div className="text-center text-sm text-[#8f867e] animate-pulse">
+        <div className="text-center text-sm text-[#756c64] animate-pulse">
           Fetching your speeches from the cloud...
         </div>
       </div>
@@ -507,7 +507,7 @@ export default function DashboardClient() {
           <div className="bg-white border-2 border-green-400 rounded-2xl shadow-2xl p-8 text-center max-w-md pointer-events-auto">
             <div className="text-6xl mb-4">🎉</div>
             <h2 className="text-2xl font-bold text-[#181615] mb-2">Speech Finalized!</h2>
-            <p className="text-[#8f867e] mb-4">
+            <p className="text-[#756c64] mb-4">
               Your speech is ready for the big day. You're going to nail it!
             </p>
             <div className="flex justify-center gap-2 text-3xl">
@@ -515,7 +515,7 @@ export default function DashboardClient() {
             </div>
             <button
               onClick={() => setShowFinalToast(false)}
-              className="mt-4 text-sm text-[#8f867e] hover:text-[#da5389] transition-colors"
+              className="mt-4 text-sm text-[#756c64] hover:text-[#b33c6c] transition-colors"
             >
               Close
             </button>
@@ -526,31 +526,31 @@ export default function DashboardClient() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
         <Card>
           <CardContent className="p-6 text-center">
-            <FileText className="h-8 w-8 text-[#da5389] mx-auto mb-2" />
+            <FileText className="h-8 w-8 text-[#c44578] mx-auto mb-2" />
             <div className="text-2xl font-bold text-[#181615]">
               {speeches.length}
             </div>
-            <div className="text-sm text-[#8f867e]">Total Speeches</div>
+            <div className="text-sm text-[#756c64]">Total Speeches</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6 text-center">
-            <Edit className="h-8 w-8 text-[#da5389] mx-auto mb-2" />
+            <Edit className="h-8 w-8 text-[#c44578] mx-auto mb-2" />
             <div className="text-2xl font-bold text-[#181615]">
               {draftSpeeches.length}
             </div>
-            <div className="text-sm text-[#8f867e]">Drafts</div>
+            <div className="text-sm text-[#756c64]">Drafts</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6 text-center">
-            <Clock className="h-8 w-8 text-[#8f867e] mx-auto mb-2" />
+            <Clock className="h-8 w-8 text-[#756c64] mx-auto mb-2" />
             <div className="text-2xl font-bold text-[#181615]">
               {Math.round(totalSpeakingTime)} min
             </div>
-            <div className="text-sm text-[#8f867e]">Total Speaking Time</div>
+            <div className="text-sm text-[#756c64]">Total Speaking Time</div>
           </CardContent>
         </Card>
 
@@ -560,7 +560,7 @@ export default function DashboardClient() {
             <div className="text-2xl font-bold text-[#181615]">
               {finalSpeeches.length}
             </div>
-            <div className="text-sm text-[#8f867e]">Final Speeches</div>
+            <div className="text-sm text-[#756c64]">Final Speeches</div>
           </CardContent>
         </Card>
       </div>
@@ -575,7 +575,7 @@ export default function DashboardClient() {
                 Your 90-day Pro access period has ended. Your speeches are still saved, but you&apos;ll need to upgrade again to regenerate, edit, or export them.
               </p>
               <Link href="/generator">
-                <Button className="bg-[#da5389] hover:bg-[#c4447a] text-white rounded-full px-6">
+                <Button className="bg-[#c44578] hover:bg-[#c4447a] text-white rounded-full px-6">
                   <Star className="h-4 w-4 mr-2" />
                   Renew Pro Access
                 </Button>
@@ -615,13 +615,13 @@ export default function DashboardClient() {
             {speeches.length === 0 ? (
               <Card>
                 <CardContent className="p-12 text-center">
-                  <FileText className="h-16 w-16 text-[#8f867e] mx-auto mb-4" />
+                  <FileText className="h-16 w-16 text-[#756c64] mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-[#181615] mb-2">No speeches yet</h3>
-                  <p className="text-[#8f867e] mb-6">
+                  <p className="text-[#756c64] mb-6">
                     Create your first speech to get started with our AI-powered generator.
                   </p>
                   <Link href="/generator">
-                    <Button className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-6 py-2 font-medium">
+                    <Button className="bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full px-6 py-2 font-medium">
                       <Plus className="h-4 w-4 mr-2" />
                       Create First Speech
                     </Button>
@@ -668,7 +668,7 @@ export default function DashboardClient() {
                               ) : (
                                 <>
                                   <h3
-                                    className="text-lg font-semibold text-[#181615] cursor-pointer hover:text-[#da5389] transition-colors"
+                                    className="text-lg font-semibold text-[#181615] cursor-pointer hover:text-[#b33c6c] transition-colors"
                                     onClick={() => handleStartEditTitle(speech)}
                                   >
                                     {speech.customTitle || speech.title}
@@ -683,7 +683,7 @@ export default function DashboardClient() {
                               )}
                             </div>
 
-                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[#8f867e] mb-3">
+                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[#756c64] mb-3">
                               <span>{getRoleTitle(speech.role)}</span>
                               <span className="hidden sm:inline">•</span>
                               <span>{new Date(speech.createdAt).toLocaleDateString()}</span>
@@ -699,27 +699,27 @@ export default function DashboardClient() {
                                   Final
                                 </Badge>
                               ) : (
-                                <Badge variant="outline" className="text-[#da5389] border-[#da5389]">
+                                <Badge variant="outline" className="text-[#c44578] border-[#c44578]">
                                   Draft
                                 </Badge>
                               )}
                               {speech.wordCount ? (
                                 <div className="flex items-center space-x-1">
-                                  <FileText className="h-4 w-4 text-[#8f867e]" />
-                                  <span className="text-[#8f867e]">{speech.wordCount} words</span>
+                                  <FileText className="h-4 w-4 text-[#756c64]" />
+                                  <span className="text-[#756c64]">{speech.wordCount} words</span>
                                 </div>
                               ) : null}
                               {speech.estimatedTime ? (
                                 <div className="flex items-center space-x-1">
-                                  <Clock className="h-4 w-4 text-[#8f867e]" />
-                                  <span className="text-[#8f867e]">{speech.estimatedTime} min read</span>
+                                  <Clock className="h-4 w-4 text-[#756c64]" />
+                                  <span className="text-[#756c64]">{speech.estimatedTime} min read</span>
                                 </div>
                               ) : null}
                               {speech.regenCount > 0 && (
                                 <div className="flex items-center space-x-1">
-                                  <span className="text-[#da5389]">↩️</span>
-                                  <span className="text-[#da5389] font-medium">v{speech.regenCount + 1}</span>
-                                  <span className="text-[#8f867e]">({speech.regenCount} {speech.regenCount === 1 ? 'edit' : 'edits'})</span>
+                                  <span className="text-[#c44578]">↩️</span>
+                                  <span className="text-[#c44578] font-medium">v{speech.regenCount + 1}</span>
+                                  <span className="text-[#756c64]">({speech.regenCount} {speech.regenCount === 1 ? 'edit' : 'edits'})</span>
                                 </div>
                               )}
                             </div>
@@ -781,7 +781,7 @@ export default function DashboardClient() {
                             </>
                           ) : (
                             <Link href={`/generator?step=5&speechId=${speech.id}`}>
-                              <Button size="sm" className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full">
+                              <Button size="sm" className="bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full">
                                 <Edit className="h-4 w-4 mr-1" />
                                 Continue
                               </Button>
@@ -820,15 +820,15 @@ export default function DashboardClient() {
                 <h3 className="text-lg font-semibold text-[#181615] mb-4">Account Information</h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-[#8f867e]">Name</label>
+                    <label className="text-sm font-medium text-[#756c64]">Name</label>
                     <p className="text-[#181615]">{user?.fullName || 'Not provided'}</p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-[#8f867e]">Email</label>
+                    <label className="text-sm font-medium text-[#756c64]">Email</label>
                     <p className="text-[#181615]">{user?.primaryEmailAddress?.emailAddress || 'Not provided'}</p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-[#8f867e]">Member Since</label>
+                    <label className="text-sm font-medium text-[#756c64]">Member Since</label>
                     <p className="text-[#181615]">{user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}</p>
                   </div>
                 </div>
@@ -841,7 +841,7 @@ export default function DashboardClient() {
                   <AlertTriangle className="h-6 w-6 text-red-500 mt-1 flex-shrink-0" />
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-[#181615] mb-2">Delete Account</h3>
-                    <p className="text-[#8f867e] mb-4">
+                    <p className="text-[#756c64] mb-4">
                       Permanently delete your account and all associated data. This action cannot be undone.
                     </p>
 
@@ -900,13 +900,13 @@ export default function DashboardClient() {
                     )}
 
                     <div className="mt-6 pt-6 border-t border-gray-200">
-                      <p className="text-sm text-[#8f867e]">
+                      <p className="text-sm text-[#756c64]">
                         Need help with data deletion? Visit our{' '}
-                        <Link href="/data-deletion" className="text-[#da5389] hover:underline">
+                        <Link href="/data-deletion" className="text-[#c44578] hover:underline">
                           data deletion instructions
                         </Link>
                         {' '}or contact{' '}
-                        <a href="mailto:hello@nailthespeech.com" className="text-[#da5389] hover:underline">
+                        <a href="mailto:hello@nailthespeech.com" className="text-[#c44578] hover:underline">
                           hello@nailthespeech.com
                         </a>
                       </p>

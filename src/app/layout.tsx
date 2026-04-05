@@ -67,6 +67,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+        <head>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        </head>
         <body suppressHydrationWarning className="antialiased">
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-1DHZCRC9WG"

@@ -135,7 +135,7 @@ export default function HelpPage() {
           <h1 className="text-4xl sm:text-5xl font-bold text-[#181615] leading-[1.1] tracking-tight mb-4">
             Help, FAQs, and speech-writing answers
           </h1>
-          <p className="text-lg text-[#8f867e] max-w-2xl mx-auto">
+          <p className="text-lg text-[#756c64] max-w-2xl mx-auto">
             Whether you're figuring out the product or figuring out what to say
             in your speech — we've got you covered.
           </p>
@@ -153,13 +153,13 @@ export default function HelpPage() {
               return (
                 <div
                   key={cat.slug}
-                  className="bg-white rounded-xl border border-[#e8e1d8] p-5 hover:border-[#da5389]/40 hover:shadow-sm transition-all"
+                  className="bg-white rounded-xl border border-[#e8e1d8] p-5 hover:border-[#b33c6c]/40 hover:shadow-sm transition-all"
                 >
                   <div className="text-2xl mb-2">{cat.icon}</div>
                   <h2 className="font-semibold text-[#181615] mb-1">
                     {cat.label}
                   </h2>
-                  <p className="text-sm text-[#8f867e] mb-3">
+                  <p className="text-sm text-[#756c64] mb-3">
                     {cat.description}
                   </p>
                   {categoryArticles.length > 0 && (
@@ -168,9 +168,9 @@ export default function HelpPage() {
                         <li key={article.slug}>
                           <Link
                             href={`/help/${article.slug}`}
-                            className="group flex items-center gap-1.5 text-sm text-[#4a4543] hover:text-[#da5389] transition-colors"
+                            className="group flex items-center gap-1.5 text-sm text-[#4a4543] hover:text-[#b33c6c] transition-colors"
                           >
-                            <ArrowRight className="h-3 w-3 text-[#da5389] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+                            <ArrowRight className="h-3 w-3 text-[#c44578] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
                             <span className="line-clamp-1">
                               {article.title}
                             </span>
@@ -190,11 +190,11 @@ export default function HelpPage() {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <Search className="h-6 w-6 text-[#da5389] mx-auto mb-3" />
+            <Search className="h-6 w-6 text-[#c44578] mx-auto mb-3" />
             <h2 className="text-3xl font-bold text-[#181615] mb-2">
               Most-asked questions
             </h2>
-            <p className="text-[#8f867e]">
+            <p className="text-[#756c64]">
               Quick answers to the questions we hear most often.
             </p>
           </div>
@@ -204,15 +204,15 @@ export default function HelpPage() {
               <Link
                 key={fq.link}
                 href={fq.link}
-                className="group block bg-[#faf7f4] border border-[#e8e1d8] rounded-xl p-5 hover:border-[#da5389]/40 hover:shadow-sm transition-all"
+                className="group block bg-[#faf7f4] border border-[#e8e1d8] rounded-xl p-5 hover:border-[#b33c6c]/40 hover:shadow-sm transition-all"
               >
-                <h3 className="font-semibold text-[#181615] group-hover:text-[#da5389] transition-colors mb-1">
+                <h3 className="font-semibold text-[#181615] group-hover:text-[#b33c6c] transition-colors mb-1">
                   {fq.question}
                 </h3>
-                <p className="text-sm text-[#8f867e] leading-relaxed">
+                <p className="text-sm text-[#756c64] leading-relaxed">
                   {fq.answer}
                 </p>
-                <span className="inline-flex items-center gap-1 text-xs font-medium text-[#da5389] mt-2">
+                <span className="inline-flex items-center gap-1 text-xs font-medium text-[#c44578] mt-2">
                   Read more{" "}
                   <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
                 </span>
@@ -229,20 +229,20 @@ export default function HelpPage() {
             <h2 className="text-3xl font-bold text-[#181615] mb-2">
               See how it works
             </h2>
-            <p className="text-[#8f867e]">
+            <p className="text-[#756c64]">
               From your stories to a finished speech in three steps.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-10 h-10 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold mb-4 mx-auto">
+              <div className="w-10 h-10 rounded-full bg-[#c44578] text-white flex items-center justify-center font-bold mb-4 mx-auto">
                 1
               </div>
               <h3 className="font-semibold text-[#181615] mb-2">
                 Share your stories
               </h3>
-              <p className="text-sm text-[#8f867e] mb-4">
+              <p className="text-sm text-[#756c64] mb-4">
                 Tell us about the couple and your favourite memories. Takes about two minutes.
               </p>
               <ScreenshotPlaceholder
@@ -254,13 +254,13 @@ export default function HelpPage() {
             </div>
 
             <div className="text-center">
-              <div className="w-10 h-10 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold mb-4 mx-auto">
+              <div className="w-10 h-10 rounded-full bg-[#c44578] text-white flex items-center justify-center font-bold mb-4 mx-auto">
                 2
               </div>
               <h3 className="font-semibold text-[#181615] mb-2">
                 Get your speech
               </h3>
-              <p className="text-sm text-[#8f867e] mb-4">
+              <p className="text-sm text-[#756c64] mb-4">
                 The AI generates a structured speech in seconds — opening, stories, tribute, and toast.
               </p>
               <ScreenshotPlaceholder
@@ -272,13 +272,13 @@ export default function HelpPage() {
             </div>
 
             <div className="text-center">
-              <div className="w-10 h-10 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold mb-4 mx-auto">
+              <div className="w-10 h-10 rounded-full bg-[#c44578] text-white flex items-center justify-center font-bold mb-4 mx-auto">
                 3
               </div>
               <h3 className="font-semibold text-[#181615] mb-2">
                 Make it yours
               </h3>
-              <p className="text-sm text-[#8f867e] mb-4">
+              <p className="text-sm text-[#756c64] mb-4">
                 Refine with one click, add details, or describe your own changes. Then export.
               </p>
               <ScreenshotPlaceholder
@@ -330,13 +330,13 @@ export default function HelpPage() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="group bg-[#faf7f4] border border-[#e8e1d8] rounded-xl p-5 hover:border-[#da5389]/40 hover:shadow-sm transition-all"
+                className="group bg-[#faf7f4] border border-[#e8e1d8] rounded-xl p-5 hover:border-[#b33c6c]/40 hover:shadow-sm transition-all"
               >
                 <div className="text-2xl mb-2">{item.icon}</div>
-                <h3 className="font-semibold text-[#181615] group-hover:text-[#da5389] transition-colors mb-1">
+                <h3 className="font-semibold text-[#181615] group-hover:text-[#b33c6c] transition-colors mb-1">
                   {item.label}
                 </h3>
-                <p className="text-xs text-[#8f867e]">{item.description}</p>
+                <p className="text-xs text-[#756c64]">{item.description}</p>
               </Link>
             ))}
           </div>
@@ -349,11 +349,11 @@ export default function HelpPage() {
           <h2 className="text-3xl font-bold text-[#181615] mb-3">
             Ready to write your speech?
           </h2>
-          <p className="text-[#8f867e] mb-6">
+          <p className="text-[#756c64] mb-6">
             Get started for free. Your speech is minutes away.
           </p>
           <Link href="/generator">
-            <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
+            <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
               <Sparkles className="mr-2 h-5 w-5" />
               Get Started Free
             </Button>
@@ -368,7 +368,7 @@ export default function HelpPage() {
             <h2 className="text-2xl font-bold text-[#181615] mb-2">
               Still have a question?
             </h2>
-            <p className="text-sm text-[#8f867e]">
+            <p className="text-sm text-[#756c64]">
               Drop us a message and we'll get back to you as soon as we can.
             </p>
           </div>

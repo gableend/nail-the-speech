@@ -94,7 +94,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Link
             href="/examples"
-            className="inline-flex items-center gap-1 text-sm text-[#8f867e] hover:text-[#da5389] mb-4 transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-[#756c64] hover:text-[#b33c6c] mb-4 transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" /> All Examples
           </Link>
@@ -104,10 +104,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
               <h1 className="text-3xl md:text-4xl font-bold text-[#181615]">
                 {category.name} Examples
               </h1>
-              <p className="text-[#8f867e] mt-1">{category.shortDescription}</p>
+              <p className="text-[#756c64] mt-1">{category.shortDescription}</p>
             </div>
           </div>
-          <p className="text-[#8f867e] max-w-2xl">
+          <p className="text-[#756c64] max-w-2xl">
             {category.description}
           </p>
         </div>
@@ -117,13 +117,13 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {speeches.length === 0 ? (
           <div className="text-center py-16 bg-white border border-[#e8e1d8] rounded-xl">
-            <p className="text-xl text-[#8f867e] mb-2">Speeches coming soon!</p>
-            <p className="text-sm text-[#8f867e] mb-6">
+            <p className="text-xl text-[#756c64] mb-2">Speeches coming soon!</p>
+            <p className="text-sm text-[#756c64] mb-6">
               We&apos;re adding new {category.name.toLowerCase()} examples regularly.
             </p>
             <Link
               href="/generator"
-              className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c4477a] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
+              className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#c4477a] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
             >
               Create Your Own →
             </Link>
@@ -136,10 +136,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                 <Link
                   key={speech.slug}
                   href={`/examples/${categorySlug}/${speech.slug}`}
-                  className="group block bg-white border border-[#e8e1d8] rounded-xl p-6 hover:border-[#da5389] hover:shadow-md transition-all"
+                  className="group block bg-white border border-[#e8e1d8] rounded-xl p-6 hover:border-[#b33c6c] hover:shadow-md transition-all"
                 >
                   <div className="flex items-start justify-between gap-4 mb-3">
-                    <h2 className="text-lg font-semibold text-[#181615] group-hover:text-[#da5389] transition-colors">
+                    <h2 className="text-lg font-semibold text-[#181615] group-hover:text-[#b33c6c] transition-colors">
                       {speech.title}
                     </h2>
                     <div className="flex items-center gap-2 flex-shrink-0">
@@ -151,10 +151,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
                       </span>
                     </div>
                   </div>
-                  <p className="text-sm text-[#8f867e] line-clamp-2 mb-3">
+                  <p className="text-sm text-[#756c64] line-clamp-2 mb-3">
                     {speech.excerpt}
                   </p>
-                  <div className="flex items-center gap-3 text-xs text-[#8f867e]">
+                  <div className="flex items-center gap-3 text-xs text-[#756c64]">
                     <span>{speech.wordCount} words</span>
                     <span>·</span>
                     <span>{speech.weddingRole}</span>
@@ -168,16 +168,16 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
 
       {/* CTA */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/5 border border-[#da5389]/20 rounded-xl p-8 text-center">
+        <div className="bg-gradient-to-r from-[#c44578]/10 to-[#c44578]/5 border border-[#c44578]/20 rounded-xl p-8 text-center">
           <h2 className="text-2xl font-bold text-[#181615] mb-2">
             Ready to write your {category.name.toLowerCase()}?
           </h2>
-          <p className="text-[#8f867e] mb-6">
+          <p className="text-[#756c64] mb-6">
             Our AI generator creates a personalized speech in minutes. Get started for free.
           </p>
           <Link
             href="/generator"
-            className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
+            className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
           >
             Create Your Speech →
           </Link>
@@ -193,7 +193,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
               <Link
                 key={cat.slug}
                 href={`/examples/${cat.slug}`}
-                className="flex items-center gap-2 bg-white border border-[#e8e1d8] rounded-lg p-3 hover:border-[#da5389] transition-colors"
+                className="flex items-center gap-2 bg-white border border-[#e8e1d8] rounded-lg p-3 hover:border-[#b33c6c] transition-colors"
               >
                 <span className="text-2xl">{cat.icon}</span>
                 <span className="text-sm font-medium text-[#181615]">{cat.name}</span>

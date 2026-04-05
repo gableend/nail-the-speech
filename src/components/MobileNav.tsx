@@ -73,7 +73,7 @@ export default function MobileNav() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="block py-2 min-h-[44px] flex items-center text-[#8f867e] hover:text-[#da5389]"
+                    className="block py-2 min-h-[44px] flex items-center text-[#756c64] hover:text-[#b33c6c]"
                   >
                     {item.label}
                   </Link>
@@ -81,7 +81,7 @@ export default function MobileNav() {
                 <Link
                   href="/#all-roles"
                   onClick={() => setIsOpen(false)}
-                  className="block py-2 min-h-[44px] flex items-center text-[#da5389] font-medium text-sm"
+                  className="block py-2 min-h-[44px] flex items-center text-[#c44578] font-medium text-sm"
                 >
                   All Roles →
                 </Link>
@@ -112,7 +112,7 @@ export default function MobileNav() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="block py-2 min-h-[44px] flex items-center text-[#8f867e] hover:text-[#da5389]"
+                    className="block py-2 min-h-[44px] flex items-center text-[#756c64] hover:text-[#b33c6c]"
                   >
                     {item.label}
                   </Link>

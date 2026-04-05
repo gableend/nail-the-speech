@@ -11,12 +11,12 @@ export default function AuthNavigation() {
       {/* While Clerk is loading, show default Get Started / Log in buttons */}
       <ClerkLoading>
         <Link href="/generator" aria-label="Get Started">
-          <Button className="hidden md:block bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-6 py-2 font-medium">
+          <Button className="hidden md:block bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full px-6 py-2 font-medium">
             Get Started
           </Button>
         </Link>
         <Link href="/sign-in" aria-label="Log in">
-          <Button variant="outline" className="hidden md:block rounded-full border-[#da5389] bg-white text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white focus:bg-white active:bg-white px-6 py-2 font-medium">
+          <Button variant="outline" className="hidden md:block rounded-full border-[#c44578] bg-white text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c] hover:bg-white focus:bg-white active:bg-white px-6 py-2 font-medium">
             Log in
           </Button>
         </Link>
@@ -26,12 +26,12 @@ export default function AuthNavigation() {
       <ClerkLoaded>
         <SignedOut>
           <Link href="/generator" aria-label="Get Started">
-            <Button className="hidden md:block bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-6 py-2 font-medium">
+            <Button className="hidden md:block bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full px-6 py-2 font-medium">
               Get Started
             </Button>
           </Link>
           <Link href="/sign-in" aria-label="Log in">
-            <Button variant="outline" className="hidden md:block rounded-full border-[#da5389] bg-white text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white focus:bg-white active:bg-white px-6 py-2 font-medium">
+            <Button variant="outline" className="hidden md:block rounded-full border-[#c44578] bg-white text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c] hover:bg-white focus:bg-white active:bg-white px-6 py-2 font-medium">
               Log in
             </Button>
           </Link>
@@ -39,7 +39,7 @@ export default function AuthNavigation() {
 
         <SignedIn>
           <Link href="/dashboard">
-            <Button className="hidden md:flex bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-8 py-2 font-medium min-w-[150px] items-center justify-center whitespace-nowrap">
+            <Button className="hidden md:flex bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full px-8 py-2 font-medium min-w-[150px] items-center justify-center whitespace-nowrap">
               <Users className="h-4 w-4 mr-2 flex-shrink-0" />
               Dashboard
             </Button>

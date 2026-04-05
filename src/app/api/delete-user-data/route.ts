@@ -109,7 +109,7 @@ export async function POST(req: NextRequest) {
           subject: 'Data Deletion Confirmation - Nail The Speech',
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #da5389;">Data Deletion Confirmation</h2>
+              <h2 style="color: #c44578;">Data Deletion Confirmation</h2>
 
               <p>Hello there,</p>
 

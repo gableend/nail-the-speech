@@ -102,19 +102,19 @@ export default function HomePage() {
             <div className="space-y-8">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#181615] leading-[1.1] tracking-tight">
                 Nail your wedding speech.{" "}
-                <span className="text-[#da5389]">No stress.</span>{" "}
-                <span className="text-[#da5389]">Just magic.</span>
+                <span className="text-[#c44578]">No stress.</span>{" "}
+                <span className="text-[#c44578]">Just magic.</span>
               </h1>
 
               {/* Get Started Button */}
               <div className="space-y-6">
                 <HomeCTALink href="/generator" location="hero">
-                  <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
+                  <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
                     Get Started
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </HomeCTALink>
-                <p className="text-lg text-[#8f867e] max-w-lg leading-relaxed">
+                <p className="text-lg text-[#756c64] max-w-lg leading-relaxed">
                   The only wedding speech generator that starts with your voice.
                 </p>
               </div>
@@ -149,7 +149,7 @@ export default function HomePage() {
             <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
               Find speeches for every wedding role
             </h2>
-            <p className="text-lg text-[#8f867e]">
+            <p className="text-lg text-[#756c64]">
               Discover AI-generated speeches for any role and every style.
             </p>
           </div>
@@ -169,20 +169,20 @@ export default function HomePage() {
                       sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) calc(50vw - 24px), 320px"
                     />
                     {role.popular && (
-                      <span className="absolute top-3 right-3 bg-[#da5389] text-white text-sm px-3 py-1 rounded-full font-medium">
+                      <span className="absolute top-3 right-3 bg-[#c44578] text-white text-sm px-3 py-1 rounded-full font-medium">
                         Popular
                       </span>
                     )}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="bg-[#da5389] rounded-full p-3">
+                      <div className="bg-[#c44578] rounded-full p-3">
                         <Sparkles className="h-6 w-6 text-white" />
                       </div>
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-[#da5389] text-xl font-bold mb-2">{role.label}</h3>
+                    <h3 className="text-[#c44578] text-xl font-bold mb-2">{role.label}</h3>
                     <p className="text-[#6b5b73] text-sm leading-relaxed mb-4">{role.description}</p>
-                    <div className="flex items-center text-[#da5389] font-medium">
+                    <div className="flex items-center text-[#c44578] font-medium">
                       <span>Get Started</span>
                       <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -197,7 +197,7 @@ export default function HomePage() {
             <h3 className="text-2xl font-bold text-[#181615] text-center mb-2">
               Speeches for every role
             </h3>
-            <p className="text-[#8f867e] text-center mb-8">
+            <p className="text-[#756c64] text-center mb-8">
               Giving a speech at a wedding? We've got you covered, whatever your role.
             </p>
 
@@ -208,7 +208,7 @@ export default function HomePage() {
                 if (visibleRoles.length === 0) return null;
                 return (
                 <div key={group.category}>
-                  <h4 className="text-xs font-semibold text-[#8f867e] uppercase tracking-wider mb-2">
+                  <h4 className="text-xs font-semibold text-[#756c64] uppercase tracking-wider mb-2">
                     {group.category}
                   </h4>
                   <ul className="space-y-1">
@@ -216,11 +216,11 @@ export default function HomePage() {
                       <li key={role.slug}>
                         <Link
                           href={`/generator?role=${role.slug}`}
-                          className="group/link flex items-center gap-2 py-1.5 text-[#181615] hover:text-[#da5389] transition-colors"
+                          className="group/link flex items-center gap-2 py-1.5 text-[#181615] hover:text-[#b33c6c] transition-colors"
                         >
                           <span className="text-sm">{role.emoji}</span>
                           <span className="text-sm font-medium">{role.label}</span>
-                          <ArrowRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all text-[#da5389]" />
+                          <ArrowRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all text-[#c44578]" />
                         </Link>
                       </li>
                     ))}
@@ -232,9 +232,9 @@ export default function HomePage() {
 
             {/* CTA below roles */}
             <div className="mt-12 text-center">
-              <p className="text-[#8f867e] mb-4">Don't see your role? No problem.</p>
+              <p className="text-[#756c64] mb-4">Don't see your role? No problem.</p>
               <HomeCTALink href="/generator" location="custom">
-                <Button className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-8 py-3 text-base font-semibold shadow-lg">
+                <Button className="bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full px-8 py-3 text-base font-semibold shadow-lg">
                   ✍️ Create a Custom Speech
                 </Button>
               </HomeCTALink>
@@ -271,13 +271,13 @@ export default function HomePage() {
               }
             ].map((item) => (
               <div key={item.step} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold text-lg mx-auto mb-6">
+                <div className="w-12 h-12 rounded-full bg-[#c44578] text-white flex items-center justify-center font-bold text-lg mx-auto mb-6">
                   {item.step}
                 </div>
                 <h3 className="text-xl font-semibold text-[#181615] mb-3">
                   {item.title}
                 </h3>
-                <p className="text-[#8f867e]">
+                <p className="text-[#756c64]">
                   {item.description}
                 </p>
               </div>
@@ -286,7 +286,7 @@ export default function HomePage() {
 
           <div className="text-center mt-12">
             <Link href="/generator">
-              <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-8 py-3 text-lg font-semibold rounded-full">
+              <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-8 py-3 text-lg font-semibold rounded-full">
                 Start Creating
               </Button>
             </Link>
@@ -308,12 +308,12 @@ export default function HomePage() {
               I delivered a speech that made everyone cry happy tears!"
             </p>
             <div className="flex items-center justify-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-[#da5389] flex items-center justify-center text-white font-semibold">
+              <div className="w-12 h-12 rounded-full bg-[#c44578] flex items-center justify-center text-white font-semibold">
                 JM
               </div>
               <div className="text-left">
                 <p className="font-semibold text-[#181615]">James & Maria</p>
-                <p className="text-sm text-[#8f867e]">Chicago, IL</p>
+                <p className="text-sm text-[#756c64]">Chicago, IL</p>
               </div>
             </div>
           </div>

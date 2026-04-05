@@ -18,7 +18,7 @@ export default function DataDeletionInstructionsPage() {
           <h1 className="text-3xl font-bold text-[#181615] mb-2">
             Data Deletion Instructions
           </h1>
-          <p className="text-sm text-[#8f867e] mb-8">Last updated: 4 April 2026</p>
+          <p className="text-sm text-[#756c64] mb-8">Last updated: 4 April 2026</p>
 
           <div className="space-y-8 text-[#4a4543] leading-relaxed">
             <section>
@@ -54,7 +54,7 @@ export default function DataDeletionInstructionsPage() {
                 If you cannot access your account, send an email to:
               </p>
               <p className="font-mono bg-[#faf7f4] px-4 py-3 rounded-lg border border-[#e8e1d8] text-[#181615] inline-block">
-                <a href="mailto:hello@nailthespeech.com" className="text-[#da5389] hover:underline">
+                <a href="mailto:hello@nailthespeech.com" className="text-[#c44578] hover:underline">
                   hello@nailthespeech.com
                 </a>
               </p>
@@ -86,7 +86,7 @@ export default function DataDeletionInstructionsPage() {
               <p>
                 If you have any questions about data deletion or our privacy practices,
                 please contact us at{' '}
-                <a href="mailto:hello@nailthespeech.com" className="text-[#da5389] hover:underline">
+                <a href="mailto:hello@nailthespeech.com" className="text-[#c44578] hover:underline">
                   hello@nailthespeech.com
                 </a>
               </p>

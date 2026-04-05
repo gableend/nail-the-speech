@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
           <h1 className="text-3xl font-bold text-[#181615] mb-2">
             Privacy Policy
           </h1>
-          <p className="text-sm text-[#8f867e] mb-8">Last updated: 3 April 2026</p>
+          <p className="text-sm text-[#756c64] mb-8">Last updated: 3 April 2026</p>
 
           <div className="space-y-8 text-[#4a4543] leading-relaxed">
             <section>
@@ -74,7 +74,7 @@ export default function PrivacyPolicyPage() {
             <section>
               <h2 className="text-xl font-semibold text-[#181615] mb-3">6. Data retention</h2>
               <p>
-                Your account and speech data are retained for as long as you maintain an account with us. Pro access expires 90 days after purchase. You can request deletion of your data at any time by visiting our <Link href="/data-deletion" className="text-[#da5389] hover:underline">data deletion page</Link> or contacting us directly.
+                Your account and speech data are retained for as long as you maintain an account with us. Pro access expires 90 days after purchase. You can request deletion of your data at any time by visiting our <Link href="/data-deletion" className="text-[#c44578] hover:underline">data deletion page</Link> or contacting us directly.
               </p>
             </section>
 
@@ -122,7 +122,7 @@ export default function PrivacyPolicyPage() {
             <section>
               <h2 className="text-xl font-semibold text-[#181615] mb-3">12. Contact</h2>
               <p>
-                If you have questions about this privacy policy or your data, contact us at: <a href="mailto:hello@nailthespeech.com" className="text-[#da5389] hover:underline">hello@nailthespeech.com</a>
+                If you have questions about this privacy policy or your data, contact us at: <a href="mailto:hello@nailthespeech.com" className="text-[#c44578] hover:underline">hello@nailthespeech.com</a>
               </p>
             </section>
           </div>

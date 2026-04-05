@@ -89,7 +89,7 @@ export default async function DashboardServerContent() {
                   <span className="text-2xl sm:text-3xl">🎤</span>
                   <span className="font-bold text-lg sm:text-2xl text-[#181615]">Nail The Speech</span>
                 </Link>
-                <Badge className="hidden sm:flex bg-[#fffaf7] text-[#da5389] border-[#da5389]">
+                <Badge className="hidden sm:flex bg-[#fffaf7] text-[#c44578] border-[#c44578]">
                   <Users className="h-4 w-4 mr-1" />
                   Dashboard
                 </Badge>
@@ -97,7 +97,7 @@ export default async function DashboardServerContent() {
 
               <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
                 <Link href="/generator">
-                  <Button className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full min-h-[44px] px-3 sm:px-6 py-2 font-medium text-sm sm:text-base">
+                  <Button className="bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full min-h-[44px] px-3 sm:px-6 py-2 font-medium text-sm sm:text-base">
                     <Plus className="h-4 w-4 sm:mr-2" />
                     <span className="hidden sm:inline">Create Speech</span>
                   </Button>
@@ -123,7 +123,7 @@ export default async function DashboardServerContent() {
             <h1 className="text-2xl sm:text-4xl font-bold text-[#181615] mb-2">
               Welcome back{user?.firstName ? `, ${user.firstName}` : ''}! 👋
             </h1>
-            <p className="text-lg text-[#8f867e]">
+            <p className="text-lg text-[#756c64]">
               Manage your speeches and create new ones for any wedding role.
             </p>
           </div>
@@ -170,7 +170,7 @@ export default async function DashboardServerContent() {
           <h1 className="text-2xl font-bold text-[#181615] mb-4">
             Dashboard Temporarily Unavailable
           </h1>
-          <p className="text-[#8f867e] mb-6">
+          <p className="text-[#756c64] mb-6">
             We're experiencing technical difficulties. Please try again in a moment.
           </p>
 
@@ -189,13 +189,13 @@ export default async function DashboardServerContent() {
           <div className="space-y-3">
             <Link
               href="/sign-in"
-              className="block bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-6 py-2 font-medium"
+              className="block bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full px-6 py-2 font-medium"
             >
               Sign In Again
             </Link>
             <Link
               href="/"
-              className="block text-[#8f867e] hover:text-[#da5389] text-sm"
+              className="block text-[#756c64] hover:text-[#b33c6c] text-sm"
             >
               ← Back to Home
             </Link>

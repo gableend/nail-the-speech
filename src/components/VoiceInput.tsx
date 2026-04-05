@@ -192,7 +192,7 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
         className={`flex items-center space-x-2 h-10 px-4 transition-all duration-200 ${
           isRecording
             ? 'bg-red-50 border-red-300 text-red-700 hover:bg-red-100'
-            : 'bg-white border-[#e8e1d8] text-[#8f867e] hover:border-[#da5389] hover:text-[#da5389]'
+            : 'bg-white border-[#e8e1d8] text-[#756c64] hover:border-[#b33c6c] hover:text-[#b33c6c]'
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         {isProcessing ? (
@@ -219,7 +219,7 @@ export default function VoiceInput({ onTranscription, placeholder = "Click to sp
       )}
 
       {isRecording && (
-        <p className="text-xs text-[#8f867e] flex items-center">
+        <p className="text-xs text-[#756c64] flex items-center">
           <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-2" />
           Listening... Click stop when finished speaking
         </p>

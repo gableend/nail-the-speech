@@ -76,27 +76,27 @@ export default function ExamplesFilterClient() {
       {/* Search + Filter toggle */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8f867e]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#756c64]" />
           <input
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search speeches..."
-            className="w-full pl-10 pr-4 py-2.5 border border-[#e8e1d8] rounded-lg bg-white text-sm focus:outline-none focus:border-[#da5389] transition-colors"
+            className="w-full pl-10 pr-4 py-2.5 border border-[#e8e1d8] rounded-lg bg-white text-sm focus:outline-none focus:border-[#c44578] transition-colors"
           />
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
           className={`flex items-center gap-2 px-4 py-2.5 border rounded-lg text-sm font-medium transition-colors ${
             showFilters || activeFilterCount > 0
-              ? 'border-[#da5389] text-[#da5389] bg-[#da5389]/5'
-              : 'border-[#e8e1d8] text-[#181615] bg-white hover:border-[#da5389]'
+              ? 'border-[#c44578] text-[#c44578] bg-[#c44578]/5'
+              : 'border-[#e8e1d8] text-[#181615] bg-white hover:border-[#b33c6c]'
           }`}
         >
           <Filter className="h-4 w-4" />
           Filters
           {activeFilterCount > 0 && (
-            <span className="bg-[#da5389] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            <span className="bg-[#c44578] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
               {activeFilterCount}
             </span>
           )}
@@ -108,11 +108,11 @@ export default function ExamplesFilterClient() {
         <div className="bg-white border border-[#e8e1d8] rounded-xl p-4 mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Group */}
           <div>
-            <label className="block text-xs font-medium text-[#8f867e] mb-1.5">Speech Group</label>
+            <label className="block text-xs font-medium text-[#756c64] mb-1.5">Speech Group</label>
             <select
               value={selectedGroup}
               onChange={e => { setSelectedGroup(e.target.value); setSelectedCategory(''); }}
-              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]"
             >
               <option value="">All Groups</option>
               {groups.map(g => (
@@ -123,11 +123,11 @@ export default function ExamplesFilterClient() {
 
           {/* Category */}
           <div>
-            <label className="block text-xs font-medium text-[#8f867e] mb-1.5">Speech Type</label>
+            <label className="block text-xs font-medium text-[#756c64] mb-1.5">Speech Type</label>
             <select
               value={selectedCategory}
               onChange={e => setSelectedCategory(e.target.value)}
-              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]"
             >
               <option value="">All Types</option>
               {(selectedGroup
@@ -141,11 +141,11 @@ export default function ExamplesFilterClient() {
 
           {/* Tone */}
           <div>
-            <label className="block text-xs font-medium text-[#8f867e] mb-1.5">Tone</label>
+            <label className="block text-xs font-medium text-[#756c64] mb-1.5">Tone</label>
             <select
               value={selectedTone}
               onChange={e => setSelectedTone(e.target.value)}
-              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]"
             >
               {TONES.map(t => (
                 <option key={t.value} value={t.value}>{t.label}</option>
@@ -155,11 +155,11 @@ export default function ExamplesFilterClient() {
 
           {/* Duration */}
           <div>
-            <label className="block text-xs font-medium text-[#8f867e] mb-1.5">Duration</label>
+            <label className="block text-xs font-medium text-[#756c64] mb-1.5">Duration</label>
             <select
               value={selectedDuration}
               onChange={e => setSelectedDuration(e.target.value)}
-              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]"
             >
               {DURATIONS.map(d => (
                 <option key={d.value} value={d.value}>{d.label}</option>
@@ -170,7 +170,7 @@ export default function ExamplesFilterClient() {
           {activeFilterCount > 0 && (
             <button
               onClick={clearFilters}
-              className="sm:col-span-2 lg:col-span-4 text-sm text-[#da5389] hover:text-[#c4477a] flex items-center gap-1 justify-center"
+              className="sm:col-span-2 lg:col-span-4 text-sm text-[#c44578] hover:text-[#c4477a] flex items-center gap-1 justify-center"
             >
               <X className="h-3.5 w-3.5" /> Clear all filters
             </button>
@@ -180,15 +180,15 @@ export default function ExamplesFilterClient() {
 
       {/* Results */}
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm text-[#8f867e]">
+        <p className="text-sm text-[#756c64]">
           {filteredSpeeches.length} speech{filteredSpeeches.length !== 1 ? 'es' : ''} found
         </p>
       </div>
 
       {filteredSpeeches.length === 0 ? (
         <div className="text-center py-16">
-          <p className="text-lg text-[#8f867e] mb-2">No speeches match your filters</p>
-          <button onClick={clearFilters} className="text-[#da5389] hover:underline text-sm">
+          <p className="text-lg text-[#756c64] mb-2">No speeches match your filters</p>
+          <button onClick={clearFilters} className="text-[#c44578] hover:underline text-sm">
             Clear filters
           </button>
         </div>
@@ -216,20 +216,20 @@ function SpeechCard({ speech }: { speech: ExampleSpeech }) {
   return (
     <Link
       href={`/examples/${speech.category}/${speech.slug}`}
-      className="group bg-white border border-[#e8e1d8] rounded-xl p-5 hover:border-[#da5389] hover:shadow-md transition-all flex flex-col"
+      className="group bg-white border border-[#e8e1d8] rounded-xl p-5 hover:border-[#b33c6c] hover:shadow-md transition-all flex flex-col"
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-[#181615] group-hover:text-[#da5389] transition-colors line-clamp-2 leading-tight">
+          <h3 className="font-semibold text-[#181615] group-hover:text-[#b33c6c] transition-colors line-clamp-2 leading-tight">
             {speech.title}
           </h3>
-          <p className="text-xs text-[#8f867e] mt-1">
+          <p className="text-xs text-[#756c64] mt-1">
             {category?.icon} {category?.name} · {speech.wordCount} words
           </p>
         </div>
       </div>
 
-      <p className="text-sm text-[#8f867e] line-clamp-3 mb-4 flex-1">
+      <p className="text-sm text-[#756c64] line-clamp-3 mb-4 flex-1">
         {speech.excerpt}
       </p>
 

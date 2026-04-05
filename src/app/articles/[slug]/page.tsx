@@ -110,14 +110,14 @@ export default async function InsightArticlePage({
             {/* Breadcrumb */}
             <Link
               href="/articles"
-              className="inline-flex items-center gap-1 text-sm text-[#8f867e] hover:text-[#da5389] transition-colors mb-6"
+              className="inline-flex items-center gap-1 text-sm text-[#756c64] hover:text-[#b33c6c] transition-colors mb-6"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               All Articles
             </Link>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-[#8f867e] mb-4">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-[#756c64] mb-4">
               <span className="flex items-center gap-1">
                 <Calendar className="h-3.5 w-3.5" />
                 {formattedDate}
@@ -132,7 +132,7 @@ export default async function InsightArticlePage({
               {article.title}
             </h1>
 
-            <p className="text-lg text-[#8f867e] max-w-2xl">
+            <p className="text-lg text-[#756c64] max-w-2xl">
               {article.subtitle}
             </p>
           </div>
@@ -161,9 +161,9 @@ export default async function InsightArticlePage({
               className="prose prose-lg max-w-none
                 prose-headings:text-[#181615] prose-headings:font-bold
                 prose-p:text-[#3d3830] prose-p:leading-relaxed
-                prose-a:text-[#da5389] prose-a:underline hover:prose-a:text-[#c44578]
+                prose-a:text-[#c44578] prose-a:underline hover:prose-a:text-[#c44578]
                 prose-strong:text-[#181615]
-                prose-blockquote:border-l-[#da5389] prose-blockquote:bg-[#faf8f5] prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
+                prose-blockquote:border-l-[#c44578] prose-blockquote:bg-[#faf8f5] prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
                 prose-li:text-[#3d3830]
                 prose-img:rounded-xl
                 prose-hr:border-[#e8e1d8]
@@ -177,7 +177,7 @@ export default async function InsightArticlePage({
                 <h2 className="text-xl font-semibold text-[#181615] mb-2">
                   Coming Soon
                 </h2>
-                <p className="text-[#8f867e]">
+                <p className="text-[#756c64]">
                   This article is being written and will be published shortly.
                   Check back soon!
                 </p>
@@ -186,7 +186,7 @@ export default async function InsightArticlePage({
           )}
 
           {/* CTA after article body */}
-          <div className="my-10 bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/5 border border-[#da5389]/20 rounded-2xl p-6 sm:p-8">
+          <div className="my-10 bg-gradient-to-r from-[#c44578]/10 to-[#c44578]/5 border border-[#c44578]/20 rounded-2xl p-6 sm:p-8">
             <p className="text-[#181615] font-semibold text-lg mb-2">
               Ready to try talk-first speech writing?
             </p>
@@ -196,7 +196,7 @@ export default async function InsightArticlePage({
             </p>
             <Link
               href="/generator"
-              className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c44578] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
+              className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#b33c6c] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
             >
               Start Your Speech
               <ArrowRight className="h-4 w-4" />
@@ -209,7 +209,7 @@ export default async function InsightArticlePage({
               {article.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="bg-[#f5f0eb] text-[#8f867e] text-xs px-3 py-1 rounded-full"
+                  className="bg-[#f5f0eb] text-[#756c64] text-xs px-3 py-1 rounded-full"
                 >
                   {tag}
                 </span>
@@ -231,7 +231,7 @@ export default async function InsightArticlePage({
                     <Link
                       key={r.slug}
                       href={`/articles/${r.slug}`}
-                      className="group flex flex-col bg-white border border-[#e8e1d8] rounded-2xl overflow-hidden hover:border-[#da5389] hover:shadow-lg transition-all"
+                      className="group flex flex-col bg-white border border-[#e8e1d8] rounded-2xl overflow-hidden hover:border-[#b33c6c] hover:shadow-lg transition-all"
                     >
                       <div className="relative aspect-[16/10] bg-[#f5f0eb] overflow-hidden">
                         {r.heroImage && (
@@ -245,10 +245,10 @@ export default async function InsightArticlePage({
                         )}
                       </div>
                       <div className="p-5">
-                        <h3 className="font-semibold text-[#181615] group-hover:text-[#da5389] transition-colors leading-snug">
+                        <h3 className="font-semibold text-[#181615] group-hover:text-[#b33c6c] transition-colors leading-snug">
                           {r.title}
                         </h3>
-                        <span className="inline-flex items-center gap-1 text-sm text-[#da5389] mt-2">
+                        <span className="inline-flex items-center gap-1 text-sm text-[#c44578] mt-2">
                           Read article
                           <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                         </span>
@@ -273,7 +273,7 @@ export default async function InsightArticlePage({
             </p>
             <Link
               href="/generator"
-              className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c44578] text-white px-8 py-3 rounded-full font-semibold transition-colors"
+              className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#b33c6c] text-white px-8 py-3 rounded-full font-semibold transition-colors"
             >
               Start Your Speech
               <ArrowRight className="h-4 w-4" />

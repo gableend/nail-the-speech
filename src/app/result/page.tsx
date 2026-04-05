@@ -173,9 +173,9 @@ function ResultContent() {
           <CardContent className="p-8 text-center space-y-4">
             <FileText className="h-12 w-12 text-red-500 mx-auto" />
             <h2 className="text-xl font-semibold text-[#181615]">Speech Generation Failed</h2>
-            <p className="text-[#8f867e]">{generationError}</p>
+            <p className="text-[#756c64]">{generationError}</p>
             <Link href="/generator">
-              <Button className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full">
+              <Button className="bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full">
                 Try Again
               </Button>
             </Link>
@@ -190,13 +190,13 @@ function ResultContent() {
       <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center p-4">
         <Card className="max-w-md w-full">
           <CardContent className="p-8 text-center space-y-4">
-            <FileText className="h-12 w-12 text-[#8f867e] mx-auto" />
+            <FileText className="h-12 w-12 text-[#756c64] mx-auto" />
             <h2 className="text-xl font-semibold text-[#181615]">No Speech Found</h2>
-            <p className="text-[#8f867e]">
+            <p className="text-[#756c64]">
               It looks like you haven&apos;t generated a speech yet or the data was lost.
             </p>
             <Link href="/generator">
-              <Button className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full">
+              <Button className="bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full">
                 Generate Speech
               </Button>
             </Link>
@@ -216,7 +216,7 @@ function ResultContent() {
               <Link href="/" className="flex items-center space-x-2">
                 <span className="font-bold text-2xl text-[#181615]">Nail The Speech</span>
               </Link>
-              <Badge className="bg-[#fffaf7] text-[#da5389] border-[#da5389]">
+              <Badge className="bg-[#fffaf7] text-[#c44578] border-[#c44578]">
                 <CheckCircle className="h-4 w-4 mr-1" />
                 Speech Generated
               </Badge>
@@ -226,7 +226,7 @@ function ResultContent() {
               <Button
                 onClick={handleEditAndRegenerate}
                 variant="outline"
-                className="rounded-full border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white"
+                className="rounded-full border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c] hover:bg-white"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 {isPaywalled ? '🔒 Edit & Regenerate' : 'Edit & Regenerate'}
@@ -243,7 +243,7 @@ function ResultContent() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card>
               <CardContent className="p-4 text-center">
-                <FileText className="h-8 w-8 text-[#da5389] mx-auto mb-2" />
+                <FileText className="h-8 w-8 text-[#c44578] mx-auto mb-2" />
                 <div className="text-2xl font-bold text-[#181615]">
                   {isGenerating ? (
                     <div className="animate-pulse bg-gray-200 h-6 w-12 mx-auto rounded"></div>
@@ -251,13 +251,13 @@ function ResultContent() {
                     speechData?.wordCount || 'N/A'
                   )}
                 </div>
-                <div className="text-sm text-[#8f867e]">Words</div>
+                <div className="text-sm text-[#756c64]">Words</div>
               </CardContent>
             </Card>
 
             <Card>
               <CardContent className="p-4 text-center">
-                <Clock className="h-8 w-8 text-[#da5389] mx-auto mb-2" />
+                <Clock className="h-8 w-8 text-[#c44578] mx-auto mb-2" />
                 <div className="text-2xl font-bold text-[#181615]">
                   {isGenerating ? (
                     <div className="animate-pulse bg-gray-200 h-6 w-16 mx-auto rounded"></div>
@@ -265,13 +265,13 @@ function ResultContent() {
                     `${speechData?.readingTime || 'N/A'} min`
                   )}
                 </div>
-                <div className="text-sm text-[#8f867e]">Reading Time</div>
+                <div className="text-sm text-[#756c64]">Reading Time</div>
               </CardContent>
             </Card>
 
             <Card>
               <CardContent className="p-4 text-center">
-                <Users className="h-8 w-8 text-[#da5389] mx-auto mb-2" />
+                <Users className="h-8 w-8 text-[#c44578] mx-auto mb-2" />
                 <div className="text-2xl font-bold text-[#181615] capitalize">
                   {isGenerating ? (
                     <div className="animate-pulse bg-gray-200 h-6 w-20 mx-auto rounded"></div>
@@ -279,7 +279,7 @@ function ResultContent() {
                     speechData?.role?.replace('-', ' ') || 'Wedding'
                   )}
                 </div>
-                <div className="text-sm text-[#8f867e]">Speech Type</div>
+                <div className="text-sm text-[#756c64]">Speech Type</div>
               </CardContent>
             </Card>
           </div>
@@ -297,7 +297,7 @@ function ResultContent() {
                     disabled={isGenerating || !speechData?.speech}
                     variant="outline"
                     size="sm"
-                    className="rounded-full border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="rounded-full border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {copySuccess ? (
                       <CheckCircle className="h-4 w-4 mr-2" />
@@ -311,7 +311,7 @@ function ResultContent() {
                     disabled={isGenerating || !speechData?.speech}
                     variant="outline"
                     size="sm"
-                    className="rounded-full border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="rounded-full border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c] hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Download className="h-4 w-4 mr-2" />
                     {isPaywalled ? '🔒 Download' : 'Download'}
@@ -326,8 +326,8 @@ function ResultContent() {
                     <div className="space-y-4">
                       <div className="flex items-center justify-center py-8">
                         <div className="flex items-center space-x-3">
-                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#da5389]"></div>
-                          <span className="text-[#da5389] font-medium">Generating your speech...</span>
+                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#c44578]"></div>
+                          <span className="text-[#c44578] font-medium">Generating your speech...</span>
                         </div>
                       </div>
                       <div className="space-y-3">
@@ -367,17 +367,17 @@ function ResultContent() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               onClick={handleEditAndRegenerate}
-              className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-8"
+              className="bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full px-8"
             >
               {isPaywalled ? '🔒 Edit & Regenerate' : 'Edit & Regenerate'}
             </Button>
             <Link href="/generator">
-              <Button variant="outline" className="rounded-full px-8 border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white">
+              <Button variant="outline" className="rounded-full px-8 border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c] hover:bg-white">
                 Start New Speech
               </Button>
             </Link>
             <Link href="/">
-              <Button variant="outline" className="rounded-full px-8 border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white">
+              <Button variant="outline" className="rounded-full px-8 border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c] hover:bg-white">
                 Back to Home
               </Button>
             </Link>
@@ -402,8 +402,8 @@ export default function ResultPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#faf7f4] flex items-center justify-center">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#da5389] mx-auto mb-4" />
-        <p className="text-[#8f867e]">Loading speech results...</p>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#c44578] mx-auto mb-4" />
+        <p className="text-[#756c64]">Loading speech results...</p>
       </div>
     </div>}>
       <ResultContent />

@@ -99,13 +99,13 @@ export default function BestAISpeechGeneratorPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#181615] leading-[1.1] tracking-tight mb-6">
             Best AI Wedding Speech Generator{" "}
-            <span className="text-[#da5389]">2026</span>
+            <span className="text-[#c44578]">2026</span>
           </h1>
-          <p className="text-lg sm:text-xl text-[#8f867e] max-w-2xl mx-auto mb-8">
+          <p className="text-lg sm:text-xl text-[#756c64] max-w-2xl mx-auto mb-8">
             We compared the top AI wedding speech writers so you don&apos;t have to. Features, pricing, and capabilities — side by side.
           </p>
           <Link href="/generator">
-            <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg">
+            <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg">
               <Sparkles className="mr-2 h-5 w-5" />
               Try Nail The Speech Free
             </Button>
@@ -124,11 +124,11 @@ export default function BestAISpeechGeneratorPage() {
             <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr className="border-b-2 border-[#e8e1d8]">
-                  <th className="text-left py-4 px-3 font-semibold text-[#8f867e] w-1/5">Feature</th>
+                  <th className="text-left py-4 px-3 font-semibold text-[#756c64] w-1/5">Feature</th>
                   <th className="py-4 px-3 text-center">
                     <div className="flex flex-col items-center gap-1">
-                      <Crown className="h-5 w-5 text-[#da5389]" />
-                      <span className="font-bold text-[#da5389]">Nail The Speech</span>
+                      <Crown className="h-5 w-5 text-[#c44578]" />
+                      <span className="font-bold text-[#c44578]">Nail The Speech</span>
                     </div>
                   </th>
                   {competitors.map((c) => (
@@ -146,7 +146,7 @@ export default function BestAISpeechGeneratorPage() {
                       <CellValue value={row.nts} />
                     </td>
                     {row.values.map((val, i) => (
-                      <td key={i} className="py-3 px-3 text-center text-[#8f867e]">
+                      <td key={i} className="py-3 px-3 text-center text-[#756c64]">
                         <CellValue value={val} />
                       </td>
                     ))}
@@ -164,7 +164,7 @@ export default function BestAISpeechGeneratorPage() {
           <h2 className="text-3xl font-bold text-[#181615] text-center mb-4">
             Detailed comparisons
           </h2>
-          <p className="text-lg text-[#8f867e] text-center mb-12">
+          <p className="text-lg text-[#756c64] text-center mb-12">
             See how Nail The Speech stacks up against each competitor.
           </p>
 
@@ -173,29 +173,29 @@ export default function BestAISpeechGeneratorPage() {
               <Link
                 key={comp.slug}
                 href={`/nailthespeech-vs-${comp.slug}`}
-                className="group bg-white rounded-xl p-6 border border-[#e8e1d8] hover:border-[#da5389] hover:shadow-lg transition-all"
+                className="group bg-white rounded-xl p-6 border border-[#e8e1d8] hover:border-[#b33c6c] hover:shadow-lg transition-all"
               >
-                <h3 className="text-xl font-bold text-[#181615] mb-2 group-hover:text-[#da5389] transition-colors">
+                <h3 className="text-xl font-bold text-[#181615] mb-2 group-hover:text-[#b33c6c] transition-colors">
                   Nail The Speech vs {comp.name}
                 </h3>
-                <p className="text-sm text-[#8f867e] mb-4">{comp.tagline}</p>
+                <p className="text-sm text-[#756c64] mb-4">{comp.tagline}</p>
 
                 <div className="space-y-2 mb-4">
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#8f867e]">Their price</span>
+                    <span className="text-[#756c64]">Their price</span>
                     <span className="font-medium text-[#181615]">{comp.price}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#8f867e]">Our price</span>
-                    <span className="font-medium text-[#da5389]">{ntsFeatures.price}</span>
+                    <span className="text-[#756c64]">Our price</span>
+                    <span className="font-medium text-[#c44578]">{ntsFeatures.price}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#8f867e]">Get started</span>
+                    <span className="text-[#756c64]">Get started</span>
                     <span className="font-medium text-green-600">Free to try</span>
                   </div>
                 </div>
 
-                <div className="flex items-center text-sm font-medium text-[#da5389]">
+                <div className="flex items-center text-sm font-medium text-[#c44578]">
                   See full comparison
                   <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -211,7 +211,7 @@ export default function BestAISpeechGeneratorPage() {
           <h2 className="text-3xl font-bold text-[#181615] mb-4">
             Why Nail The Speech wins
           </h2>
-          <p className="text-lg text-[#8f867e] mb-10">
+          <p className="text-lg text-[#756c64] mb-10">
             More features, half the price, and the only one that lets you try before you buy.
           </p>
 
@@ -256,7 +256,7 @@ export default function BestAISpeechGeneratorPage() {
               <div key={idx} className="bg-[#faf7f4] rounded-xl p-5 border border-[#e8e1d8]">
                 <div className="text-2xl mb-3">{item.icon}</div>
                 <h3 className="font-semibold text-[#181615] mb-1">{item.title}</h3>
-                <p className="text-sm text-[#8f867e]">{item.description}</p>
+                <p className="text-sm text-[#756c64]">{item.description}</p>
               </div>
             ))}
           </div>
@@ -269,11 +269,11 @@ export default function BestAISpeechGeneratorPage() {
           <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
             Ready to write your speech?
           </h2>
-          <p className="text-lg text-[#8f867e] mb-8">
+          <p className="text-lg text-[#756c64] mb-8">
             See why 10,000+ speakers chose Nail The Speech.
           </p>
           <Link href="/generator">
-            <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
+            <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
               <Sparkles className="mr-2 h-5 w-5" />
               Get Started Free
             </Button>

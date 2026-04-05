@@ -175,24 +175,24 @@ export default function ProUpgradePrompt({
 
   if (variant === 'banner') {
     return (
-      <div className="bg-gradient-to-r from-[#da5389]/10 to-[#e84f98]/10 border border-[#da5389]/20 rounded-lg p-4 mb-6">
+      <div className="bg-gradient-to-r from-[#c44578]/10 to-[#e84f98]/10 border border-[#c44578]/20 rounded-lg p-4 mb-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-[#da5389] to-[#e84f98] rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-r from-[#c44578] to-[#e84f98] rounded-full flex items-center justify-center">
               <Crown className="h-4 w-4 text-white" />
             </div>
             <div>
               <div className="font-semibold text-[#181615]">Upgrade to Pro</div>
-              <div className="text-sm text-[#8f867e]">{getContextualMessage()}</div>
+              <div className="text-sm text-[#756c64]">{getContextualMessage()}</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Badge className="bg-[#da5389] text-white">50% OFF</Badge>
+            <Badge className="bg-[#c44578] text-white">50% OFF</Badge>
             <Button
               onClick={handleUpgrade}
               disabled={loading}
               size="sm"
-              className="bg-gradient-to-r from-[#da5389] to-[#e84f98] hover:from-[#da5389]/90 hover:to-[#e84f98]/90 text-white"
+              className="bg-gradient-to-r from-[#c44578] to-[#e84f98] hover:from-[#c44578]/90 hover:to-[#e84f98]/90 text-white"
             >
               {loading ? (
                 <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />
@@ -217,7 +217,7 @@ export default function ProUpgradePrompt({
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
           {/* Modal Header */}
-          <div className="bg-gradient-to-r from-[#da5389] to-[#e84f98] text-white p-6 rounded-t-2xl">
+          <div className="bg-gradient-to-r from-[#c44578] to-[#e84f98] text-white p-6 rounded-t-2xl">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -268,7 +268,7 @@ export default function ProUpgradePrompt({
                     </div>
                     <div>
                       <div className="font-medium text-[#181615]">{feature.title}</div>
-                      <div className="text-sm text-[#8f867e]">{feature.description}</div>
+                      <div className="text-sm text-[#756c64]">{feature.description}</div>
                     </div>
                   </div>
                 ))}
@@ -276,20 +276,20 @@ export default function ProUpgradePrompt({
             </div>
 
             {/* Pricing */}
-            <div className="bg-gradient-to-r from-[#da5389]/5 to-[#e84f98]/5 border border-[#da5389]/20 rounded-lg p-4 mb-6">
+            <div className="bg-gradient-to-r from-[#c44578]/5 to-[#e84f98]/5 border border-[#c44578]/20 rounded-lg p-4 mb-6">
               <div className="text-center">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <span className="text-2xl font-bold text-[#181615]">{currency.displayPrice}</span>
-                  <span className="text-lg text-[#8f867e] line-through">{currency.originalPrice}</span>
-                  <Badge className="bg-[#da5389] text-white">50% OFF</Badge>
+                  <span className="text-lg text-[#756c64] line-through">{currency.originalPrice}</span>
+                  <Badge className="bg-[#c44578] text-white">50% OFF</Badge>
                 </div>
-                <div className="text-sm text-[#8f867e]">
+                <div className="text-sm text-[#756c64]">
                   One-time payment • 90-day access
                   {availableCurrencies.length > 1 && (
                     <select
                       value={currency.key}
                       onChange={(e) => setCurrency(e.target.value)}
-                      className="ml-2 text-xs bg-transparent border border-[#e8e1d8] rounded px-1 py-0.5 text-[#8f867e] cursor-pointer"
+                      className="ml-2 text-xs bg-transparent border border-[#e8e1d8] rounded px-1 py-0.5 text-[#756c64] cursor-pointer"
                     >
                       {availableCurrencies.map(c => (
                         <option key={c.key} value={c.key}>{c.key} ({c.symbol})</option>
@@ -305,7 +305,7 @@ export default function ProUpgradePrompt({
               <Button
                 onClick={handleUpgrade}
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-[#da5389] to-[#e84f98] hover:from-[#da5389]/90 hover:to-[#e84f98]/90 text-white px-6 py-4 rounded-full font-semibold text-lg shadow-lg transition-all duration-200"
+                className="w-full bg-gradient-to-r from-[#c44578] to-[#e84f98] hover:from-[#c44578]/90 hover:to-[#e84f98]/90 text-white px-6 py-4 rounded-full font-semibold text-lg shadow-lg transition-all duration-200"
               >
                 {loading ? (
                   <>
@@ -323,7 +323,7 @@ export default function ProUpgradePrompt({
                 <Button
                   onClick={onClose}
                   variant="ghost"
-                  className="w-full text-[#8f867e] hover:text-[#181615] py-3 text-sm transition-colors"
+                  className="w-full text-[#756c64] hover:text-[#181615] py-3 text-sm transition-colors"
                 >
                   Maybe later
                 </Button>
@@ -332,7 +332,7 @@ export default function ProUpgradePrompt({
 
             {/* Trust Badges */}
             <div className="mt-6 pt-6 border-t border-gray-200">
-              <div className="flex items-center justify-center gap-6 text-xs text-[#8f867e]">
+              <div className="flex items-center justify-center gap-6 text-xs text-[#756c64]">
                 <div className="flex items-center gap-1">
                   <span>🔒</span>
                   <span>Secure Payment</span>
@@ -357,12 +357,12 @@ export default function ProUpgradePrompt({
     return (
       <div className="text-center py-6 px-4">
         <div className="flex items-center justify-center gap-2 mb-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-[#da5389] to-[#e84f98] rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-r from-[#c44578] to-[#e84f98] rounded-full flex items-center justify-center">
             <Crown className="h-5 w-5 text-white" />
           </div>
         </div>
         <h3 className="text-xl font-bold text-[#181615] mb-1">Your speech is ready!</h3>
-        <p className="text-[#8f867e] mb-4">Upgrade to unlock the full text, copy, download, and edit.</p>
+        <p className="text-[#756c64] mb-4">Upgrade to unlock the full text, copy, download, and edit.</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-5 max-w-lg mx-auto text-left">
           {activeFeatures.map((feature, idx) => (
@@ -377,15 +377,15 @@ export default function ProUpgradePrompt({
 
         <div className="flex items-center justify-center gap-2 mb-2">
           <span className="text-2xl font-bold text-[#181615]">{currency.displayPrice}</span>
-          <span className="text-lg text-[#8f867e] line-through">{currency.originalPrice}</span>
-          <Badge className="bg-[#da5389] text-white">50% OFF</Badge>
+          <span className="text-lg text-[#756c64] line-through">{currency.originalPrice}</span>
+          <Badge className="bg-[#c44578] text-white">50% OFF</Badge>
         </div>
         {availableCurrencies.length > 1 && (
           <div className="mb-4">
             <select
               value={currency.key}
               onChange={(e) => setCurrency(e.target.value)}
-              className="text-xs bg-transparent border border-[#e8e1d8] rounded px-1 py-0.5 text-[#8f867e] cursor-pointer"
+              className="text-xs bg-transparent border border-[#e8e1d8] rounded px-1 py-0.5 text-[#756c64] cursor-pointer"
             >
               {availableCurrencies.map(c => (
                 <option key={c.key} value={c.key}>{c.key} ({c.symbol})</option>
@@ -397,7 +397,7 @@ export default function ProUpgradePrompt({
         <Button
           onClick={handleUpgrade}
           disabled={loading}
-          className="w-full sm:w-auto bg-gradient-to-r from-[#da5389] to-[#e84f98] hover:from-[#da5389]/90 hover:to-[#e84f98]/90 text-white px-6 sm:px-8 py-3 rounded-full font-semibold text-lg shadow-lg"
+          className="w-full sm:w-auto bg-gradient-to-r from-[#c44578] to-[#e84f98] hover:from-[#c44578]/90 hover:to-[#e84f98]/90 text-white px-6 sm:px-8 py-3 rounded-full font-semibold text-lg shadow-lg"
         >
           {loading ? (
             <>
@@ -412,7 +412,7 @@ export default function ProUpgradePrompt({
           )}
         </Button>
 
-        <div className="mt-4 flex items-center justify-center gap-6 text-xs text-[#8f867e]">
+        <div className="mt-4 flex items-center justify-center gap-6 text-xs text-[#756c64]">
           <div className="flex items-center gap-1">
             <span>🔒</span>
             <span>Secure Payment</span>
@@ -432,16 +432,16 @@ export default function ProUpgradePrompt({
 
   // Default card variant
   return (
-    <Card className="border-[#da5389]/20 bg-gradient-to-r from-[#da5389]/5 to-[#e84f98]/5">
+    <Card className="border-[#c44578]/20 bg-gradient-to-r from-[#c44578]/5 to-[#e84f98]/5">
       <CardContent className="p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-[#da5389] to-[#e84f98] rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-[#c44578] to-[#e84f98] rounded-full flex items-center justify-center">
               <Crown className="h-5 w-5 text-white" />
             </div>
             <div>
               <h3 className="text-lg font-semibold text-[#181615]">Upgrade to Pro</h3>
-              <p className="text-sm text-[#8f867e]">{getContextualMessage()}</p>
+              <p className="text-sm text-[#756c64]">{getContextualMessage()}</p>
             </div>
           </div>
           {showCloseButton && (
@@ -465,13 +465,13 @@ export default function ProUpgradePrompt({
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="text-xl font-bold text-[#181615]">{currency.displayPrice}</span>
-            <span className="text-sm text-[#8f867e] line-through">{currency.originalPrice}</span>
-            <Badge className="bg-[#da5389] text-white text-xs">50% OFF</Badge>
+            <span className="text-sm text-[#756c64] line-through">{currency.originalPrice}</span>
+            <Badge className="bg-[#c44578] text-white text-xs">50% OFF</Badge>
             {availableCurrencies.length > 1 && (
               <select
                 value={currency.key}
                 onChange={(e) => setCurrency(e.target.value)}
-                className="text-xs bg-transparent border border-[#e8e1d8] rounded px-1 py-0.5 text-[#8f867e] cursor-pointer"
+                className="text-xs bg-transparent border border-[#e8e1d8] rounded px-1 py-0.5 text-[#756c64] cursor-pointer"
               >
                 {availableCurrencies.map(c => (
                   <option key={c.key} value={c.key}>{c.key}</option>
@@ -482,7 +482,7 @@ export default function ProUpgradePrompt({
           <Button
             onClick={handleUpgrade}
             disabled={loading}
-            className="bg-gradient-to-r from-[#da5389] to-[#e84f98] hover:from-[#da5389]/90 hover:to-[#e84f98]/90 text-white"
+            className="bg-gradient-to-r from-[#c44578] to-[#e84f98] hover:from-[#c44578]/90 hover:to-[#e84f98]/90 text-white"
           >
             {loading ? (
               <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2" />

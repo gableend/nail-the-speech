@@ -18,7 +18,7 @@ export default function TermsPage() {
           <h1 className="text-3xl font-bold text-[#181615] mb-2">
             Terms of Service
           </h1>
-          <p className="text-sm text-[#8f867e] mb-8">Last updated: 3 April 2026</p>
+          <p className="text-sm text-[#756c64] mb-8">Last updated: 3 April 2026</p>
 
           <div className="space-y-8 text-[#4a4543] leading-relaxed">
             <section>
@@ -53,7 +53,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-xl font-semibold text-[#181615] mb-3">5. Payments and refunds</h2>
               <p>
-                Payments are processed securely by Stripe. Pro access is granted immediately upon successful payment and lasts for 90 days. If you are not satisfied with the Service, contact us at <a href="mailto:hello@nailthespeech.com" className="text-[#da5389] hover:underline">hello@nailthespeech.com</a> and we will work with you to make it right, including offering a refund where appropriate.
+                Payments are processed securely by Stripe. Pro access is granted immediately upon successful payment and lasts for 90 days. If you are not satisfied with the Service, contact us at <a href="mailto:hello@nailthespeech.com" className="text-[#c44578] hover:underline">hello@nailthespeech.com</a> and we will work with you to make it right, including offering a refund where appropriate.
               </p>
             </section>
 
@@ -107,7 +107,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-xl font-semibold text-[#181615] mb-3">12. Data and privacy</h2>
               <p>
-                Your use of the Service is also governed by our <Link href="/privacy" className="text-[#da5389] hover:underline">Privacy Policy</Link>, which explains how we collect, use, and protect your data.
+                Your use of the Service is also governed by our <Link href="/privacy" className="text-[#c44578] hover:underline">Privacy Policy</Link>, which explains how we collect, use, and protect your data.
               </p>
             </section>
 
@@ -121,7 +121,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-xl font-semibold text-[#181615] mb-3">14. Contact</h2>
               <p>
-                If you have questions about these terms, contact us at: <a href="mailto:hello@nailthespeech.com" className="text-[#da5389] hover:underline">hello@nailthespeech.com</a>
+                If you have questions about these terms, contact us at: <a href="mailto:hello@nailthespeech.com" className="text-[#c44578] hover:underline">hello@nailthespeech.com</a>
               </p>
             </section>
           </div>

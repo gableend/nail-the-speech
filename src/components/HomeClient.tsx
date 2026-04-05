@@ -179,9 +179,9 @@ export default function HomeClient() {
           <source src={heroVideos[currentVideoIndex]} type="video/webm" />
           Your browser does not support the video tag.
           {/* Fallback content for browsers that don't support video */}
-          <div className="bg-gradient-to-br from-[#da5389]/10 to-[#da5389]/10 rounded-2xl p-8 h-96 flex items-center justify-center">
+          <div className="bg-gradient-to-br from-[#c44578]/10 to-[#c44578]/10 rounded-2xl p-8 h-96 flex items-center justify-center">
             <div className="text-center">
-              <Sparkles className="h-24 w-24 text-[#da5389] mx-auto mb-4" />
+              <Sparkles className="h-24 w-24 text-[#c44578] mx-auto mb-4" />
               <p className="text-[#181615] text-lg font-medium">Perfect speeches for your perfect day</p>
             </div>
           </div>

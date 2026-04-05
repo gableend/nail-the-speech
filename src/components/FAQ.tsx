@@ -38,7 +38,7 @@ export default function FAQ({ items, title = "Frequently asked questions" }: FAQ
                   {faq.question}
                 </span>
                 <ChevronDown
-                  className={`h-5 w-5 text-[#8f867e] flex-shrink-0 transition-transform duration-200 ${
+                  className={`h-5 w-5 text-[#756c64] flex-shrink-0 transition-transform duration-200 ${
                     openIndex === index ? "rotate-180" : ""
                   }`}
                 />
@@ -51,7 +51,7 @@ export default function FAQ({ items, title = "Frequently asked questions" }: FAQ
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="px-6 pb-5 text-[#8f867e] leading-relaxed">
+                  <p className="px-6 pb-5 text-[#756c64] leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>

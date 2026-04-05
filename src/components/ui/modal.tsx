@@ -43,7 +43,7 @@ export function Modal({
 
   const confirmColors = variant === 'danger'
     ? 'bg-red-600 hover:bg-red-700 text-white'
-    : 'bg-[#da5389] hover:bg-[#c4447a] text-white';
+    : 'bg-[#c44578] hover:bg-[#c4447a] text-white';
 
   return (
     <div
@@ -55,14 +55,14 @@ export function Modal({
       <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#8f867e] hover:text-[#181615] transition-colors"
+          className="absolute top-4 right-4 text-[#756c64] hover:text-[#181615] transition-colors"
         >
           <X className="h-5 w-5" />
         </button>
 
         <h3 className="text-lg font-semibold text-[#181615] pr-8">{title}</h3>
         {description && (
-          <p className="mt-2 text-sm text-[#8f867e] leading-relaxed">{description}</p>
+          <p className="mt-2 text-sm text-[#756c64] leading-relaxed">{description}</p>
         )}
 
         {children && <div className="mt-4">{children}</div>}

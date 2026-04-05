@@ -95,12 +95,12 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
       <section className="bg-white border-b border-[#e8e1d8]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-sm text-[#8f867e] mb-6 flex-wrap">
-            <Link href="/examples" className="hover:text-[#da5389] transition-colors">
+          <nav className="flex items-center gap-2 text-sm text-[#756c64] mb-6 flex-wrap">
+            <Link href="/examples" className="hover:text-[#b33c6c] transition-colors">
               Examples
             </Link>
             <span>/</span>
-            <Link href={`/examples/${categorySlug}`} className="hover:text-[#da5389] transition-colors">
+            <Link href={`/examples/${categorySlug}`} className="hover:text-[#b33c6c] transition-colors">
               {category.icon} {category.name}
             </Link>
             <span>/</span>
@@ -116,11 +116,11 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
             <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${badge.className}`}>
               {badge.label}
             </span>
-            <span className="text-sm text-[#8f867e] flex items-center gap-1">
+            <span className="text-sm text-[#756c64] flex items-center gap-1">
               <Clock className="h-3.5 w-3.5" /> {speech.durationMinutes} min read
             </span>
-            <span className="text-sm text-[#8f867e]">{speech.wordCount} words</span>
-            <span className="text-sm text-[#8f867e]">{speech.weddingRole}</span>
+            <span className="text-sm text-[#756c64]">{speech.wordCount} words</span>
+            <span className="text-sm text-[#756c64]">{speech.weddingRole}</span>
           </div>
         </div>
       </section>
@@ -148,7 +148,7 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
           {/* Tags */}
           <div className="mt-8 pt-6 border-t border-[#e8e1d8] flex items-center gap-2 flex-wrap">
             {speech.tags.map(tag => (
-              <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-[#faf7f4] text-[#8f867e] border border-[#e8e1d8]">
+              <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-[#faf7f4] text-[#756c64] border border-[#e8e1d8]">
                 #{tag}
               </span>
             ))}
@@ -158,16 +158,16 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
 
       {/* CTA */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/5 border border-[#da5389]/20 rounded-xl p-6 sm:p-8 text-center">
+        <div className="bg-gradient-to-r from-[#c44578]/10 to-[#c44578]/5 border border-[#c44578]/20 rounded-xl p-6 sm:p-8 text-center">
           <h2 className="text-xl font-bold text-[#181615] mb-2">
             Like this speech? Create your own version.
           </h2>
-          <p className="text-sm text-[#8f867e] mb-4">
+          <p className="text-sm text-[#756c64] mb-4">
             Our AI takes your personal details and creates something just as good — but uniquely yours.
           </p>
           <Link
             href="/generator"
-            className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c4477a] text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-colors"
+            className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#c4477a] text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-colors"
           >
             Create Your Speech →
           </Link>
@@ -183,10 +183,10 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
               <Link
                 key={s.slug}
                 href={`/examples/${categorySlug}/${s.slug}`}
-                className="block bg-white border border-[#e8e1d8] rounded-lg p-4 hover:border-[#da5389] transition-colors"
+                className="block bg-white border border-[#e8e1d8] rounded-lg p-4 hover:border-[#b33c6c] transition-colors"
               >
                 <h3 className="font-semibold text-[#181615] text-sm">{s.title}</h3>
-                <p className="text-xs text-[#8f867e] mt-1 line-clamp-1">{s.excerpt}</p>
+                <p className="text-xs text-[#756c64] mt-1 line-clamp-1">{s.excerpt}</p>
               </Link>
             ))}
           </div>

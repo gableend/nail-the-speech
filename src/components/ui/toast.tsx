@@ -45,9 +45,9 @@ export function ToastContainer() {
           key={toast.id}
           className={`flex items-start gap-3 px-5 py-4 rounded-2xl shadow-xl border backdrop-blur-sm animate-in fade-in slide-in-from-top-4 duration-300 ${
             toast.type === 'error'
-              ? 'bg-white/95 border-[#da5389]/30 text-[#181615]'
+              ? 'bg-white/95 border-[#c44578]/30 text-[#181615]'
               : toast.type === 'hint'
-              ? 'bg-white/95 border-[#da5389]/30 text-[#181615]'
+              ? 'bg-white/95 border-[#c44578]/30 text-[#181615]'
               : 'bg-white/95 border-green-300 text-[#181615]'
           }`}
           style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}
@@ -55,12 +55,12 @@ export function ToastContainer() {
           {toast.type === 'success' ? (
             <CheckCircle className="h-5 w-5 flex-shrink-0 mt-0.5 text-green-500" />
           ) : toast.type === 'hint' ? (
-            <Mic className="h-5 w-5 flex-shrink-0 mt-0.5 text-[#da5389]" />
+            <Mic className="h-5 w-5 flex-shrink-0 mt-0.5 text-[#c44578]" />
           ) : (
-            <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5 text-[#da5389]" />
+            <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5 text-[#c44578]" />
           )}
           <p className="text-sm leading-relaxed flex-1">{toast.message}</p>
-          <button onClick={() => dismiss(toast.id)} className="flex-shrink-0 hover:opacity-70 text-[#8f867e]">
+          <button onClick={() => dismiss(toast.id)} className="flex-shrink-0 hover:opacity-70 text-[#756c64]">
             <X className="h-4 w-4" />
           </button>
         </div>

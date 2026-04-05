@@ -36,9 +36,9 @@ function emailWrapper(content: string): string {
           <!-- Footer -->
           <tr>
             <td style="padding: 24px 32px; background-color: #faf7f4; text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-              <p style="color: #8f867e; font-size: 12px; margin: 0; line-height: 1.5;">
+              <p style="color: #756c64; font-size: 12px; margin: 0; line-height: 1.5;">
                 Questions? Reply to this email or contact
-                <a href="mailto:hello@nailthespeech.com" style="color: #da5389; text-decoration: none;">hello@nailthespeech.com</a>
+                <a href="mailto:hello@nailthespeech.com" style="color: #c44578; text-decoration: none;">hello@nailthespeech.com</a>
               </p>
               <p style="color: #c4bdb6; font-size: 11px; margin: 8px 0 0;">
                 Nail The Speech &mdash; AI Wedding Speech Writer
@@ -57,7 +57,7 @@ function ctaButton(text: string, url: string): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 28px 0;">
     <tr>
       <td align="center">
-        <a href="${url}" style="display: inline-block; background-color: #da5389; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 50px; font-weight: 600; font-size: 15px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; mso-padding-alt: 0; text-align: center;">
+        <a href="${url}" style="display: inline-block; background-color: #c44578; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 50px; font-weight: 600; font-size: 15px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; mso-padding-alt: 0; text-align: center;">
           <!--[if mso]><i style="mso-font-width: 150%; mso-text-raise: 24pt;">&nbsp;</i><![endif]-->
           <span style="mso-text-raise: 12pt;">${text}</span>
           <!--[if mso]><i style="mso-font-width: 150%;">&nbsp;</i><![endif]-->
@@ -71,11 +71,11 @@ function discountBadge(code: string): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 20px 0;">
     <tr>
       <td align="center">
-        <table role="presentation" cellpadding="0" cellspacing="0" style="background-color: #fdf2f7; border: 2px dashed #da5389; border-radius: 12px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" style="background-color: #fdf2f7; border: 2px dashed #c44578; border-radius: 12px;">
           <tr>
             <td style="padding: 16px 28px; text-align: center;">
-              <p style="margin: 0 0 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; color: #8f867e; text-transform: uppercase; letter-spacing: 1px;">Your discount code</p>
-              <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 22px; font-weight: 700; color: #da5389; letter-spacing: 2px;">${code}</p>
+              <p style="margin: 0 0 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; color: #756c64; text-transform: uppercase; letter-spacing: 1px;">Your discount code</p>
+              <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 22px; font-weight: 700; color: #c44578; letter-spacing: 2px;">${code}</p>
               <p style="margin: 6px 0 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; color: #4a4543;">20% off &mdash; applied automatically</p>
             </td>
           </tr>
@@ -116,14 +116,14 @@ export async function sendPaymentConfirmation(email: string, expiresAt: Date) {
     Subject: 'Welcome to Nail The Speech Pro! 🎤',
     HtmlBody: emailWrapper(`
       <h1 style="font-size: 22px; color: #181615; margin: 0 0 6px; text-align: center;">You're all set!</h1>
-      <p style="color: #8f867e; font-size: 15px; margin: 0 0 24px; text-align: center;">Your Pro access is now active</p>
+      <p style="color: #756c64; font-size: 15px; margin: 0 0 24px; text-align: center;">Your Pro access is now active</p>
 
       ${featureList()}
 
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 20px 0;">
         <tr>
           <td align="center" style="background-color: #ffffff; border: 1px solid #e8e1d8; border-radius: 12px; padding: 16px 24px;">
-            <p style="color: #8f867e; font-size: 13px; margin: 0 0 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Your Pro access is valid until</p>
+            <p style="color: #756c64; font-size: 13px; margin: 0 0 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Your Pro access is valid until</p>
             <p style="color: #181615; font-size: 18px; font-weight: 600; margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${expiryDate}</p>
           </td>
         </tr>
@@ -162,14 +162,14 @@ export async function sendClaimSpeechEmail(
         You started writing something special &mdash; a speech people will remember. We've saved your progress and your speech preview is ready.
       </p>
       <p style="color: #4a4543; font-size: 15px; line-height: 1.6; margin: 0 0 4px;">
-        To welcome you back, here's <strong style="color: #da5389;">20% off</strong> when you unlock your full speech:
+        To welcome you back, here's <strong style="color: #c44578;">20% off</strong> when you unlock your full speech:
       </p>
 
       ${discountBadge(discountCode)}
 
       ${ctaButton('Claim My Speech', confirmUrl)}
 
-      <p style="color: #8f867e; font-size: 13px; line-height: 1.5; margin: 16px 0 0; text-align: center;">
+      <p style="color: #756c64; font-size: 13px; line-height: 1.5; margin: 16px 0 0; text-align: center;">
         By clicking above you confirm your email and subscribe to occasional updates. You can unsubscribe at any time.
       </p>
     `),
@@ -198,7 +198,7 @@ export async function sendDiscountReminderEmail(
       <h1 style="font-size: 22px; color: #181615; margin: 0 0 20px; text-align: center;">Your discount expires soon</h1>
 
       <p style="color: #4a4543; font-size: 15px; line-height: 1.6; margin: 0 0 12px;">
-        Just a quick reminder &mdash; your <strong style="color: #da5389;">20% discount</strong> expires tonight.
+        Just a quick reminder &mdash; your <strong style="color: #c44578;">20% discount</strong> expires tonight.
       </p>
       <p style="color: #4a4543; font-size: 15px; line-height: 1.6; margin: 0 0 4px;">
         Your speech is still saved and ready to go. One click and you're back where you left off.
@@ -210,7 +210,7 @@ export async function sendDiscountReminderEmail(
 
       ${ctaButton('Finish My Speech', claimUrl)}
 
-      <p style="color: #8f867e; font-size: 13px; line-height: 1.5; margin: 16px 0 0; text-align: center;">
+      <p style="color: #756c64; font-size: 13px; line-height: 1.5; margin: 16px 0 0; text-align: center;">
         Don't need this? No worries &mdash; just ignore this email.
       </p>
     `),
@@ -226,7 +226,7 @@ export async function sendHelpContactNotification(
   speechType: string | null = null
 ) {
   const speechTypeLine = speechType
-    ? `<p style="color: #8f867e; font-size: 13px; margin: 0 0 4px;">Speech type: <strong style="color: #181615;">${speechType}</strong></p>`
+    ? `<p style="color: #756c64; font-size: 13px; margin: 0 0 4px;">Speech type: <strong style="color: #181615;">${speechType}</strong></p>`
     : '';
 
   await client.sendEmail({
@@ -240,7 +240,7 @@ export async function sendHelpContactNotification(
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 20px; background-color: #faf7f4; border-radius: 12px;">
         <tr>
           <td style="padding: 20px 24px;">
-            <p style="color: #8f867e; font-size: 13px; margin: 0 0 4px;">From: <strong style="color: #181615;">${email}</strong></p>
+            <p style="color: #756c64; font-size: 13px; margin: 0 0 4px;">From: <strong style="color: #181615;">${email}</strong></p>
             ${speechTypeLine}
             <hr style="border: none; border-top: 1px solid #e8e1d8; margin: 12px 0;" />
             <p style="color: #4a4543; font-size: 15px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${question}</p>
@@ -248,7 +248,7 @@ export async function sendHelpContactNotification(
         </tr>
       </table>
 
-      <p style="color: #8f867e; font-size: 13px; text-align: center;">Reply directly to this email to respond to the user.</p>
+      <p style="color: #756c64; font-size: 13px; text-align: center;">Reply directly to this email to respond to the user.</p>
     `),
     MessageStream: 'outbound',
   });

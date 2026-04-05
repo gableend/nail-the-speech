@@ -44,16 +44,16 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
             <div className="space-y-8">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#181615] leading-[1.1] tracking-tight">
                 {config.heroHeading}{" "}
-                <span className="text-[#da5389]">{config.heroAccent}</span>
+                <span className="text-[#c44578]">{config.heroAccent}</span>
               </h1>
 
-              <p className="text-lg sm:text-xl text-[#8f867e] max-w-lg leading-relaxed">
+              <p className="text-lg sm:text-xl text-[#756c64] max-w-lg leading-relaxed">
                 {config.heroSubheading}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href={`/generator?role=${config.role}`}>
-                  <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-8 sm:px-10 py-5 text-lg font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl w-full sm:w-auto">
+                  <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-8 sm:px-10 py-5 text-lg font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl w-full sm:w-auto">
                     <Sparkles className="mr-2 h-5 w-5" />
                     {config.seoCtaText}
                   </Button>
@@ -61,16 +61,16 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
               </div>
 
               <div className="flex flex-wrap gap-6 pt-2">
-                <div className="flex items-center gap-2 text-sm text-[#8f867e]">
+                <div className="flex items-center gap-2 text-sm text-[#756c64]">
                   <CheckCircle className="h-4 w-4 text-green-500" />
                   Get started for free
                 </div>
-                <div className="flex items-center gap-2 text-sm text-[#8f867e]">
-                  <Clock className="h-4 w-4 text-[#da5389]" />
+                <div className="flex items-center gap-2 text-sm text-[#756c64]">
+                  <Clock className="h-4 w-4 text-[#c44578]" />
                   Ready in 30 seconds
                 </div>
-                <div className="flex items-center gap-2 text-sm text-[#8f867e]">
-                  <Users className="h-4 w-4 text-[#da5389]" />
+                <div className="flex items-center gap-2 text-sm text-[#756c64]">
+                  <Users className="h-4 w-4 text-[#c44578]" />
                   10,000+ speeches created
                 </div>
               </div>
@@ -109,7 +109,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
             <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
               Why speakers choose Nail The Speech
             </h2>
-            <p className="text-lg text-[#8f867e] max-w-2xl mx-auto">
+            <p className="text-lg text-[#756c64] max-w-2xl mx-auto">
               Everything you need to write a {config.roleLabel.toLowerCase()} speech that gets the room on their feet.
             </p>
           </div>
@@ -119,7 +119,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
               <div key={idx} className="bg-[#faf7f4] rounded-xl p-6 border border-[#e8e1d8] hover:shadow-md transition-shadow">
                 <div className="text-3xl mb-4">{prop.icon}</div>
                 <h3 className="text-lg font-semibold text-[#181615] mb-2">{prop.title}</h3>
-                <p className="text-[#8f867e] text-sm leading-relaxed">{prop.description}</p>
+                <p className="text-[#756c64] text-sm leading-relaxed">{prop.description}</p>
               </div>
             ))}
           </div>
@@ -133,7 +133,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
             <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
               Choose the perfect tone
             </h2>
-            <p className="text-lg text-[#8f867e]">
+            <p className="text-lg text-[#756c64]">
               Your speech, your style. Pick the tone that feels right for you.
             </p>
           </div>
@@ -143,11 +143,11 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
               <Link
                 key={idx}
                 href={`/generator?role=${config.role}`}
-                className="group bg-white rounded-xl p-5 border border-[#e8e1d8] hover:border-[#da5389] hover:shadow-md transition-all text-center"
+                className="group bg-white rounded-xl p-5 border border-[#e8e1d8] hover:border-[#b33c6c] hover:shadow-md transition-all text-center"
               >
                 <div className="text-4xl mb-3">{tone.emoji}</div>
-                <h3 className="font-semibold text-[#181615] mb-1 group-hover:text-[#da5389] transition-colors">{tone.label}</h3>
-                <p className="text-xs text-[#8f867e]">{tone.description}</p>
+                <h3 className="font-semibold text-[#181615] mb-1 group-hover:text-[#b33c6c] transition-colors">{tone.label}</h3>
+                <p className="text-xs text-[#756c64]">{tone.description}</p>
               </Link>
             ))}
           </div>
@@ -161,7 +161,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
             <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
               How it works
             </h2>
-            <p className="text-lg text-[#8f867e]">
+            <p className="text-lg text-[#756c64]">
               Three steps to a speech everyone remembers.
             </p>
           </div>
@@ -185,18 +185,18 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
               },
             ].map((item) => (
               <div key={item.step} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold text-lg mx-auto mb-6">
+                <div className="w-12 h-12 rounded-full bg-[#c44578] text-white flex items-center justify-center font-bold text-lg mx-auto mb-6">
                   {item.step}
                 </div>
                 <h3 className="text-xl font-semibold text-[#181615] mb-3">{item.title}</h3>
-                <p className="text-[#8f867e]">{item.description}</p>
+                <p className="text-[#756c64]">{item.description}</p>
               </div>
             ))}
           </div>
 
           <div className="text-center mt-12">
             <Link href={`/generator?role=${config.role}`}>
-              <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg">
+              <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg">
                 Start Writing Your Speech
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -213,7 +213,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
               <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
                 {config.roleLabel} speech examples
               </h2>
-              <p className="text-lg text-[#8f867e]">
+              <p className="text-lg text-[#756c64]">
                 Get inspired by real examples before you start.
               </p>
             </div>
@@ -223,7 +223,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
                 <Link
                   key={speech.slug}
                   href={`/examples/${config.exampleCategory}/${speech.slug}`}
-                  className="group bg-white rounded-xl p-5 border border-[#e8e1d8] hover:border-[#da5389] hover:shadow-md transition-all flex flex-col"
+                  className="group bg-white rounded-xl p-5 border border-[#e8e1d8] hover:border-[#b33c6c] hover:shadow-md transition-all flex flex-col"
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
@@ -234,13 +234,13 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
                     }`}>
                       {speech.tone === 'funny' ? '😂' : speech.tone === 'heartfelt' ? '💝' : speech.tone === 'roast' ? '🔥' : '⚖️'} {speech.tone.charAt(0).toUpperCase() + speech.tone.slice(1)}
                     </span>
-                    <span className="text-xs text-[#8f867e]">{speech.wordCount} words</span>
+                    <span className="text-xs text-[#756c64]">{speech.wordCount} words</span>
                   </div>
-                  <h3 className="font-semibold text-[#181615] group-hover:text-[#da5389] transition-colors mb-2 line-clamp-2">
+                  <h3 className="font-semibold text-[#181615] group-hover:text-[#b33c6c] transition-colors mb-2 line-clamp-2">
                     {speech.title}
                   </h3>
-                  <p className="text-sm text-[#8f867e] line-clamp-3 flex-1">{speech.excerpt}</p>
-                  <div className="mt-3 flex items-center text-sm font-medium text-[#da5389]">
+                  <p className="text-sm text-[#756c64] line-clamp-3 flex-1">{speech.excerpt}</p>
+                  <div className="mt-3 flex items-center text-sm font-medium text-[#c44578]">
                     Read full speech <ArrowRight className="h-3 w-3 ml-1" />
                   </div>
                 </Link>
@@ -251,7 +251,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
               <div className="text-center mt-8">
                 <Link
                   href={`/examples/${config.exampleCategory}`}
-                  className="text-[#da5389] hover:text-[#c44578] font-medium inline-flex items-center gap-1"
+                  className="text-[#c44578] hover:text-[#b33c6c] font-medium inline-flex items-center gap-1"
                 >
                   View all {config.roleLabel.toLowerCase()} speech examples
                   <ArrowRight className="h-4 w-4" />
@@ -274,12 +274,12 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
               &ldquo;{config.testimonial.quote}&rdquo;
             </p>
             <div className="flex items-center justify-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-[#da5389] flex items-center justify-center text-white font-semibold">
+              <div className="w-12 h-12 rounded-full bg-[#c44578] flex items-center justify-center text-white font-semibold">
                 {config.testimonial.initials}
               </div>
               <div className="text-left">
                 <p className="font-semibold text-[#181615]">{config.testimonial.name}</p>
-                <p className="text-sm text-[#8f867e]">{config.testimonial.detail}</p>
+                <p className="text-sm text-[#756c64]">{config.testimonial.detail}</p>
               </div>
             </div>
           </div>
@@ -295,16 +295,16 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
           <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
             Ready to nail your {config.roleLabel.toLowerCase()} speech?
           </h2>
-          <p className="text-lg text-[#8f867e] mb-8">
+          <p className="text-lg text-[#756c64] mb-8">
             Get started for free. Your speech is minutes away.
           </p>
           <Link href={`/generator?role=${config.role}`}>
-            <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
+            <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
               <Sparkles className="mr-2 h-5 w-5" />
               {config.seoCtaText}
             </Button>
           </Link>
-          <p className="text-sm text-[#8f867e] mt-4">
+          <p className="text-sm text-[#756c64] mt-4">
             Join 10,000+ speakers who nailed their wedding speech
           </p>
         </div>

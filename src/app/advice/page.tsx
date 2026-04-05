@@ -99,10 +99,10 @@ export default function AdvicePage() {
           <h1 className="text-4xl md:text-5xl font-bold text-[#181615] mb-4">
             Help & Advice
           </h1>
-          <p className="text-lg text-[#8f867e] max-w-2xl mx-auto mb-2">
+          <p className="text-lg text-[#756c64] max-w-2xl mx-auto mb-2">
             Everything you need to write and deliver a wedding speech people actually remember.
           </p>
-          <p className="text-sm text-[#8f867e]">
+          <p className="text-sm text-[#756c64]">
             {articles.length} guides · {publishedArticles.length} published
           </p>
         </div>
@@ -116,7 +116,7 @@ export default function AdvicePage() {
               <h2 className="text-2xl md:text-3xl font-bold text-[#181615] mb-2">
                 {category.name}
               </h2>
-              <p className="text-[#8f867e] max-w-2xl">
+              <p className="text-[#756c64] max-w-2xl">
                 {category.description}
               </p>
             </div>
@@ -128,21 +128,21 @@ export default function AdvicePage() {
                   <Link
                     key={article.slug}
                     href={`/advice/${article.slug}`}
-                    className="group bg-white border border-[#e8e1d8] rounded-xl p-5 hover:border-[#da5389] hover:shadow-md transition-all"
+                    className="group bg-white border border-[#e8e1d8] rounded-xl p-5 hover:border-[#b33c6c] hover:shadow-md transition-all"
                   >
                     <div className="flex items-start gap-3 mb-3">
                       <span className="text-2xl flex-shrink-0">{article.icon}</span>
                       <div className="min-w-0">
-                        <h3 className="font-semibold text-sm text-[#181615] group-hover:text-[#da5389] transition-colors leading-tight line-clamp-2">
+                        <h3 className="font-semibold text-sm text-[#181615] group-hover:text-[#b33c6c] transition-colors leading-tight line-clamp-2">
                           {article.title}
                         </h3>
                       </div>
                     </div>
-                    <p className="text-xs text-[#8f867e] line-clamp-2 mb-3">
+                    <p className="text-xs text-[#756c64] line-clamp-2 mb-3">
                       {article.metaDescription}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-[#8f867e]">
+                      <span className="text-xs text-[#756c64]">
                         {article.readingTime} min read
                       </span>
                       {!isPublished && (
@@ -166,13 +166,13 @@ export default function AdvicePage() {
       <section className="bg-[#181615] text-white py-16">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to write yours?</h2>
-          <p className="text-[#8f867e] mb-8">
+          <p className="text-[#756c64] mb-8">
             Use our AI speech generator to create a personalized speech in minutes.
             Get started for free.
           </p>
           <Link
             href="/generator"
-            className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
+            className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
           >
             Create Your Speech <ArrowRight className="h-4 w-4" />
           </Link>

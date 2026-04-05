@@ -20,13 +20,13 @@ export default function SiteFooter() {
           <div>
             <p className="font-semibold mb-4">Speech Types</p>
             <ul className="space-y-1 text-gray-300">
-              <li><Link href="/generator?role=best-man" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Best Man</Link></li>
-              <li><Link href="/generator?role=maid-of-honor" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Maid of Honor</Link></li>
-              <li><Link href="/generator?role=father-of-bride" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Father of the Bride</Link></li>
-              <li><Link href="/generator?role=mother-of-bride" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Mother of the Bride</Link></li>
-              <li><Link href="/generator?role=groom" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Groom</Link></li>
-              <li><Link href="/generator?role=bride" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Bride</Link></li>
-              <li><Link href="/#all-roles" className="hover:text-[#da5389] text-[#da5389] block py-1.5 min-h-[44px] flex items-center">All Roles &rarr;</Link></li>
+              <li><Link href="/generator?role=best-man" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Best Man</Link></li>
+              <li><Link href="/generator?role=maid-of-honor" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Maid of Honor</Link></li>
+              <li><Link href="/generator?role=father-of-bride" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Father of the Bride</Link></li>
+              <li><Link href="/generator?role=mother-of-bride" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Mother of the Bride</Link></li>
+              <li><Link href="/generator?role=groom" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Groom</Link></li>
+              <li><Link href="/generator?role=bride" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Bride</Link></li>
+              <li><Link href="/#all-roles" className="hover:text-[#b33c6c] text-[#c44578] block py-1.5 min-h-[44px] flex items-center">All Roles &rarr;</Link></li>
             </ul>
           </div>
 
@@ -34,12 +34,12 @@ export default function SiteFooter() {
           <div>
             <p className="font-semibold mb-4">Help</p>
             <ul className="space-y-1 text-gray-300">
-              <li><Link href="/help" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Help Centre</Link></li>
-              <li><Link href="/advice#speech-tips" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Speech Tips</Link></li>
-              <li><Link href="/examples" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Examples</Link></li>
-              <li><Link href="/advice#practice-guide" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Practice Guide</Link></li>
-              <li><Link href="/articles" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Articles</Link></li>
-              <li><Link href="/advice" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">All Advice</Link></li>
+              <li><Link href="/help" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Help Centre</Link></li>
+              <li><Link href="/advice#speech-tips" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Speech Tips</Link></li>
+              <li><Link href="/examples" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Examples</Link></li>
+              <li><Link href="/advice#practice-guide" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Practice Guide</Link></li>
+              <li><Link href="/articles" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Articles</Link></li>
+              <li><Link href="/advice" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">All Advice</Link></li>
             </ul>
           </div>
         </div>
@@ -49,9 +49,9 @@ export default function SiteFooter() {
             © {new Date().getFullYear()} Nail The Speech. All rights reserved.
           </p>
           <div className="flex space-x-6 text-sm text-gray-300 mt-4 md:mt-0">
-            <Link href="/privacy" className="hover:text-[#da5389]">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-[#da5389]">Terms of Service</Link>
-            <Link href="/data-deletion" className="hover:text-[#da5389]">Data Deletion</Link>
+            <Link href="/privacy" className="hover:text-[#b33c6c]">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-[#b33c6c]">Terms of Service</Link>
+            <Link href="/data-deletion" className="hover:text-[#b33c6c]">Data Deletion</Link>
           </div>
         </div>
       </div>

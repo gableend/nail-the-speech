@@ -27,7 +27,7 @@ export default function SpeechCopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-1.5 text-xs text-[#8f867e] hover:text-[#da5389] transition-colors px-3 py-1.5 rounded-lg border border-[#e8e1d8] hover:border-[#da5389]"
+      className="flex items-center gap-1.5 text-xs text-[#756c64] hover:text-[#b33c6c] transition-colors px-3 py-1.5 rounded-lg border border-[#e8e1d8] hover:border-[#b33c6c]"
     >
       {copied ? (
         <>

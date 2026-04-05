@@ -85,11 +85,11 @@ export default function ExamplesPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-[#181615] mb-4">
             Wedding Speech Examples
           </h1>
-          <p className="text-lg text-[#8f867e] max-w-4xl mx-auto mb-2">
+          <p className="text-lg text-[#756c64] max-w-4xl mx-auto mb-2">
             Browse real examples across {speechCategories.length} speech types.
             Find your inspiration, then create your own with AI.
           </p>
-          <p className="text-sm text-[#8f867e]">
+          <p className="text-sm text-[#756c64]">
             {exampleSpeeches.length} speeches and counting
           </p>
         </div>
@@ -110,13 +110,13 @@ export default function ExamplesPage() {
                   <Link
                     key={cat.slug}
                     href={`/examples/${cat.slug}`}
-                    className="group bg-white border border-[#e8e1d8] rounded-xl p-4 hover:border-[#da5389] hover:shadow-md transition-all"
+                    className="group bg-white border border-[#e8e1d8] rounded-xl p-4 hover:border-[#b33c6c] hover:shadow-md transition-all"
                   >
                     <div className="text-3xl mb-2">{cat.icon}</div>
-                    <h3 className="font-semibold text-sm text-[#181615] group-hover:text-[#da5389] transition-colors leading-tight">
+                    <h3 className="font-semibold text-sm text-[#181615] group-hover:text-[#b33c6c] transition-colors leading-tight">
                       {cat.name}
                     </h3>
-                    <p className="text-xs text-[#8f867e] mt-1 line-clamp-2">
+                    <p className="text-xs text-[#756c64] mt-1 line-clamp-2">
                       {cat.shortDescription}
                     </p>
                   </Link>
@@ -134,13 +134,13 @@ export default function ExamplesPage() {
       <section className="bg-[#181615] text-white py-16">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to write yours?</h2>
-          <p className="text-[#8f867e] mb-8">
+          <p className="text-[#756c64] mb-8">
             Use our AI speech generator to create a personalized speech in minutes.
             Get started for free.
           </p>
           <Link
             href="/generator"
-            className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
+            className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
           >
             Create Your Speech →
           </Link>

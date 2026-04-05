@@ -155,16 +155,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Link
             href="/advice"
-            className="inline-flex items-center gap-1 text-sm text-[#8f867e] hover:text-[#da5389] mb-6 transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-[#756c64] hover:text-[#b33c6c] mb-6 transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" /> All Advice
           </Link>
 
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-xs px-2.5 py-1 rounded-full bg-[#da5389]/10 text-[#da5389] font-medium">
+            <span className="text-xs px-2.5 py-1 rounded-full bg-[#c44578]/10 text-[#c44578] font-medium">
               {article.category}
             </span>
-            <span className="text-xs text-[#8f867e] flex items-center gap-1">
+            <span className="text-xs text-[#756c64] flex items-center gap-1">
               <Clock className="h-3 w-3" /> {article.readingTime} min read
             </span>
           </div>
@@ -173,7 +173,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             {article.icon} {article.title}
           </h1>
 
-          <p className="text-[#8f867e] text-lg">
+          <p className="text-[#756c64] text-lg">
             {article.metaDescription}
           </p>
         </div>
@@ -183,14 +183,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {isComingSoon ? (
           <div className="text-center py-16 bg-white border border-[#e8e1d8] rounded-xl">
-            <BookOpen className="h-12 w-12 text-[#da5389] mx-auto mb-4" />
+            <BookOpen className="h-12 w-12 text-[#c44578] mx-auto mb-4" />
             <h2 className="text-xl font-bold text-[#181615] mb-2">This article is being written</h2>
-            <p className="text-[#8f867e] mb-6 max-w-md mx-auto">
+            <p className="text-[#756c64] mb-6 max-w-md mx-auto">
               We&apos;re working on this guide. In the meantime, our AI can help you create your speech right now.
             </p>
             <Link
               href="/generator"
-              className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c4477a] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
+              className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#c4477a] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
             >
               Create Your Speech <ArrowRight className="h-4 w-4" />
             </Link>
@@ -215,16 +215,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         )}
 
         {/* CTA box */}
-        <div className="mt-12 bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/5 border border-[#da5389]/20 rounded-xl p-8 text-center">
+        <div className="mt-12 bg-gradient-to-r from-[#c44578]/10 to-[#c44578]/5 border border-[#c44578]/20 rounded-xl p-8 text-center">
           <h2 className="text-2xl font-bold text-[#181615] mb-2">
             {article.ctaSupportingText}
           </h2>
-          <p className="text-[#8f867e] mb-6">
+          <p className="text-[#756c64] mb-6">
             Our AI generator creates a personalized speech in minutes. Get started for free.
           </p>
           <Link
             href="/generator"
-            className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
+            className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
           >
             Create Your Speech <ArrowRight className="h-4 w-4" />
           </Link>
@@ -239,7 +239,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <Link
                   key={exSlug}
                   href={`/examples/${exSlug}`}
-                  className="bg-white border border-[#e8e1d8] rounded-lg p-3 hover:border-[#da5389] transition-colors text-sm font-medium text-[#181615] hover:text-[#da5389]"
+                  className="bg-white border border-[#e8e1d8] rounded-lg p-3 hover:border-[#b33c6c] transition-colors text-sm font-medium text-[#181615] hover:text-[#b33c6c]"
                 >
                   {exSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} →
                 </Link>
@@ -257,14 +257,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <Link
                   key={related.slug}
                   href={`/advice/${related.slug}`}
-                  className="group flex items-start gap-3 bg-white border border-[#e8e1d8] rounded-xl p-4 hover:border-[#da5389] hover:shadow-md transition-all"
+                  className="group flex items-start gap-3 bg-white border border-[#e8e1d8] rounded-xl p-4 hover:border-[#b33c6c] hover:shadow-md transition-all"
                 >
                   <span className="text-2xl flex-shrink-0">{related.icon}</span>
                   <div className="min-w-0">
-                    <h3 className="font-semibold text-sm text-[#181615] group-hover:text-[#da5389] transition-colors leading-tight">
+                    <h3 className="font-semibold text-sm text-[#181615] group-hover:text-[#b33c6c] transition-colors leading-tight">
                       {related.title}
                     </h3>
-                    <p className="text-xs text-[#8f867e] mt-1 line-clamp-1">
+                    <p className="text-xs text-[#756c64] mt-1 line-clamp-1">
                       {related.metaDescription}
                     </p>
                   </div>
@@ -281,7 +281,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               {article.tags.map(tag => (
                 <span
                   key={tag}
-                  className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-[#8f867e]"
+                  className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-[#756c64]"
                 >
                   {tag}
                 </span>

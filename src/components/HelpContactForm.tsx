@@ -39,7 +39,7 @@ export default function HelpContactForm() {
         <h3 className="text-lg font-semibold text-[#181615] mb-1">
           Thanks — we got your question
         </h3>
-        <p className="text-sm text-[#8f867e]">
+        <p className="text-sm text-[#756c64]">
           We'll get back to you at {email} as soon as we can.
         </p>
       </div>
@@ -62,7 +62,7 @@ export default function HelpContactForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="w-full px-4 py-2.5 border border-[#e8e1d8] rounded-lg text-sm text-[#181615] placeholder-[#c4bdb5] focus:outline-none focus:ring-2 focus:ring-[#da5389]/30 focus:border-[#da5389]"
+          className="w-full px-4 py-2.5 border border-[#e8e1d8] rounded-lg text-sm text-[#181615] placeholder-[#c4bdb5] focus:outline-none focus:ring-2 focus:ring-[#c44578]/30 focus:border-[#c44578]"
         />
       </div>
 
@@ -72,13 +72,13 @@ export default function HelpContactForm() {
           className="block text-sm font-medium text-[#181615] mb-1"
         >
           Speech type{" "}
-          <span className="text-[#8f867e] font-normal">(optional)</span>
+          <span className="text-[#756c64] font-normal">(optional)</span>
         </label>
         <select
           id="help-speech-type"
           value={speechType}
           onChange={(e) => setSpeechType(e.target.value)}
-          className="w-full px-4 py-2.5 border border-[#e8e1d8] rounded-lg text-sm text-[#181615] focus:outline-none focus:ring-2 focus:ring-[#da5389]/30 focus:border-[#da5389] bg-white"
+          className="w-full px-4 py-2.5 border border-[#e8e1d8] rounded-lg text-sm text-[#181615] focus:outline-none focus:ring-2 focus:ring-[#c44578]/30 focus:border-[#c44578] bg-white"
         >
           <option value="">Select a speech type...</option>
           <option value="best-man">Best Man</option>
@@ -105,14 +105,14 @@ export default function HelpContactForm() {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="What do you need help with?"
-          className="w-full px-4 py-2.5 border border-[#e8e1d8] rounded-lg text-sm text-[#181615] placeholder-[#c4bdb5] focus:outline-none focus:ring-2 focus:ring-[#da5389]/30 focus:border-[#da5389] resize-none"
+          className="w-full px-4 py-2.5 border border-[#e8e1d8] rounded-lg text-sm text-[#181615] placeholder-[#c4bdb5] focus:outline-none focus:ring-2 focus:ring-[#c44578]/30 focus:border-[#c44578] resize-none"
         />
       </div>
 
       <Button
         type="submit"
         disabled={sending}
-        className="bg-[#da5389] hover:bg-[#c44578] text-white px-6 py-2.5 rounded-full font-medium text-sm transition-colors disabled:opacity-50"
+        className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-6 py-2.5 rounded-full font-medium text-sm transition-colors disabled:opacity-50"
       >
         {sending ? "Sending..." : "Send Question"}
         {!sending && <Send className="ml-2 h-4 w-4" />}

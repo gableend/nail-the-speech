@@ -114,16 +114,16 @@ export default function HelpArticlePage({ article }: { article: HelpArticle }) {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Link
             href="/help"
-            className="inline-flex items-center gap-1 text-sm text-[#8f867e] hover:text-[#da5389] mb-6 transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-[#756c64] hover:text-[#b33c6c] mb-6 transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" /> Help Centre
           </Link>
 
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-xs px-2.5 py-1 rounded-full bg-[#da5389]/10 text-[#da5389] font-medium">
+            <span className="text-xs px-2.5 py-1 rounded-full bg-[#c44578]/10 text-[#c44578] font-medium">
               {article.category}
             </span>
-            <span className="text-xs text-[#8f867e] flex items-center gap-1">
+            <span className="text-xs text-[#756c64] flex items-center gap-1">
               <Clock className="h-3 w-3" /> {article.readingTime} min read
             </span>
           </div>
@@ -180,9 +180,9 @@ export default function HelpArticlePage({ article }: { article: HelpArticle }) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="group flex items-center gap-2 text-sm text-[#4a4543] hover:text-[#da5389] transition-colors"
+                  className="group flex items-center gap-2 text-sm text-[#4a4543] hover:text-[#b33c6c] transition-colors"
                 >
-                  <ArrowRight className="h-3.5 w-3.5 text-[#da5389] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <ArrowRight className="h-3.5 w-3.5 text-[#c44578] opacity-0 group-hover:opacity-100 transition-opacity" />
                   {link.label}
                 </Link>
               ))}
@@ -191,16 +191,16 @@ export default function HelpArticlePage({ article }: { article: HelpArticle }) {
         )}
 
         {/* CTA */}
-        <div className="mt-12 bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/5 border border-[#da5389]/20 rounded-xl p-8 text-center">
+        <div className="mt-12 bg-gradient-to-r from-[#c44578]/10 to-[#c44578]/5 border border-[#c44578]/20 rounded-xl p-8 text-center">
           <h2 className="text-2xl font-bold text-[#181615] mb-2">
             {article.ctaText}
           </h2>
-          <p className="text-[#8f867e] mb-6">
+          <p className="text-[#756c64] mb-6">
             Our AI creates a personalized speech in minutes. Get started for free.
           </p>
           <Link
             href={article.ctaHref}
-            className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
+            className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
           >
             Create Your Speech <ArrowRight className="h-4 w-4" />
           </Link>
@@ -213,7 +213,7 @@ export default function HelpArticlePage({ article }: { article: HelpArticle }) {
               {article.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-[#8f867e]"
+                  className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-[#756c64]"
                 >
                   {tag}
                 </span>

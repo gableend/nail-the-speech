@@ -33,33 +33,33 @@ export default function SiteHeader() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <div className="relative group">
-                <button className="flex items-center text-[#181615] hover:text-[#da5389] font-medium min-h-[44px]">
+                <button className="flex items-center text-[#181615] hover:text-[#b33c6c] font-medium min-h-[44px]">
                   Speech Types <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
                 <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg border border-[#e8e1d8] p-4 min-w-[200px]">
-                  <Link href="/generator?role=best-man" className="block py-2 text-[#181615] hover:text-[#da5389]">Best Man</Link>
-                  <Link href="/generator?role=maid-of-honor" className="block py-2 text-[#181615] hover:text-[#da5389]">Maid of Honor</Link>
-                  <Link href="/generator?role=father-of-bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Father of the Bride</Link>
-                  <Link href="/generator?role=mother-of-bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Mother of the Bride</Link>
-                  <Link href="/generator?role=groom" className="block py-2 text-[#181615] hover:text-[#da5389]">Groom</Link>
-                  <Link href="/generator?role=bride" className="block py-2 text-[#181615] hover:text-[#da5389]">Bride</Link>
+                  <Link href="/generator?role=best-man" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Best Man</Link>
+                  <Link href="/generator?role=maid-of-honor" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Maid of Honor</Link>
+                  <Link href="/generator?role=father-of-bride" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Father of the Bride</Link>
+                  <Link href="/generator?role=mother-of-bride" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Mother of the Bride</Link>
+                  <Link href="/generator?role=groom" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Groom</Link>
+                  <Link href="/generator?role=bride" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Bride</Link>
                   <div className="border-t border-[#e8e1d8] mt-2 pt-2">
-                    <Link href="/#all-roles" className="block py-2 text-[#da5389] hover:text-[#c44578] font-medium text-sm">All Roles &rarr;</Link>
+                    <Link href="/#all-roles" className="block py-2 text-[#c44578] hover:text-[#b33c6c] font-medium text-sm">All Roles &rarr;</Link>
                   </div>
                 </div>
               </div>
 
               <div className="relative group">
-                <button className="flex items-center text-[#181615] hover:text-[#da5389] font-medium min-h-[44px]">
+                <button className="flex items-center text-[#181615] hover:text-[#b33c6c] font-medium min-h-[44px]">
                   Help & Advice <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
                 <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg border border-[#e8e1d8] p-4 min-w-[200px]">
-                  <Link href="/help" className="block py-2 text-[#181615] hover:text-[#da5389]">Help Centre</Link>
-                  <Link href="/advice" className="block py-2 text-[#181615] hover:text-[#da5389]">All Advice</Link>
-                  <Link href="/advice#speech-tips" className="block py-2 text-[#181615] hover:text-[#da5389]">Speech Tips</Link>
-                  <Link href="/advice#practice-guide" className="block py-2 text-[#181615] hover:text-[#da5389]">Practice Guide</Link>
-                  <Link href="/examples" className="block py-2 text-[#181615] hover:text-[#da5389]">Speech Examples</Link>
-                  <Link href="/articles" className="block py-2 text-[#181615] hover:text-[#da5389]">Articles</Link>
+                  <Link href="/help" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Help Centre</Link>
+                  <Link href="/advice" className="block py-2 text-[#181615] hover:text-[#b33c6c]">All Advice</Link>
+                  <Link href="/advice#speech-tips" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Speech Tips</Link>
+                  <Link href="/advice#practice-guide" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Practice Guide</Link>
+                  <Link href="/examples" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Speech Examples</Link>
+                  <Link href="/articles" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Articles</Link>
                 </div>
               </div>
             </div>

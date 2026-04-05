@@ -26,14 +26,14 @@ export default function ArticlesPage() {
       {/* Hero */}
       <section className="bg-gradient-to-b from-[#faf8f5] to-white py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block bg-[#da5389]/10 text-[#da5389] text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
+          <span className="inline-block bg-[#c44578]/10 text-[#c44578] text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
             Insights
           </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#181615] mb-4">
             Great speeches start with speaking,{" "}
-            <span className="text-[#da5389]">not writing</span>
+            <span className="text-[#c44578]">not writing</span>
           </h1>
-          <p className="text-lg text-[#8f867e] max-w-2xl mx-auto">
+          <p className="text-lg text-[#756c64] max-w-2xl mx-auto">
             Explore the science, strategy, and practical tips behind talk-first
             speech writing. A better way to prepare your wedding speech.
           </p>
@@ -48,7 +48,7 @@ export default function ArticlesPage() {
               <Link
                 key={article.slug}
                 href={`/articles/${article.slug}`}
-                className="group flex flex-col bg-white border border-[#e8e1d8] rounded-2xl overflow-hidden hover:border-[#da5389] hover:shadow-lg transition-all"
+                className="group flex flex-col bg-white border border-[#e8e1d8] rounded-2xl overflow-hidden hover:border-[#b33c6c] hover:shadow-lg transition-all"
               >
                 {/* Image */}
                 <div className="relative aspect-[16/10] bg-[#f5f0eb] overflow-hidden">
@@ -69,7 +69,7 @@ export default function ArticlesPage() {
 
                 {/* Content */}
                 <div className="flex flex-col flex-1 p-5 sm:p-6">
-                  <div className="flex items-center gap-3 text-xs text-[#8f867e] mb-3">
+                  <div className="flex items-center gap-3 text-xs text-[#756c64] mb-3">
                     <span className="flex items-center gap-1">
                       <Clock className="h-3.5 w-3.5" />
                       {article.readingTime} min read
@@ -81,15 +81,15 @@ export default function ArticlesPage() {
                     )}
                   </div>
 
-                  <h2 className="text-lg sm:text-xl font-semibold text-[#181615] group-hover:text-[#da5389] transition-colors mb-2 leading-snug">
+                  <h2 className="text-lg sm:text-xl font-semibold text-[#181615] group-hover:text-[#b33c6c] transition-colors mb-2 leading-snug">
                     {article.title}
                   </h2>
 
-                  <p className="text-sm text-[#8f867e] leading-relaxed mb-4 flex-1">
+                  <p className="text-sm text-[#756c64] leading-relaxed mb-4 flex-1">
                     {article.subtitle}
                   </p>
 
-                  <span className="inline-flex items-center gap-1 text-sm font-medium text-[#da5389]">
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-[#c44578]">
                     Read article
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -106,13 +106,13 @@ export default function ArticlesPage() {
           <h2 className="text-2xl sm:text-3xl font-bold text-[#181615] mb-4">
             Ready to try talk-first speech writing?
           </h2>
-          <p className="text-[#8f867e] mb-8 max-w-xl mx-auto">
+          <p className="text-[#756c64] mb-8 max-w-xl mx-auto">
             Skip the blank page. Talk through your memories and let Nail The
             Speech turn them into a speech that sounds like you.
           </p>
           <Link
             href="/generator"
-            className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c44578] text-white px-8 py-3 rounded-full font-semibold transition-colors shadow-lg"
+            className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#b33c6c] text-white px-8 py-3 rounded-full font-semibold transition-colors shadow-lg"
           >
             Start Your Speech
             <ArrowRight className="h-4 w-4" />

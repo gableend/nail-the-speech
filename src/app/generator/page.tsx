@@ -673,7 +673,7 @@ function diffWordsHtml(original: string, current: string): string {
     if (currWord === origWord) {
       parts.push(escapeHtml(currWord));
     } else if (currWord.trim()) {
-      parts.push(`<span class="bg-[#da5389]/15 text-[#da5389] rounded px-0.5">${escapeHtml(currWord)}</span>`);
+      parts.push(`<span class="bg-[#c44578]/15 text-[#c44578] rounded px-0.5">${escapeHtml(currWord)}</span>`);
     }
   }
   return parts.join('');
@@ -2295,8 +2295,8 @@ function GeneratorContent() {
     <div className="min-h-screen bg-gradient-to-br from-[#faf7f4] via-[#fdfcfa] to-[#f8f4f0] transition-theme relative">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#da5389]/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-[#da5389]/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#c44578]/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-[#c44578]/5 rounded-full blur-3xl" />
       </div>
       {/* Navigation */}
       <nav className="bg-white/95 backdrop-blur-md border-b border-[#e8e1d8]/50 sticky top-0 z-50 relative">
@@ -2325,8 +2325,8 @@ function GeneratorContent() {
                   onClick={toggleDemoMode}
                   className={`text-xs px-2 py-1 rounded-full border transition-all duration-200 ${
                     demoMode
-                      ? 'bg-[#da5389] text-white border-[#da5389]'
-                      : 'bg-white text-[#8f867e] border-[#e8e1d8] hover:border-[#da5389] hover:text-[#da5389]'
+                      ? 'bg-[#c44578] text-white border-[#c44578]'
+                      : 'bg-white text-[#756c64] border-[#e8e1d8] hover:border-[#b33c6c] hover:text-[#b33c6c]'
                   }`}
                   title={demoMode ? "Click to clear demo data" : "Click to fill with demo data"}
                 >
@@ -2413,7 +2413,7 @@ function GeneratorContent() {
               )}
             </h1>
             {currentStep < 5 && (
-              <p className="text-lg text-[#8f867e]">
+              <p className="text-lg text-[#756c64]">
                 {formData.selectedRole
                   ? `Answer a few quick questions and we'll write your ${getRoleTitle(formData.selectedRole, formData.customRoleLabel).toLowerCase()} speech`
                   : 'Answer a few quick questions and we\'ll write your speech'
@@ -2427,19 +2427,19 @@ function GeneratorContent() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
-              {currentStep === 0 && <span className="text-sm font-medium text-[#8f867e]">Let's start with you</span>}
-              {currentStep === 1 && <span className="text-sm font-medium text-[#8f867e]">What's your role?</span>}
-              {currentStep === 2 && <span className="text-sm font-medium text-[#8f867e]">Tell us about the couple</span>}
-              {currentStep === 3 && <span className="text-sm font-medium text-[#8f867e]">Your connection</span>}
-              {currentStep === 4 && <span className="text-sm font-medium text-[#8f867e]">The good stuff</span>}
-              {currentStep === 5 && !speechGenerated && <span className="text-sm font-medium text-[#8f867e]">Generating your speech</span>}
-              {currentStep === 5 && speechGenerated && <span className="text-sm font-medium text-[#da5389]">Speech ready</span>}
+              {currentStep === 0 && <span className="text-sm font-medium text-[#756c64]">Let's start with you</span>}
+              {currentStep === 1 && <span className="text-sm font-medium text-[#756c64]">What's your role?</span>}
+              {currentStep === 2 && <span className="text-sm font-medium text-[#756c64]">Tell us about the couple</span>}
+              {currentStep === 3 && <span className="text-sm font-medium text-[#756c64]">Your connection</span>}
+              {currentStep === 4 && <span className="text-sm font-medium text-[#756c64]">The good stuff</span>}
+              {currentStep === 5 && !speechGenerated && <span className="text-sm font-medium text-[#756c64]">Generating your speech</span>}
+              {currentStep === 5 && speechGenerated && <span className="text-sm font-medium text-[#c44578]">Speech ready</span>}
             </div>
             <span className="text-sm font-semibold text-[#181615]">{getProgressPercent()}%</span>
           </div>
           <div className="h-2 bg-[#e8e1d8] rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-[#da5389] to-[#e06b9a] rounded-full transition-all duration-500 ease-out"
+              className="h-full bg-gradient-to-r from-[#c44578] to-[#e06b9a] rounded-full transition-all duration-500 ease-out"
               style={{ width: `${getProgressPercent()}%` }}
             />
           </div>
@@ -2464,7 +2464,7 @@ function GeneratorContent() {
                 {currentStep === 5 && (speechGenerated ? "Your Speech" : "Generating your speech")}
               </CardTitle>
             </div>
-            <p className="text-sm text-[#8f867e]">
+            <p className="text-sm text-[#756c64]">
               {currentStep === 0 && "We'll use this to personalize your speech"}
               {currentStep === 1 && "Pick the role that best describes you"}
               {currentStep === 2 && "Just first names is fine"}
@@ -2502,7 +2502,7 @@ function GeneratorContent() {
                     onChange={(e) => updateFormData('email', e.target.value)}
                     className="darker-placeholder text-lg py-3"
                   />
-                  <p className="text-xs text-[#8f867e] mt-1.5">We'll send your speech here so you don't lose it</p>
+                  <p className="text-xs text-[#756c64] mt-1.5">We'll send your speech here so you don't lose it</p>
                 </div>
               </div>
             )}
@@ -2519,8 +2519,8 @@ function GeneratorContent() {
                       onClick={() => { updateFormData('selectedRole', role.slug); updateFormData('customRoleLabel', ''); }}
                       className={`p-5 rounded-xl border-2 text-center transition-all duration-200 hover:shadow-lg ${
                         formData.selectedRole === role.slug
-                          ? 'bg-[#da5389] border-[#da5389] text-white shadow-lg scale-105'
-                          : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                          ? 'bg-[#c44578] border-[#c44578] text-white shadow-lg scale-105'
+                          : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c]'
                       }`}
                     >
                       <div className="text-3xl mb-2">{role.emoji}</div>
@@ -2532,8 +2532,8 @@ function GeneratorContent() {
                 {/* All other roles - compact list */}
                 <details className="group">
                   <summary className="flex items-center justify-between cursor-pointer select-none mb-3">
-                    <span className="text-sm font-medium text-[#8f867e]">More roles</span>
-                    <span className="text-sm text-[#da5389] hover:text-[#c4447a] transition-colors flex items-center gap-1">
+                    <span className="text-sm font-medium text-[#756c64]">More roles</span>
+                    <span className="text-sm text-[#c44578] hover:text-[#c4447a] transition-colors flex items-center gap-1">
                       <span className="group-open:hidden">Show all roles ▼</span>
                       <span className="hidden group-open:inline">Show fewer ▲</span>
                     </span>
@@ -2546,8 +2546,8 @@ function GeneratorContent() {
                         onClick={() => { updateFormData('selectedRole', role.slug); updateFormData('customRoleLabel', ''); }}
                         className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-left text-sm transition-all duration-200 ${
                           formData.selectedRole === role.slug
-                            ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
-                            : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                            ? 'bg-[#c44578] border-[#c44578] text-white shadow-md'
+                            : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c]'
                         }`}
                       >
                         <span>{role.emoji}</span>
@@ -2564,14 +2564,14 @@ function GeneratorContent() {
                     onClick={() => updateFormData('selectedRole', 'other')}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all duration-200 ${
                       formData.selectedRole === 'other'
-                        ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
-                        : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                        ? 'bg-[#c44578] border-[#c44578] text-white shadow-md'
+                        : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c]'
                     }`}
                   >
                     <span className="text-xl">✍️</span>
                     <div>
                       <span className="font-semibold text-sm">Something else</span>
-                      <span className={`block text-xs ${formData.selectedRole === 'other' ? 'text-white/80' : 'text-[#8f867e]'}`}>
+                      <span className={`block text-xs ${formData.selectedRole === 'other' ? 'text-white/80' : 'text-[#756c64]'}`}>
                         Don't see your role? Type it in
                       </span>
                     </div>
@@ -2632,13 +2632,13 @@ function GeneratorContent() {
 
                     {/* Expandable examples */}
                     <details className="mb-4 group">
-                      <summary className="flex items-center gap-2 text-sm font-medium text-[#da5389] cursor-pointer select-none hover:text-[#c4447a] transition-colors">
+                      <summary className="flex items-center gap-2 text-sm font-medium text-[#c44578] cursor-pointer select-none hover:text-[#c4447a] transition-colors">
                         <span className="transition-transform group-open:rotate-90">▶</span>
                         <span className="group-open:hidden">Show Examples</span>
                         <span className="hidden group-open:inline">Hide Examples</span>
                       </summary>
                       <div className="mt-3 bg-[#faf7f4] border border-[#e8e1d8] rounded-xl p-4 space-y-3">
-                        <p className="text-xs font-semibold text-[#8f867e] uppercase tracking-wide">Examples:</p>
+                        <p className="text-xs font-semibold text-[#756c64] uppercase tracking-wide">Examples:</p>
                         {connectionPrompts.examples.map((ex, i) => (
                           <p key={i} className="text-sm text-[#5a534e] italic leading-relaxed">
                             &ldquo;{ex}&rdquo;
@@ -2657,7 +2657,7 @@ function GeneratorContent() {
                       autoFocus
                     />
                     <div className="flex items-center justify-between mt-2">
-                      <p className={`text-xs ${formData.relationshipToGroom.trim().length >= MIN_RELATIONSHIP_LENGTH ? 'text-green-600' : 'text-[#8f867e]'}`}>
+                      <p className={`text-xs ${formData.relationshipToGroom.trim().length >= MIN_RELATIONSHIP_LENGTH ? 'text-green-600' : 'text-[#756c64]'}`}>
                         {formData.relationshipToGroom.trim().length < MIN_RELATIONSHIP_LENGTH
                           ? `${MIN_RELATIONSHIP_LENGTH - formData.relationshipToGroom.trim().length} more characters — or tap the mic 🎙️`
                           : '✓ Nice — that gives us plenty to work with'}
@@ -2675,12 +2675,12 @@ function GeneratorContent() {
                       What tone suits your speech?
                     </label>
                     {formData.selectedRole && (
-                      <p className="text-xs font-medium text-[#da5389] mb-3">
+                      <p className="text-xs font-medium text-[#c44578] mb-3">
                         ✨ Recommended for {getRoleTitle(formData.selectedRole, formData.customRoleLabel)}
                       </p>
                     )}
                     {!formData.selectedRole && (
-                      <p className="text-xs text-[#8f867e] mb-3">Pick the vibe that feels right</p>
+                      <p className="text-xs text-[#756c64] mb-3">Pick the vibe that feels right</p>
                     )}
 
                     {/* Recommended tones - always visible */}
@@ -2700,14 +2700,14 @@ function GeneratorContent() {
                                 onClick={() => updateFormData('tone', tone.value)}
                                 className={`flex items-start gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all duration-200 ${
                                   formData.tone === tone.value
-                                    ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
-                                    : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                                    ? 'bg-[#c44578] border-[#c44578] text-white shadow-md'
+                                    : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c]'
                                 }`}
                               >
                                 <span className="text-xl mt-0.5">{tone.emoji}</span>
                                 <div>
                                   <span className="font-semibold block text-sm">{tone.label}</span>
-                                  <span className={`text-xs ${formData.tone === tone.value ? 'text-white/80' : 'text-[#8f867e]'}`}>{tone.description}</span>
+                                  <span className={`text-xs ${formData.tone === tone.value ? 'text-white/80' : 'text-[#756c64]'}`}>{tone.description}</span>
                                 </div>
                               </button>
                             ))}
@@ -2717,7 +2717,7 @@ function GeneratorContent() {
                           <details className="group" open={isSelectedInOthers || undefined}>
                             <summary className="flex items-center justify-between cursor-pointer select-none mb-3">
                               <span className="text-sm font-medium text-[#181615]">Other Options</span>
-                              <span className="text-sm text-[#da5389] hover:text-[#c4447a] transition-colors flex items-center gap-1">
+                              <span className="text-sm text-[#c44578] hover:text-[#c4447a] transition-colors flex items-center gap-1">
                                 <span className="group-open:hidden">Show more options ▼</span>
                                 <span className="hidden group-open:inline">Show fewer options ▲</span>
                               </span>
@@ -2730,14 +2730,14 @@ function GeneratorContent() {
                                   onClick={() => updateFormData('tone', tone.value)}
                                   className={`flex items-start gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all duration-200 ${
                                     formData.tone === tone.value
-                                      ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
-                                      : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                                      ? 'bg-[#c44578] border-[#c44578] text-white shadow-md'
+                                      : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c]'
                                   }`}
                                 >
                                   <span className="text-xl mt-0.5">{tone.emoji}</span>
                                   <div>
                                     <span className="font-semibold block text-sm">{tone.label}</span>
-                                    <span className={`text-xs ${formData.tone === tone.value ? 'text-white/80' : 'text-[#8f867e]'}`}>{tone.description}</span>
+                                    <span className={`text-xs ${formData.tone === tone.value ? 'text-white/80' : 'text-[#756c64]'}`}>{tone.description}</span>
                                   </div>
                                 </button>
                               ))}
@@ -2760,17 +2760,17 @@ function GeneratorContent() {
                     <label className="block text-base font-medium text-[#181615] mb-2">
                       {storyPrompts.question}
                     </label>
-                    <p className="text-sm text-[#8f867e] mb-3">{storyPrompts.hint}</p>
+                    <p className="text-sm text-[#756c64] mb-3">{storyPrompts.hint}</p>
 
                     {/* Expandable examples */}
                     <details className="mb-4 group">
-                      <summary className="flex items-center gap-2 text-sm font-medium text-[#da5389] cursor-pointer select-none hover:text-[#c4447a] transition-colors">
+                      <summary className="flex items-center gap-2 text-sm font-medium text-[#c44578] cursor-pointer select-none hover:text-[#c4447a] transition-colors">
                         <span className="transition-transform group-open:rotate-90">▶</span>
                         <span className="group-open:hidden">Show Examples</span>
                         <span className="hidden group-open:inline">Hide Examples</span>
                       </summary>
                       <div className="mt-3 bg-[#faf7f4] border border-[#e8e1d8] rounded-xl p-4 space-y-3">
-                        <p className="text-xs font-semibold text-[#8f867e] uppercase tracking-wide">Examples:</p>
+                        <p className="text-xs font-semibold text-[#756c64] uppercase tracking-wide">Examples:</p>
                         {storyPrompts.examples.map((ex, i) => (
                           <p key={i} className="text-sm text-[#5a534e] italic leading-relaxed">
                             &ldquo;{ex}&rdquo;
@@ -2789,7 +2789,7 @@ function GeneratorContent() {
                       autoFocus
                     />
                     <div className="flex items-center justify-between mt-2">
-                      <p className={`text-xs ${formData.greatStoryMemory.trim().length >= MIN_STORY_LENGTH ? 'text-green-600' : 'text-[#8f867e]'}`}>
+                      <p className={`text-xs ${formData.greatStoryMemory.trim().length >= MIN_STORY_LENGTH ? 'text-green-600' : 'text-[#756c64]'}`}>
                         {formData.greatStoryMemory.trim().length < MIN_STORY_LENGTH
                           ? `${MIN_STORY_LENGTH - formData.greatStoryMemory.trim().length} more characters — or tap the mic and tell your story 🎙️`
                           : '✓ Great — enough detail to generate a quality speech'}
@@ -2808,14 +2808,14 @@ function GeneratorContent() {
             {/* Section: Pro Features (Premium - Adds Personality & Emotional Depth) - legacy step, hidden */}
             {currentStep === 99 && (
               <div className="space-y-6">
-                <div className="bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/10 rounded-lg p-6 mb-6 border border-[#da5389]/30">
+                <div className="bg-gradient-to-r from-[#c44578]/10 to-[#c44578]/10 rounded-lg p-6 mb-6 border border-[#c44578]/30">
                   <div className="mb-4">
                     <h3 className="text-lg font-semibold text-[#181615] mb-1">💎 Pro - Premium Features</h3>
-                    <p className="text-base text-[#8f867e]">
+                    <p className="text-base text-[#756c64]">
                       Add personality and emotional depth to make your speech truly memorable
                     </p>
                   </div>
-                  <div className="text-sm text-[#da5389] font-medium">
+                  <div className="text-sm text-[#c44578] font-medium">
                     ✨ Unlock these fields to enhance your speech with personal details
                   </div>
                 </div>
@@ -2915,20 +2915,20 @@ function GeneratorContent() {
                         onClick={() => updateFormData('lengthPreference', option.value)}
                         className={`px-6 py-3 rounded-lg border-2 text-center transition-all duration-200 min-w-[140px] ${
                           formData.lengthPreference === option.value
-                            ? 'bg-[#da5389] border-[#da5389] text-white shadow-md'
-                            : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                            ? 'bg-[#c44578] border-[#c44578] text-white shadow-md'
+                            : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c]'
                         }`}
                       >
                         <div className="text-base font-medium">{option.label}</div>
                         <div className={`text-sm mt-1 ${
-                          formData.lengthPreference === option.value ? 'text-white/80' : 'text-[#8f867e]'
+                          formData.lengthPreference === option.value ? 'text-white/80' : 'text-[#756c64]'
                         }`}>
                           {option.description}
                         </div>
                       </button>
                     ))}
                   </div>
-                  <p className="text-sm text-[#8f867e] mt-2">
+                  <p className="text-sm text-[#756c64] mt-2">
                     💡 Speech timing is based on a natural speaking pace of ~150 words per minute
                   </p>
                 </div>
@@ -2980,8 +2980,8 @@ function GeneratorContent() {
                             onClick={() => updateFormData('humorLevel', option.value)}
                             className={`px-4 py-2 rounded-full border-2 text-sm font-medium transition-all duration-200 ${
                               formData.humorLevel === option.value
-                                ? 'bg-[#da5389] border-[#da5389] text-white'
-                                : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389]'
+                                ? 'bg-[#c44578] border-[#c44578] text-white'
+                                : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c]'
                             }`}
                           >
                             {option.label}
@@ -3005,17 +3005,17 @@ function GeneratorContent() {
                 </div>
 
                 {/* Generate Enhanced Speech CTA */}
-                <div className="bg-gradient-to-r from-[#da5389]/5 to-[#da5389]/5 border border-[#da5389]/20 rounded-lg p-6">
+                <div className="bg-gradient-to-r from-[#c44578]/5 to-[#c44578]/5 border border-[#c44578]/20 rounded-lg p-6">
                   <div className="text-center">
                     <h4 className="text-lg font-semibold text-[#181615] mb-2">
                       Generate Your Enhanced Speech
                     </h4>
-                    <p className="text-[#8f867e] text-sm mb-4">
+                    <p className="text-[#756c64] text-sm mb-4">
                       Include all the pro details above to create a more personalized and memorable speech.
                     </p>
                     <Button
                       onClick={handleSubmit}
-                      className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-8 py-3 text-lg font-medium shadow-lg"
+                      className="bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full px-8 py-3 text-lg font-medium shadow-lg"
                     >
                       <Sparkles className="mr-2 h-5 w-5" />
                       Generate Enhanced Speech
@@ -3035,11 +3035,11 @@ function GeneratorContent() {
                       type="button"
                       onClick={() => setShowEditDetails(!showEditDetails)}
                       className={`w-full flex items-center justify-between px-6 py-4 transition-colors ${
-                        !showEditDetails && isProUser ? 'bg-[#da5389]/5 hover:bg-[#da5389]/10' : 'hover:bg-[#faf7f4]'
+                        !showEditDetails && isProUser ? 'bg-[#c44578]/5 hover:bg-[#b33c6c]/10' : 'hover:bg-[#faf7f4]'
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <Sparkles className="h-5 w-5 text-[#da5389]" />
+                        <Sparkles className="h-5 w-5 text-[#c44578]" />
                         <span className="font-semibold text-[#181615]">Speech Details</span>
                         {!showEditDetails && isProUser && (
                           <span className="relative flex items-center">
@@ -3048,19 +3048,19 @@ function GeneratorContent() {
                                 ✓ Extra details added
                               </span>
                             ) : (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389] text-white animate-pulse">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#c44578] text-white animate-pulse">
                                 ✨ Add more detail for a better speech
                               </span>
                             )}
                           </span>
                         )}
                         {showEditDetails && (
-                          <span className="text-sm text-[#8f867e]">
+                          <span className="text-sm text-[#756c64]">
                             {formData.yourName} &bull; {formData.groomName} & {formData.brideName} &bull; {formData.tone}
                           </span>
                         )}
                       </div>
-                      {showEditDetails ? <ChevronUp className="h-5 w-5 text-[#8f867e]" /> : <ChevronDown className="h-5 w-5 text-[#da5389]" />}
+                      {showEditDetails ? <ChevronUp className="h-5 w-5 text-[#756c64]" /> : <ChevronDown className="h-5 w-5 text-[#c44578]" />}
                     </button>
 
                     {showEditDetails && (
@@ -3072,7 +3072,7 @@ function GeneratorContent() {
                               type="text"
                               value={formData.yourName}
                               onChange={(e) => setFormData({...formData, yourName: e.target.value})}
-                              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+                              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]"
                             />
                           </div>
                           <div>
@@ -3081,7 +3081,7 @@ function GeneratorContent() {
                               type="text"
                               value={formData.groomName}
                               onChange={(e) => setFormData({...formData, groomName: e.target.value})}
-                              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+                              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]"
                             />
                           </div>
                           <div>
@@ -3090,7 +3090,7 @@ function GeneratorContent() {
                               type="text"
                               value={formData.brideName}
                               onChange={(e) => setFormData({...formData, brideName: e.target.value})}
-                              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+                              className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]"
                             />
                           </div>
                         </div>
@@ -3100,7 +3100,7 @@ function GeneratorContent() {
                             type="text"
                             value={formData.relationshipToGroom}
                             onChange={(e) => setFormData({...formData, relationshipToGroom: e.target.value})}
-                            className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]"
+                            className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]"
                           />
                         </div>
                         <div>
@@ -3113,8 +3113,8 @@ function GeneratorContent() {
                                 onClick={() => setFormData({...formData, tone: tone.value})}
                                 className={`px-3 py-1.5 rounded-full text-sm border transition-all ${
                                   formData.tone === tone.value
-                                    ? 'bg-[#da5389] text-white border-[#da5389]'
-                                    : 'bg-white text-[#181615] border-[#e8e1d8] hover:border-[#da5389]'
+                                    ? 'bg-[#c44578] text-white border-[#c44578]'
+                                    : 'bg-white text-[#181615] border-[#e8e1d8] hover:border-[#b33c6c]'
                                 }`}
                               >
                                 {tone.emoji} {tone.label}
@@ -3128,7 +3128,7 @@ function GeneratorContent() {
                             value={formData.greatStoryMemory}
                             onChange={(e) => setFormData({...formData, greatStoryMemory: e.target.value})}
                             rows={3}
-                            className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical"
+                            className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578] resize-vertical"
                           />
                         </div>
 
@@ -3136,48 +3136,48 @@ function GeneratorContent() {
                         {isProUser && (
                           <>
                             <div className="border-t border-[#e8e1d8] pt-4 mt-2">
-                              <h4 className="text-sm font-semibold text-[#da5389] mb-3">
+                              <h4 className="text-sm font-semibold text-[#c44578] mb-3">
                                 Make It Personal
                                 {!(formData.howLongKnown || formData.sharedHobbiesJokes || formData.groomIn3Words || formData.whatYouAdmire || formData.relationshipWithBride || formData.momentSeenTogether) && (
-                                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389]/10 text-[#da5389] border border-[#da5389]/20">NEW</span>
+                                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#c44578]/10 text-[#c44578] border border-[#c44578]/20">NEW</span>
                                 )}
                               </h4>
-                              <p className="text-xs text-[#8f867e] mb-3">The more you share, the more unique and heartfelt your speech will be</p>
+                              <p className="text-xs text-[#756c64] mb-3">The more you share, the more unique and heartfelt your speech will be</p>
                               {(() => { const f = getRoleContextualFields(); return (<>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                   <label className="block text-sm font-medium text-[#181615] mb-1">{f.howLongKnown.label}</label>
-                                  <input type="text" value={formData.howLongKnown} onChange={(e) => setFormData({...formData, howLongKnown: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder={f.howLongKnown.placeholder} />
+                                  <input type="text" value={formData.howLongKnown} onChange={(e) => setFormData({...formData, howLongKnown: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]" placeholder={f.howLongKnown.placeholder} />
                                 </div>
                                 <div>
                                   <label className="block text-sm font-medium text-[#181615] mb-1">{f.sharedHobbiesJokes.label}</label>
-                                  <input type="text" value={formData.sharedHobbiesJokes} onChange={(e) => setFormData({...formData, sharedHobbiesJokes: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder={f.sharedHobbiesJokes.placeholder} />
+                                  <input type="text" value={formData.sharedHobbiesJokes} onChange={(e) => setFormData({...formData, sharedHobbiesJokes: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]" placeholder={f.sharedHobbiesJokes.placeholder} />
                                 </div>
                                 <div>
                                   <label className="block text-sm font-medium text-[#181615] mb-1">{f.groomIn3Words.label}</label>
-                                  <input type="text" value={formData.groomIn3Words} onChange={(e) => setFormData({...formData, groomIn3Words: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder={f.groomIn3Words.placeholder} />
+                                  <input type="text" value={formData.groomIn3Words} onChange={(e) => setFormData({...formData, groomIn3Words: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]" placeholder={f.groomIn3Words.placeholder} />
                                 </div>
                                 <div>
                                   <label className="block text-sm font-medium text-[#181615] mb-1">{f.relationshipWithBride.label}</label>
-                                  <input type="text" value={formData.relationshipWithBride} onChange={(e) => setFormData({...formData, relationshipWithBride: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder={f.relationshipWithBride.placeholder} />
+                                  <input type="text" value={formData.relationshipWithBride} onChange={(e) => setFormData({...formData, relationshipWithBride: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]" placeholder={f.relationshipWithBride.placeholder} />
                                 </div>
                               </div>
                               <div className="mt-4">
                                 <label className="block text-sm font-medium text-[#181615] mb-1">{f.whatYouAdmire.label}</label>
-                                <textarea value={formData.whatYouAdmire} onChange={(e) => setFormData({...formData, whatYouAdmire: e.target.value})} rows={2} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical" placeholder={f.whatYouAdmire.placeholder} />
+                                <textarea value={formData.whatYouAdmire} onChange={(e) => setFormData({...formData, whatYouAdmire: e.target.value})} rows={2} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578] resize-vertical" placeholder={f.whatYouAdmire.placeholder} />
                               </div>
                               <div className="mt-4">
                                 <label className="block text-sm font-medium text-[#181615] mb-1">{f.momentSeenTogether.label}</label>
-                                <textarea value={formData.momentSeenTogether} onChange={(e) => setFormData({...formData, momentSeenTogether: e.target.value})} rows={2} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389] resize-vertical" placeholder={f.momentSeenTogether.placeholder} />
+                                <textarea value={formData.momentSeenTogether} onChange={(e) => setFormData({...formData, momentSeenTogether: e.target.value})} rows={2} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578] resize-vertical" placeholder={f.momentSeenTogether.placeholder} />
                               </div>
                               </>); })()}
                             </div>
 
                             <div className="border-t border-[#e8e1d8] pt-4 mt-2">
-                              <h4 className="text-sm font-semibold text-[#da5389] mb-3">
+                              <h4 className="text-sm font-semibold text-[#c44578] mb-3">
                                 Bonus Options
                                 {!(formData.mentionBrideEnding || formData.includeShoutOuts || formData.humorLevel || formData.includeToastClosing) && (
-                                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#da5389]/10 text-[#da5389] border border-[#da5389]/20">NEW</span>
+                                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#c44578]/10 text-[#c44578] border border-[#c44578]/20">NEW</span>
                                 )}
                               </h4>
                               <div className="space-y-3">
@@ -3187,13 +3187,13 @@ function GeneratorContent() {
                                 </label>
                                 <div>
                                   <label className="block text-sm font-medium text-[#181615] mb-1">Anyone to mention? (family, friends)</label>
-                                  <input type="text" value={formData.includeShoutOuts} onChange={(e) => setFormData({...formData, includeShoutOuts: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#da5389]" placeholder="e.g., parents, bridal party" />
+                                  <input type="text" value={formData.includeShoutOuts} onChange={(e) => setFormData({...formData, includeShoutOuts: e.target.value})} className="w-full px-3 py-2 border border-[#e8e1d8] rounded-lg text-sm focus:outline-none focus:border-[#c44578]" placeholder="e.g., parents, bridal party" />
                                 </div>
                                 <div>
                                   <label className="block text-sm font-medium text-[#181615] mb-1">Humor level</label>
                                   <div className="flex flex-wrap gap-2">
                                     {['None', 'Light', 'Medium', 'Go for it'].map((level) => (
-                                      <button key={level} type="button" onClick={() => setFormData({...formData, humorLevel: level})} className={`px-3 py-1.5 rounded-full text-sm border transition-all ${formData.humorLevel === level ? 'bg-[#da5389] text-white border-[#da5389]' : 'bg-white text-[#181615] border-[#e8e1d8] hover:border-[#da5389]'}`}>{level}</button>
+                                      <button key={level} type="button" onClick={() => setFormData({...formData, humorLevel: level})} className={`px-3 py-1.5 rounded-full text-sm border transition-all ${formData.humorLevel === level ? 'bg-[#c44578] text-white border-[#c44578]' : 'bg-white text-[#181615] border-[#e8e1d8] hover:border-[#b33c6c]'}`}>{level}</button>
                                     ))}
                                   </div>
                                 </div>
@@ -3225,7 +3225,7 @@ function GeneratorContent() {
                             handleStartOver(`Regenerate using all updated details including: Name=${formData.yourName}, Groom=${formData.groomName}, Bride=${formData.brideName}, Tone=${formData.tone}. ${proDetails}`);
                           }}
                           disabled={isGenerating}
-                          className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full"
+                          className="bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full"
                         >
                           <Sparkles className="mr-2 h-4 w-4" />
                           Refresh with Updated Details
@@ -3293,30 +3293,30 @@ function GeneratorContent() {
                         <h3 className="text-xl font-bold text-[#181615]">
                           {isSpeechPaywalled ? '🔒 Your Speech is Ready!' : '✨ Your Speech is Ready!'}
                         </h3>
-                        <p className="text-sm text-[#8f867e] mt-1">Generated with AI • Personalized for {formData.groomName} & {formData.brideName}</p>
+                        <p className="text-sm text-[#756c64] mt-1">Generated with AI • Personalized for {formData.groomName} & {formData.brideName}</p>
                       </div>
                       {isSpeechPaywalled && (
-                        <Badge className="bg-[#da5389] text-white">Preview</Badge>
+                        <Badge className="bg-[#c44578] text-white">Preview</Badge>
                       )}
                     </div>
 
                     {/* Enhanced Speech Stats */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="bg-gradient-to-br from-[#da5389]/10 to-[#da5389]/5 rounded-lg p-4 text-center">
-                        <div className="text-2xl font-bold text-[#da5389]">{countWords(fullSpeechRef.current || generatedSpeech)}</div>
-                        <div className="text-sm font-medium text-[#8f867e]">Words</div>
+                      <div className="bg-gradient-to-br from-[#c44578]/10 to-[#c44578]/5 rounded-lg p-4 text-center">
+                        <div className="text-2xl font-bold text-[#c44578]">{countWords(fullSpeechRef.current || generatedSpeech)}</div>
+                        <div className="text-sm font-medium text-[#756c64]">Words</div>
                       </div>
-                      <div className="bg-gradient-to-br from-[#da5389]/10 to-[#da5389]/5 rounded-lg p-4 text-center">
-                        <div className="text-2xl font-bold text-[#da5389]">{estimateReadingTime(fullSpeechRef.current || generatedSpeech)}</div>
-                        <div className="text-sm font-medium text-[#8f867e]">Minutes</div>
+                      <div className="bg-gradient-to-br from-[#c44578]/10 to-[#c44578]/5 rounded-lg p-4 text-center">
+                        <div className="text-2xl font-bold text-[#c44578]">{estimateReadingTime(fullSpeechRef.current || generatedSpeech)}</div>
+                        <div className="text-sm font-medium text-[#756c64]">Minutes</div>
                       </div>
                       <div className="bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg p-4 text-center">
                         <div className="text-2xl font-bold text-green-600">{allTones.find(t => t.value === formData.tone)?.emoji || '😊'}</div>
-                        <div className="text-sm font-medium text-[#8f867e]">{allTones.find(t => t.value === formData.tone)?.label || formData.tone.replace('-', ' ')}</div>
+                        <div className="text-sm font-medium text-[#756c64]">{allTones.find(t => t.value === formData.tone)?.label || formData.tone.replace('-', ' ')}</div>
                       </div>
                       <div className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-lg p-4 text-center">
                         <div className="text-2xl font-bold text-blue-600">{getRoleTitle(formData.selectedRole, formData.customRoleLabel).split(' ')[0]}</div>
-                        <div className="text-sm font-medium text-[#8f867e]">Role</div>
+                        <div className="text-sm font-medium text-[#756c64]">Role</div>
                       </div>
                     </div>
 
@@ -3336,11 +3336,11 @@ function GeneratorContent() {
                                   onClick={undoSpeechVersion}
                                   disabled={!canUndo}
                                   title="Undo — go to previous version"
-                                  className={`p-1 rounded text-sm transition-colors ${canUndo ? 'text-[#da5389] hover:bg-[#da5389]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
+                                  className={`p-1 rounded text-sm transition-colors ${canUndo ? 'text-[#c44578] hover:bg-[#b33c6c]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
                                 >
                                   ↩️
                                 </button>
-                                <span className="text-xs text-[#8f867e] font-medium">
+                                <span className="text-xs text-[#756c64] font-medium">
                                   {speechVersions.length > 1
                                     ? `v${currentVersionIndex + 1}/${speechVersions.length}`
                                     : dbRegenCount > 0
@@ -3352,7 +3352,7 @@ function GeneratorContent() {
                                   onClick={redoSpeechVersion}
                                   disabled={!canRedo}
                                   title="Redo — go to next version"
-                                  className={`p-1 rounded text-sm transition-colors ${canRedo ? 'text-[#da5389] hover:bg-[#da5389]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
+                                  className={`p-1 rounded text-sm transition-colors ${canRedo ? 'text-[#c44578] hover:bg-[#b33c6c]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
                                 >
                                   ↪️
                                 </button>
@@ -3366,10 +3366,10 @@ function GeneratorContent() {
                                 title={isLoadingAudio ? 'Generating...' : 'Listen to your speech'}
                                 className={`flex items-center justify-center space-x-1.5 w-auto sm:w-[200px] px-3 py-2 text-sm font-medium rounded-lg transition-colors overflow-hidden ${
                                   isLoadingAudio
-                                    ? 'bg-[#da5389] text-white'
+                                    ? 'bg-[#c44578] text-white'
                                     : aiCreditsExhausted && !audioCacheRef.current
                                       ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                      : 'bg-[#faf7f4] text-[#181615] hover:bg-[#da5389]/10 border border-[#e8e1d8]'
+                                      : 'bg-[#faf7f4] text-[#181615] hover:bg-[#b33c6c]/10 border border-[#e8e1d8]'
                                 }`}
                               >
                                 {isLoadingAudio ? (
@@ -3390,14 +3390,14 @@ function GeneratorContent() {
                                 <button
                                   onClick={handlePauseResumeAudio}
                                   title={isPlayingAudio ? 'Pause' : 'Resume'}
-                                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#da5389] text-white hover:bg-[#da5389]/85 transition-colors"
+                                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#c44578] text-white hover:bg-[#b33c6c]/85 transition-colors"
                                 >
                                   {isPlayingAudio ? '⏸' : '▶'}
                                 </button>
                                 <button
                                   onClick={handleStopAudio}
                                   title="Stop"
-                                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#da5389]/80 text-white hover:bg-[#da5389] transition-colors"
+                                  className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#c44578]/80 text-white hover:bg-[#b33c6c] transition-colors"
                                 >
                                   ⏹
                                 </button>
@@ -3407,7 +3407,7 @@ function GeneratorContent() {
                               onClick={() => {
                                 navigator.clipboard.writeText(generatedSpeech);
                               }}
-                              className="flex items-center space-x-1 px-3 py-2 bg-[#da5389] text-white text-sm font-medium rounded-lg hover:bg-[#da5389]/90 transition-colors"
+                              className="flex items-center space-x-1 px-3 py-2 bg-[#c44578] text-white text-sm font-medium rounded-lg hover:bg-[#b33c6c]/90 transition-colors"
                             >
                               <span>⧉</span>
                               <span>Copy Speech</span>
@@ -3442,7 +3442,7 @@ function GeneratorContent() {
                         {isRefining && (
                           <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 rounded-lg flex items-center justify-center">
                             <div className="flex items-center gap-3 bg-white border border-[#e8e1d8] rounded-full px-5 py-3 shadow-md">
-                              <div className="animate-spin h-4 w-4 border-2 border-[#da5389] border-t-transparent rounded-full" />
+                              <div className="animate-spin h-4 w-4 border-2 border-[#c44578] border-t-transparent rounded-full" />
                               <span className="text-sm font-medium text-[#181615]">Refining your speech...</span>
                             </div>
                           </div>
@@ -3454,14 +3454,14 @@ function GeneratorContent() {
                               <div
                                 key={para.id}
                                 className={`mb-4 rounded px-2 -mx-2 transition-colors ${
-                                  para.source === 'user-edited' ? 'bg-[#da5389]/5 border-l-2 border-[#da5389]/30 pl-3 ml-0' : ''
+                                  para.source === 'user-edited' ? 'bg-[#c44578]/5 border-l-2 border-[#c44578]/30 pl-3 ml-0' : ''
                                 }`}
                               >
                                 <p
                                   contentEditable={isProUser && !isSpeechPaywalled && !isRefining}
                                   suppressContentEditableWarning
                                   className={`text-[#181615] leading-relaxed outline-none transition-colors ${
-                                    isProUser && !isSpeechPaywalled && !isRefining ? 'hover:bg-[#faf7f4] focus:ring-1 focus:ring-[#da5389]/30 focus:bg-white cursor-text rounded px-1' : ''
+                                    isProUser && !isSpeechPaywalled && !isRefining ? 'hover:bg-[#faf7f4] focus:ring-1 focus:ring-[#c44578]/30 focus:bg-white cursor-text rounded px-1' : ''
                                   }`}
                                   onFocus={(e) => {
                                     // When editing, show plain text (remove diff highlight spans)
@@ -3506,11 +3506,11 @@ function GeneratorContent() {
                                 <span>🔄 New speech generated</span>
                               ) : (
                                 <span>
-                                  ✨ {lastActionLabel ? <span>Refined: <span className="text-[#8f867e] italic">{lastActionLabel}</span></span> : 'Speech refined'}
+                                  ✨ {lastActionLabel ? <span>Refined: <span className="text-[#756c64] italic">{lastActionLabel}</span></span> : 'Speech refined'}
                                 </span>
                               )}
                               {creditsUsed > 0 && creditPercent >= 50 && (
-                                <span className="text-xs text-[#8f867e] ml-2">
+                                <span className="text-xs text-[#756c64] ml-2">
                                   — or click any paragraph to edit for free
                                 </span>
                               )}
@@ -3520,7 +3520,7 @@ function GeneratorContent() {
                                 undoSpeechVersion();
                                 setShowUndoBanner(false);
                               }}
-                              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-[#da5389] bg-white border border-[#da5389]/30 hover:bg-[#da5389]/5 transition-colors"
+                              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-[#c44578] bg-white border border-[#c44578]/30 hover:bg-[#b33c6c]/5 transition-colors"
                             >
                               ↩ Undo
                             </button>
@@ -3529,15 +3529,15 @@ function GeneratorContent() {
 
                         {/* Editing hint + legend for Pro users */}
                         {isProUser && !isSpeechPaywalled && speechGenerated && speechParagraphs.length > 0 && !showUndoBanner && (
-                          <div className="mt-3 flex flex-wrap items-center justify-between gap-1 text-xs text-[#8f867e]">
+                          <div className="mt-3 flex flex-wrap items-center justify-between gap-1 text-xs text-[#756c64]">
                             <span>💡 Click any paragraph to edit directly</span>
                             {speechParagraphs.some(p => p.source === 'user-edited') && (
                               <span className="flex items-center gap-1">
-                                <span className="inline-block w-3 h-3 bg-[#da5389]/10 border-l-2 border-[#da5389]/30 rounded-sm" />
+                                <span className="inline-block w-3 h-3 bg-[#c44578]/10 border-l-2 border-[#c44578]/30 rounded-sm" />
                                 Your edits — preserved during regeneration
                               </span>
                             )}
-                            {saveStatus === 'saving' && <span className="text-[#da5389]">Saving...</span>}
+                            {saveStatus === 'saving' && <span className="text-[#c44578]">Saving...</span>}
                             {saveStatus === 'saved' && <span className="text-green-600">Saved ✓</span>}
                           </div>
                         )}
@@ -3546,7 +3546,7 @@ function GeneratorContent() {
                         {isProUser && !isSpeechPaywalled && speechGenerated && (
                           <div className="mt-3 pt-3 border-t border-[#e8e1d8]/50">
                             <div className="flex items-center gap-2">
-                              <span className="text-xs text-[#8f867e] flex-shrink-0">🎙 Voice:</span>
+                              <span className="text-xs text-[#756c64] flex-shrink-0">🎙 Voice:</span>
                               <div className="flex flex-wrap gap-1.5">
                                 {[
                                   { id: 'nova', label: 'Nova', desc: 'Warm, friendly' },
@@ -3571,8 +3571,8 @@ function GeneratorContent() {
                                     title={v.desc}
                                     className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
                                       selectedVoice === v.id
-                                        ? 'bg-[#da5389] text-white shadow-sm'
-                                        : 'bg-[#faf7f4] text-[#8f867e] hover:bg-[#da5389]/10 hover:text-[#181615]'
+                                        ? 'bg-[#c44578] text-white shadow-sm'
+                                        : 'bg-[#faf7f4] text-[#756c64] hover:bg-[#b33c6c]/10 hover:text-[#181615]'
                                     }`}
                                   >
                                     {v.label}
@@ -3598,7 +3598,7 @@ function GeneratorContent() {
 
                     {/* Divider between speech and AI tools */}
                     {!isSpeechPaywalled && isProUser && speechGenerated && (
-                      <div className="flex items-center gap-3 text-xs text-[#8f867e]">
+                      <div className="flex items-center gap-3 text-xs text-[#756c64]">
                         <div className="flex-1 h-px bg-[#e8e1d8]" />
                         <span>Edit directly above, or use AI below</span>
                         <div className="flex-1 h-px bg-[#e8e1d8]" />
@@ -3616,7 +3616,7 @@ function GeneratorContent() {
                             </h4>
                             {/* Usage guidance — only shows when relevant */}
                             {creditPercent >= 50 && !aiCreditsExhausted && (
-                              <span className={`text-xs ${creditPercent >= 70 ? 'text-[#b08968]' : 'text-[#8f867e]'}`}>
+                              <span className={`text-xs ${creditPercent >= 70 ? 'text-[#b08968]' : 'text-[#756c64]'}`}>
                                 {creditsRemaining} AI edit{creditsRemaining !== 1 ? 's' : ''} remaining
                               </span>
                             )}
@@ -3624,7 +3624,7 @@ function GeneratorContent() {
                               <span className="text-xs text-[#b08968]">AI edits used up</span>
                             )}
                           </div>
-                          <div className="text-xs text-[#8f867e] mt-1">
+                          <div className="text-xs text-[#756c64] mt-1">
                             {aiCreditsExhausted
                               ? 'You can still click any paragraph above to edit it directly — it\'s free'
                               : 'Quick refinements keep your speech intact — only the relevant parts change'
@@ -3636,8 +3636,8 @@ function GeneratorContent() {
                           {/* Selected Pill Display */}
                           {selectedPill && (
                             <div className="bg-white/50 border border-[#e8e1d8] rounded-lg p-3">
-                              <div className="text-sm text-[#8f867e] mb-1">Selected improvement:</div>
-                              <div className="text-sm font-medium text-[#8f867e] italic">&ldquo;{selectedPill}&rdquo;</div>
+                              <div className="text-sm text-[#756c64] mb-1">Selected improvement:</div>
+                              <div className="text-sm font-medium text-[#756c64] italic">&ldquo;{selectedPill}&rdquo;</div>
                             </div>
                           )}
 
@@ -3655,7 +3655,7 @@ function GeneratorContent() {
                                   className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                                     isGenerating || aiCreditsExhausted
                                       ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                      : 'bg-[#da5389] text-white hover:bg-[#da5389]/85 shadow-sm hover:shadow-md'
+                                      : 'bg-[#c44578] text-white hover:bg-[#b33c6c]/85 shadow-sm hover:shadow-md'
                                   }`}
                                 >
                                   {suggestion}
@@ -3680,10 +3680,10 @@ function GeneratorContent() {
                                   disabled={isGenerating || aiCreditsExhausted}
                                   className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                                     selectedPill === suggestion
-                                      ? 'bg-[#da5389] text-white'
+                                      ? 'bg-[#c44578] text-white'
                                       : isGenerating || aiCreditsExhausted
                                       ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                      : 'bg-white border border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-[#da5389]/5'
+                                      : 'bg-white border border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c] hover:bg-[#b33c6c]/5'
                                   }`}
                                 >
                                   {suggestion} →
@@ -3713,7 +3713,7 @@ function GeneratorContent() {
                               }
                               maxLength={500}
                               rows={3}
-                              className="w-full p-3 border border-[#e8e1d8] rounded-lg text-[#181615] placeholder-[#8f867e] focus:border-[#da5389] focus:outline-none focus:ring-1 focus:ring-[#da5389]"
+                              className="w-full p-3 border border-[#e8e1d8] rounded-lg text-[#181615] placeholder-[#756c64] focus:border-[#c44578] focus:outline-none focus:ring-1 focus:ring-[#c44578]"
                             />
                             <div className="flex items-center justify-between mt-1">
                               <VoiceInput
@@ -3721,7 +3721,7 @@ function GeneratorContent() {
                                 placeholder="Describe changes by voice"
                                 disabled={isGenerating}
                               />
-                              <div className="text-xs text-[#8f867e]">{regenerationInstructions.length}/500</div>
+                              <div className="text-xs text-[#756c64]">{regenerationInstructions.length}/500</div>
                             </div>
                           </div>
 
@@ -3733,7 +3733,7 @@ function GeneratorContent() {
                                   setSelectedPill(null);
                                   setRegenerationInstructions("");
                                 }}
-                                className="text-sm text-[#8f867e] hover:text-[#da5389]"
+                                className="text-sm text-[#756c64] hover:text-[#b33c6c]"
                               >
                                 Clear selection
                               </button>
@@ -3747,7 +3747,7 @@ function GeneratorContent() {
                                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                                   isGenerating
                                     ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                    : 'text-[#8f867e] hover:text-[#181615] hover:bg-gray-100'
+                                    : 'text-[#756c64] hover:text-[#181615] hover:bg-gray-100'
                                 }`}
                               >
                                 Start Over
@@ -3774,13 +3774,13 @@ function GeneratorContent() {
                                   isGenerating
                                     ? 'border-2 border-gray-300 text-gray-400 cursor-not-allowed'
                                     : regenerationInstructions.trim().length >= 10 || selectedPill
-                                    ? 'bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-md hover:shadow-lg'
-                                    : 'border-2 border-[#da5389] text-[#da5389] bg-transparent hover:bg-[#da5389]/5'
+                                    ? 'bg-[#c44578] hover:bg-[#b33c6c]/90 text-white shadow-md hover:shadow-lg'
+                                    : 'border-2 border-[#c44578] text-[#c44578] bg-transparent hover:bg-[#b33c6c]/5'
                                 }`}
                               >
                                 {isGenerating ? (
                                   <>
-                                    <div className="animate-spin h-4 w-4 border-2 border-[#da5389] border-t-transparent rounded-full inline-block mr-2" />
+                                    <div className="animate-spin h-4 w-4 border-2 border-[#c44578] border-t-transparent rounded-full inline-block mr-2" />
                                     Refining...
                                   </>
                                 ) : (
@@ -3810,7 +3810,7 @@ function GeneratorContent() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuLabel className="text-xs text-[#8f867e]">Document</DropdownMenuLabel>
+                            <DropdownMenuLabel className="text-xs text-[#756c64]">Document</DropdownMenuLabel>
                             <DropdownMenuItem onClick={() => handleExport('txt')}>
                               <File className="h-4 w-4 mr-2" />
                               TXT
@@ -3824,11 +3824,11 @@ function GeneratorContent() {
                               DOCX
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuLabel className="text-xs text-[#8f867e]">Audio</DropdownMenuLabel>
+                            <DropdownMenuLabel className="text-xs text-[#756c64]">Audio</DropdownMenuLabel>
                             <DropdownMenuItem onClick={handleExportAudio} disabled={isLoadingAudio || (!audioCacheRef.current && aiCreditsExhausted)}>
                               <span className="h-4 w-4 mr-2 text-center">{isLoadingAudio ? '⏳' : '🎧'}</span>
                               {isLoadingAudio ? 'Generating MP3…' : 'MP3'}
-                              <span className="ml-auto text-xs text-[#8f867e]">{audioCacheRef.current ? 'cached' : '1 credit'}</span>
+                              <span className="ml-auto text-xs text-[#756c64]">{audioCacheRef.current ? 'cached' : '1 credit'}</span>
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -3837,7 +3837,7 @@ function GeneratorContent() {
                           className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${
                             isFinal
                               ? 'bg-green-50 border-2 border-green-400 text-green-700 hover:bg-green-100'
-                              : 'bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-md hover:shadow-lg'
+                              : 'bg-[#c44578] hover:bg-[#b33c6c]/90 text-white shadow-md hover:shadow-lg'
                           }`}
                         >
                           {isFinal ? '✅ Marked as Final' : '⭐ Mark as Final'}
@@ -3872,7 +3872,7 @@ function GeneratorContent() {
                       className={`px-5 sm:px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all duration-200 max-w-full ${
                         !isStepValid()
                           ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                          : 'bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
+                          : 'bg-[#c44578] hover:bg-[#b33c6c]/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
                       }`}
                     >
                       <Sparkles className="inline h-5 w-5 mr-2 flex-shrink-0" />
@@ -3887,7 +3887,7 @@ function GeneratorContent() {
                 {!speechGenerated && (
                   <div className="bg-[#faf7f4] rounded-lg p-4">
                     <h4 className="font-semibold text-[#181615] mb-2">💡 Tips for a Great Speech:</h4>
-                    <ul className="text-sm text-[#8f867e] space-y-1">
+                    <ul className="text-sm text-[#756c64] space-y-1">
                       <li>• Your speech will include the story you shared in Step 1</li>
                       <li>• We'll match the tone and length you selected</li>
                       <li>• Make it personal — specific details make the best speeches</li>
@@ -3906,7 +3906,7 @@ function GeneratorContent() {
                 <Button
                   variant="outline"
                   onClick={prevStep}
-                  className="bg-white border-2 border-[#e8e1d8] text-[#181615] hover:border-[#da5389] hover:text-[#da5389] rounded-full"
+                  className="bg-white border-2 border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c] rounded-full"
                 >
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back
@@ -3924,7 +3924,7 @@ function GeneratorContent() {
                     disabled={!isStepValid()}
                     className={`shadow-lg rounded-full px-8 transition-all duration-200 ${
                       isStepValid()
-                        ? 'bg-[#da5389] hover:bg-[#da5389]/90 text-white'
+                        ? 'bg-[#c44578] hover:bg-[#b33c6c]/90 text-white'
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
                   >
@@ -3941,7 +3941,7 @@ function GeneratorContent() {
                     className={`shadow-lg rounded-full px-5 sm:px-8 transition-all duration-200 max-w-full ${
                       isGenerating || !isStepValid()
                         ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                        : 'bg-[#da5389] hover:bg-[#da5389]/90 text-white'
+                        : 'bg-[#c44578] hover:bg-[#b33c6c]/90 text-white'
                     }`}
                   >
                     {isGenerating ? (
@@ -3962,7 +3962,7 @@ function GeneratorContent() {
                 {currentStep < 5 && isEditMode && (
                   <Button
                     onClick={() => setCurrentStep(5)}
-                    className="shadow-lg rounded-full bg-[#da5389] hover:bg-[#da5389]/90 text-white"
+                    className="shadow-lg rounded-full bg-[#c44578] hover:bg-[#b33c6c]/90 text-white"
                   >
                     Back to Speech
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -3975,19 +3975,19 @@ function GeneratorContent() {
 
         {/* Help Section */}
         <div className="mt-8 text-center">
-          <p className="text-[#8f867e] text-sm mb-4">
+          <p className="text-[#756c64] text-sm mb-4">
             Need help? Here are some tips for each step:
           </p>
           <div className="grid md:grid-cols-3 gap-4 text-sm">
-            <div className="flex items-center gap-2 text-[#8f867e]">
+            <div className="flex items-center gap-2 text-[#756c64]">
               <Users className="h-4 w-4" />
               <span>Be specific about your relationship</span>
             </div>
-            <div className="flex items-center gap-2 text-[#8f867e]">
+            <div className="flex items-center gap-2 text-[#756c64]">
               <Sparkles className="h-4 w-4" />
               <span>Include personal, meaningful details</span>
             </div>
-            <div className="flex items-center gap-2 text-[#8f867e]">
+            <div className="flex items-center gap-2 text-[#756c64]">
               <Clock className="h-4 w-4" />
               <span>Keep stories concise but heartfelt</span>
             </div>
@@ -4000,7 +4000,7 @@ function GeneratorContent() {
             <div className="bg-white border-2 border-green-400 rounded-2xl shadow-2xl p-5 sm:p-8 text-center max-w-md pointer-events-auto animate-bounce-in">
               <div className="text-6xl mb-4">🎉</div>
               <h2 className="text-2xl font-bold text-[#181615] mb-2">Speech Finalized!</h2>
-              <p className="text-[#8f867e] mb-4">
+              <p className="text-[#756c64] mb-4">
                 Your speech is ready for the big day. You're going to nail it!
               </p>
               <div className="flex justify-center gap-2 text-3xl">
@@ -4008,7 +4008,7 @@ function GeneratorContent() {
               </div>
               <button
                 onClick={() => setShowFinalToast(false)}
-                className="mt-4 text-sm text-[#8f867e] hover:text-[#da5389] transition-colors"
+                className="mt-4 text-sm text-[#756c64] hover:text-[#b33c6c] transition-colors"
               >
                 Close
               </button>
@@ -4024,7 +4024,7 @@ function GeneratorContent() {
             <div className="text-center mb-4">
               <span className="text-3xl">🔄</span>
               <h3 className="font-semibold text-[#181615] text-lg mt-2">Start Over?</h3>
-              <p className="text-sm text-[#8f867e] mt-2">
+              <p className="text-sm text-[#756c64] mt-2">
                 This will generate a completely new speech from scratch. Your current version will be saved in version history so you can always go back.
               </p>
               {creditsRemaining > 0 && (
@@ -4042,7 +4042,7 @@ function GeneratorContent() {
               </button>
               <button
                 onClick={confirmStartOver}
-                className="flex-1 px-4 py-2.5 rounded-full text-sm font-semibold bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-md transition-colors"
+                className="flex-1 px-4 py-2.5 rounded-full text-sm font-semibold bg-[#c44578] hover:bg-[#b33c6c]/90 text-white shadow-md transition-colors"
               >
                 Yes, Start Over
               </button>
@@ -4059,8 +4059,8 @@ export default function GeneratorPage() {
     <>
       <Suspense fallback={<div className="min-h-screen bg-[#faf7f4] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#da5389] mx-auto mb-4" />
-          <p className="text-[#8f867e]">Loading speech generator...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#c44578] mx-auto mb-4" />
+          <p className="text-[#756c64]">Loading speech generator...</p>
         </div>
       </div>}>
         <GeneratorContent />

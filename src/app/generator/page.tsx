@@ -742,7 +742,6 @@ function GeneratorContent() {
   // ── Analytics timing refs ──────────────────────────────────────
   const stepEnteredAtRef = React.useRef<number>(Date.now());
   const generationStartRef = React.useRef<number>(0);
-  const purchaseTrackedRef = React.useRef(false);
 
   // Paragraph-level editing: track AI vs user-edited paragraphs
   interface SpeechParagraph {
@@ -873,26 +872,6 @@ function GeneratorContent() {
     track('speech_step_view', { step: currentStep, step_name: STEP_NAMES[currentStep] || `step_${currentStep}` });
     stepEnteredAtRef.current = Date.now();
   }, [currentStep]);
-
-  // ── GA4: Track purchase (deduplicated by session_id) ─────────────
-  useEffect(() => {
-    if (!paymentSuccess || !sessionId || purchaseTrackedRef.current) return;
-    // Deduplicate: check sessionStorage so refresh doesn't re-fire
-    const key = `nts_purchase_tracked_${sessionId}`;
-    if (typeof window !== 'undefined' && sessionStorage.getItem(key)) return;
-
-    const attr = getAttribution();
-    track('purchase_completed', {
-      value: currency.amount / 100,
-      currency: currency.code,
-      plan: 'pro',
-      session_id: sessionId,
-      ...attr,
-    });
-
-    purchaseTrackedRef.current = true;
-    if (typeof window !== 'undefined') sessionStorage.setItem(key, '1');
-  }, [paymentSuccess, sessionId, currency.amount, currency.code]);
 
   // ── GA4: Track email-attributed conversion ───────────────────────
   useEffect(() => {

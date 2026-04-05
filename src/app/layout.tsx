@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
+import { Suspense } from "react";
 import "./globals.css";
 import ClientBody from "./ClientBody";
 import { ClerkProvider } from '@clerk/nextjs';
+import PurchaseTracker from "@/components/PurchaseTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -78,6 +80,7 @@ export default function RootLayout({
               gtag('config', 'G-1DHZCRC9WG');
             `}
           </Script>
+          <Suspense fallback={null}><PurchaseTracker /></Suspense>
           <ClientBody>{children}</ClientBody>
         </body>
       </html>

@@ -235,16 +235,15 @@ export default function HelpPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <div className="w-10 h-10 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold mb-4">
+            <div className="text-center">
+              <div className="w-10 h-10 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold mb-4 mx-auto">
                 1
               </div>
               <h3 className="font-semibold text-[#181615] mb-2">
                 Share your stories
               </h3>
               <p className="text-sm text-[#8f867e] mb-4">
-                Tell us about the couple, your relationship, and your favourite
-                memories. Takes about two minutes.
+                Tell us about the couple and your favourite memories. Takes about two minutes.
               </p>
               <ScreenshotPlaceholder
                 subject="Generator input form"
@@ -253,16 +252,15 @@ export default function HelpPage() {
               />
             </div>
 
-            <div>
-              <div className="w-10 h-10 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold mb-4">
+            <div className="text-center">
+              <div className="w-10 h-10 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold mb-4 mx-auto">
                 2
               </div>
               <h3 className="font-semibold text-[#181615] mb-2">
                 Get your speech
               </h3>
               <p className="text-sm text-[#8f867e] mb-4">
-                The AI generates a structured speech in seconds — opening,
-                stories, tribute, and toast.
+                The AI generates a structured speech in seconds — opening, stories, tribute, and toast.
               </p>
               <ScreenshotPlaceholder
                 subject="Generated speech output"
@@ -271,16 +269,15 @@ export default function HelpPage() {
               />
             </div>
 
-            <div>
-              <div className="w-10 h-10 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold mb-4">
+            <div className="text-center">
+              <div className="w-10 h-10 rounded-full bg-[#da5389] text-white flex items-center justify-center font-bold mb-4 mx-auto">
                 3
               </div>
               <h3 className="font-semibold text-[#181615] mb-2">
                 Make it yours
               </h3>
               <p className="text-sm text-[#8f867e] mb-4">
-                Edit any paragraph, use AI refinements, then export to PDF,
-                Word, or MP3.
+                Edit any paragraph, use AI refinements, then export to PDF, Word, or MP3.
               </p>
               <ScreenshotPlaceholder
                 subject="Inline editing experience"

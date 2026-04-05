@@ -21,7 +21,7 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'wedding speech writing tips',
     readingTime: 7,
     publishedDate: '2026-04-05',
-    // heroImage: '/images/articles/why-writing-is-hardest.jpg',
+    heroImage: '/images/articles/why-writing-is-hardest.png',
     heroImageAlt: 'Person staring at a blank page trying to write a wedding speech',
     tags: ['talk-first speech writing', 'wedding speech tips', 'authenticity', 'voice input'],
     relatedSlugs: [
@@ -37,7 +37,7 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'talk first speech writing',
     readingTime: 8,
     publishedDate: '2026-04-05',
-    // heroImage: '/images/articles/science-of-talking.jpg',
+    heroImage: '/images/articles/science-of-talking.png',
     heroImageAlt: 'Brain illustration showing speech and language pathways',
     tags: ['talk-first speech writing', 'science', 'cognitive pathways', 'authenticity'],
     relatedSlugs: [
@@ -53,7 +53,7 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'how to write a wedding speech',
     readingTime: 6,
     publishedDate: '2026-04-05',
-    // heroImage: '/images/articles/rambling-to-great-speech.jpg',
+    heroImage: '/images/articles/rambling-to-great-speech.png',
     heroImageAlt: 'Scattered notes transforming into a polished wedding speech',
     tags: ['talk-first speech writing', 'wedding speech structure', 'practical guide', 'step by step'],
     relatedSlugs: [
@@ -69,7 +69,7 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'AI wedding speech generator',
     readingTime: 6,
     publishedDate: '2026-04-05',
-    // heroImage: '/images/articles/ai-speeches-generic.jpg',
+    heroImage: '/images/articles/ai-speeches-generic.png',
     heroImageAlt: 'Comparison of generic vs personal AI-generated wedding speech',
     tags: ['talk-first speech writing', 'AI wedding speech', 'personalisation', 'voice input'],
     relatedSlugs: [
@@ -85,7 +85,7 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'wedding speech preparation',
     readingTime: 5,
     publishedDate: '2026-04-05',
-    // heroImage: '/images/articles/voice-note-to-speech.jpg',
+    heroImage: '/images/articles/voice-note-to-speech.png',
     heroImageAlt: 'Phone recording a voice note that becomes a wedding speech',
     tags: ['talk-first speech writing', 'voice notes', 'audio', 'MP3 export', 'rehearsal'],
     relatedSlugs: [

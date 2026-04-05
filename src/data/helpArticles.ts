@@ -100,29 +100,29 @@ export const helpArticles: HelpArticle[] = [
     readingTime: 3,
     sections: [
       {
-        heading: "Step 1 — Tell us about you and the couple",
+        heading: "Step 1: Tell us about you and the couple",
         level: 2,
         content:
-          "Start by selecting your role (best man, maid of honor, father of the bride, or any of our 44 supported roles). Then share a few details: the couple's names, how you know them, a favourite memory, and anything you'd like to mention.\n\nThis takes about two minutes. You don't need to be a writer — just answer naturally. The more specific you are, the more personal the result.",
+          "Start by selecting your role (best man, maid of honor, father of the bride, or any of our 44 supported roles). Then share a few details: the couple's names, how you know them, a favourite memory, and anything you'd like to mention.\n\nThis takes about two minutes. You don't need to be a writer. Just answer naturally. The more specific you are, the more personal the result.",
         screenshotAfter: {
           subject: "Generator input form",
           caption:
-            "The guided questionnaire — share your stories and details in your own words.",
+            "The guided questionnaire: share your stories and details in your own words.",
           src: "/images/help/user-input.png",
           alt: "Nail The Speech generator input form with name fields and questionnaire",
         },
       },
       {
-        heading: "Step 2 — Choose your tone and length",
+        heading: "Step 2: Choose your tone and length",
         level: 2,
         content:
-          "Pick from 14 tone options — heartfelt, funny, clean roast, nostalgic, sentimental, balanced, and more. You can also set the speech length anywhere from 1 to 10 minutes.\n\nThe tone shapes the language, humour level, and emotional arc of your speech. If you're not sure, start with \"balanced\" and adjust later.",
+          "Pick from 14 tone options: heartfelt, funny, clean roast, nostalgic, sentimental, balanced, and more. You can also set the speech length anywhere from 1 to 10 minutes.\n\nThe tone shapes the language, humour level, and emotional arc of your speech. If you're not sure, start with \"balanced\" and adjust later.",
       },
       {
-        heading: "Step 3 — Get your speech",
+        heading: "Step 3: Get your speech",
         level: 2,
         content:
-          "The AI generates a complete, structured speech in seconds. You'll see it organised into clear paragraphs — opening, stories, compliments to the couple, and a closing toast.\n\nFrom here you can edit any paragraph directly, use AI refinements to adjust sections, listen with text-to-speech, or export to PDF, Word, or MP3.",
+          "The AI generates a complete, structured speech in seconds. You'll see it organised into clear paragraphs: opening, stories, compliments to the couple, and a closing toast.\n\nFrom here you can edit any paragraph directly, use AI refinements to adjust sections, listen with text-to-speech, or export to PDF, Word, or MP3.",
         screenshotAfter: {
           subject: "Generated speech output",
           caption:
@@ -135,7 +135,7 @@ export const helpArticles: HelpArticle[] = [
         heading: "What happens next",
         level: 2,
         content:
-          "Most people spend 10–20 minutes personalising their speech after generation. You might swap out a phrase, add an inside joke, or use the AI to make a section funnier or shorter.\n\nWhen you're happy, export it however you need — PDF for printing, Word for further editing, plain text for your phone, or MP3 to practise listening back.",
+          "Most people spend 10–20 minutes personalising their speech after generation. You might swap out a phrase, add an inside joke, or use the AI to make a section funnier or shorter.\n\nWhen you're happy, export it however you need: PDF for printing, Word for further editing, plain text for your phone, or MP3 to practise listening back.",
       },
     ],
     internalLinks: [
@@ -154,9 +154,9 @@ export const helpArticles: HelpArticle[] = [
     category: "Editing & Refining",
     targetKeyword: "edit AI generated wedding speech",
     metaDescription:
-      "Yes — click any paragraph to edit it directly, use AI refinements, or regenerate sections. Full control over every word.",
+      "Yes. Click any paragraph to edit it directly, use AI refinements, or regenerate sections. Full control over every word.",
     shortAnswer:
-      "Yes. Pro users can click any paragraph to edit it directly in the app. You can also use AI-powered refinements to adjust tone, length, or detail on specific sections — or regenerate the whole speech with new instructions.",
+      "Yes. Pro users can click any paragraph to edit it directly in the app. You can also use AI-powered refinements to adjust tone, length, or detail on specific sections, or regenerate the whole speech with new instructions.",
     readingTime: 3,
     sections: [
       {
@@ -167,7 +167,7 @@ export const helpArticles: HelpArticle[] = [
         screenshotAfter: {
           subject: "Inline editing experience",
           caption:
-            "Click any paragraph to edit it directly — your changes are highlighted and preserved.",
+            "Click any paragraph to edit it directly. Your changes are highlighted and preserved.",
           src: "/images/help/speech-inline-editing.png",
           alt: "Nail The Speech inline paragraph editing with user changes highlighted",
         },
@@ -182,7 +182,7 @@ export const helpArticles: HelpArticle[] = [
         heading: "Regenerating the full speech",
         level: 2,
         content:
-          "If you want a completely fresh take, you can regenerate the entire speech. Add new instructions or change the tone, and the AI will produce a new draft.\n\nWhen you regenerate, any paragraphs you've personally edited are preserved — the AI only rewrites the parts it generated. This means your personal touches survive even when you ask for a fresh version.",
+          "If you want a completely fresh take, you can regenerate the entire speech. Add new instructions or change the tone, and the AI will produce a new draft.\n\nWhen you regenerate, any paragraphs you've personally edited are preserved. The AI only rewrites the parts it generated. This means your personal touches survive even when you ask for a fresh version.",
         screenshotAfter: {
           subject: "Speech refinement controls",
           caption:
@@ -195,7 +195,7 @@ export const helpArticles: HelpArticle[] = [
         heading: "Version history",
         level: 2,
         content:
-          "Every change creates a new version. You can step back through your version history at any time — so there's no risk to experimenting. Try a different tone, undo it if you don't like it, and keep going.",
+          "Every change creates a new version. You can step back through your version history at any time, so there's no risk to experimenting. Try a different tone, undo it if you don't like it, and keep going.",
       },
     ],
     internalLinks: [
@@ -216,26 +216,26 @@ export const helpArticles: HelpArticle[] = [
     metaDescription:
       "AI speeches sound like you because they use your real stories, names, and details. Here's how Nail The Speech avoids generic AI phrasing.",
     shortAnswer:
-      "Yes — because the speech is built from your specific stories, names, and memories. It doesn't use generic templates. The more detail you share in the questionnaire, the more personal and natural the result sounds.",
+      "Yes, because the speech is built from your specific stories, names, and memories. It doesn't use generic templates. The more detail you share in the questionnaire, the more personal and natural the result sounds.",
     readingTime: 3,
     sections: [
       {
         heading: "Your details are the foundation",
         level: 2,
         content:
-          "The speech isn't pulled from a library of templates. It's generated fresh from what you tell us — the couple's names, how you met, your favourite memory, the little details that only you know.\n\nThat's what makes it sound like you, not a chatbot. A story about burning dinner at a caravan in Wales is never going to sound generic.",
+          "The speech isn't pulled from a library of templates. It's generated fresh from what you tell us: the couple's names, how you met, your favourite memory, the little details that only you know.\n\nThat's what makes it sound like you, not a chatbot. A story about burning dinner at a caravan in Wales is never going to sound generic.",
       },
       {
         heading: "Tone matching",
         level: 2,
         content:
-          "You choose the tone before generation. If you pick \"funny\", the speech leans into humour. If you pick \"heartfelt\", it leans into genuine emotion. If you pick \"clean roast\", it finds the sweet spot between teasing and affection.\n\nThis isn't just a label — it shapes the vocabulary, sentence structure, and emotional arc of the whole speech.",
+          "You choose the tone before generation. If you pick \"funny\", the speech leans into humour. If you pick \"heartfelt\", it leans into genuine emotion. If you pick \"clean roast\", it finds the sweet spot between teasing and affection.\n\nThis isn't just a label. It shapes the vocabulary, sentence structure, and emotional arc of the whole speech.",
       },
       {
         heading: "It's a starting point, not a finished product",
         level: 2,
         content:
-          "The best AI-generated speeches are the ones people edit. Swap out a word, add an inside joke, tweak the closing line. A few small changes are all it takes to make it unmistakably yours.\n\nThat's why we built direct paragraph editing into the app — so you can adjust anything without starting over.",
+          "The best AI-generated speeches are the ones people edit. Swap out a word, add an inside joke, tweak the closing line. A few small changes are all it takes to make it unmistakably yours.\n\nThat's why we built direct paragraph editing into the app, so you can adjust anything without starting over.",
       },
       {
         heading: "How it compares to ChatGPT",
@@ -250,7 +250,7 @@ export const helpArticles: HelpArticle[] = [
       { href: "/generator", label: "Try the generator" },
       { href: "/examples", label: "Browse example speeches" },
     ],
-    ctaText: "See for yourself — try it with your own stories",
+    ctaText: "See for yourself. Try it with your own stories",
     ctaHref: "/generator",
     tags: ["AI quality", "personalisation", "natural sounding", "tone"],
   },
@@ -260,9 +260,9 @@ export const helpArticles: HelpArticle[] = [
     category: "Getting Started",
     targetKeyword: "wedding speech generator vs ChatGPT",
     metaDescription:
-      "ChatGPT is a general chatbot. Nail The Speech is purpose-built for wedding speeches — with structure, tone control, editing, and export.",
+      "ChatGPT is a general chatbot. Nail The Speech is purpose-built for wedding speeches, with structure, tone control, editing, and export.",
     shortAnswer:
-      "ChatGPT can generate text, but it doesn't understand wedding speech structure, timing, or delivery. Nail The Speech is built specifically for speeches — with guided input, tone control, inline editing, version history, and export to PDF, Word, or audio.",
+      "ChatGPT can generate text, but it doesn't understand wedding speech structure, timing, or delivery. Nail The Speech is built specifically for speeches, with guided input, tone control, inline editing, version history, and export to PDF, Word, or audio.",
     readingTime: 3,
     sections: [
       {
@@ -273,7 +273,7 @@ export const helpArticles: HelpArticle[] = [
         screenshotAfter: {
           subject: "Structured speech workflow",
           caption:
-            "Purpose-built speech structure — not a blank chatbot prompt.",
+            "Purpose-built speech structure, not a blank chatbot prompt.",
           src: "/images/help/generated-speech.png",
           alt: "Generated best man speech showing structured paragraphs",
         },
@@ -282,7 +282,7 @@ export const helpArticles: HelpArticle[] = [
         heading: "Tone control you can trust",
         level: 2,
         content:
-          "Telling ChatGPT to \"be funny\" is a gamble. Sometimes you get cringe. With Nail The Speech, you choose from 14 tested tones — funny, heartfelt, clean roast, nostalgic, and more. Each one is calibrated for wedding speech delivery.",
+          "Telling ChatGPT to \"be funny\" is a gamble. Sometimes you get cringe. With Nail The Speech, you choose from 14 tested tones: funny, heartfelt, clean roast, nostalgic, and more. Each one is calibrated for wedding speech delivery.",
       },
       {
         heading: "Real editing tools",
@@ -294,13 +294,13 @@ export const helpArticles: HelpArticle[] = [
         heading: "Export and practice",
         level: 2,
         content:
-          "ChatGPT gives you text in a chat window. Nail The Speech exports to PDF (for printing), Word (for further editing), plain text (for your phone), and MP3 audio (for practising delivery).\n\nYou can also use the built-in text-to-speech to hear your speech read aloud — helpful for catching awkward phrasing and timing your delivery.",
+          "ChatGPT gives you text in a chat window. Nail The Speech exports to PDF (for printing), Word (for further editing), plain text (for your phone), and MP3 audio (for practising delivery).\n\nYou can also use the built-in text-to-speech to hear your speech read aloud, which is helpful for catching awkward phrasing and timing your delivery.",
       },
       {
         heading: "Built for this one job",
         level: 2,
         content:
-          "ChatGPT is a general-purpose tool. It writes emails, code, essays, and tweets. Nail The Speech does one thing: help you write and deliver a great wedding speech. Every feature — from the questionnaire to the export options — is designed for that single purpose.\n\nThat focus is why the output is better.",
+          "ChatGPT is a general-purpose tool. It writes emails, code, essays, and tweets. Nail The Speech does one thing: help you write and deliver a great wedding speech. Every feature, from the questionnaire to the export options, is designed for that single purpose.\n\nThat focus is why the output is better.",
       },
     ],
     internalLinks: [
@@ -321,26 +321,26 @@ export const helpArticles: HelpArticle[] = [
     metaDescription:
       "When you regenerate, the AI writes a fresh draft while preserving any paragraphs you've personally edited. Your changes are never lost.",
     shortAnswer:
-      "The AI generates a completely fresh speech based on your original details and any new instructions you provide. Paragraphs you've personally edited are preserved — the AI only rewrites the sections it generated.",
+      "The AI generates a completely fresh speech based on your original details and any new instructions you provide. Paragraphs you've personally edited are preserved. The AI only rewrites the sections it generated.",
     readingTime: 2,
     sections: [
       {
         heading: "Fresh draft, same details",
         level: 2,
         content:
-          "Regeneration creates a new speech from your original questionnaire answers. If you've added new instructions (like \"make it funnier\" or \"mention the dog\"), those are included too.\n\nEach regeneration produces a genuinely different speech — not just a reshuffled version of the same text.",
+          "Regeneration creates a new speech from your original questionnaire answers. If you've added new instructions (like \"make it funnier\" or \"mention the dog\"), those are included too.\n\nEach regeneration produces a genuinely different speech, not just a reshuffled version of the same text.",
       },
       {
         heading: "Your edits are preserved",
         level: 2,
         content:
-          "If you've edited any paragraphs directly — adding personal touches, inside jokes, or rewriting a section — those changes are preserved during regeneration. The AI only replaces the paragraphs it wrote.\n\nThis means you can experiment freely. Regenerate for a different opening, keep the closing you already perfected, and build your speech iteratively.",
+          "If you've edited any paragraphs directly, whether adding personal touches, inside jokes, or rewriting a section, those changes are preserved during regeneration. The AI only replaces the paragraphs it wrote.\n\nThis means you can experiment freely. Regenerate for a different opening, keep the closing you already perfected, and build your speech iteratively.",
       },
       {
         heading: "Version history has your back",
         level: 2,
         content:
-          "Every regeneration creates a new version. If you prefer the previous draft, you can step back to it with one click. There's no risk to trying a new approach — you can always go back.",
+          "Every regeneration creates a new version. If you prefer the previous draft, you can step back to it with one click. There's no risk to trying a new approach. You can always go back.",
       },
     ],
     internalLinks: [
@@ -362,7 +362,7 @@ export const helpArticles: HelpArticle[] = [
     metaDescription:
       "A best man speech should be 3 to 5 minutes (400–700 words). Here's how to get the length right and keep the room engaged.",
     shortAnswer:
-      "Aim for 3 to 5 minutes — roughly 400 to 700 words. That's long enough to tell a great story and raise a proper toast, short enough to keep everyone's attention before dessert arrives.",
+      "Aim for 3 to 5 minutes, roughly 400 to 700 words. That's long enough to tell a great story and raise a proper toast, short enough to keep everyone's attention before dessert arrives.",
     readingTime: 3,
     sections: [
       {
@@ -375,7 +375,7 @@ export const helpArticles: HelpArticle[] = [
         heading: "Word count as a guide",
         level: 2,
         content:
-          "Most people speak at roughly 130–150 words per minute. That means:\n\n- **3 minutes:** ~400–450 words\n- **4 minutes:** ~530–600 words\n- **5 minutes:** ~650–750 words\n\nNail The Speech lets you set your preferred length before generation, so the AI structures the speech to fit your timing naturally — no cutting or padding needed.",
+          "Most people speak at roughly 130–150 words per minute. That means:\n\n- **3 minutes:** ~400–450 words\n- **4 minutes:** ~530–600 words\n- **5 minutes:** ~650–750 words\n\nNail The Speech lets you set your preferred length before generation, so the AI structures the speech to fit your timing naturally, with no cutting or padding needed.",
       },
       {
         heading: "Why shorter is usually better",
@@ -408,20 +408,20 @@ export const helpArticles: HelpArticle[] = [
     metaDescription:
       "A maid of honor speech should be 3 to 5 minutes (400–700 words). Tips on timing, structure, and keeping the emotion just right.",
     shortAnswer:
-      "3 to 5 minutes is ideal — around 400 to 700 words. Long enough to share a meaningful story and celebrate the bride, short enough to keep the room with you from start to finish.",
+      "3 to 5 minutes is ideal, around 400 to 700 words. Long enough to share a meaningful story and celebrate the bride, short enough to keep the room with you from start to finish.",
     readingTime: 3,
     sections: [
       {
         heading: "3 to 5 minutes is the sweet spot",
         level: 2,
         content:
-          "A maid of honor speech has the same timing goal as a best man speech: 3 to 5 minutes. That gives you room for an opening, a personal story about the bride, a warm word about the couple, and a toast.\n\nIf you're worried about crying (it happens), factor in a few seconds of pause. The audience will wait — they're rooting for you.",
+          "A maid of honor speech has the same timing goal as a best man speech: 3 to 5 minutes. That gives you room for an opening, a personal story about the bride, a warm word about the couple, and a toast.\n\nIf you're worried about crying (it happens), factor in a few seconds of pause. The audience will wait. They're rooting for you.",
       },
       {
         heading: "Structuring for the right length",
         level: 2,
         content:
-          "A common structure that works well at 4 minutes:\n\n1. Introduction — who you are and how you know the bride (30 seconds)\n2. A story that shows who the bride is (60–90 seconds)\n3. How you feel about her partner (30–60 seconds)\n4. A message to the couple and a toast (30–60 seconds)\n\nNail The Speech builds this structure automatically when you select your role and preferred length.",
+          "A common structure that works well at 4 minutes:\n\n1. Introduction: who you are and how you know the bride (30 seconds)\n2. A story that shows who the bride is (60–90 seconds)\n3. How you feel about her partner (30–60 seconds)\n4. A message to the couple and a toast (30–60 seconds)\n\nNail The Speech builds this structure automatically when you select your role and preferred length.",
       },
       {
         heading: "When to go longer",
@@ -467,7 +467,7 @@ export const helpArticles: HelpArticle[] = [
         heading: "How to test your speech",
         level: 2,
         content:
-          "Read it to someone who knows the couple but isn't in the wedding party. If they wince at any point, cut that part. The \"would I say this if the couple's grandparents were listening\" test catches most problems.\n\nNail The Speech is calibrated to avoid these pitfalls — but it's always worth a final read-through with fresh eyes.",
+          "Read it to someone who knows the couple but isn't in the wedding party. If they wince at any point, cut that part. The \"would I say this if the couple's grandparents were listening\" test catches most problems.\n\nNail The Speech is calibrated to avoid these pitfalls, but it's always worth a final read-through with fresh eyes.",
       },
     ],
     internalLinks: [
@@ -486,7 +486,7 @@ export const helpArticles: HelpArticle[] = [
     category: "Speech Writing Basics",
     targetKeyword: "funny wedding speech tips",
     metaDescription:
-      "Get laughs without cringe. Practical tips for adding humour to a wedding speech — from storytelling to timing to knowing when to stop.",
+      "Get laughs without cringe. Practical tips for adding humour to a wedding speech, from storytelling to timing to knowing when to stop.",
     shortAnswer:
       "The best wedding speech humour comes from real stories, not rehearsed jokes. Pick a genuine moment that's naturally funny, tell it simply, and move on before you oversell it. One good laugh beats five forced ones.",
     readingTime: 3,
@@ -495,19 +495,19 @@ export const helpArticles: HelpArticle[] = [
         heading: "Stories are funnier than jokes",
         level: 2,
         content:
-          "Stand-up comedians write jokes. You're not a stand-up comedian (probably). What you are is someone with real stories about the couple — and real stories told well are genuinely funnier than setup-punchline jokes in a wedding speech.\n\nThe funniest moments at weddings are always specific. \"Remember when James tried to cook Christmas dinner and set off every smoke alarm in the building\" lands because it's real and visual. Generic jokes about marriage don't land because everyone's heard them.",
+          "Stand-up comedians write jokes. You're not a stand-up comedian (probably). What you are is someone with real stories about the couple, and real stories told well are genuinely funnier than setup-punchline jokes in a wedding speech.\n\nThe funniest moments at weddings are always specific. \"Remember when James tried to cook Christmas dinner and set off every smoke alarm in the building\" lands because it's real and visual. Generic jokes about marriage don't land because everyone's heard them.",
       },
       {
         heading: "The rule of one",
         level: 2,
         content:
-          "One well-told funny story is worth more than five quick gags. Pick your best one and give it room to breathe. Set the scene, build the detail, let the room picture it, and deliver the payoff.\n\nIf you try to pack in too much humour, the speech turns into a roast — which is fun at a stag do, risky at a wedding.",
+          "One well-told funny story is worth more than five quick gags. Pick your best one and give it room to breathe. Set the scene, build the detail, let the room picture it, and deliver the payoff.\n\nIf you try to pack in too much humour, the speech turns into a roast, which is fun at a stag do but risky at a wedding.",
       },
       {
         heading: "Know when to pivot",
         level: 2,
         content:
-          "The most effective pattern in wedding speeches is funny-then-sincere. Get the room laughing with a story, then follow it with something genuinely warm about the person or the couple.\n\nThis contrast is what makes people tear up after laughing — it's the emotional range that makes a speech memorable.\n\nNail The Speech supports this pattern with tone options like \"balanced\" (warm with humour) and \"clean roast\" (playful but affectionate). You can also mix tones by editing individual paragraphs.",
+          "The most effective pattern in wedding speeches is funny-then-sincere. Get the room laughing with a story, then follow it with something genuinely warm about the person or the couple.\n\nThis contrast is what makes people tear up after laughing. It's the emotional range that makes a speech memorable.\n\nNail The Speech supports this pattern with tone options like \"balanced\" (warm with humour) and \"clean roast\" (playful but affectionate). You can also mix tones by editing individual paragraphs.",
       },
       {
         heading: "What to avoid",
@@ -541,13 +541,13 @@ export const helpArticles: HelpArticle[] = [
         heading: "The classic toast",
         level: 2,
         content:
-          "The reason most speeches end with a toast is that it gives the room a clear signal: the speech is over, and here's what to do next. No awkward silence, no trailing off.\n\nA strong toast is short and specific. \"To Sarah and James — may your life together be as full of laughter as your kitchen is full of smoke alarms\" works because it's personal. \"To love and happiness\" works but is forgettable.",
+          "The reason most speeches end with a toast is that it gives the room a clear signal: the speech is over, and here's what to do next. No awkward silence, no trailing off.\n\nA strong toast is short and specific. \"To Sarah and James, may your life together be as full of laughter as your kitchen is full of smoke alarms\" works because it's personal. \"To love and happiness\" works but is forgettable.",
       },
       {
         heading: "The callback close",
         level: 2,
         content:
-          "If you told a story earlier in the speech, reference it at the end. This creates a satisfying loop that makes the whole speech feel intentional.\n\nFor example, if your story was about the groom being terrible at directions, your close might be: \"James, you've never been great at finding your way — but with Sarah, I think you've finally ended up exactly where you're supposed to be.\"",
+          "If you told a story earlier in the speech, reference it at the end. This creates a satisfying loop that makes the whole speech feel intentional.\n\nFor example, if your story was about the groom being terrible at directions, your close might be: \"James, you've never been great at finding your way. But with Sarah, I think you've finally ended up exactly where you're supposed to be.\"",
       },
       {
         heading: "The heartfelt wish",
@@ -559,7 +559,7 @@ export const helpArticles: HelpArticle[] = [
         heading: "What not to do",
         level: 2,
         content:
-          "- Don't end with \"and that's it\" or \"I think that's everything\" — it deflates the moment.\n- Don't end with a joke unless you're very confident it will land.\n- Don't end with a long quote from the internet. The room came to hear from you.\n- Don't forget to actually raise your glass. It cues the audience.",
+          "- Don't end with \"and that's it\" or \"I think that's everything\" because it deflates the moment.\n- Don't end with a joke unless you're very confident it will land.\n- Don't end with a long quote from the internet. The room came to hear from you.\n- Don't forget to actually raise your glass. It cues the audience.",
       },
     ],
     internalLinks: [
@@ -580,14 +580,14 @@ export const helpArticles: HelpArticle[] = [
     metaDescription:
       "Skip the clichés. Start with a story, a warm observation, or a simple thank you. Practical opening strategies for any wedding role.",
     shortAnswer:
-      "Start by saying who you are, how you know the couple, and then go straight into your first story or observation. Skip the dictionary definitions and generic quotes. The room already wants to hear from you — just begin.",
+      "Start by saying who you are, how you know the couple, and then go straight into your first story or observation. Skip the dictionary definitions and generic quotes. The room already wants to hear from you. Just begin.",
     readingTime: 3,
     sections: [
       {
         heading: "Keep the introduction short",
         level: 2,
         content:
-          "\"Hi, I'm Alex, and I've been James's best friend since university\" — that's all you need. The MC has already introduced you. The room knows why you're standing up. Get through the preamble quickly so you can get to the good stuff.",
+          "\"Hi, I'm Alex, and I've been James's best friend since university.\" That's all you need. The MC has already introduced you. The room knows why you're standing up. Get through the preamble quickly so you can get to the good stuff.",
       },
       {
         heading: "Three openings that work",
@@ -599,13 +599,13 @@ export const helpArticles: HelpArticle[] = [
         heading: "What to avoid at the start",
         level: 2,
         content:
-          "- \"Webster's dictionary defines marriage as...\" — please don't.\n- \"I'm not very good at public speaking\" — the room doesn't need to know you're nervous. You'll be fine.\n- Long preambles thanking every person in the room individually.\n- Reading a quote from the internet that you found this morning.\n\nThe first 30 seconds set the tone. Make them count by being yourself, not performing.",
+          "- \"Webster's dictionary defines marriage as...\" Please don't.\n- \"I'm not very good at public speaking.\" The room doesn't need to know you're nervous. You'll be fine.\n- Long preambles thanking every person in the room individually.\n- Reading a quote from the internet that you found this morning.\n\nThe first 30 seconds set the tone. Make them count by being yourself, not performing.",
       },
       {
         heading: "How Nail The Speech handles openings",
         level: 2,
         content:
-          "When you generate a speech, the AI creates an opening based on your role and the details you shared. If you don't love it, you can edit it directly or use the regenerate option to try a different approach.\n\nMany users generate the speech, then spend a minute or two tweaking just the opening — because getting the start right makes the rest feel easy.",
+          "When you generate a speech, the AI creates an opening based on your role and the details you shared. If you don't love it, you can edit it directly or use the regenerate option to try a different approach.\n\nMany users generate the speech, then spend a minute or two tweaking just the opening, because getting the start right makes the rest feel easy.",
       },
     ],
     internalLinks: [
@@ -626,7 +626,7 @@ export const helpArticles: HelpArticle[] = [
     metaDescription:
       "You don't need to be a confident speaker to give a great wedding speech. Practical tips for managing nerves and delivering with heart.",
     shortAnswer:
-      "Most people giving a wedding speech are nervous — that's completely normal. The audience is on your side, the bar for \"great\" is lower than you think, and preparation is the single best cure for nerves. You don't need to perform. You just need to be genuine.",
+      "Most people giving a wedding speech are nervous, and that's completely normal. The audience is on your side, the bar for \"great\" is lower than you think, and preparation is the single best cure for nerves. You don't need to perform. You just need to be genuine.",
     readingTime: 3,
     sections: [
       {
@@ -639,7 +639,7 @@ export const helpArticles: HelpArticle[] = [
         heading: "Preparation beats confidence",
         level: 2,
         content:
-          "Nervous speakers who prepare well consistently outperform confident speakers who wing it. Here's a simple preparation routine:\n\n1. Have your speech written and finalised at least a week before\n2. Read it aloud five times (not in your head — aloud)\n3. Time yourself at least twice\n4. Practise in front of one person you trust\n5. On the day, read from notes — nobody expects you to memorise it",
+          "Nervous speakers who prepare well consistently outperform confident speakers who wing it. Here's a simple preparation routine:\n\n1. Have your speech written and finalised at least a week before\n2. Read it aloud five times (not in your head, aloud)\n3. Time yourself at least twice\n4. Practise in front of one person you trust\n5. On the day, read from notes. Nobody expects you to memorise it",
       },
       {
         heading: "Keep it short",
@@ -651,7 +651,7 @@ export const helpArticles: HelpArticle[] = [
         heading: "Use tools that reduce the pressure",
         level: 2,
         content:
-          "Nail The Speech can help in a few practical ways:\n\n- **Voice input:** Talk through your stories instead of typing — it's more natural and less intimidating.\n- **Text-to-speech:** Listen to your speech read aloud so you can hear the rhythm before you deliver it.\n- **MP3 export:** Download the audio and listen on repeat to build familiarity.\n- **PDF export:** Print it in a format that's easy to read from a podium or cue cards.\n\nPreparation tools exist so you don't have to rely on confidence alone.",
+          "Nail The Speech can help in a few practical ways:\n\n- **Voice input:** Talk through your stories instead of typing. It's more natural and less intimidating.\n- **Text-to-speech:** Listen to your speech read aloud so you can hear the rhythm before you deliver it.\n- **MP3 export:** Download the audio and listen on repeat to build familiarity.\n- **PDF export:** Print it in a format that's easy to read from a podium or cue cards.\n\nPreparation tools exist so you don't have to rely on confidence alone.",
       },
     ],
     internalLinks: [

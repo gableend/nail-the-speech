@@ -32,7 +32,7 @@ export const insightArticles: InsightArticle[] = [
   {
     slug: 'science-of-talking-produces-better-speeches',
     title: 'The Science of Why Talking Produces Better Speeches Than Writing',
-    subtitle: 'Speaking uses different cognitive pathways — and they\'re better suited to speeches.',
+    subtitle: 'Speaking uses different cognitive pathways, and they\'re better suited to speeches.',
     metaDescription: 'Research shows speaking activates more emotional, story-driven recall than writing. Learn why talk-first speech writing produces more authentic wedding speeches.',
     targetKeyword: 'talk first speech writing',
     readingTime: 8,
@@ -48,8 +48,8 @@ export const insightArticles: InsightArticle[] = [
   {
     slug: 'turn-rambling-story-into-great-wedding-speech',
     title: 'How to Turn a Rambling Story Into a Great Wedding Speech (Without Writing It)',
-    subtitle: 'Four steps from messy memories to structured speech — no blank page required.',
-    metaDescription: 'Learn how to turn your scattered memories and stories into a structured, heartfelt wedding speech using talk-first speech writing — no writing block required.',
+    subtitle: 'Four steps from messy memories to structured speech, no blank page required.',
+    metaDescription: 'Learn how to turn your scattered memories and stories into a structured, heartfelt wedding speech using talk-first speech writing. No writing block required.',
     targetKeyword: 'how to write a wedding speech',
     readingTime: 6,
     publishedDate: '2026-04-05',

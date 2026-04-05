@@ -7,11 +7,11 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
-  title: "Articles — Talk-First Speech Writing | Nail The Speech",
+  title: "Articles: Talk-First Speech Writing | Nail The Speech",
   description:
     "Insights on why the best wedding speeches start with speaking, not writing. Explore the science, strategy, and practical tips behind talk-first speech writing.",
   openGraph: {
-    title: "Articles — Talk-First Speech Writing | Nail The Speech",
+    title: "Articles: Talk-First Speech Writing | Nail The Speech",
     description:
       "Insights on why the best wedding speeches start with speaking, not writing.",
     url: "https://nailthespeech.com/articles",
@@ -35,7 +35,7 @@ export default function ArticlesPage() {
           </h1>
           <p className="text-lg text-[#8f867e] max-w-2xl mx-auto">
             Explore the science, strategy, and practical tips behind talk-first
-            speech writing — a better way to prepare your wedding speech.
+            speech writing. A better way to prepare your wedding speech.
           </p>
         </div>
       </section>

@@ -139,14 +139,15 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
             What you get with Nail The Speech
           </h2>
 
-          <div className="grid sm:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { icon: "🆓", title: "Get started for free", description: "Walk through the full experience before you pay." },
               { icon: "✏️", title: "In-app editing", description: "Click to edit any paragraph. Use AI to refine sections." },
-              { icon: "🎙️", title: "Audio preview", description: "Hear your speech read aloud. Practice delivery with 6 voices." },
+              { icon: "🗣️", title: "Talk to the AI", description: "Use voice input to describe your stories and let AI turn them into a speech." },
+              { icon: "⚡", title: "Quick refinements", description: "One-click prompts to make it shorter, longer, funnier, or more heartfelt." },
+              { icon: "🎙️", title: "Audio preview & MP3", description: "Hear your speech read aloud and download it as an MP3 to practice anywhere." },
               { icon: "🎭", title: "44 roles, 14 tones", description: "The widest role and tone coverage of any AI speech writer." },
-              { icon: "📥", title: "Export anywhere", description: "PDF, Word, plain text. Copy to clipboard or email." },
-              { icon: "📚", title: "340+ examples", description: "Browse real speech examples for inspiration before you start." },
+              { icon: "📥", title: "Export anywhere", description: "PDF, Word, plain text, or MP3. Copy to clipboard or email." },
             ].map((item, idx) => (
               <div key={idx} className="text-center">
                 <div className="text-3xl mb-3">{item.icon}</div>

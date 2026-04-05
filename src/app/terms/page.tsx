@@ -53,7 +53,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-xl font-semibold text-[#181615] mb-3">5. Payments and refunds</h2>
               <p>
-                Payments are processed securely by Stripe. Pro access is granted immediately upon successful payment and lasts for 90 days. As the Service delivers digital content immediately, refunds are generally not offered. If you experience a technical issue that prevents you from using the Service, contact us and we will do our best to resolve it.
+                Payments are processed securely by Stripe. Pro access is granted immediately upon successful payment and lasts for 90 days. If you are not satisfied with the Service, contact us at <a href="mailto:hello@nailthespeech.com" className="text-[#da5389] hover:underline">hello@nailthespeech.com</a> and we will work with you to make it right, including offering a refund where appropriate.
               </p>
             </section>
 

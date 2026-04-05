@@ -217,3 +217,39 @@ export async function sendDiscountReminderEmail(
     MessageStream: 'broadcast',
   });
 }
+
+// ── Help contact form notification ──────────────────────────
+
+export async function sendHelpContactNotification(
+  email: string,
+  question: string,
+  speechType: string | null = null
+) {
+  const speechTypeLine = speechType
+    ? `<p style="color: #8f867e; font-size: 13px; margin: 0 0 4px;">Speech type: <strong style="color: #181615;">${speechType}</strong></p>`
+    : '';
+
+  await client.sendEmail({
+    From: FROM_EMAIL,
+    To: FROM_EMAIL,
+    ReplyTo: email,
+    Subject: `Help question from ${email}`,
+    HtmlBody: emailWrapper(`
+      <h1 style="font-size: 22px; color: #181615; margin: 0 0 20px; text-align: center;">New help centre question</h1>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 20px; background-color: #faf7f4; border-radius: 12px;">
+        <tr>
+          <td style="padding: 20px 24px;">
+            <p style="color: #8f867e; font-size: 13px; margin: 0 0 4px;">From: <strong style="color: #181615;">${email}</strong></p>
+            ${speechTypeLine}
+            <hr style="border: none; border-top: 1px solid #e8e1d8; margin: 12px 0;" />
+            <p style="color: #4a4543; font-size: 15px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${question}</p>
+          </td>
+        </tr>
+      </table>
+
+      <p style="color: #8f867e; font-size: 13px; text-align: center;">Reply directly to this email to respond to the user.</p>
+    `),
+    MessageStream: 'outbound',
+  });
+}

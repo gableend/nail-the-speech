@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { speechCategories, exampleSpeeches } from '@/data/exampleSpeeches';
 import { articles } from '@/data/articles';
+import { helpArticles } from '@/data/helpArticles';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://nailthespeech.com';
@@ -67,6 +68,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/help`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
   ];
 
   // Example speech category pages (/examples/[category])
@@ -93,5 +100,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: article.sections.length > 1 || article.sections[0]?.heading !== 'Coming Soon' ? 0.7 : 0.4,
   }));
 
-  return [...staticPages, ...categoryPages, ...speechPages, ...advicePages];
+  // Help article pages (/help/[slug])
+  const helpPages: MetadataRoute.Sitemap = helpArticles.map(article => ({
+    url: `${baseUrl}/help/${article.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...categoryPages, ...speechPages, ...advicePages, ...helpPages];
 }

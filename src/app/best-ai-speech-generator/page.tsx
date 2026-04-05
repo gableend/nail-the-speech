@@ -74,6 +74,7 @@ export default function BestAISpeechGeneratorPage() {
   const masterFeatures = [
     { name: "Price", nts: ntsFeatures.price, values: competitors.map((c) => c.price) },
     { name: "Get started", nts: ntsFeatures.getStarted, values: competitors.map(() => "Pay upfront") },
+    { name: "Money-back guarantee", nts: "Contact us" as string | boolean, values: [false, "100% guarantee", false] as (string | boolean)[] },
     { name: "Wedding roles", nts: ntsFeatures.roles, values: ["~10", "~12", "~8"] },
     { name: "Tone options", nts: ntsFeatures.tones, values: ["4", "~4", "Limited"] },
     { name: "Speech length", nts: ntsFeatures.speechLength, values: competitors.map((c) => c.speechLength) },
@@ -82,9 +83,10 @@ export default function BestAISpeechGeneratorPage() {
     { name: "AI refinements", nts: true as string | boolean, values: [false, false, false] as (string | boolean)[] },
     { name: "Version history", nts: true as string | boolean, values: [false, false, false] as (string | boolean)[] },
     { name: "Export (PDF/Word/TXT)", nts: true as string | boolean, values: [false, false, false] as (string | boolean)[] },
+    { name: "Voice input (talk to AI)", nts: true as string | boolean, values: [false, false, false] as (string | boolean)[] },
+    { name: "Quick refinement prompts", nts: true as string | boolean, values: [false, false, false] as (string | boolean)[] },
     { name: "Text-to-speech", nts: true as string | boolean, values: [false, false, false] as (string | boolean)[] },
-    { name: "Example library", nts: "340+ examples", values: ["None", "None", "None"] },
-    { name: "Advice articles", nts: "75+ articles", values: ["None", "None", "None"] },
+    { name: "MP3 audio export", nts: true as string | boolean, values: [false, false, false] as (string | boolean)[] },
   ];
 
   return (
@@ -231,19 +233,24 @@ export default function BestAISpeechGeneratorPage() {
                 description: "Click any paragraph to edit. Use AI to refine specific sections. Track versions. Competitors just email you a PDF.",
               },
               {
+                icon: "🗣️",
+                title: "Talk to the AI",
+                description: "Use voice input to describe your stories naturally. The AI turns your words into a polished speech.",
+              },
+              {
                 icon: "🎙️",
-                title: "Hear your speech",
-                description: "Text-to-speech with 6 voice options lets you practice delivery. No other wedding speech generator offers this.",
+                title: "Hear & download your speech",
+                description: "Text-to-speech with 6 voices plus MP3 export. Practice delivery anywhere, anytime.",
+              },
+              {
+                icon: "⚡",
+                title: "Quick refinement prompts",
+                description: "One click to make it shorter, longer, funnier, or more heartfelt. Fine-tune without rewriting.",
               },
               {
                 icon: "🎭",
                 title: "44 roles, 14 tones",
                 description: "From best man to step-parent to cousin — with tones from clean roast to sentimental. The broadest coverage available.",
-              },
-              {
-                icon: "📚",
-                title: "340+ examples & 75+ articles",
-                description: "Browse real speech examples and expert advice before you start. An entire speech-writing resource library.",
               },
             ].map((item, idx) => (
               <div key={idx} className="bg-[#faf7f4] rounded-xl p-5 border border-[#e8e1d8]">

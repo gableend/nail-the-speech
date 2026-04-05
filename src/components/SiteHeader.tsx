@@ -54,6 +54,7 @@ export default function SiteHeader() {
                   Help & Advice <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
                 <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg border border-[#e8e1d8] p-4 min-w-[200px]">
+                  <Link href="/help" className="block py-2 text-[#181615] hover:text-[#da5389]">Help Centre</Link>
                   <Link href="/advice" className="block py-2 text-[#181615] hover:text-[#da5389]">All Advice</Link>
                   <Link href="/advice#speech-tips" className="block py-2 text-[#181615] hover:text-[#da5389]">Speech Tips</Link>
                   <Link href="/advice#practice-guide" className="block py-2 text-[#181615] hover:text-[#da5389]">Practice Guide</Link>

@@ -34,6 +34,7 @@ export default function SiteFooter() {
           <div>
             <h4 className="font-semibold mb-4">Help</h4>
             <ul className="space-y-1 text-gray-300">
+              <li><Link href="/help" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Help Centre</Link></li>
               <li><Link href="/advice#speech-tips" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Speech Tips</Link></li>
               <li><Link href="/examples" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Examples</Link></li>
               <li><Link href="/advice#practice-guide" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Practice Guide</Link></li>

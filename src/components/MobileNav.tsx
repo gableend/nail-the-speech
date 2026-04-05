@@ -101,6 +101,7 @@ export default function MobileNav() {
             {helpOpen && (
               <div className="pl-4 pb-2 space-y-1">
                 {[
+                  { href: "/help", label: "Help Centre" },
                   { href: "/advice", label: "All Advice" },
                   { href: "/advice#speech-tips", label: "Speech Tips" },
                   { href: "/advice#practice-guide", label: "Practice Guide" },

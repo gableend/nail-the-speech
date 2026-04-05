@@ -3869,13 +3869,13 @@ function GeneratorContent() {
                     <button
                       onClick={() => handleGenerateSpeech()}
                       disabled={!isStepValid()}
-                      className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 ${
+                      className={`px-5 sm:px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all duration-200 max-w-full ${
                         !isStepValid()
                           ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                           : 'bg-[#da5389] hover:bg-[#da5389]/90 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
                       }`}
                     >
-                      <Sparkles className="inline h-5 w-5 mr-2" />
+                      <Sparkles className="inline h-5 w-5 mr-2 flex-shrink-0" />
                       Generate My Speech Outline
                     </button>
                   )}
@@ -3938,7 +3938,7 @@ function GeneratorContent() {
                   <Button
                     onClick={handleGenerateAndGoToStep2}
                     disabled={isGenerating || !isStepValid()}
-                    className={`shadow-lg rounded-full px-8 transition-all duration-200 ${
+                    className={`shadow-lg rounded-full px-5 sm:px-8 transition-all duration-200 max-w-full ${
                       isGenerating || !isStepValid()
                         ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                         : 'bg-[#da5389] hover:bg-[#da5389]/90 text-white'
@@ -3951,7 +3951,7 @@ function GeneratorContent() {
                       </>
                     ) : (
                       <>
-                        <Sparkles className="mr-2 h-4 w-4" />
+                        <Sparkles className="mr-2 h-4 w-4 flex-shrink-0" />
                         Generate My Speech
                       </>
                     )}

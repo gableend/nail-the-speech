@@ -1,0 +1,126 @@
+import { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight, Clock } from "lucide-react";
+import { insightArticles } from "@/data/insightArticles";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
+
+export const metadata: Metadata = {
+  title: "Articles — Talk-First Speech Writing | Nail The Speech",
+  description:
+    "Insights on why the best wedding speeches start with speaking, not writing. Explore the science, strategy, and practical tips behind talk-first speech writing.",
+  openGraph: {
+    title: "Articles — Talk-First Speech Writing | Nail The Speech",
+    description:
+      "Insights on why the best wedding speeches start with speaking, not writing.",
+    url: "https://nailthespeech.com/articles",
+  },
+};
+
+export default function ArticlesPage() {
+  return (
+    <>
+      <SiteHeader />
+
+      {/* Hero */}
+      <section className="bg-gradient-to-b from-[#faf8f5] to-white py-16 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span className="inline-block bg-[#da5389]/10 text-[#da5389] text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
+            Insights
+          </span>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#181615] mb-4">
+            Great speeches start with speaking,{" "}
+            <span className="text-[#da5389]">not writing</span>
+          </h1>
+          <p className="text-lg text-[#8f867e] max-w-2xl mx-auto">
+            Explore the science, strategy, and practical tips behind talk-first
+            speech writing — a better way to prepare your wedding speech.
+          </p>
+        </div>
+      </section>
+
+      {/* Article Grid */}
+      <section className="py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {insightArticles.map((article) => (
+              <Link
+                key={article.slug}
+                href={`/articles/${article.slug}`}
+                className="group flex flex-col bg-white border border-[#e8e1d8] rounded-2xl overflow-hidden hover:border-[#da5389] hover:shadow-lg transition-all"
+              >
+                {/* Image */}
+                <div className="relative aspect-[16/10] bg-[#f5f0eb] overflow-hidden">
+                  {article.heroImage ? (
+                    <Image
+                      src={article.heroImage}
+                      alt={article.heroImageAlt}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center text-[#c4bdb5] text-sm">
+                      Image coming soon
+                    </div>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col flex-1 p-5 sm:p-6">
+                  <div className="flex items-center gap-3 text-xs text-[#8f867e] mb-3">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3.5 w-3.5" />
+                      {article.readingTime} min read
+                    </span>
+                    {article.tags[0] && (
+                      <span className="bg-[#f5f0eb] px-2 py-0.5 rounded-full">
+                        {article.tags[0]}
+                      </span>
+                    )}
+                  </div>
+
+                  <h2 className="text-lg sm:text-xl font-semibold text-[#181615] group-hover:text-[#da5389] transition-colors mb-2 leading-snug">
+                    {article.title}
+                  </h2>
+
+                  <p className="text-sm text-[#8f867e] leading-relaxed mb-4 flex-1">
+                    {article.subtitle}
+                  </p>
+
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-[#da5389]">
+                    Read article
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-16 bg-[#181615]">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+            Ready to try talk-first speech writing?
+          </h2>
+          <p className="text-gray-300 mb-8 max-w-xl mx-auto">
+            Skip the blank page. Talk through your memories and let Nail The
+            Speech turn them into a speech that sounds like you.
+          </p>
+          <Link
+            href="/generator"
+            className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c44578] text-white px-8 py-3 rounded-full font-semibold transition-colors"
+          >
+            Start Your Speech
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+
+      <SiteFooter />
+    </>
+  );
+}

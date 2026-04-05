@@ -114,7 +114,7 @@ export default function HomePage() {
                   </Button>
                 </HomeCTALink>
                 <p className="text-lg text-[#8f867e] max-w-md leading-relaxed">
-                  Start with a great draft. Shape it until it sounds like you.
+                  The only wedding speech generator that starts with your voice.
                 </p>
               </div>
 

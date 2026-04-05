@@ -38,6 +38,7 @@ export default function SiteFooter() {
               <li><Link href="/advice#speech-tips" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Speech Tips</Link></li>
               <li><Link href="/examples" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Examples</Link></li>
               <li><Link href="/advice#practice-guide" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Practice Guide</Link></li>
+              <li><Link href="/articles" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Articles</Link></li>
               <li><Link href="/advice" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">All Advice</Link></li>
             </ul>
           </div>

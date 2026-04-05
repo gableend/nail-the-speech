@@ -106,6 +106,7 @@ export default function MobileNav() {
                   { href: "/advice#speech-tips", label: "Speech Tips" },
                   { href: "/advice#practice-guide", label: "Practice Guide" },
                   { href: "/examples", label: "Speech Examples" },
+                  { href: "/articles", label: "Articles" },
                 ].map((item) => (
                   <Link
                     key={item.href}

@@ -1,0 +1,245 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft, ArrowRight, Clock, Calendar } from "lucide-react";
+import {
+  insightArticles,
+  getInsightArticleBySlug,
+  getAllInsightSlugs,
+} from "@/data/insightArticles";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
+
+// ── Static params ────────────────────────────────────────────
+
+export function generateStaticParams() {
+  return getAllInsightSlugs().map((slug) => ({ slug }));
+}
+
+// ── Metadata ─────────────────────────────────────────────────
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const article = getInsightArticleBySlug(slug);
+  if (!article) return {};
+
+  return {
+    title: `${article.title} | Nail The Speech`,
+    description: article.metaDescription,
+    openGraph: {
+      title: article.title,
+      description: article.metaDescription,
+      url: `https://nailthespeech.com/articles/${article.slug}`,
+      images: article.heroImage ? [{ url: article.heroImage }] : undefined,
+      type: "article",
+    },
+  };
+}
+
+// ── Page ─────────────────────────────────────────────────────
+
+export default async function InsightArticlePage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const article = getInsightArticleBySlug(slug);
+  if (!article) notFound();
+
+  const related = article.relatedSlugs
+    .map((s) => insightArticles.find((a) => a.slug === s))
+    .filter(Boolean);
+
+  const formattedDate = new Date(article.publishedDate).toLocaleDateString(
+    "en-GB",
+    { day: "numeric", month: "long", year: "numeric" }
+  );
+
+  return (
+    <>
+      <SiteHeader />
+
+      <article className="pb-16">
+        {/* Hero */}
+        <div className="bg-gradient-to-b from-[#faf8f5] to-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10">
+            {/* Breadcrumb */}
+            <Link
+              href="/articles"
+              className="inline-flex items-center gap-1 text-sm text-[#8f867e] hover:text-[#da5389] transition-colors mb-6"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              All Articles
+            </Link>
+
+            {/* Meta */}
+            <div className="flex flex-wrap items-center gap-4 text-sm text-[#8f867e] mb-4">
+              <span className="flex items-center gap-1">
+                <Calendar className="h-3.5 w-3.5" />
+                {formattedDate}
+              </span>
+              <span className="flex items-center gap-1">
+                <Clock className="h-3.5 w-3.5" />
+                {article.readingTime} min read
+              </span>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#181615] leading-tight mb-4">
+              {article.title}
+            </h1>
+
+            <p className="text-lg text-[#8f867e] max-w-2xl">
+              {article.subtitle}
+            </p>
+          </div>
+
+          {/* Hero image */}
+          {article.heroImage && (
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
+              <div className="relative aspect-[21/9] rounded-2xl overflow-hidden bg-[#f5f0eb]">
+                <Image
+                  src={article.heroImage}
+                  alt={article.heroImageAlt}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 1024px"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Body */}
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+          {article.content ? (
+            <div
+              className="prose prose-lg max-w-none
+                prose-headings:text-[#181615] prose-headings:font-bold
+                prose-p:text-[#3d3830] prose-p:leading-relaxed
+                prose-a:text-[#da5389] prose-a:underline hover:prose-a:text-[#c44578]
+                prose-strong:text-[#181615]
+                prose-blockquote:border-l-[#da5389] prose-blockquote:bg-[#faf8f5] prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
+                prose-li:text-[#3d3830]
+                prose-img:rounded-xl"
+              dangerouslySetInnerHTML={{ __html: article.content }}
+            />
+          ) : (
+            <div className="text-center py-20">
+              <div className="bg-[#faf8f5] rounded-2xl p-10 max-w-lg mx-auto">
+                <p className="text-5xl mb-4">📝</p>
+                <h2 className="text-xl font-semibold text-[#181615] mb-2">
+                  Coming Soon
+                </h2>
+                <p className="text-[#8f867e]">
+                  This article is being written and will be published shortly.
+                  Check back soon!
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Mid-article CTA */}
+          {article.midCta && (
+            <div className="my-10 bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/5 border border-[#da5389]/20 rounded-2xl p-6 sm:p-8">
+              <p className="text-[#181615] font-medium leading-relaxed mb-4">
+                💡 {article.midCta}
+              </p>
+              <Link
+                href="/generator"
+                className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c44578] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
+              >
+                Try It Now
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          )}
+
+          {/* Tags */}
+          {article.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-10 pt-8 border-t border-[#e8e1d8]">
+              {article.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="bg-[#f5f0eb] text-[#8f867e] text-xs px-3 py-1 rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Related Articles */}
+        {related.length > 0 && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+            <h2 className="text-2xl font-bold text-[#181615] mb-6">
+              Related Articles
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {related.map(
+                (r) =>
+                  r && (
+                    <Link
+                      key={r.slug}
+                      href={`/articles/${r.slug}`}
+                      className="group flex flex-col bg-white border border-[#e8e1d8] rounded-2xl overflow-hidden hover:border-[#da5389] hover:shadow-lg transition-all"
+                    >
+                      <div className="relative aspect-[16/10] bg-[#f5f0eb] overflow-hidden">
+                        {r.heroImage && (
+                          <Image
+                            src={r.heroImage}
+                            alt={r.heroImageAlt}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            sizes="(max-width: 640px) 100vw, 50vw"
+                          />
+                        )}
+                      </div>
+                      <div className="p-5">
+                        <h3 className="font-semibold text-[#181615] group-hover:text-[#da5389] transition-colors leading-snug">
+                          {r.title}
+                        </h3>
+                        <span className="inline-flex items-center gap-1 text-sm text-[#da5389] mt-2">
+                          Read article
+                          <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </div>
+                    </Link>
+                  )
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Bottom CTA */}
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+          <div className="bg-[#181615] rounded-2xl p-8 sm:p-10 text-center">
+            <h2 className="text-2xl font-bold text-white mb-3">
+              Ready to try talk-first speech writing?
+            </h2>
+            <p className="text-gray-300 mb-6 max-w-lg mx-auto">
+              Skip the blank page. Speak your memories and let Nail The Speech
+              turn them into something you&apos;re proud to deliver.
+            </p>
+            <Link
+              href="/generator"
+              className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c44578] text-white px-8 py-3 rounded-full font-semibold transition-colors"
+            >
+              Start Your Speech
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </article>
+
+      <SiteFooter />
+    </>
+  );
+}

@@ -114,7 +114,7 @@ export default function HomePage() {
                   </Button>
                 </HomeCTALink>
                 <p className="text-lg text-[#8f867e] max-w-md leading-relaxed">
-                  Built with AI. Designed for you. Get started for free.
+                  Start with a great draft. Shape it until it sounds like you.
                 </p>
               </div>
 

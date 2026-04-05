@@ -206,13 +206,17 @@ export default function HomePage() {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
-              {getMinorRolesByCategory().map((group) => (
+              {getMinorRolesByCategory().map((group) => {
+                const hiddenFromHomepage = ['cousin-of-bride', 'cousin-of-groom', 'niece-of-bride', 'niece-of-groom', 'nephew-of-bride', 'nephew-of-groom'];
+                const visibleRoles = group.roles.filter(r => !hiddenFromHomepage.includes(r.slug));
+                if (visibleRoles.length === 0) return null;
+                return (
                 <div key={group.category}>
                   <h4 className="text-xs font-semibold text-[#8f867e] uppercase tracking-wider mb-2">
                     {group.category}
                   </h4>
                   <ul className="space-y-1">
-                    {group.roles.map((role) => (
+                    {visibleRoles.map((role) => (
                       <li key={role.slug}>
                         <Link
                           href={`/generator?role=${role.slug}`}
@@ -226,7 +230,8 @@ export default function HomePage() {
                     ))}
                   </ul>
                 </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* CTA below roles */}

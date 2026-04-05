@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
-import { Users, Clock, Sparkles, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import HomeCTALink from "@/components/HomeCTALink";
 import HomeClient from "@/components/HomeClient";
@@ -118,25 +118,19 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Trust Indicators */}
-              <div className="flex flex-wrap gap-8 pt-4">
-                <div className="flex items-center gap-3 bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-sm border border-[#e8e1d8]">
-                  <div className="w-10 h-10 bg-[#da5389]/10 rounded-full flex items-center justify-center">
-                    <Users className="h-5 w-5 text-[#da5389]" />
-                  </div>
-                  <div>
-                    <div className="text-lg font-semibold text-[#181615]">10,000+</div>
-                    <div className="text-sm text-[#8f867e]">speeches created</div>
-                  </div>
+              {/* Value Props */}
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-4">
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-5 py-2.5 shadow-sm border border-[#e8e1d8]">
+                  <span className="text-base">🎙️</span>
+                  <span className="text-sm font-medium text-[#181615]">Start by talking, not typing</span>
                 </div>
-                <div className="flex items-center gap-3 bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 shadow-sm border border-[#e8e1d8]">
-                  <div className="w-10 h-10 bg-[#da5389]/10 rounded-full flex items-center justify-center">
-                    <Clock className="h-5 w-5 text-[#da5389]" />
-                  </div>
-                  <div>
-                    <div className="text-lg font-semibold text-[#181615]">Ready</div>
-                    <div className="text-sm text-[#8f867e]">in seconds</div>
-                  </div>
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-5 py-2.5 shadow-sm border border-[#e8e1d8]">
+                  <span className="text-base">💬</span>
+                  <span className="text-sm font-medium text-[#181615]">Built from your real stories</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-5 py-2.5 shadow-sm border border-[#e8e1d8]">
+                  <span className="text-base">🎧</span>
+                  <span className="text-sm font-medium text-[#181615]">Listen back and refine your delivery</span>
                 </div>
               </div>
             </div>

@@ -34,9 +34,9 @@ export interface HelpArticle {
 export type HelpCategory =
   | "Getting Started"
   | "Editing & Refining"
-  | "Speech Writing"
-  | "Best Man"
-  | "Maid of Honor"
+  | "Speech Writing Basics"
+  | "Best Man Speeches"
+  | "Maid of Honor Speeches"
   | "Delivery & Practice"
   | "Pricing";
 
@@ -362,7 +362,7 @@ export const helpArticles: HelpArticle[] = [
   {
     slug: "how-long-should-a-best-man-speech-be",
     title: "How Long Should a Best Man Speech Be?",
-    category: "Best Man",
+    category: "Best Man Speeches",
     targetKeyword: "best man speech length",
     metaDescription:
       "A best man speech should be 3 to 5 minutes (400–700 words). Here's how to get the length right and keep the room engaged.",
@@ -408,7 +408,7 @@ export const helpArticles: HelpArticle[] = [
   {
     slug: "how-long-should-a-maid-of-honor-speech-be",
     title: "How Long Should a Maid of Honor Speech Be?",
-    category: "Maid of Honor",
+    category: "Maid of Honor Speeches",
     targetKeyword: "maid of honor speech length",
     metaDescription:
       "A maid of honor speech should be 3 to 5 minutes (400–700 words). Tips on timing, structure, and keeping the emotion just right.",
@@ -448,7 +448,7 @@ export const helpArticles: HelpArticle[] = [
   {
     slug: "what-not-to-say-in-a-wedding-speech",
     title: "What Should You Not Say in a Wedding Speech?",
-    category: "Speech Writing",
+    category: "Speech Writing Basics",
     targetKeyword: "what not to say in a wedding speech",
     metaDescription:
       "Avoid ex-partners, embarrassing stories, inside jokes nobody gets, and backhanded compliments. Here's the full list of wedding speech mistakes to avoid.",
@@ -488,7 +488,7 @@ export const helpArticles: HelpArticle[] = [
   {
     slug: "how-to-make-a-wedding-speech-funny",
     title: "How to Make a Wedding Speech Funny Without Overdoing It",
-    category: "Speech Writing",
+    category: "Speech Writing Basics",
     targetKeyword: "funny wedding speech tips",
     metaDescription:
       "Get laughs without cringe. Practical tips for adding humour to a wedding speech — from storytelling to timing to knowing when to stop.",
@@ -534,7 +534,7 @@ export const helpArticles: HelpArticle[] = [
   {
     slug: "how-to-end-a-wedding-speech",
     title: "How to End a Wedding Speech",
-    category: "Speech Writing",
+    category: "Speech Writing Basics",
     targetKeyword: "how to end a wedding speech",
     metaDescription:
       "End your wedding speech with a toast, a heartfelt wish, or a callback to your story. Simple, proven closing strategies that work.",
@@ -580,7 +580,7 @@ export const helpArticles: HelpArticle[] = [
   {
     slug: "how-to-start-a-wedding-speech",
     title: "How to Start a Wedding Speech",
-    category: "Speech Writing",
+    category: "Speech Writing Basics",
     targetKeyword: "how to start a wedding speech",
     metaDescription:
       "Skip the clichés. Start with a story, a warm observation, or a simple thank you. Practical opening strategies for any wedding role.",

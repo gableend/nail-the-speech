@@ -113,7 +113,7 @@ export default function HomePage() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </HomeCTALink>
-                <p className="text-lg text-[#8f867e] max-w-md leading-relaxed">
+                <p className="text-lg text-[#8f867e] max-w-lg leading-relaxed">
                   The only wedding speech generator that starts with your voice.
                 </p>
               </div>

@@ -3,14 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Inter, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import { Suspense } from "react";
-import dynamic from "next/dynamic";
 import "./globals.css";
 import ClientBody from "./ClientBody";
 import { ClerkProvider } from '@clerk/nextjs';
-
-const PurchaseTracker = dynamic(() => import("@/components/PurchaseTracker"), {
-  loading: () => null,
-});
+import PurchaseTracker from "@/components/PurchaseTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

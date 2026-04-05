@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import HomeCTALink from "@/components/HomeCTALink";
 import HomeClient from "@/components/HomeClient";
 import FAQ from "@/components/FAQ";
@@ -158,13 +159,14 @@ export default function HomePage() {
             {majorRoles.map((role) => (
               <HomeCTALink key={role.slug} href={`/generator?role=${role.slug}`} location="role_card" className="group">
                 <div className="relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                  <div className="relative">
-                    <img
+                  <div className="relative h-72">
+                    <Image
                       src={role.image!}
                       alt={role.label}
-                      className="w-full h-72 object-cover"
+                      fill
+                      className="object-cover"
                       style={{ objectPosition: role.objectPosition || 'top' }}
-                      loading="lazy"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     {role.popular && (
                       <span className="absolute top-3 right-3 bg-[#da5389] text-white text-sm px-3 py-1 rounded-full font-medium">

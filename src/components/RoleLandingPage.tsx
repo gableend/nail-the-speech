@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Users, Clock, Star, CheckCircle } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import FAQ from "@/components/FAQ";
@@ -77,11 +78,14 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
 
             {/* Right — Hero image */}
             <div className="relative">
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl h-80 sm:h-96 lg:h-[28rem]">
+                <Image
                   src={config.heroImage}
                   alt={config.heroImageAlt}
-                  className="w-full h-80 sm:h-96 lg:h-[28rem] object-cover object-top"
+                  fill
+                  priority
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               {/* Floating badge */}

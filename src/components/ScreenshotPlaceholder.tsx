@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ImageIcon, X } from "lucide-react";
 
 interface ScreenshotPlaceholderProps {
@@ -29,11 +30,13 @@ export default function ScreenshotPlaceholder({
             onClick={() => setOpen(true)}
             className="w-full bg-white border border-[#e8e1d8] rounded-xl overflow-hidden shadow-sm cursor-zoom-in hover:shadow-md transition-shadow group"
           >
-            <img
+            <Image
               src={src}
               alt={alt || subject}
+              width={800}
+              height={500}
               className="w-full h-auto"
-              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 800px"
             />
             <span className="block py-1.5 text-xs text-[#8f867e] opacity-0 group-hover:opacity-100 transition-opacity">
               Click to enlarge
@@ -64,7 +67,7 @@ export default function ScreenshotPlaceholder({
         </figcaption>
       </figure>
 
-      {/* Lightbox overlay */}
+      {/* Lightbox overlay — uses unoptimized img for full-resolution zoom */}
       {open && src && (
         <div
           className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
@@ -78,6 +81,7 @@ export default function ScreenshotPlaceholder({
           >
             <X className="h-5 w-5 text-white" />
           </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={src}
             alt={alt || subject}

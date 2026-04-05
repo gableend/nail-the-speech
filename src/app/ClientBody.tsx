@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 import AuthSyncHandler from "@/components/AuthSyncHandler";
 import { ToastContainer } from "@/components/ui/toast";
+
+const PurchaseTracker = dynamic(() => import("@/components/PurchaseTracker"), {
+  ssr: false,
+});
 
 export default function ClientBody({
   children,
@@ -18,6 +23,7 @@ export default function ClientBody({
   return (
     <div className="antialiased">
       <ToastContainer />
+      <PurchaseTracker />
       <AuthSyncHandler>
         {children}
       </AuthSyncHandler>

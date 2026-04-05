@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { FAQItem, faqs as homeFaqs } from "@/data/faqData";
 
@@ -10,12 +7,7 @@ interface FAQProps {
 }
 
 export default function FAQ({ items, title = "Frequently asked questions" }: FAQProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const faqItems = items || homeFaqs;
-
-  const toggle = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
 
   return (
     <section className="py-16 bg-[#faf7f4]">
@@ -26,37 +18,24 @@ export default function FAQ({ items, title = "Frequently asked questions" }: FAQ
 
         <div className="space-y-3">
           {faqItems.map((faq, index) => (
-            <div
+            <details
               key={index}
-              className="bg-white rounded-xl border border-[#e8e1d8] overflow-hidden transition-shadow hover:shadow-sm"
+              className="group bg-white rounded-xl border border-[#e8e1d8] overflow-hidden transition-shadow hover:shadow-sm"
             >
-              <button
-                onClick={() => toggle(index)}
-                className="w-full flex items-center justify-between px-6 py-5 text-left"
-              >
+              <summary className="flex items-center justify-between px-6 py-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span className="font-semibold text-[#181615] pr-4">
                   {faq.question}
                 </span>
                 <ChevronDown
-                  className={`h-5 w-5 text-[#756c64] flex-shrink-0 transition-transform duration-200 ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
+                  className="h-5 w-5 text-[#756c64] flex-shrink-0 transition-transform duration-200 group-open:rotate-180"
                 />
-              </button>
-              <div
-                className={`grid transition-all duration-200 ease-in-out ${
-                  openIndex === index
-                    ? "grid-rows-[1fr] opacity-100"
-                    : "grid-rows-[0fr] opacity-0"
-                }`}
-              >
-                <div className="overflow-hidden">
-                  <p className="px-6 pb-5 text-[#756c64] leading-relaxed">
-                    {faq.answer}
-                  </p>
-                </div>
+              </summary>
+              <div className="px-6 pb-5">
+                <p className="text-[#756c64] leading-relaxed">
+                  {faq.answer}
+                </p>
               </div>
-            </div>
+            </details>
           ))}
         </div>
       </div>

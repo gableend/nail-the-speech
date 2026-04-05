@@ -2407,9 +2407,9 @@ function GeneratorContent() {
           <div className="text-center mb-6">
             <h1 className="text-4xl font-bold text-[#181615] mb-2">
               {formData.selectedRole ? (
-                <>🎤 {getRoleTitle(formData.selectedRole, formData.customRoleLabel)} Speech Generator</>
+                <>{getRoleTitle(formData.selectedRole, formData.customRoleLabel)} Speech Generator</>
               ) : (
-                <>🎤 Wedding Speech Generator</>
+                <>Wedding Speech Generator</>
               )}
             </h1>
             {currentStep < 5 && (

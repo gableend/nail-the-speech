@@ -5,9 +5,9 @@ import MobileNav from "@/components/MobileNav";
 
 export default function SiteHeader() {
   return (
-    <>
+    <div className="sticky top-0 z-50">
       {/* Top Banner — slimmer on mobile */}
-      <div className="bg-[#000000] text-white text-center py-1.5 sm:py-2.5 text-xs sm:text-sm sticky top-0 z-50">
+      <div className="bg-[#000000] text-white text-center py-1.5 sm:py-2.5 text-xs sm:text-sm">
         <div className="flex items-center justify-center gap-2 sm:gap-4 px-4">
           <span className="hidden sm:inline">Create perfect wedding speeches with AI. Get started for free!</span>
           <span className="sm:hidden">Get started for free!</span>
@@ -21,7 +21,7 @@ export default function SiteHeader() {
       </div>
 
       {/* Navigation */}
-      <nav className="bg-white border-b border-[#e8e1d8] sticky top-[32px] sm:top-[41px] z-50">
+      <nav className="bg-white border-b border-[#e8e1d8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14 sm:h-16">
             {/* Logo */}
@@ -73,6 +73,6 @@ export default function SiteHeader() {
           </div>
         </div>
       </nav>
-    </>
+    </div>
   );
 }

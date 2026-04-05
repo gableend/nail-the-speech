@@ -141,7 +141,14 @@ export default function AuthSyncHandler({ children }: AuthSyncHandlerProps) {
       }
     };
 
-    handleAuthSync();
+    // Defer auth sync to avoid blocking main thread during page load
+    if ('requestIdleCallback' in window) {
+      const idleId = requestIdleCallback(() => handleAuthSync(), { timeout: 5000 });
+      return () => cancelIdleCallback(idleId);
+    } else {
+      const timer = setTimeout(handleAuthSync, 1000);
+      return () => clearTimeout(timer);
+    }
   }, [isLoaded, isSignedIn, user, migrationComplete]);
 
   // Always render children immediately — never block the page

@@ -36,23 +36,26 @@ export default function HomeClient() {
   // Capture UTM attribution on first visit
   useEffect(() => { captureAttribution(); }, []);
 
-  // Preload first video immediately and next video when component mounts
+  // Preload next video after page is idle to avoid competing with critical resources
   useEffect(() => {
-    // Always preload the first video
-    const firstVideoLink = document.createElement('link');
-    firstVideoLink.rel = 'preload';
-    firstVideoLink.as = 'video';
-    firstVideoLink.href = heroVideos[0];
-    document.head.appendChild(firstVideoLink);
+    // Preload second video only after the page is idle
+    const schedulePreload = () => {
+      const timer = setTimeout(() => {
+        if (heroVideos.length > 1) {
+          lazyLoadVideo(1);
+        }
+      }, 3000);
+      return timer;
+    };
 
-    // Preload second video after a short delay
-    const timer = setTimeout(() => {
-      if (heroVideos.length > 1) {
-        lazyLoadVideo(1);
-      }
-    }, 1000);
-
-    return () => clearTimeout(timer);
+    let timer: ReturnType<typeof setTimeout>;
+    if ('requestIdleCallback' in window) {
+      const idleId = requestIdleCallback(() => { timer = schedulePreload(); });
+      return () => { cancelIdleCallback(idleId); clearTimeout(timer); };
+    } else {
+      timer = schedulePreload();
+      return () => clearTimeout(timer);
+    }
   }, [heroVideos, lazyLoadVideo]);
 
   // Preload next video when current video changes

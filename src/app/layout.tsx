@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Inter, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import { Suspense } from "react";
@@ -7,16 +6,6 @@ import "./globals.css";
 import ClientBody from "./ClientBody";
 import { ClerkProvider } from '@clerk/nextjs';
 import PurchaseTracker from "@/components/PurchaseTracker";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -81,7 +70,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfairDisplay.variable}`}>
+      <html lang="en" className={`${inter.variable} ${playfairDisplay.variable}`}>
         <head />
         <body suppressHydrationWarning className="antialiased">
           <Script

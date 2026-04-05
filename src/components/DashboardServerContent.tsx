@@ -83,23 +83,23 @@ export default async function DashboardServerContent() {
         {/* Header */}
         <header className="bg-white shadow-sm border-b border-[#e8e1d8]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center space-x-4">
-                <Link href="/" className="flex items-center space-x-2">
-                  <span className="text-3xl">🎤</span>
-                  <span className="font-bold text-2xl text-[#181615]">Nail The Speech</span>
+            <div className="flex justify-between items-center h-14 sm:h-16">
+              <div className="flex items-center space-x-2 sm:space-x-4 min-w-0">
+                <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
+                  <span className="text-2xl sm:text-3xl">🎤</span>
+                  <span className="font-bold text-lg sm:text-2xl text-[#181615]">Nail The Speech</span>
                 </Link>
-                <Badge className="bg-[#fffaf7] text-[#da5389] border-[#da5389]">
+                <Badge className="hidden sm:flex bg-[#fffaf7] text-[#da5389] border-[#da5389]">
                   <Users className="h-4 w-4 mr-1" />
                   Dashboard
                 </Badge>
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
                 <Link href="/generator">
-                  <Button className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-6 py-2 font-medium">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create Speech
+                  <Button className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full min-h-[44px] px-3 sm:px-6 py-2 font-medium text-sm sm:text-base">
+                    <Plus className="h-4 w-4 sm:mr-2" />
+                    <span className="hidden sm:inline">Create Speech</span>
                   </Button>
                 </Link>
                 <UserButton
@@ -120,7 +120,7 @@ export default async function DashboardServerContent() {
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Welcome Section */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-[#181615] mb-2">
+            <h1 className="text-2xl sm:text-4xl font-bold text-[#181615] mb-2">
               Welcome back{user?.firstName ? `, ${user.firstName}` : ''}! 👋
             </h1>
             <p className="text-lg text-[#8f867e]">

@@ -19,25 +19,25 @@ export default function SiteFooter() {
           {/* Quick Links */}
           <div>
             <h4 className="font-semibold mb-4">Speech Types</h4>
-            <ul className="space-y-2 text-gray-300">
-              <li><Link href="/generator?role=best-man" className="hover:text-[#da5389]">Best Man</Link></li>
-              <li><Link href="/generator?role=maid-of-honor" className="hover:text-[#da5389]">Maid of Honor</Link></li>
-              <li><Link href="/generator?role=father-of-bride" className="hover:text-[#da5389]">Father of the Bride</Link></li>
-              <li><Link href="/generator?role=mother-of-bride" className="hover:text-[#da5389]">Mother of the Bride</Link></li>
-              <li><Link href="/generator?role=groom" className="hover:text-[#da5389]">Groom</Link></li>
-              <li><Link href="/generator?role=bride" className="hover:text-[#da5389]">Bride</Link></li>
-              <li><Link href="/#all-roles" className="hover:text-[#da5389] text-[#da5389]">All Roles &rarr;</Link></li>
+            <ul className="space-y-1 text-gray-300">
+              <li><Link href="/generator?role=best-man" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Best Man</Link></li>
+              <li><Link href="/generator?role=maid-of-honor" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Maid of Honor</Link></li>
+              <li><Link href="/generator?role=father-of-bride" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Father of the Bride</Link></li>
+              <li><Link href="/generator?role=mother-of-bride" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Mother of the Bride</Link></li>
+              <li><Link href="/generator?role=groom" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Groom</Link></li>
+              <li><Link href="/generator?role=bride" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Bride</Link></li>
+              <li><Link href="/#all-roles" className="hover:text-[#da5389] text-[#da5389] block py-1.5 min-h-[44px] flex items-center">All Roles &rarr;</Link></li>
             </ul>
           </div>
 
           {/* Help */}
           <div>
             <h4 className="font-semibold mb-4">Help</h4>
-            <ul className="space-y-2 text-gray-300">
-              <li><Link href="/advice#speech-tips" className="hover:text-[#da5389]">Speech Tips</Link></li>
-              <li><Link href="/examples" className="hover:text-[#da5389]">Examples</Link></li>
-              <li><Link href="/advice#practice-guide" className="hover:text-[#da5389]">Practice Guide</Link></li>
-              <li><Link href="/advice" className="hover:text-[#da5389]">All Advice</Link></li>
+            <ul className="space-y-1 text-gray-300">
+              <li><Link href="/advice#speech-tips" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Speech Tips</Link></li>
+              <li><Link href="/examples" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Examples</Link></li>
+              <li><Link href="/advice#practice-guide" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Practice Guide</Link></li>
+              <li><Link href="/advice" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">All Advice</Link></li>
             </ul>
           </div>
         </div>

@@ -1,17 +1,18 @@
 import Link from "next/link";
-import { ChevronDown, ArrowRight, Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronDown, ArrowRight } from "lucide-react";
 import AuthNavigation from "@/components/AuthNavigation";
+import MobileNav from "@/components/MobileNav";
 
 export default function SiteHeader() {
   return (
     <>
-      {/* Top Banner */}
-      <div className="bg-[#000000] text-white text-center py-2 text-sm sticky top-0 z-50">
-        <div className="flex items-center justify-center gap-4">
-          <span>Create perfect speeches. Get your first speech free with Nail The Speech!</span>
+      {/* Top Banner — slimmer on mobile */}
+      <div className="bg-[#000000] text-white text-center py-1.5 sm:py-2 text-xs sm:text-sm sticky top-0 z-50">
+        <div className="flex items-center justify-center gap-2 sm:gap-4 px-4">
+          <span className="hidden sm:inline">Create perfect speeches. Get your first speech free with Nail The Speech!</span>
+          <span className="sm:hidden">First speech free!</span>
           <Link href="/generator">
-            <button className="flex items-center gap-1 bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-xs font-medium transition-colors">
+            <button className="flex items-center gap-1 bg-white/20 hover:bg-white/30 px-3 py-1.5 min-h-[36px] rounded-full text-xs font-medium transition-colors">
               Get Started
               <ArrowRight className="h-3 w-3" />
             </button>
@@ -20,19 +21,19 @@ export default function SiteHeader() {
       </div>
 
       {/* Navigation */}
-      <nav className="bg-white border-b border-[#e8e1d8] sticky top-[36px] z-50">
+      <nav className="bg-white border-b border-[#e8e1d8] sticky top-[32px] sm:top-[36px] z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-14 sm:h-16">
             {/* Logo */}
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-3xl">🎤</span>
-              <span className="font-bold text-2xl text-[#181615]">Nail The Speech</span>
+            <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
+              <span className="text-2xl sm:text-3xl">🎤</span>
+              <span className="font-bold text-xl sm:text-2xl text-[#181615]">Nail The Speech</span>
             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <div className="relative group">
-                <button className="flex items-center text-[#181615] hover:text-[#da5389] font-medium">
+                <button className="flex items-center text-[#181615] hover:text-[#da5389] font-medium min-h-[44px]">
                   Speech Types <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
                 <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg border border-[#e8e1d8] p-4 min-w-[200px]">
@@ -49,7 +50,7 @@ export default function SiteHeader() {
               </div>
 
               <div className="relative group">
-                <button className="flex items-center text-[#181615] hover:text-[#da5389] font-medium">
+                <button className="flex items-center text-[#181615] hover:text-[#da5389] font-medium min-h-[44px]">
                   Help & Advice <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
                 <div className="absolute top-full left-0 hidden group-hover:block bg-white shadow-lg rounded-lg border border-[#e8e1d8] p-4 min-w-[200px]">
@@ -62,11 +63,11 @@ export default function SiteHeader() {
             </div>
 
             {/* Right side */}
-            <div className="flex items-center space-x-4">
-              <AuthNavigation />
-              <Button className="md:hidden rounded-full">
-                <Menu className="h-4 w-4" />
-              </Button>
+            <div className="flex items-center space-x-3">
+              <div className="hidden md:flex items-center space-x-4">
+                <AuthNavigation />
+              </div>
+              <MobileNav />
             </div>
           </div>
         </div>

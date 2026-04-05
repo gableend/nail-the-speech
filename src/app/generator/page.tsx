@@ -2301,13 +2301,13 @@ function GeneratorContent() {
       {/* Navigation */}
       <nav className="bg-white/95 backdrop-blur-md border-b border-[#e8e1d8]/50 sticky top-0 z-50 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-3xl">🎤</span>
-              <span className="font-bold text-2xl text-[#181615]">Nail The Speech</span>
+          <div className="flex justify-between items-center h-14 sm:h-16">
+            <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
+              <span className="text-2xl sm:text-3xl">🎤</span>
+              <span className="font-bold text-lg sm:text-2xl text-[#181615]">Nail The Speech</span>
             </Link>
-            <div className="flex items-center space-x-4">
-              <Badge variant="secondary" className="text-sm">
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              <Badge variant="secondary" className="hidden sm:flex text-sm">
                 <Sparkles className="h-4 w-4 mr-1" />
                 Speech Generator
               </Badge>
@@ -2474,7 +2474,7 @@ function GeneratorContent() {
               {currentStep === 5 && speechGenerated && "Review, refine, and make it yours"}
             </p>
           </CardHeader>
-          <CardContent className="p-8 relative z-10">
+          <CardContent className="p-4 sm:p-8 relative z-10">
 
             {/* Step 0: Name + Email */}
             {currentStep === 0 && (
@@ -3321,14 +3321,14 @@ function GeneratorContent() {
                     </div>
 
                     {/* Speech Content */}
-                    <div className="bg-white border-2 border-[#e8e1d8] rounded-xl p-6 shadow-lg">
-                      <div className="flex items-center justify-between mb-4">
+                    <div className="bg-white border-2 border-[#e8e1d8] rounded-xl p-4 sm:p-6 shadow-lg">
+                      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                         <h4 className="font-semibold text-[#181615] flex items-center">
                           <span className="text-xl mr-2">✏️</span>
                           Your Speech
                         </h4>
                         {!isSpeechPaywalled && (
-                          <div className="flex items-center space-x-2">
+                          <div className="flex flex-wrap items-center gap-2">
                             {/* Version undo/redo — visible for Pro users in edit mode or after generation */}
                             {(isEditMode || (isProUser && speechGenerated)) && (
                               <div className="flex items-center space-x-1 mr-2 bg-[#faf7f4] rounded-full px-3 py-1">
@@ -3364,7 +3364,7 @@ function GeneratorContent() {
                                 onClick={handleListenToSpeech}
                                 disabled={isRefining || isLoadingAudio || (!audioCacheRef.current && aiCreditsExhausted)}
                                 title={isLoadingAudio ? 'Generating...' : 'Listen to your speech'}
-                                className={`flex items-center justify-center space-x-1.5 w-[200px] px-3 py-2 text-sm font-medium rounded-lg transition-colors overflow-hidden ${
+                                className={`flex items-center justify-center space-x-1.5 w-auto sm:w-[200px] px-3 py-2 text-sm font-medium rounded-lg transition-colors overflow-hidden ${
                                   isLoadingAudio
                                     ? 'bg-[#da5389] text-white'
                                     : aiCreditsExhausted && !audioCacheRef.current
@@ -3448,7 +3448,7 @@ function GeneratorContent() {
                           </div>
                         )}
 
-                        <div className={`prose prose-lg max-w-none ${isSpeechPaywalled ? 'max-h-48 overflow-hidden' : 'max-h-80 overflow-y-auto'}`}>
+                        <div className={`prose prose-sm sm:prose-lg max-w-none ${isSpeechPaywalled ? 'max-h-48 overflow-hidden' : 'sm:max-h-[32rem] sm:overflow-y-auto'}`}>
                           {speechParagraphs.length > 0 ? (
                             speechParagraphs.map((para, paraIndex) => (
                               <div
@@ -3529,7 +3529,7 @@ function GeneratorContent() {
 
                         {/* Editing hint + legend for Pro users */}
                         {isProUser && !isSpeechPaywalled && speechGenerated && speechParagraphs.length > 0 && !showUndoBanner && (
-                          <div className="mt-3 flex items-center justify-between text-xs text-[#8f867e]">
+                          <div className="mt-3 flex flex-wrap items-center justify-between gap-1 text-xs text-[#8f867e]">
                             <span>💡 Click any paragraph to edit directly</span>
                             {speechParagraphs.some(p => p.source === 'user-edited') && (
                               <span className="flex items-center gap-1">
@@ -3607,7 +3607,7 @@ function GeneratorContent() {
 
                     {/* Refine Your Speech - Only for Pro users */}
                     {!isSpeechPaywalled && isProUser && (
-                      <div className="bg-[#faf7f4] rounded-lg p-6 border border-[#e8e1d8]">
+                      <div className="bg-[#faf7f4] rounded-lg p-4 sm:p-6 border border-[#e8e1d8]">
                         <div className="mb-4">
                           <div className="flex items-center justify-between">
                             <h4 className="font-semibold text-[#181615] flex items-center">
@@ -3797,7 +3797,7 @@ function GeneratorContent() {
 
                     {/* Mark Final + Export row */}
                     {currentSpeechId && isProUser && !isSpeechPaywalled && (
-                      <div className="flex items-center justify-between bg-white border border-[#e8e1d8] rounded-xl p-4">
+                      <div className="flex items-center justify-between bg-white border border-[#e8e1d8] rounded-xl p-3 sm:p-4">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="outline" size="sm" className="rounded-full hover:bg-gray-100">
@@ -3997,7 +3997,7 @@ function GeneratorContent() {
         {/* Celebratory toast for Mark Final */}
         {showFinalToast && (
           <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-            <div className="bg-white border-2 border-green-400 rounded-2xl shadow-2xl p-8 text-center max-w-md pointer-events-auto animate-bounce-in">
+            <div className="bg-white border-2 border-green-400 rounded-2xl shadow-2xl p-5 sm:p-8 text-center max-w-md pointer-events-auto animate-bounce-in">
               <div className="text-6xl mb-4">🎉</div>
               <h2 className="text-2xl font-bold text-[#181615] mb-2">Speech Finalized!</h2>
               <p className="text-[#8f867e] mb-4">

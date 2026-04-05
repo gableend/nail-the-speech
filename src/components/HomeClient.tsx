@@ -194,13 +194,15 @@ export default function HomeClient() {
               key={videoSrc}
               onClick={() => handleVideoSelect(index)}
               disabled={isTransitioning}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`w-8 h-8 flex items-center justify-center transition-all duration-300 ${isTransitioning ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+              aria-label={`Play video ${index + 1}`}
+            >
+              <span className={`block w-3 h-3 rounded-full transition-all duration-300 ${
                 currentVideoIndex === index
                   ? 'bg-white shadow-lg scale-110'
-                  : 'bg-white/60 hover:bg-white/80 hover:scale-105'
-              } ${isTransitioning ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-              aria-label={`Play video ${index + 1}`}
-            />
+                  : 'bg-white/60 group-hover:bg-white/80'
+              }`} />
+            </button>
           ))}
         </div>
       </div>

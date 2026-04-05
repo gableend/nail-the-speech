@@ -18,7 +18,7 @@ export default function SiteFooter() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4">Speech Types</h4>
+            <p className="font-semibold mb-4">Speech Types</p>
             <ul className="space-y-1 text-gray-300">
               <li><Link href="/generator?role=best-man" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Best Man</Link></li>
               <li><Link href="/generator?role=maid-of-honor" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Maid of Honor</Link></li>
@@ -32,7 +32,7 @@ export default function SiteFooter() {
 
           {/* Help */}
           <div>
-            <h4 className="font-semibold mb-4">Help</h4>
+            <p className="font-semibold mb-4">Help</p>
             <ul className="space-y-1 text-gray-300">
               <li><Link href="/help" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Help Centre</Link></li>
               <li><Link href="/advice#speech-tips" className="hover:text-[#da5389] block py-1.5 min-h-[44px] flex items-center">Speech Tips</Link></li>

@@ -166,7 +166,7 @@ export default function HomePage() {
                       fill
                       className="object-cover"
                       style={{ objectPosition: role.objectPosition || 'top' }}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) calc(50vw - 24px), 320px"
                     />
                     {role.popular && (
                       <span className="absolute top-3 right-3 bg-[#da5389] text-white text-sm px-3 py-1 rounded-full font-medium">

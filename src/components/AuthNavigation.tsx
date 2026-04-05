@@ -10,12 +10,12 @@ export default function AuthNavigation() {
     <>
       {/* While Clerk is loading, show default Get Started / Log in buttons */}
       <ClerkLoading>
-        <Link href="/generator">
+        <Link href="/generator" aria-label="Get Started">
           <Button className="hidden md:block bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-6 py-2 font-medium">
             Get Started
           </Button>
         </Link>
-        <Link href="/sign-in">
+        <Link href="/sign-in" aria-label="Log in">
           <Button variant="outline" className="hidden md:block rounded-full border-[#da5389] bg-white text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white focus:bg-white active:bg-white px-6 py-2 font-medium">
             Log in
           </Button>
@@ -25,12 +25,12 @@ export default function AuthNavigation() {
       {/* Once Clerk is loaded, show the appropriate state */}
       <ClerkLoaded>
         <SignedOut>
-          <Link href="/generator">
+          <Link href="/generator" aria-label="Get Started">
             <Button className="hidden md:block bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-6 py-2 font-medium">
               Get Started
             </Button>
           </Link>
-          <Link href="/sign-in">
+          <Link href="/sign-in" aria-label="Log in">
             <Button variant="outline" className="hidden md:block rounded-full border-[#da5389] bg-white text-[#181615] hover:border-[#da5389] hover:text-[#da5389] hover:bg-white focus:bg-white active:bg-white px-6 py-2 font-medium">
               Log in
             </Button>

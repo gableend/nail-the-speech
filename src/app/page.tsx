@@ -119,7 +119,7 @@ export default function HomePage() {
               </div>
 
               {/* Value Props */}
-              <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row sm:flex-nowrap gap-3 pt-4">
                 <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-5 py-2.5 shadow-sm border border-[#e8e1d8]">
                   <span className="text-base">🎙️</span>
                   <span className="text-sm font-medium text-[#181615]">Start by talking, not typing</span>

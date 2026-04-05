@@ -220,7 +220,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             {article.ctaSupportingText}
           </h2>
           <p className="text-[#8f867e] mb-6">
-            Our AI generator creates a personalized speech in minutes. First speech free.
+            Our AI generator creates a personalized speech in minutes. Get started for free.
           </p>
           <Link
             href="/generator"

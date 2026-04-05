@@ -43,10 +43,10 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold text-[#181615] mb-3">4. Free and Pro tiers</h2>
+              <h2 className="text-xl font-semibold text-[#181615] mb-3">4. Getting started and Pro access</h2>
               <ul className="list-disc pl-6 space-y-2">
-                <li><strong className="text-[#181615]">Free tier:</strong> You can generate one speech at no cost. No credit card is required.</li>
-                <li><strong className="text-[#181615]">Pro tier:</strong> A one-time payment (price varies by currency) gives you access to up to 15 speech regenerations, direct editing, version history, and export features for 90 days from the date of purchase.</li>
+                <li><strong className="text-[#181615]">Getting started:</strong> You can explore the speech generator and see how it works at no cost. The full speech text, editing, and export features require a Pro upgrade.</li>
+                <li><strong className="text-[#181615]">Pro access:</strong> A one-time payment (price varies by currency) gives you access to up to 15 speech regenerations, direct editing, version history, and export features for 90 days from the date of purchase.</li>
               </ul>
             </section>
 

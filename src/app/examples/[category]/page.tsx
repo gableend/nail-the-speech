@@ -173,7 +173,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
             Ready to write your {category.name.toLowerCase()}?
           </h2>
           <p className="text-[#8f867e] mb-6">
-            Our AI generator creates a personalized speech in minutes. First speech free.
+            Our AI generator creates a personalized speech in minutes. Get started for free.
           </p>
           <Link
             href="/generator"

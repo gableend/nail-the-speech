@@ -7,7 +7,7 @@ const competitor = getCompetitorBySlug("speechyai")!;
 export const metadata: Metadata = {
   title: "Nail The Speech vs SpeechyAI — AI Wedding Speech Generator Comparison",
   description:
-    "Compare Nail The Speech and SpeechyAI side by side. See how pricing, features, editing tools, and speech quality stack up. Try Nail The Speech free.",
+    "Compare Nail The Speech and SpeechyAI side by side. See how pricing, features, editing tools, and speech quality stack up.",
   keywords: [
     "Nail The Speech vs SpeechyAI",
     "SpeechyAI alternative",

@@ -7,7 +7,7 @@ import SiteFooter from "@/components/SiteFooter";
 import { competitors, ntsFeatures } from "@/data/competitors";
 
 export const metadata: Metadata = {
-  title: "Best AI Wedding Speech Generator 2025 — Comparison | Nail The Speech",
+  title: "Best AI Wedding Speech Generator 2026 — Comparison | Nail The Speech",
   description:
     "Compare the best AI wedding speech generators side by side. Nail The Speech vs ToastPal vs ToastWiz vs SpeechyAI — pricing, features, editing, and export compared.",
   keywords: [
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "best wedding speech writer",
   ],
   openGraph: {
-    title: "Best AI Wedding Speech Generator 2025 — Side-by-Side Comparison",
+    title: "Best AI Wedding Speech Generator 2026 — Side-by-Side Comparison",
     description:
       "Compare top AI wedding speech generators. Features, pricing, and capabilities compared.",
     type: "website",
@@ -36,7 +36,7 @@ function ComparisonJsonLd() {
   const ld = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Best AI Wedding Speech Generator 2025 — Comparison",
+    name: "Best AI Wedding Speech Generator 2026 — Comparison",
     description:
       "Side-by-side comparison of the best AI wedding speech generators including Nail The Speech, ToastPal, ToastWiz, and SpeechyAI.",
     url: "https://nailthespeech.com/best-ai-speech-generator",
@@ -48,7 +48,7 @@ function ComparisonJsonLd() {
           position: 1,
           name: "Nail The Speech",
           applicationCategory: "LifestyleApplication",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD", description: "Free tier available" },
+          offers: { "@type": "Offer", price: "19.99", priceCurrency: "USD", description: "Get started for free" },
         },
         ...competitors.map((c, i) => ({
           "@type": "SoftwareApplication",
@@ -73,7 +73,7 @@ export default function BestAISpeechGeneratorPage() {
   // Build unified feature rows for the master comparison table
   const masterFeatures = [
     { name: "Price", nts: ntsFeatures.price, values: competitors.map((c) => c.price) },
-    { name: "Free tier", nts: ntsFeatures.freeTier, values: competitors.map(() => "None") },
+    { name: "Get started", nts: ntsFeatures.getStarted, values: competitors.map(() => "Pay upfront") },
     { name: "Wedding roles", nts: ntsFeatures.roles, values: ["~10", "~12", "~8"] },
     { name: "Tone options", nts: ntsFeatures.tones, values: ["4", "~4", "Limited"] },
     { name: "Speech length", nts: ntsFeatures.speechLength, values: competitors.map((c) => c.speechLength) },
@@ -97,7 +97,7 @@ export default function BestAISpeechGeneratorPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#181615] leading-[1.1] tracking-tight mb-6">
             Best AI Wedding Speech Generator{" "}
-            <span className="text-[#da5389]">2025</span>
+            <span className="text-[#da5389]">2026</span>
           </h1>
           <p className="text-lg sm:text-xl text-[#8f867e] max-w-2xl mx-auto mb-8">
             We compared the top AI wedding speech writers so you don&apos;t have to. Features, pricing, and capabilities — side by side.
@@ -188,8 +188,8 @@ export default function BestAISpeechGeneratorPage() {
                     <span className="font-medium text-[#da5389]">{ntsFeatures.price}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#8f867e]">Free tier</span>
-                    <span className="font-medium text-green-600">NTS only</span>
+                    <span className="text-[#8f867e]">Get started</span>
+                    <span className="font-medium text-green-600">Free to try</span>
                   </div>
                 </div>
 
@@ -217,8 +217,8 @@ export default function BestAISpeechGeneratorPage() {
             {[
               {
                 icon: "🆓",
-                title: "Try before you pay",
-                description: "Generate your first speech completely free. No credit card, no commitment. Every competitor charges upfront.",
+                title: "Try before you commit",
+                description: "Walk through the full speech creation flow before paying. See the AI in action with your stories before you upgrade.",
               },
               {
                 icon: "💰",
@@ -263,7 +263,7 @@ export default function BestAISpeechGeneratorPage() {
             Ready to write your speech?
           </h2>
           <p className="text-lg text-[#8f867e] mb-8">
-            Your first speech is free. See why 10,000+ speakers chose Nail The Speech.
+            See why 10,000+ speakers chose Nail The Speech.
           </p>
           <Link href="/generator">
             <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">

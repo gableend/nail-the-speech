@@ -4602,7 +4602,7 @@ export const articles: Article[] = [
           "AI can write your wedding speech. The best version is a collaboration between AI and you. The technology handles structure, pacing, and polish. You bring the stories, the love, and the specific truths that only you know.\n\nThe result is a speech that sounds like you on your best day. Thoughtful, structured, personal. Delivered with confidence because you know the words are solid and the stories are real.\n\nThe couple will not know or care how you got there. They will just know it meant the world to hear you say those words. And you will actually remember saying them, which is more than can be said for the best man who had four drinks and winged it.",
       },
     ],
-    ctaSupportingText: 'Try it yourself, first speech free',
+    ctaSupportingText: 'Try it yourself — get started for free',
     relatedExamples: ['best-man-speech', 'maid-of-honor-speech', 'father-of-bride-speech'],
     relatedArticles: ['how-to-write-a-wedding-speech', 'how-to-make-wedding-speech-personal'],
     tags: ['AI', 'product', 'bottom-of-funnel'],

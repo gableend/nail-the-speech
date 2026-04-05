@@ -135,8 +135,8 @@ export async function POST(request: NextRequest) {
         console.log('🚫 [SPEECH STREAM API] Free generation limit reached', { speechCount });
         return new Response(
           JSON.stringify({
-            error: "free_generation_limit",
-            message: "You've used your free speech generation. Upgrade to Pro to generate more speeches."
+            error: "generation_limit",
+            message: "Upgrade to Pro to generate more speeches."
           }),
           {
             status: 403,

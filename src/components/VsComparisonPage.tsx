@@ -53,7 +53,7 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
             </div>
             <div className="bg-white rounded-xl p-4 border border-[#e8e1d8] text-center">
               <div className="text-2xl font-bold text-green-600">Free</div>
-              <div className="text-xs text-[#8f867e]">NTS first speech</div>
+              <div className="text-xs text-[#8f867e]">to get started</div>
             </div>
           </div>
         </div>
@@ -141,7 +141,7 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
 
           <div className="grid sm:grid-cols-3 gap-6">
             {[
-              { icon: "🆓", title: "Free first speech", description: "Try it before you pay. No credit card, no risk." },
+              { icon: "🆓", title: "Get started for free", description: "Walk through the full experience before you pay." },
               { icon: "✏️", title: "In-app editing", description: "Click to edit any paragraph. Use AI to refine sections." },
               { icon: "🎙️", title: "Audio preview", description: "Hear your speech read aloud. Practice delivery with 6 voices." },
               { icon: "🎭", title: "44 roles, 14 tones", description: "The widest role and tone coverage of any AI speech writer." },
@@ -165,7 +165,7 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
             See the difference for yourself
           </h2>
           <p className="text-lg text-[#8f867e] mb-8">
-            Your first speech is free. No credit card required.
+            Get started for free. No commitment required.
           </p>
           <Link href="/generator">
             <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">

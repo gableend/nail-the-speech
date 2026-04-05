@@ -88,8 +88,8 @@ export async function POST(request: NextRequest) {
         console.log('🚫 [SPEECH API] Free generation limit reached', { speechCount });
         return NextResponse.json(
           {
-            error: "free_generation_limit",
-            message: "You've used your free speech generation. Upgrade to Pro to generate more speeches."
+            error: "generation_limit",
+            message: "Upgrade to Pro to generate more speeches."
           },
           { status: 403 }
         );

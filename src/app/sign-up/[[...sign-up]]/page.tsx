@@ -54,7 +54,7 @@ export default function Page() {
             <div className="flex flex-wrap items-center justify-center gap-4 lg:gap-6 text-sm text-[#8f867e]">
               <div className="flex items-center space-x-2">
                 <span className="w-2 h-2 bg-[#da5389] rounded-full flex-shrink-0"></span>
-                <span className="font-medium">Free to start</span>
+                <span className="font-medium">Get started for free</span>
               </div>
               <div className="flex items-center space-x-2">
                 <span className="w-2 h-2 bg-[#da5389] rounded-full flex-shrink-0"></span>

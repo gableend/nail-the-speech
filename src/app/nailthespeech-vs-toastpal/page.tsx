@@ -7,7 +7,7 @@ const competitor = getCompetitorBySlug("toastpal")!;
 export const metadata: Metadata = {
   title: "Nail The Speech vs ToastPal — AI Wedding Speech Generator Comparison",
   description:
-    "Compare Nail The Speech and ToastPal side by side. See how pricing, features, editing tools, and speech quality stack up. Try Nail The Speech free.",
+    "Compare Nail The Speech and ToastPal side by side. See how pricing, features, editing tools, and speech quality stack up.",
   keywords: [
     "Nail The Speech vs ToastPal",
     "ToastPal alternative",

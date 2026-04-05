@@ -11,16 +11,16 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
-  title: "Nail The Speech — AI Wedding Speech Writer | Free First Speech",
-  description: "Create unforgettable wedding speeches with AI. Best man, maid of honor, father of the bride and more. Personalized, heartfelt, and ready in seconds. First speech free.",
+  title: "Nail The Speech — AI Wedding Speech Writer | Get Started Free",
+  description: "Create unforgettable wedding speeches with AI. Best man, maid of honor, father of the bride and more. Personalized, heartfelt, and ready in seconds. Get started for free.",
   keywords: [
     "wedding speech writer", "AI wedding speech", "best man speech generator",
     "maid of honor speech", "father of bride speech", "wedding toast generator",
-    "free wedding speech", "wedding speech AI",
+    "wedding speech generator", "wedding speech AI",
   ],
   openGraph: {
     title: "Nail The Speech — AI Wedding Speech Writer",
-    description: "Create personalized wedding speeches in seconds. First speech free.",
+    description: "Create personalized wedding speeches in seconds with AI. Get started for free.",
     type: "website",
     url: "https://nailthespeech.com",
   },
@@ -58,9 +58,9 @@ function HomeJsonLd() {
     description: "AI wedding speech generator. Create personalized best man, maid of honor, and family wedding speeches in seconds.",
     offers: {
       "@type": "Offer",
-      price: "0",
+      price: "19.99",
       priceCurrency: "USD",
-      description: "First speech free",
+      description: "Get started for free",
     },
   };
 
@@ -114,7 +114,7 @@ export default function HomePage() {
                   </Button>
                 </HomeCTALink>
                 <p className="text-lg text-[#8f867e] max-w-md leading-relaxed">
-                  Built with AI. Designed for you. Free to get started.
+                  Built with AI. Designed for you. Get started for free.
                 </p>
               </div>
 

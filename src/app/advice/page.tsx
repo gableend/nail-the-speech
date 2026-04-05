@@ -168,7 +168,7 @@ export default function AdvicePage() {
           <h2 className="text-3xl font-bold mb-4">Ready to write yours?</h2>
           <p className="text-[#8f867e] mb-8">
             Use our AI speech generator to create a personalized speech in minutes.
-            Your first speech is free.
+            Get started for free.
           </p>
           <Link
             href="/generator"

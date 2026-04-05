@@ -62,7 +62,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
               <div className="flex flex-wrap gap-6 pt-2">
                 <div className="flex items-center gap-2 text-sm text-[#8f867e]">
                   <CheckCircle className="h-4 w-4 text-green-500" />
-                  First speech free
+                  Get started for free
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[#8f867e]">
                   <Clock className="h-4 w-4 text-[#da5389]" />
@@ -292,7 +292,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
             Ready to nail your {config.roleLabel.toLowerCase()} speech?
           </h2>
           <p className="text-lg text-[#8f867e] mb-8">
-            Your first speech is free. No credit card required.
+            Get started for free. Your speech is minutes away.
           </p>
           <Link href={`/generator?role=${config.role}`}>
             <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
@@ -301,7 +301,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
             </Button>
           </Link>
           <p className="text-sm text-[#8f867e] mt-4">
-            Join 10,000+ wedding speakers who used Nail The Speech
+            Join 10,000+ speakers who nailed their wedding speech
           </p>
         </div>
       </section>

@@ -3243,7 +3243,7 @@ function GeneratorContent() {
                       You've provided all the essentials. Click below to generate your personalized speech outline using AI.
                     </p>
                     <p className="text-sm text-[#0369a1]">
-                      💡 Your first speech is free — let's make it count!
+                      💡 Let's make this speech one to remember!
                     </p>
                   </div>
                 )}

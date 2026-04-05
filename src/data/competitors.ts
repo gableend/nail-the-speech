@@ -23,7 +23,7 @@ export interface Competitor {
 export const ntsFeatures = {
   price: "$19.99",
   priceDetail: "One-time payment (50% launch discount)",
-  freeTier: "First speech free, no credit card",
+  getStarted: "Get started for free",
   roles: "44 wedding roles",
   tones: "14 tone options",
   editing: "In-app paragraph editing + AI refinements",
@@ -48,7 +48,7 @@ export const competitors: Competitor[] = [
     summary:
       "ToastPal generates four unique speech drafts with varying tones from a questionnaire-based input. It covers common wedding roles and delivers speeches via email with delivery tips included.",
     weaknesses: [
-      "No free tier — you pay before seeing any output",
+      "You pay before seeing any output",
       "No in-app editing — speeches delivered via email only",
       "Limited speech length (max ~500 words / 5 minutes)",
       "No audio preview or text-to-speech",
@@ -57,7 +57,7 @@ export const competitors: Competitor[] = [
     ],
     features: [
       { name: "Price", category: "pricing", nts: "$19.99", competitor: "$39.99", highlight: true },
-      { name: "Free tier", category: "pricing", nts: "First speech free", competitor: "None", highlight: true },
+      { name: "Get started", category: "pricing", nts: "Free to try", competitor: "Pay upfront", highlight: true },
       { name: "Money-back guarantee", category: "pricing", nts: false, competitor: false },
       { name: "Wedding roles", category: "generation", nts: "44 roles", competitor: "~10 roles", highlight: true },
       { name: "Tone options", category: "generation", nts: "14 tones", competitor: "4 tones", highlight: true },
@@ -87,7 +87,7 @@ export const competitors: Competitor[] = [
     summary:
       "ToastWiz uses a fine-tuned GPT-4 model to generate four unique wedding speech drafts from a detailed questionnaire. Speeches are emailed within minutes and cover standard wedding party roles.",
     weaknesses: [
-      "No free tier — pay upfront with no preview",
+      "Pay upfront with no preview of the experience",
       "Speeches delivered via email only, no in-app experience",
       "No editing tools — what you get is what you get",
       "No audio preview or export options",
@@ -96,7 +96,7 @@ export const competitors: Competitor[] = [
     ],
     features: [
       { name: "Price", category: "pricing", nts: "$19.99", competitor: "$39.90", highlight: true },
-      { name: "Free tier", category: "pricing", nts: "First speech free", competitor: "None", highlight: true },
+      { name: "Get started", category: "pricing", nts: "Free to try", competitor: "Pay upfront", highlight: true },
       { name: "Money-back guarantee", category: "pricing", nts: false, competitor: "100% guarantee" },
       { name: "Wedding roles", category: "generation", nts: "44 roles", competitor: "~12 roles", highlight: true },
       { name: "Tone options", category: "generation", nts: "14 tones", competitor: "~4 tones", highlight: true },
@@ -127,7 +127,7 @@ export const competitors: Competitor[] = [
       "SpeechyAI is the premium option, built by Speechy's team of professional speechwriters with a decade of wedding speech experience. It uses GPT-4 with a built-in clich\u00e9 filter and generates longer speeches from a detailed questionnaire.",
     weaknesses: [
       "Most expensive option at $65 per speech (3x Nail The Speech)",
-      "No free tier — significant upfront commitment",
+      "Significant upfront commitment at $65 per speech",
       "Questionnaire takes 45-60 minutes to complete",
       "Only 3 drafts generated (fewest of the three competitors)",
       "No in-app editing or refinement tools",
@@ -135,7 +135,7 @@ export const competitors: Competitor[] = [
     ],
     features: [
       { name: "Price", category: "pricing", nts: "$19.99", competitor: "$65", highlight: true },
-      { name: "Free tier", category: "pricing", nts: "First speech free", competitor: "None", highlight: true },
+      { name: "Get started", category: "pricing", nts: "Free to try", competitor: "Pay upfront", highlight: true },
       { name: "Built by speechwriters", category: "generation", nts: false, competitor: true },
       { name: "Clich\u00e9 filter", category: "generation", nts: false, competitor: true },
       { name: "Wedding roles", category: "generation", nts: "44 roles", competitor: "~8 roles", highlight: true },

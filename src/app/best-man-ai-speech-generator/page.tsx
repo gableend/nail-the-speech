@@ -4,7 +4,7 @@ import RoleLandingPage, { RoleLandingConfig } from "@/components/RoleLandingPage
 export const metadata: Metadata = {
   title: "Best Man Speech Generator — AI Wedding Speech Writer | Nail The Speech",
   description:
-    "Write a best man speech in minutes with AI. Funny, heartfelt, or a perfect mix. Personalized to your friendship, the couple, and your style. First speech free.",
+    "Write a best man speech in minutes with AI. Funny, heartfelt, or a perfect mix. Personalized to your friendship, the couple, and your style. Get started for free.",
   keywords: [
     "best man speech generator",
     "best man speech AI",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Best Man Speech Generator — Write Yours in Minutes",
     description:
-      "AI-powered best man speech writer. Personalized, funny, heartfelt, and ready in seconds. First speech free.",
+      "AI-powered best man speech writer. Personalized, funny, heartfelt, and ready in seconds. Get started for free.",
     type: "website",
     url: "https://nailthespeech.com/best-man-ai-speech-generator",
   },
@@ -43,7 +43,7 @@ function BestManJsonLd() {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-      description: "First speech free",
+      description: "Get started for free",
     },
     aggregateRating: {
       "@type": "AggregateRating",
@@ -165,9 +165,9 @@ const bestManConfig: RoleLandingConfig = {
         "No. Our speeches are designed to sound like you, not a chatbot. We use your specific stories, names, and details to create something personal. Most people can't tell it's AI-assisted.",
     },
     {
-      question: "Is my first speech really free?",
+      question: "How do I get started?",
       answer:
-        "Yes. You get a full speech outline completely free, no credit card required. If you want to unlock editing, regeneration, and export features, you can upgrade to Pro.",
+        "Just click the button above and follow the guided steps. Share a story about the groom, pick your tone, and the AI generates a speech outline in seconds. Upgrade to Pro to unlock the full speech, editing, and export.",
     },
     {
       question: "Can I edit the speech after it's generated?",

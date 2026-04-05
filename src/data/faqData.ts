@@ -11,9 +11,9 @@ export const faqs: FAQItem[] = [
       "You tell us about your role, the couple, and your favourite memories together. Our AI uses those personal details to craft a speech that sounds like you, not a robot. You get a full draft in seconds, ready to refine and make your own.",
   },
   {
-    question: "Is my first speech really free?",
+    question: "How do I get started?",
     answer:
-      "Yes. You can generate one complete speech at no cost, no credit card required. If you want to regenerate, edit, or create additional speeches, you can upgrade to Pro.",
+      "Just click Get Started and follow the guided steps. Tell us about your role, the couple, and a memory, and the AI generates a speech outline in seconds. To unlock the full speech, editing, and export features, upgrade to Pro.",
   },
   {
     question: "What speech types do you support?",
@@ -72,7 +72,7 @@ export const generatorFaqs: FAQItem[] = [
   {
     question: "What if I don't like the speech it generates?",
     answer:
-      "Pro users can regenerate as many times as they like, tweak individual sections, or edit the text directly. Your first generation is free, so you can try it risk-free before deciding.",
+      "Pro users can regenerate as many times as they like, tweak individual sections, or edit the text directly. You can try the generator to see how it works, then upgrade to Pro for the full experience.",
   },
   {
     question: "Will it sound like me or like a robot?",
@@ -85,9 +85,9 @@ export const generatorFaqs: FAQItem[] = [
       "Over 40 roles including Best Man, Maid of Honour, Father of the Bride, Mother of the Groom, siblings, grandparents, step-parents, in-laws, friends, and more. If your role isn't listed, there's a custom option where you can describe it.",
   },
   {
-    question: "Is my first speech really free?",
+    question: "How do I get started?",
     answer:
-      "Yes. One full speech, no credit card required. If you want to regenerate, edit, and export your speech, you can upgrade to Pro.",
+      "Just click Get Started and walk through the guided steps. The generator creates a speech outline in seconds. To unlock the full speech text, editing, and export, upgrade to Pro.",
   },
   {
     question: "Can I save my speech and come back to it later?",

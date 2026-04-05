@@ -4,7 +4,7 @@ import RoleLandingPage, { RoleLandingConfig } from "@/components/RoleLandingPage
 export const metadata: Metadata = {
   title: "Maid of Honor Speech Generator — AI Wedding Speech Writer | Nail The Speech",
   description:
-    "Write a maid of honor speech in minutes with AI. Heartfelt, funny, or beautifully balanced. Personalized to your friendship, the couple, and your style. First speech free.",
+    "Write a maid of honor speech in minutes with AI. Heartfelt, funny, or beautifully balanced. Personalized to your friendship, the couple, and your style. Get started for free.",
   keywords: [
     "maid of honor speech generator",
     "maid of honor speech AI",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Maid of Honor Speech Generator — Write Yours in Minutes",
     description:
-      "AI-powered maid of honor speech writer. Personalized, heartfelt, and ready in seconds. First speech free.",
+      "AI-powered maid of honor speech writer. Personalized, heartfelt, and ready in seconds. Get started for free.",
     type: "website",
     url: "https://nailthespeech.com/maid-of-honor-ai-speech-generator",
   },
@@ -44,7 +44,7 @@ function MaidOfHonorJsonLd() {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-      description: "First speech free",
+      description: "Get started for free",
     },
     aggregateRating: {
       "@type": "AggregateRating",
@@ -171,9 +171,9 @@ const maidOfHonorConfig: RoleLandingConfig = {
         "Yes. We use your specific names, stories, and details to create something that sounds like you. No generic templates or robotic phrasing.",
     },
     {
-      question: "Is my first speech really free?",
+      question: "How do I get started?",
       answer:
-        "Yes. You get a full speech outline completely free, no credit card required. Upgrade to Pro for editing, regeneration, audio preview, and export features.",
+        "Just click the button above and follow the guided steps. Share a memory about the bride, pick your tone, and the AI generates a speech outline in seconds. Upgrade to Pro to unlock the full speech, editing, and export.",
     },
     {
       question: "Can I edit the speech after?",

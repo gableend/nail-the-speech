@@ -168,8 +168,8 @@ export const helpArticles: HelpArticle[] = [
           subject: "Inline editing experience",
           caption:
             "Click any paragraph to edit it directly — your changes are highlighted and preserved.",
-          annotation:
-            "Show a paragraph in edit mode with the cursor active and user-edited text visible.",
+          src: "/images/help/speech-inline-editing.png",
+          alt: "Nail The Speech inline paragraph editing with user changes highlighted",
         },
       },
       {

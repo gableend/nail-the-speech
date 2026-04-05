@@ -248,7 +248,8 @@ export default function HelpPage() {
               <ScreenshotPlaceholder
                 subject="Generator input form"
                 caption="The guided questionnaire captures your stories and details."
-                annotation="Show role selector, name fields, and story input with example text."
+                src="/images/help/user-input.png"
+                alt="Nail The Speech generator input form with name fields and questionnaire"
               />
             </div>
 
@@ -265,7 +266,8 @@ export default function HelpPage() {
               <ScreenshotPlaceholder
                 subject="Generated speech output"
                 caption="A complete speech ready to edit, refine, or export."
-                annotation="Show the full speech with toolbar and export options visible."
+                src="/images/help/generated-speech.png"
+                alt="Generated best man speech with word count, tone, and speech text"
               />
             </div>
 
@@ -277,12 +279,13 @@ export default function HelpPage() {
                 Make it yours
               </h3>
               <p className="text-sm text-[#8f867e] mb-4">
-                Edit any paragraph, use AI refinements, then export to PDF, Word, or MP3.
+                Refine with one click, add details, or describe your own changes. Then export.
               </p>
               <ScreenshotPlaceholder
-                subject="Inline editing experience"
-                caption="Click any paragraph to edit — your changes are preserved."
-                annotation="Show a paragraph being edited with the user-edit highlight."
+                subject="Speech refinement controls"
+                caption="Quick refinements, specific prompts, or describe your own changes."
+                src="/images/help/speech-refinement.png"
+                alt="Nail The Speech refinement panel with quick prompts, detail options, and custom input"
               />
             </div>
           </div>

@@ -2,6 +2,8 @@ export interface HelpScreenshot {
   subject: string;
   caption: string;
   annotation?: string;
+  src?: string;
+  alt?: string;
 }
 
 export interface HelpSection {
@@ -106,8 +108,8 @@ export const helpArticles: HelpArticle[] = [
           subject: "Generator input form",
           caption:
             "The guided questionnaire — share your stories and details in your own words.",
-          annotation:
-            "Show the role selector and story input fields with example text filled in.",
+          src: "/images/help/user-input.png",
+          alt: "Nail The Speech generator input form with name fields and questionnaire",
         },
       },
       {
@@ -125,8 +127,8 @@ export const helpArticles: HelpArticle[] = [
           subject: "Generated speech output",
           caption:
             "A complete, structured speech ready to edit, refine, or export.",
-          annotation:
-            "Show the full speech output with the editing toolbar and export buttons visible.",
+          src: "/images/help/generated-speech.png",
+          alt: "Generated best man speech with word count, tone, and speech text",
         },
       },
       {
@@ -182,11 +184,11 @@ export const helpArticles: HelpArticle[] = [
         content:
           "If you want a completely fresh take, you can regenerate the entire speech. Add new instructions or change the tone, and the AI will produce a new draft.\n\nWhen you regenerate, any paragraphs you've personally edited are preserved — the AI only rewrites the parts it generated. This means your personal touches survive even when you ask for a fresh version.",
         screenshotAfter: {
-          subject: "Regenerate / refine controls",
+          subject: "Speech refinement controls",
           caption:
-            "Regenerate with new instructions while preserving your edits.",
-          annotation:
-            "Show the refinement panel with preset prompts and the custom instruction input.",
+            "Quick refinements, specific prompts, or describe your own changes.",
+          src: "/images/help/speech-refinement.png",
+          alt: "Nail The Speech refinement panel with quick prompts and custom input",
         },
       },
       {
@@ -272,8 +274,8 @@ export const helpArticles: HelpArticle[] = [
           subject: "Structured speech workflow",
           caption:
             "Purpose-built speech structure — not a blank chatbot prompt.",
-          annotation:
-            "Show the generated speech with clear paragraph structure: opening, stories, tribute, toast.",
+          src: "/images/help/generated-speech.png",
+          alt: "Generated best man speech showing structured paragraphs",
         },
       },
       {

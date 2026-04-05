@@ -163,6 +163,8 @@ export default function HelpArticlePage({ article }: { article: HelpArticle }) {
                   subject={section.screenshotAfter.subject}
                   caption={section.screenshotAfter.caption}
                   annotation={section.screenshotAfter.annotation}
+                  src={section.screenshotAfter.src}
+                  alt={section.screenshotAfter.alt}
                 />
               )}
             </div>

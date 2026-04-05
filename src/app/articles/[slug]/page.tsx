@@ -2,7 +2,10 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import fs from "fs";
+import path from "path";
 import { ArrowLeft, ArrowRight, Clock, Calendar } from "lucide-react";
+import { marked } from "marked";
 import {
   insightArticles,
   getInsightArticleBySlug,
@@ -10,6 +13,39 @@ import {
 } from "@/data/insightArticles";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+
+// ── Markdown config ──────────────────────────────────────────
+
+// Open external links in new tab, keep internal links normal
+const renderer = new marked.Renderer();
+renderer.link = ({ href, text }: { href: string; text: string }) => {
+  const isExternal =
+    href.startsWith("http://") || href.startsWith("https://");
+  if (isExternal) {
+    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+  }
+  return `<a href="${href}">${text}</a>`;
+};
+
+marked.setOptions({ renderer });
+
+function getArticleHtml(slug: string): string | null {
+  const filePath = path.join(
+    process.cwd(),
+    "src",
+    "content",
+    "articles",
+    `${slug}.md`
+  );
+  try {
+    const raw = fs.readFileSync(filePath, "utf-8");
+    // Strip the h1 title (first line) since the template renders it
+    const withoutTitle = raw.replace(/^# .+\n+/, "");
+    return marked.parse(withoutTitle) as string;
+  } catch {
+    return null;
+  }
+}
 
 // ── Static params ────────────────────────────────────────────
 
@@ -51,6 +87,8 @@ export default async function InsightArticlePage({
   const { slug } = await params;
   const article = getInsightArticleBySlug(slug);
   if (!article) notFound();
+
+  const html = getArticleHtml(slug);
 
   const related = article.relatedSlugs
     .map((s) => insightArticles.find((a) => a.slug === s))
@@ -118,7 +156,7 @@ export default async function InsightArticlePage({
 
         {/* Body */}
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-          {article.content ? (
+          {html ? (
             <div
               className="prose prose-lg max-w-none
                 prose-headings:text-[#181615] prose-headings:font-bold
@@ -127,8 +165,10 @@ export default async function InsightArticlePage({
                 prose-strong:text-[#181615]
                 prose-blockquote:border-l-[#da5389] prose-blockquote:bg-[#faf8f5] prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
                 prose-li:text-[#3d3830]
-                prose-img:rounded-xl"
-              dangerouslySetInnerHTML={{ __html: article.content }}
+                prose-img:rounded-xl
+                prose-hr:border-[#e8e1d8]
+                prose-em:text-[#3d3830]"
+              dangerouslySetInnerHTML={{ __html: html }}
             />
           ) : (
             <div className="text-center py-20">
@@ -145,21 +185,23 @@ export default async function InsightArticlePage({
             </div>
           )}
 
-          {/* Mid-article CTA */}
-          {article.midCta && (
-            <div className="my-10 bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/5 border border-[#da5389]/20 rounded-2xl p-6 sm:p-8">
-              <p className="text-[#181615] font-medium leading-relaxed mb-4">
-                💡 {article.midCta}
-              </p>
-              <Link
-                href="/generator"
-                className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c44578] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
-              >
-                Try It Now
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          )}
+          {/* CTA after article body */}
+          <div className="my-10 bg-gradient-to-r from-[#da5389]/10 to-[#da5389]/5 border border-[#da5389]/20 rounded-2xl p-6 sm:p-8">
+            <p className="text-[#181615] font-semibold text-lg mb-2">
+              Ready to try talk-first speech writing?
+            </p>
+            <p className="text-[#3d3830] leading-relaxed mb-4">
+              Skip the blank page. Speak your memories and Nail The Speech will
+              turn them into a speech that sounds like you.
+            </p>
+            <Link
+              href="/generator"
+              className="inline-flex items-center gap-2 bg-[#da5389] hover:bg-[#c44578] text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-colors"
+            >
+              Start Your Speech
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
 
           {/* Tags */}
           {article.tags.length > 0 && (
@@ -222,11 +264,12 @@ export default async function InsightArticlePage({
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
           <div className="bg-[#181615] rounded-2xl p-8 sm:p-10 text-center">
             <h2 className="text-2xl font-bold text-white mb-3">
-              Ready to try talk-first speech writing?
+              Great speeches start with speaking
             </h2>
             <p className="text-gray-300 mb-6 max-w-lg mx-auto">
-              Skip the blank page. Speak your memories and let Nail The Speech
-              turn them into something you&apos;re proud to deliver.
+              The only wedding speech generator that starts with your voice.
+              Talk through your memories and get a speech you&apos;re proud to
+              deliver.
             </p>
             <Link
               href="/generator"

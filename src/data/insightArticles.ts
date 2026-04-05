@@ -6,12 +6,8 @@ export interface InsightArticle {
   targetKeyword: string;
   readingTime: number;
   publishedDate: string;
-  heroImage: string;        // path to hero/card image
+  heroImage?: string;       // path to hero/card image (optional until images are added)
   heroImageAlt: string;
-  /** Markdown content — populated when .md files are ready */
-  content?: string;
-  /** Mid-article CTA prompt, e.g. "Try this: talk for 2 minutes about how you met them" */
-  midCta?: string;
   tags: string[];
   relatedSlugs: string[];
 }
@@ -25,9 +21,8 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'wedding speech writing tips',
     readingTime: 7,
     publishedDate: '2026-04-05',
-    heroImage: '/images/articles/why-writing-is-hardest.jpg',
+    // heroImage: '/images/articles/why-writing-is-hardest.jpg',
     heroImageAlt: 'Person staring at a blank page trying to write a wedding speech',
-    midCta: 'Try this: instead of writing, talk for 2 minutes about your favourite memory with them. You\'ll say things you\'d never think to type.',
     tags: ['talk-first speech writing', 'wedding speech tips', 'authenticity', 'voice input'],
     relatedSlugs: [
       'science-of-talking-produces-better-speeches',
@@ -42,9 +37,8 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'talk first speech writing',
     readingTime: 8,
     publishedDate: '2026-04-05',
-    heroImage: '/images/articles/science-of-talking.jpg',
+    // heroImage: '/images/articles/science-of-talking.jpg',
     heroImageAlt: 'Brain illustration showing speech and language pathways',
-    midCta: 'Try this: record yourself telling the story of how you met the couple. Listen back — you\'ll hear your real voice come through.',
     tags: ['talk-first speech writing', 'science', 'cognitive pathways', 'authenticity'],
     relatedSlugs: [
       'why-writing-your-wedding-speech-is-the-hardest-way',
@@ -59,9 +53,8 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'how to write a wedding speech',
     readingTime: 6,
     publishedDate: '2026-04-05',
-    heroImage: '/images/articles/rambling-to-great-speech.jpg',
+    // heroImage: '/images/articles/rambling-to-great-speech.jpg',
     heroImageAlt: 'Scattered notes transforming into a polished wedding speech',
-    midCta: 'Try this: talk through 3 memories you have with the couple. Don\'t filter — just talk. That\'s your raw material.',
     tags: ['talk-first speech writing', 'wedding speech structure', 'practical guide', 'step by step'],
     relatedSlugs: [
       'why-writing-your-wedding-speech-is-the-hardest-way',
@@ -76,9 +69,8 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'AI wedding speech generator',
     readingTime: 6,
     publishedDate: '2026-04-05',
-    heroImage: '/images/articles/ai-speeches-generic.jpg',
+    // heroImage: '/images/articles/ai-speeches-generic.jpg',
     heroImageAlt: 'Comparison of generic vs personal AI-generated wedding speech',
-    midCta: 'Try this: instead of typing "say something nice about the bride", speak about a specific moment that changed your friendship. The difference is night and day.',
     tags: ['talk-first speech writing', 'AI wedding speech', 'personalisation', 'voice input'],
     relatedSlugs: [
       'science-of-talking-produces-better-speeches',
@@ -93,9 +85,8 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'wedding speech preparation',
     readingTime: 5,
     publishedDate: '2026-04-05',
-    heroImage: '/images/articles/voice-note-to-speech.jpg',
+    // heroImage: '/images/articles/voice-note-to-speech.jpg',
     heroImageAlt: 'Phone recording a voice note that becomes a wedding speech',
-    midCta: 'Try this: open your phone\'s voice recorder and talk for 2 minutes about what you admire most about the couple. That\'s your starting point.',
     tags: ['talk-first speech writing', 'voice notes', 'audio', 'MP3 export', 'rehearsal'],
     relatedSlugs: [
       'turn-rambling-story-into-great-wedding-speech',

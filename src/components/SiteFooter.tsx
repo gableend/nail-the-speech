@@ -26,7 +26,7 @@ export default function SiteFooter() {
               <li><Link href="/generator?role=mother-of-bride" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Mother of the Bride</Link></li>
               <li><Link href="/generator?role=groom" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Groom</Link></li>
               <li><Link href="/generator?role=bride" className="hover:text-[#b33c6c] block py-1.5 min-h-[44px] flex items-center">Bride</Link></li>
-              <li><Link href="/#all-roles" className="hover:text-[#b33c6c] text-[#c44578] block py-1.5 min-h-[44px] flex items-center">All Roles &rarr;</Link></li>
+              <li><Link href="/#all-roles" className="hover:text-[#e87aa8] text-[#e06b9c] block py-1.5 min-h-[44px] flex items-center">All Roles &rarr;</Link></li>
             </ul>
           </div>
 

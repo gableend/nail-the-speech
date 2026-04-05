@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { checkProStatusForRequest, countUserSpeeches } from "@/lib/userStatus";
 import { getRoleBySlug } from "@/data/speechRoles";
-import { rateLimit } from "@/lib/rateLimit";
+import { rateLimit, hashIp, getRequestIp, computeSuspicionScore } from "@/lib/rateLimit";
 
 function determineDataCompleteness(formData: Record<string, unknown>): 'minimal' | 'enriched' | 'premium' {
   const hasEnrichmentData = !!(
@@ -54,11 +54,27 @@ export async function POST(request: NextRequest) {
       console.log('👤 [SPEECH STREAM API] Using client anonymous ID:', { anonUserId });
     }
 
-    // Rate limit: 10 generations per hour per user/IP
-    const rateLimitKey = userId || anonUserId || request.headers.get('x-forwarded-for') || 'unknown';
-    const { allowed, remaining } = rateLimit(rateLimitKey, 10, 60 * 60 * 1000);
+    // Persistent IP-based rate limiting
+    const ipHash = hashIp(getRequestIp(request));
+    const rateLimitKey = userId ? `user:${userId}` : `ip:${ipHash}`;
+    const { allowed, remaining } = await rateLimit(rateLimitKey, 10, 60);
     if (!allowed) {
       console.log('🚫 [SPEECH STREAM API] Rate limit exceeded', { rateLimitKey });
+      // Log blocked request
+      try {
+        const { score, flags } = computeSuspicionScore(request);
+        await prisma.usageLog.create({
+          data: {
+            userId, anonUserId,
+            action: 'generate',
+            model: 'gpt-4o',
+            ipHash, suspicionScore: score,
+            suspicionFlags: JSON.stringify(flags),
+            userAgent: (request.headers.get('user-agent') || '').slice(0, 500),
+            blocked: true,
+          },
+        });
+      } catch { /* non-critical */ }
       return new Response(
         JSON.stringify({
           error: "rate_limited",
@@ -346,8 +362,9 @@ export async function POST(request: NextRequest) {
             console.error("❌ [SPEECH STREAM API] Speech data that failed:", JSON.stringify({ userId, anonUserId }));
           }
 
-          // ── Usage logging ─────────────────────────────────────────
+          // ── Usage logging with abuse-tracking fields ──────────────
           try {
+            const { score, flags } = computeSuspicionScore(request);
             await prisma.usageLog.create({
               data: {
                 speechId: savedSpeechId,
@@ -356,10 +373,14 @@ export async function POST(request: NextRequest) {
                 action: actionType,
                 model: modelForAction,
                 instruction: refinementInstruction?.substring(0, 500) || null,
-                // Token counts not available from streaming — leave null
+                ipHash,
+                suspicionScore: score,
+                suspicionFlags: JSON.stringify(flags),
+                userAgent: (request.headers.get('user-agent') || '').slice(0, 500),
+                blocked: false,
               },
             });
-            console.log('📊 [SPEECH STREAM API] Usage logged:', { actionType, model: modelForAction });
+            console.log('📊 [SPEECH STREAM API] Usage logged:', { actionType, model: modelForAction, suspicionScore: score });
           } catch (logError) {
             console.error('⚠️ [SPEECH STREAM API] Failed to log usage:', logError);
           }

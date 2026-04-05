@@ -20,7 +20,7 @@ export async function POST(request: Request) {
   // Use short delays for testing: ?test=true uses 2 min instead of production delays
   const { searchParams } = new URL(request.url);
   const testMode = searchParams.get('test') === 'true';
-  const email1Delay = testMode ? 2 * 60 * 1000 : 2 * 60 * 60 * 1000;       // 2 min vs 2 hours
+  const email1Delay = testMode ? 2 * 60 * 1000 : 45 * 60 * 1000;            // 2 min vs 45 minutes
   const email2Delay = testMode ? 2 * 60 * 1000 : 24 * 60 * 60 * 1000;      // 2 min vs 24 hours
   const email1Cutoff = new Date(now.getTime() - email1Delay);
   let email1Count = 0;

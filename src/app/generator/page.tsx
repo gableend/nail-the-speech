@@ -23,6 +23,7 @@ import FAQ from "@/components/FAQ";
 import { generatorFaqs } from "@/data/faqData";
 import { showToast } from "@/components/ui/toast";
 import { useCurrency } from "@/hooks/useCurrency";
+import { track, captureAttribution, getAttribution, STEP_NAMES } from "@/lib/analytics";
 
 // ── Speech tones with role-specific recommendations ───────────────
 interface SpeechTone {
@@ -738,6 +739,11 @@ function GeneratorContent() {
   const fullSpeechRef = React.useRef<string>("");
   const speechCardRef = React.useRef<HTMLDivElement>(null);
 
+  // ── Analytics timing refs ──────────────────────────────────────
+  const stepEnteredAtRef = React.useRef<number>(Date.now());
+  const generationStartRef = React.useRef<number>(0);
+  const purchaseTrackedRef = React.useRef(false);
+
   // Paragraph-level editing: track AI vs user-edited paragraphs
   interface SpeechParagraph {
     id: string;
@@ -789,6 +795,7 @@ function GeneratorContent() {
   const { currency } = useCurrency();
   // Pro checkout redirect helper
   const redirectToCheckout = async () => {
+    track('checkout_started', { price: currency.amount / 100, currency: currency.code, source: 'generator' });
     try {
       const checkoutData: Record<string, unknown> = {
         email: null,
@@ -857,6 +864,50 @@ function GeneratorContent() {
       setIsSpeechPaywalled(false);
     }
   }, [isProUser, isSpeechPaywalled]);
+
+  // ── GA4: Capture attribution on mount ────────────────────────────
+  useEffect(() => { captureAttribution(); }, []);
+
+  // ── GA4: Track step views + reset step timer ─────────────────────
+  useEffect(() => {
+    track('speech_step_view', { step: currentStep, step_name: STEP_NAMES[currentStep] || `step_${currentStep}` });
+    stepEnteredAtRef.current = Date.now();
+  }, [currentStep]);
+
+  // ── GA4: Track purchase (deduplicated by session_id) ─────────────
+  useEffect(() => {
+    if (!paymentSuccess || !sessionId || purchaseTrackedRef.current) return;
+    // Deduplicate: check sessionStorage so refresh doesn't re-fire
+    const key = `nts_purchase_tracked_${sessionId}`;
+    if (typeof window !== 'undefined' && sessionStorage.getItem(key)) return;
+
+    const attr = getAttribution();
+    track('purchase_completed', {
+      value: currency.amount / 100,
+      currency: currency.code,
+      plan: 'pro',
+      session_id: sessionId,
+      ...attr,
+    });
+
+    purchaseTrackedRef.current = true;
+    if (typeof window !== 'undefined') sessionStorage.setItem(key, '1');
+  }, [paymentSuccess, sessionId, currency.amount, currency.code]);
+
+  // ── GA4: Track email-attributed conversion ───────────────────────
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const subscribed = params.get('subscribed') === 'true';
+    const discount = params.get('discount');
+    if (!subscribed) return;
+
+    const emailType = discount ? 'discount' : 'abandon';
+    track('email_conversion', {
+      email_type: emailType,
+      has_discount: !!discount,
+      ...getAttribution(),
+    });
+  }, []); // fire once on mount
 
   // Initialize anonymous user and restore form data when user comes back from result page
   useEffect(() => {
@@ -1290,6 +1341,14 @@ function GeneratorContent() {
           }),
         }).catch(() => {}); // fire-and-forget
       }
+
+      // Track step completion with time spent
+      const timeOnStep = Math.round((Date.now() - stepEnteredAtRef.current) / 1000);
+      track('speech_step_complete', {
+        step: currentStep,
+        step_name: STEP_NAMES[currentStep] || `step_${currentStep}`,
+        time_on_step_seconds: timeOnStep,
+      });
 
       // Skip role step if role came from URL
       let nextStepNum: number;
@@ -1882,6 +1941,11 @@ function GeneratorContent() {
   // Handle direct paragraph editing
   const handleParagraphEdit = (paraId: string, newText: string) => {
     const trimmed = newText.trim();
+    // Only track if text actually changed
+    const currentPara = speechParagraphs.find(p => p.id === paraId);
+    if (currentPara && trimmed !== currentPara.text) {
+      track('speech_edited', { edit_type: 'inline_edit' });
+    }
     const updatedParas = speechParagraphs.map(p => {
       if (p.id !== paraId) return p;
       if (trimmed === p.originalText) {
@@ -1974,6 +2038,15 @@ function GeneratorContent() {
               fullSpeechRef.current = data.speech;
               incrementSpeechGenerationCount();
 
+              // GA4: Track speech generation
+              const genTimeMs = generationStartRef.current ? Date.now() - generationStartRef.current : 0;
+              track('speech_generated', {
+                word_count: data.wordCount,
+                generation_time_ms: genTimeMs,
+                version: (data.regenCount || 0) + 1,
+                action_type: data.actionType,
+              });
+
               if (data.speechId) {
                 console.log('✅ [GENERATOR] Speech saved to DB:', data.speechId);
                 setCurrentSpeechId(data.speechId);
@@ -2026,6 +2099,8 @@ function GeneratorContent() {
     try {
       setIsGenerating(true);
       setIsRefining(true); // keep old speech visible with overlay
+      generationStartRef.current = Date.now();
+      track('speech_edited', { edit_type: 'refinement' });
       setShowUndoBanner(false);
       setSpeechError("");
       // Do NOT clear generatedSpeech — old speech stays visible during refinement
@@ -2085,6 +2160,8 @@ function GeneratorContent() {
     setShowStartOverConfirm(false);
     try {
       setIsGenerating(true);
+      generationStartRef.current = Date.now();
+      track('speech_regenerated', { version: dbRegenCount + 1 });
       setShowUndoBanner(false);
       setSpeechError("");
       setGeneratedSpeech("");
@@ -2163,12 +2240,17 @@ function GeneratorContent() {
       return;
     }
 
+    // Track step 4 (story) completion
+    const timeOnStep = Math.round((Date.now() - stepEnteredAtRef.current) / 1000);
+    track('speech_step_complete', { step: 4, step_name: 'story', time_on_step_seconds: timeOnStep });
+
     // Navigate to Step 5 (speech output) first
     setCurrentStep(5);
 
     // Start streaming speech generation
     try {
       setIsGenerating(true);
+      generationStartRef.current = Date.now();
       setSpeechError("");
       setGeneratedSpeech(""); // Clear any previous speech
 

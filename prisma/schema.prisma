@@ -94,10 +94,16 @@ model UsageLog {
   totalTokens      Int?
   estimatedCost    Float?   // in USD cents
   instruction      String?
+  ipHash           String?
+  suspicionScore   Int?
+  suspicionFlags   String?  // JSON array of triggered flags
+  userAgent        String?
+  blocked          Boolean  @default(false)
   createdAt        DateTime @default(now())
 
   @@index([userId, createdAt])
   @@index([action, createdAt])
+  @@index([ipHash, createdAt])
   @@map("usage_logs")
 }
 
@@ -112,4 +118,15 @@ model SpeechVersion {
 
   @@index([speechId, versionNumber])
   @@map("speech_versions")
+}
+
+model RateLimit {
+  id            String   @id // e.g. "ip:<hash>" or "user:<id>"
+  requestCount  Int      @default(0)
+  windowStart   DateTime @default(now())
+  windowMinutes Int      @default(60)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("rate_limits")
 }

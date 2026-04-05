@@ -10,6 +10,7 @@ import { useAuth } from '@clerk/nextjs';
 import { useSearchParams } from 'next/navigation';
 import { showToast } from '@/components/ui/toast';
 import { useCurrency } from '@/hooks/useCurrency';
+import { track } from '@/lib/analytics';
 
 // Define specific types instead of 'any'
 interface SpeechData {
@@ -117,6 +118,7 @@ export default function ProUpgradePrompt({
   const handleUpgrade = async () => {
     try {
       setLoading(true);
+      track('checkout_started', { price: currency.amount / 100, currency: currency.code, source: context });
 
       // Prepare data for checkout
       const checkoutData: Record<string, unknown> = {

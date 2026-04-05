@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { Sparkles } from "lucide-react";
+import { captureAttribution } from "@/lib/analytics";
 
 export default function HomeClient() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -31,6 +32,9 @@ export default function HomeClient() {
 
     setLoadedVideos(prev => new Set(prev).add(index));
   }, [heroVideos, loadedVideos]);
+
+  // Capture UTM attribution on first visit
+  useEffect(() => { captureAttribution(); }, []);
 
   // Preload first video immediately and next video when component mounts
   useEffect(() => {

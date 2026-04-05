@@ -3,7 +3,8 @@ import { generateWeddingSpeech, estimateReadingTime, countWords } from "@/lib/op
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { getRoleBySlug } from "@/data/speechRoles";
-import { rateLimit } from "@/lib/rateLimit";
+import { rateLimit, hashIp, getRequestIp, computeSuspicionScore } from "@/lib/rateLimit";
+import { checkProStatusForRequest, countUserSpeeches } from "@/lib/userStatus";
 
 function determineDataCompleteness(formData: Record<string, unknown>): 'minimal' | 'enriched' | 'premium' {
   const hasEnrichmentData = !!(
@@ -52,14 +53,47 @@ export async function POST(request: NextRequest) {
       console.log('👤 [SPEECH API] Using client anonymous ID:', { anonUserId });
     }
 
-    // Rate limit: 10 generations per hour per user/IP
-    const rateLimitKey = userId || anonUserId || request.headers.get('x-forwarded-for') || 'unknown';
-    const { allowed } = rateLimit(rateLimitKey, 10, 60 * 60 * 1000);
+    // Persistent IP-based rate limiting
+    const ipHash = hashIp(getRequestIp(request));
+    const rateLimitKey = userId ? `user:${userId}` : `ip:${ipHash}`;
+    const { allowed, remaining } = await rateLimit(rateLimitKey, 10, 60);
     if (!allowed) {
+      // Log blocked request
+      try {
+        const { score, flags } = computeSuspicionScore(request);
+        await prisma.usageLog.create({
+          data: {
+            userId, anonUserId,
+            action: 'generate',
+            model: 'gpt-4o',
+            ipHash, suspicionScore: score,
+            suspicionFlags: JSON.stringify(flags),
+            userAgent: (request.headers.get('user-agent') || '').slice(0, 500),
+            blocked: true,
+          },
+        });
+      } catch { /* non-critical */ }
       return NextResponse.json(
         { error: "You're generating speeches too quickly. Please wait a while before trying again." },
         { status: 429 }
       );
+    }
+
+    // Check Pro status and enforce free-generation limit
+    const isProUser = await checkProStatusForRequest(userId, anonUserId);
+
+    if (!isProUser) {
+      const speechCount = await countUserSpeeches(userId, anonUserId);
+      if (speechCount >= 1) {
+        console.log('🚫 [SPEECH API] Free generation limit reached', { speechCount });
+        return NextResponse.json(
+          {
+            error: "free_generation_limit",
+            message: "You've used your free speech generation. Upgrade to Pro to generate more speeches."
+          },
+          { status: 403 }
+        );
+      }
     }
 
     console.log('📝 [SPEECH API] Form data received:', {
@@ -95,10 +129,6 @@ export async function POST(request: NextRequest) {
         {
           error: "AI service temporarily unavailable",
           message: "OpenAI API key not configured. Please check environment variables.",
-          debug: {
-            hasKey: !!process.env.OPENAI_API_KEY,
-            environment: process.env.NODE_ENV || 'unknown'
-          }
         },
         { status: 503 }
       );
@@ -164,6 +194,23 @@ export async function POST(request: NextRequest) {
       // Continue anyway, don't fail the request
     }
 
+    // Log usage with abuse-tracking fields
+    try {
+      const { score, flags } = computeSuspicionScore(request);
+      await prisma.usageLog.create({
+        data: {
+          userId, anonUserId,
+          action: 'generate',
+          model: speechOptions.model,
+          ipHash,
+          suspicionScore: score,
+          suspicionFlags: JSON.stringify(flags),
+          userAgent: (request.headers.get('user-agent') || '').slice(0, 500),
+          blocked: false,
+        },
+      });
+    } catch { /* non-critical */ }
+
     const responseData = {
       speech: generatedSpeech,
       wordCount: countWords(generatedSpeech),
@@ -207,47 +254,6 @@ export async function POST(request: NextRequest) {
       },
       { status: 503 }
     );
-  }
-}
-
-export async function GET() {
-  console.log('🔍 [GET API] Simple test endpoint');
-
-  try {
-    // Test OpenAI initialization
-    let openaiStatus = 'not_configured';
-    let openaiError = null;
-
-    if (process.env.OPENAI_API_KEY) {
-      try {
-        const { OpenAI } = await import('openai');
-        const openai = new OpenAI({
-          apiKey: process.env.OPENAI_API_KEY,
-        });
-        openaiStatus = 'configured';
-      } catch (err) {
-        openaiStatus = 'error';
-        openaiError = (err as Error).message;
-      }
-    }
-
-    return NextResponse.json({
-      message: "API is working",
-      hasOpenAIKey: !!process.env.OPENAI_API_KEY,
-      keyLength: process.env.OPENAI_API_KEY?.length || 0,
-      keyPreview: `${process.env.OPENAI_API_KEY?.substring(0, 10)}...`,
-      openaiStatus,
-      openaiError,
-      environment: process.env.NODE_ENV || 'unknown',
-      timestamp: new Date().toISOString()
-    });
-  } catch (error) {
-    console.error('🔍 [GET API] Error in test endpoint:', error);
-    return NextResponse.json({
-      message: "API error",
-      error: (error as Error).message,
-      timestamp: new Date().toISOString()
-    }, { status: 500 });
   }
 }
 

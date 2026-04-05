@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Users, Clock, Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import HomeCTALink from "@/components/HomeCTALink";
 import HomeClient from "@/components/HomeClient";
 import FAQ from "@/components/FAQ";
 import { faqs } from "@/data/faqData";
@@ -106,12 +107,12 @@ export default function HomePage() {
 
               {/* Get Started Button */}
               <div className="space-y-6">
-                <Link href="/generator">
+                <HomeCTALink href="/generator" location="hero">
                   <Button className="bg-[#da5389] hover:bg-[#c44578] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
                     Get Started
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
-                </Link>
+                </HomeCTALink>
                 <p className="text-lg text-[#8f867e] max-w-md leading-relaxed">
                   Built with AI. Designed for you. Free to get started.
                 </p>
@@ -161,7 +162,7 @@ export default function HomePage() {
           {/* Major Speech Type Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {majorRoles.map((role) => (
-              <Link key={role.slug} href={`/generator?role=${role.slug}`} className="group">
+              <HomeCTALink key={role.slug} href={`/generator?role=${role.slug}`} location="role_card" className="group">
                 <div className="relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                   <div className="relative">
                     <img
@@ -191,7 +192,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </HomeCTALink>
             ))}
           </div>
 
@@ -231,11 +232,11 @@ export default function HomePage() {
             {/* CTA below roles */}
             <div className="mt-12 text-center">
               <p className="text-[#8f867e] mb-4">Don't see your role? No problem.</p>
-              <Link href="/generator">
+              <HomeCTALink href="/generator" location="custom">
                 <Button className="bg-[#da5389] hover:bg-[#da5389]/90 text-white rounded-full px-8 py-3 text-base font-semibold shadow-lg">
                   ✍️ Create a Custom Speech
                 </Button>
-              </Link>
+              </HomeCTALink>
             </div>
           </div>
         </div>

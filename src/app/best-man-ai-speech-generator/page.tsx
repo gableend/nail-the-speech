@@ -41,7 +41,7 @@ function BestManJsonLd() {
       "AI-powered best man speech generator. Create a personalized, funny, or heartfelt best man speech in minutes.",
     offers: {
       "@type": "Offer",
-      price: "0",
+      price: "29.99",
       priceCurrency: "USD",
       description: "Get started for free",
     },

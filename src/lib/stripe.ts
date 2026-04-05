@@ -27,11 +27,11 @@ export interface CurrencyConfig {
 }
 
 export const CURRENCY_CONFIGS: Record<string, CurrencyConfig> = {
-  USD: { code: 'usd', symbol: '$',  amount: 1999, displayPrice: '$19.99',  originalPrice: '$39.99' },
-  GBP: { code: 'gbp', symbol: '£',  amount: 1599, displayPrice: '£15.99',  originalPrice: '£31.99' },
-  EUR: { code: 'eur', symbol: '€',  amount: 1799, displayPrice: '€17.99',  originalPrice: '€35.99' },
-  AUD: { code: 'aud', symbol: 'A$', amount: 2999, displayPrice: 'A$29.99', originalPrice: 'A$59.99' },
-  CAD: { code: 'cad', symbol: 'C$', amount: 2699, displayPrice: 'C$26.99', originalPrice: 'C$53.99' },
+  USD: { code: 'usd', symbol: '$',  amount: 2999, displayPrice: '$29.99',  originalPrice: '$59.99' },
+  GBP: { code: 'gbp', symbol: '£',  amount: 2499, displayPrice: '£24.99',  originalPrice: '£49.99' },
+  EUR: { code: 'eur', symbol: '€',  amount: 2799, displayPrice: '€27.99',  originalPrice: '€55.99' },
+  AUD: { code: 'aud', symbol: 'A$', amount: 4499, displayPrice: 'A$44.99', originalPrice: 'A$89.99' },
+  CAD: { code: 'cad', symbol: 'C$', amount: 3999, displayPrice: 'C$39.99', originalPrice: 'C$79.99' },
 };
 
 // Map countries to currencies

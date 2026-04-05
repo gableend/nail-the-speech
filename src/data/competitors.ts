@@ -21,7 +21,7 @@ export interface Competitor {
 }
 
 export const ntsFeatures = {
-  price: "$19.99",
+  price: "$29.99",
   priceDetail: "One-time payment (50% launch discount)",
   getStarted: "Get started for free",
   roles: "44 wedding roles",
@@ -53,10 +53,10 @@ export const competitors: Competitor[] = [
       "Limited speech length (max ~500 words / 5 minutes)",
       "No audio preview or text-to-speech",
       "No version history or refinement tools",
-      "2x the price of Nail The Speech",
+      "More expensive than Nail The Speech",
     ],
     features: [
-      { name: "Price", category: "pricing", nts: "$19.99", competitor: "$39.99", highlight: true },
+      { name: "Price", category: "pricing", nts: "$29.99", competitor: "$39.99", highlight: true },
       { name: "Get started", category: "pricing", nts: "Free to try", competitor: "Pay upfront", highlight: true },
       { name: "Money-back guarantee", category: "pricing", nts: false, competitor: false },
       { name: "Wedding roles", category: "generation", nts: "44 roles", competitor: "~10 roles", highlight: true },
@@ -92,10 +92,10 @@ export const competitors: Competitor[] = [
       "No editing tools — what you get is what you get",
       "No audio preview or export options",
       "Limited to ~600 words maximum",
-      "2x the price of Nail The Speech",
+      "More expensive than Nail The Speech",
     ],
     features: [
-      { name: "Price", category: "pricing", nts: "$19.99", competitor: "$39.90", highlight: true },
+      { name: "Price", category: "pricing", nts: "$29.99", competitor: "$39.90", highlight: true },
       { name: "Get started", category: "pricing", nts: "Free to try", competitor: "Pay upfront", highlight: true },
       { name: "Money-back guarantee", category: "pricing", nts: false, competitor: "100% guarantee" },
       { name: "Wedding roles", category: "generation", nts: "44 roles", competitor: "~12 roles", highlight: true },
@@ -134,7 +134,7 @@ export const competitors: Competitor[] = [
       "No audio preview feature",
     ],
     features: [
-      { name: "Price", category: "pricing", nts: "$19.99", competitor: "$65", highlight: true },
+      { name: "Price", category: "pricing", nts: "$29.99", competitor: "$65", highlight: true },
       { name: "Get started", category: "pricing", nts: "Free to try", competitor: "Pay upfront", highlight: true },
       { name: "Built by speechwriters", category: "generation", nts: false, competitor: true },
       { name: "Clich\u00e9 filter", category: "generation", nts: false, competitor: true },

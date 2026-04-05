@@ -20,9 +20,9 @@ const DEFAULT_CURRENCY: CurrencyInfo = {
   key: 'USD',
   code: 'usd',
   symbol: '$',
-  amount: 1999,
-  displayPrice: '$19.99',
-  originalPrice: '$39.99',
+  amount: 2999,
+  displayPrice: '$29.99',
+  originalPrice: '$59.99',
 };
 
 let cachedResult: { currency: CurrencyInfo; all: CurrencyInfo[] } | null = null;

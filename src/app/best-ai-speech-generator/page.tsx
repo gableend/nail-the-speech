@@ -48,7 +48,7 @@ function ComparisonJsonLd() {
           position: 1,
           name: "Nail The Speech",
           applicationCategory: "LifestyleApplication",
-          offers: { "@type": "Offer", price: "19.99", priceCurrency: "USD", description: "Get started for free" },
+          offers: { "@type": "Offer", price: "29.99", priceCurrency: "USD", description: "Get started for free" },
         },
         ...competitors.map((c, i) => ({
           "@type": "SoftwareApplication",
@@ -222,8 +222,8 @@ export default function BestAISpeechGeneratorPage() {
               },
               {
                 icon: "💰",
-                title: "Half the price",
-                description: `At ${ntsFeatures.price}, Nail The Speech costs less than half of what competitors charge for fewer features.`,
+                title: "Better value",
+                description: `At ${ntsFeatures.price}, Nail The Speech costs less than competitors while offering more features, editing tools, and export options.`,
               },
               {
                 icon: "✏️",

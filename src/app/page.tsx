@@ -58,7 +58,7 @@ function HomeJsonLd() {
     description: "AI wedding speech generator. Create personalized best man, maid of honor, and family wedding speeches in seconds.",
     offers: {
       "@type": "Offer",
-      price: "19.99",
+      price: "29.99",
       priceCurrency: "USD",
       description: "Get started for free",
     },

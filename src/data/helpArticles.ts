@@ -335,13 +335,6 @@ export const helpArticles: HelpArticle[] = [
         level: 2,
         content:
           "If you've edited any paragraphs directly — adding personal touches, inside jokes, or rewriting a section — those changes are preserved during regeneration. The AI only replaces the paragraphs it wrote.\n\nThis means you can experiment freely. Regenerate for a different opening, keep the closing you already perfected, and build your speech iteratively.",
-        screenshotAfter: {
-          subject: "Preserved user edits after refinement",
-          caption:
-            "User-edited paragraphs are preserved when the AI regenerates the rest.",
-          annotation:
-            "Show a speech where some paragraphs have the user-edit indicator and others have been freshly regenerated.",
-        },
       },
       {
         heading: "Version history has your back",

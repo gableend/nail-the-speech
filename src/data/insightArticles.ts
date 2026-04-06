@@ -85,7 +85,7 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'wedding speech preparation',
     readingTime: 5,
     publishedDate: '2026-04-05',
-    heroImage: '/images/articles/voice-note-to-speech.png',
+    heroImage: '/images/articles/voice-note-to-speech.webp',
     heroImageAlt: 'Phone recording a voice note that becomes a wedding speech',
     tags: ['talk-first speech writing', 'voice notes', 'audio', 'MP3 export', 'rehearsal'],
     relatedSlugs: [

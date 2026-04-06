@@ -261,7 +261,7 @@ export default function HelpPage() {
                 Get your speech
               </h3>
               <p className="text-sm text-[#756c64] mb-4">
-                The AI generates a structured speech in seconds — opening, stories, tribute, and toast.
+                The AI generates a structured speech in seconds tuned to your voice.
               </p>
               <ScreenshotPlaceholder
                 subject="Generated speech output"

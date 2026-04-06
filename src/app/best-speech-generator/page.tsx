@@ -26,6 +26,13 @@ export const metadata: Metadata = {
       "Compare top AI wedding speech generators. Features, pricing, and capabilities compared.",
     type: "website",
     url: "https://www.nailthespeech.com/best-speech-generator",
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.nailthespeech.com/best-speech-generator",

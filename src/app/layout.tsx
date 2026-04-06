@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     default: "Nail The Speech | AI Wedding Speech Writer",
     template: "%s | Nail The Speech",
   },
-  description: "Create unforgettable wedding speeches with AI that understands the heart of your message. Perfect for best man, maid of honor, and more.",
+  description: "You don't need to write your wedding speech. Just talk it out.",
   keywords: ["wedding speeches", "AI speech writer", "best man speech", "maid of honor speech", "wedding speech generator"],
   authors: [{ name: "Nail The Speech" }],
   creator: "Nail The Speech",
@@ -56,9 +56,25 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    type: 'website',
+    title: 'Nail The Speech',
+    description: "You don't need to write your wedding speech. Just talk it out.",
+    url: 'https://www.nailthespeech.com',
     siteName: 'Nail The Speech',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
     locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Nail The Speech',
+    description: "You don't need to write your wedding speech. Just talk it out.",
+    images: ['/og-image.png'],
   },
 };
 

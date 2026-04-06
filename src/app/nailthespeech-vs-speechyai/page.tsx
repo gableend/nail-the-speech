@@ -21,6 +21,13 @@ export const metadata: Metadata = {
     description: "Feature-by-feature comparison of Nail The Speech and SpeechyAI.",
     type: "website",
     url: "https://www.nailthespeech.com/nailthespeech-vs-speechyai",
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.nailthespeech.com/nailthespeech-vs-speechyai",

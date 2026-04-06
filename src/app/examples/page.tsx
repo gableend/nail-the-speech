@@ -19,6 +19,13 @@ export const metadata: Metadata = {
     title: 'Wedding Speech Examples: 60+ Types | Nail The Speech',
     description: 'Browse hundreds of real wedding speech examples. Find the perfect inspiration for your toast.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 

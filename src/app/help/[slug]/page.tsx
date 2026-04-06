@@ -30,6 +30,13 @@ export async function generateMetadata({
       description: article.metaDescription,
       type: "article",
       url: `https://www.nailthespeech.com/help/${article.slug}`,
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
     alternates: {
       canonical: `https://www.nailthespeech.com/help/${article.slug}`,

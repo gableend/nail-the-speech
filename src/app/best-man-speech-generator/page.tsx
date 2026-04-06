@@ -23,6 +23,13 @@ export const metadata: Metadata = {
       "AI-powered best man speech writer. Personalized, funny, heartfelt, and ready in seconds. Get started for free.",
     type: "website",
     url: "https://www.nailthespeech.com/best-man-speech-generator",
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.nailthespeech.com/best-man-speech-generator",

@@ -24,6 +24,13 @@ export const metadata: Metadata = {
       "AI-powered maid of honor speech writer. Personalized, heartfelt, and ready in seconds. Get started for free.",
     type: "website",
     url: "https://www.nailthespeech.com/maid-of-honor-speech-generator",
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.nailthespeech.com/maid-of-honor-speech-generator",

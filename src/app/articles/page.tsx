@@ -15,6 +15,13 @@ export const metadata: Metadata = {
     description:
       "Insights on why the best wedding speeches start with speaking, not writing.",
     url: "https://www.nailthespeech.com/articles",
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 

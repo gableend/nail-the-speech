@@ -27,6 +27,13 @@ export const metadata: Metadata = {
       "Wedding speech FAQs, product guides, and practical advice for every role.",
     type: "website",
     url: "https://www.nailthespeech.com/help",
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.nailthespeech.com/help",

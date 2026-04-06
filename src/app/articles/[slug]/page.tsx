@@ -71,7 +71,13 @@ export async function generateMetadata({
       title: article.title,
       description: article.metaDescription,
       url: `https://www.nailthespeech.com/articles/${article.slug}`,
-      images: article.heroImage ? [{ url: article.heroImage }] : undefined,
+      images: [
+        {
+          url: article.heroImage || '/og-image.png',
+          width: 1200,
+          height: 630,
+        },
+      ],
       type: "article",
     },
   };

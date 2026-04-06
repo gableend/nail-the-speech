@@ -19,6 +19,13 @@ export const metadata: Metadata = {
     title: 'Wedding Speech Help & Advice | Nail The Speech',
     description: 'Expert guides for writing and delivering unforgettable wedding speeches.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 

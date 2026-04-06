@@ -13,6 +13,13 @@ export const metadata: Metadata = {
     description: "Generate a personalized wedding speech in seconds. Get started for free.",
     type: "website",
     url: "https://www.nailthespeech.com/generator",
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   alternates: {
     canonical: "/generator",

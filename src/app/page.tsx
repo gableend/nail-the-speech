@@ -24,6 +24,13 @@ export const metadata: Metadata = {
     description: "Create personalized wedding speeches in seconds with AI. Get started for free.",
     type: "website",
     url: "https://www.nailthespeech.com",
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 

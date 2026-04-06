@@ -35,6 +35,13 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       title: `${category.name} Examples | Nail The Speech`,
       description: category.description,
       type: 'website',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
   };
 }

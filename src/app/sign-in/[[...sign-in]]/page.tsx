@@ -42,7 +42,7 @@ export default function Page() {
                 path="/sign-in"
                 routing="path"
                 signUpUrl="/sign-up"
-                redirectUrl="/dashboard"
+                fallbackRedirectUrl="/dashboard"
               />
             </ClerkLoaded>
           </div>

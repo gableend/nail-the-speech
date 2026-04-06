@@ -34,19 +34,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/best-man-ai-speech-generator`,
+      url: `${baseUrl}/best-man-speech-generator`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/maid-of-honor-ai-speech-generator`,
+      url: `${baseUrl}/maid-of-honor-speech-generator`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/best-ai-speech-generator`,
+      url: `${baseUrl}/best-speech-generator`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,

@@ -304,13 +304,13 @@ export default function HelpPage() {
               {
                 label: "Best Man Speeches",
                 description: "Generator, examples, and tips for best men.",
-                href: "/best-man-ai-speech-generator",
+                href: "/best-man-speech-generator",
                 icon: "🤵",
               },
               {
                 label: "Maid of Honor Speeches",
                 description: "Everything for the maid or matron of honor.",
-                href: "/maid-of-honor-ai-speech-generator",
+                href: "/maid-of-honor-speech-generator",
                 icon: "👗",
               },
               {
@@ -323,7 +323,7 @@ export default function HelpPage() {
                 label: "Compare Generators",
                 description:
                   "See how we stack up against other AI speech tools.",
-                href: "/best-ai-speech-generator",
+                href: "/best-speech-generator",
                 icon: "⚖️",
               },
             ].map((item) => (

@@ -23,7 +23,7 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <Link
-              href="/best-ai-speech-generator"
+              href="/best-speech-generator"
               className="text-sm text-[#c44578] hover:text-[#b33c6c] font-medium inline-flex items-center gap-1 mb-4"
             >
               <ArrowRight className="h-3 w-3 rotate-180" />

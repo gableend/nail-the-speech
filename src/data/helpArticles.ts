@@ -141,7 +141,7 @@ export const helpArticles: HelpArticle[] = [
     internalLinks: [
       { href: "/generator", label: "Try the speech generator" },
       { href: "/help/can-i-edit-my-speech-after-generation", label: "How editing works" },
-      { href: "/best-ai-speech-generator", label: "Compare AI speech generators" },
+      { href: "/best-speech-generator", label: "Compare AI speech generators" },
       { href: "/advice/how-to-write-a-wedding-speech", label: "How to write a wedding speech" },
     ],
     ctaText: "Ready to try it?",
@@ -304,7 +304,7 @@ export const helpArticles: HelpArticle[] = [
       },
     ],
     internalLinks: [
-      { href: "/best-ai-speech-generator", label: "Compare all AI speech generators" },
+      { href: "/best-speech-generator", label: "Compare all AI speech generators" },
       { href: "/help/how-nailthespeech-works", label: "How Nail The Speech works" },
       { href: "/generator", label: "Try the generator" },
       { href: "/advice/can-ai-write-wedding-speech", label: "Can AI write a good wedding speech?" },
@@ -391,7 +391,7 @@ export const helpArticles: HelpArticle[] = [
       },
     ],
     internalLinks: [
-      { href: "/best-man-ai-speech-generator", label: "Best man speech generator" },
+      { href: "/best-man-speech-generator", label: "Best man speech generator" },
       { href: "/generator?role=best-man", label: "Generate a best man speech" },
       { href: "/examples/best-man-speech", label: "Best man speech examples" },
       { href: "/advice/how-long-should-a-wedding-speech-be", label: "Detailed length guide" },
@@ -431,7 +431,7 @@ export const helpArticles: HelpArticle[] = [
       },
     ],
     internalLinks: [
-      { href: "/maid-of-honor-ai-speech-generator", label: "Maid of honor speech generator" },
+      { href: "/maid-of-honor-speech-generator", label: "Maid of honor speech generator" },
       { href: "/generator?role=maid-of-honor", label: "Generate a maid of honor speech" },
       { href: "/examples/maid-of-honor-speech", label: "Maid of honor speech examples" },
       { href: "/advice/how-long-should-a-wedding-speech-be", label: "Detailed length guide" },

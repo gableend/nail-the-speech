@@ -22,10 +22,10 @@ export const metadata: Metadata = {
     description:
       "AI-powered best man speech writer. Personalized, funny, heartfelt, and ready in seconds. Get started for free.",
     type: "website",
-    url: "https://www.nailthespeech.com/best-man-ai-speech-generator",
+    url: "https://www.nailthespeech.com/best-man-speech-generator",
   },
   alternates: {
-    canonical: "https://www.nailthespeech.com/best-man-ai-speech-generator",
+    canonical: "https://www.nailthespeech.com/best-man-speech-generator",
   },
 };
 
@@ -36,7 +36,7 @@ function BestManJsonLd() {
     name: "Best Man Speech Generator | Nail The Speech",
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Web",
-    url: "https://www.nailthespeech.com/best-man-ai-speech-generator",
+    url: "https://www.nailthespeech.com/best-man-speech-generator",
     description:
       "AI-powered best man speech generator. Create a personalized, funny, or heartfelt best man speech in minutes.",
     offers: {

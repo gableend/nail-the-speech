@@ -23,10 +23,10 @@ export const metadata: Metadata = {
     description:
       "AI-powered maid of honor speech writer. Personalized, heartfelt, and ready in seconds. Get started for free.",
     type: "website",
-    url: "https://www.nailthespeech.com/maid-of-honor-ai-speech-generator",
+    url: "https://www.nailthespeech.com/maid-of-honor-speech-generator",
   },
   alternates: {
-    canonical: "https://www.nailthespeech.com/maid-of-honor-ai-speech-generator",
+    canonical: "https://www.nailthespeech.com/maid-of-honor-speech-generator",
   },
 };
 
@@ -37,7 +37,7 @@ function MaidOfHonorJsonLd() {
     name: "Maid of Honor Speech Generator | Nail The Speech",
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Web",
-    url: "https://www.nailthespeech.com/maid-of-honor-ai-speech-generator",
+    url: "https://www.nailthespeech.com/maid-of-honor-speech-generator",
     description:
       "AI-powered maid of honor speech generator. Create a personalized, heartfelt, or funny maid of honor speech in minutes.",
     offers: {

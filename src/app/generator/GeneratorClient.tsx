@@ -968,7 +968,11 @@ function GeneratorContent() {
 
         // Extract the step they generated from and the form data
         const { generatedFromStep, ...formDataOnly } = parsedData;
-        setFormData(formDataOnly);
+        setFormData({
+          ...formDataOnly,
+          // If the URL specifies a role, it takes priority over restored data
+          ...(roleFromUrl ? { selectedRole: roleFromUrl } : {}),
+        });
 
         // Restore them to the exact step they were on when they hit generate
         if (typeof generatedFromStep === 'number') {
@@ -1013,7 +1017,12 @@ function GeneratorContent() {
               window.location.href = `/generator?speechId=${savedSpeechId}`;
               return;
             }
-            setFormData(prev => ({ ...prev, ...savedFormData }));
+            setFormData(prev => ({
+              ...prev,
+              ...savedFormData,
+              // If the URL specifies a role, it takes priority over saved progress
+              ...(roleFromUrl ? { selectedRole: roleFromUrl } : {}),
+            }));
             setCurrentStep(savedStep);
           } else {
             localStorage.removeItem('speechProgress');
@@ -1023,7 +1032,7 @@ function GeneratorContent() {
         }
       }
     }
-  }, [needsRoleSelection, speechIdFromUrl]);
+  }, [needsRoleSelection, speechIdFromUrl, roleFromUrl]);
 
   // Max character limits per field (protects against accidental long voice recordings)
   const FIELD_MAX_LENGTHS: Partial<Record<keyof FormData, number>> = {

@@ -16,7 +16,7 @@ import VoiceInput from "@/components/VoiceInput";
 import { getOrCreateAnonymousUserId, clearAnonymousUserId, getSpeechGenerationCount, incrementSpeechGenerationCount } from "@/lib/clientAnonymousUser";
 import ProUpgradePrompt from "@/components/ProUpgradePrompt";
 import { useProStatus } from "@/hooks/useProStatus";
-import { useUser, SignedIn, UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { getPreviewText } from "@/lib/speechPreview";
 import { speechRoles, getRoleBySlug } from "@/data/speechRoles";
 import { showToast } from "@/components/ui/toast";
@@ -2296,62 +2296,29 @@ function GeneratorContent() {
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#c44578]/5 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-[#c44578]/5 rounded-full blur-3xl" />
       </div>
-      {/* Navigation */}
-      <nav className="bg-white/95 backdrop-blur-md border-b border-[#e8e1d8]/50 sticky top-0 z-50 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-14 sm:h-16">
-            <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
-              <span className="text-2xl sm:text-3xl">🎤</span>
-              <span className="font-bold text-lg sm:text-2xl text-[#181615]">Nail The Speech</span>
-            </Link>
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <Badge variant="secondary" className="hidden sm:flex text-sm">
-                <Sparkles className="h-4 w-4 mr-1" />
-                Speech Generator
-              </Badge>
-
-              {/* Form Restored Indicator */}
-              {isRestored && (
-                <div className="text-xs px-2 py-1 rounded-full border bg-green-100 border-green-300 text-green-700 animate-pulse">
-                  ✓ Form Restored
-                </div>
-              )}
-
-              {/* Demo Mode Toggle - hidden unless ?demo=true */}
-              {demoEnabled && (
-                <button
-                  onClick={toggleDemoMode}
-                  className={`text-xs px-2 py-1 rounded-full border transition-all duration-200 ${
-                    demoMode
-                      ? 'bg-[#c44578] text-white border-[#c44578]'
-                      : 'bg-white text-[#756c64] border-[#e8e1d8] hover:border-[#b33c6c] hover:text-[#b33c6c]'
-                  }`}
-                  title={demoMode ? "Click to clear demo data" : "Click to fill with demo data"}
-                >
-                  {demoMode ? "Demo ON" : "Demo"}
-                </button>
-              )}
-
-              <Link href={isSignedIn ? "/dashboard" : "/"}>
-                <Button className="hidden md:block bg-black hover:bg-black/90 text-white rounded-full">
-                  {isSignedIn ? "Dashboard" : "Home"}
-                </Button>
-              </Link>
-              <SignedIn>
-                <UserButton
-                  showName={false}
-                  appearance={{
-                    elements: {
-                      avatarBox: "w-8 h-8",
-                      userButtonTrigger: "focus:shadow-none"
-                    }
-                  }}
-                />
-              </SignedIn>
+      {/* Status indicators (form restored, demo mode) */}
+      {(isRestored || demoEnabled) && (
+        <div className="flex items-center justify-center gap-2 py-2 relative z-50">
+          {isRestored && (
+            <div className="text-xs px-2 py-1 rounded-full border bg-green-100 border-green-300 text-green-700 animate-pulse">
+              ✓ Form Restored
             </div>
-          </div>
+          )}
+          {demoEnabled && (
+            <button
+              onClick={toggleDemoMode}
+              className={`text-xs px-2 py-1 rounded-full border transition-all duration-200 ${
+                demoMode
+                  ? 'bg-[#c44578] text-white border-[#c44578]'
+                  : 'bg-white text-[#756c64] border-[#e8e1d8] hover:border-[#b33c6c] hover:text-[#b33c6c]'
+              }`}
+              title={demoMode ? "Click to clear demo data" : "Click to fill with demo data"}
+            >
+              {demoMode ? "Demo ON" : "Demo"}
+            </button>
+          )}
         </div>
-      </nav>
+      )}
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
 

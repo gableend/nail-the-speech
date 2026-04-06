@@ -65,7 +65,7 @@ export async function generateMetadata({
   if (!article) return {};
 
   return {
-    title: `${article.title} | Nail The Speech`,
+    title: article.title,
     description: article.metaDescription,
     openGraph: {
       title: article.title,

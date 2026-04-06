@@ -7,7 +7,7 @@ import SiteFooter from "@/components/SiteFooter";
 import { competitors, ntsFeatures } from "@/data/competitors";
 
 export const metadata: Metadata = {
-  title: "Best AI Wedding Speech Generator 2026 Comparison | Nail The Speech",
+  title: "Best AI Wedding Speech Generator 2026 Comparison",
   description:
     "Compare the best AI wedding speech generators side by side. Nail The Speech vs ToastPal vs ToastWiz vs SpeechyAI. Pricing, features, editing, and export compared.",
   keywords: [

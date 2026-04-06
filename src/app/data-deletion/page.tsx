@@ -3,7 +3,7 @@ import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
-  title: "Data Deletion | Nail The Speech",
+  title: "Data Deletion",
   description: "Learn how to delete your account data and speeches from Nail The Speech.",
   robots: { index: false, follow: false },
 };

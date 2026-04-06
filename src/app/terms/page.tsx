@@ -4,7 +4,7 @@ import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Nail The Speech",
+  title: "Terms of Service",
   description: "Terms and conditions for using Nail The Speech, the AI wedding speech generator.",
 };
 

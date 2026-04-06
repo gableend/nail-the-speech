@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const category = getCategoryBySlug(speech.category);
 
   return {
-    title: `${speech.title}: ${category?.name || 'Wedding Speech'} Example | Nail The Speech`,
+    title: `${speech.title}: ${category?.name || 'Wedding Speech'} Example`,
     description: speech.excerpt,
     keywords: [
       speech.weddingRole.toLowerCase(),

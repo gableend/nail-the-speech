@@ -12,7 +12,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
-  title: "Nail The Speech | AI Wedding Speech Writer | Get Started Free",
+  title: { absolute: "Nail The Speech | AI Wedding Speech Writer | Get Started Free" },
   description: "Create unforgettable wedding speeches with AI. Best man, maid of honor, father of the bride and more. Personalized, heartfelt, and ready in seconds. Get started for free.",
   keywords: [
     "wedding speech writer", "AI wedding speech", "best man speech generator",

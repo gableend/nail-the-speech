@@ -5,7 +5,7 @@ import { getCompetitorBySlug } from "@/data/competitors";
 const competitor = getCompetitorBySlug("speechyai")!;
 
 export const metadata: Metadata = {
-  title: "Nail The Speech vs SpeechyAI | AI Wedding Speech Generator Comparison",
+  title: { absolute: "Nail The Speech vs SpeechyAI | AI Wedding Speech Generator Comparison" },
   description:
     "Compare Nail The Speech and SpeechyAI side by side. See how pricing, features, editing tools, and speech quality stack up.",
   keywords: [

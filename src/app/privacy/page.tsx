@@ -4,7 +4,7 @@ import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Nail The Speech",
+  title: "Privacy Policy",
   description: "How Nail The Speech collects, uses, and protects your personal data.",
 };
 

@@ -8,7 +8,7 @@ import FAQ from '@/components/FAQ';
 import { examplesFaqs } from '@/data/faqData';
 
 export const metadata: Metadata = {
-  title: 'Wedding Speech Examples: 60+ Types | Nail The Speech',
+  title: 'Wedding Speech Examples: 60+ Types',
   description: 'Browse hundreds of real wedding speech examples across 60+ categories. Best man, maid of honor, father of the bride, and more. Find inspiration for your perfect toast.',
   keywords: [
     'wedding speech examples', 'best man speech examples', 'maid of honor speech examples',

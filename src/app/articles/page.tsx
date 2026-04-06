@@ -7,7 +7,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
-  title: "Articles: Talk-First Speech Writing | Nail The Speech",
+  title: "Articles: Talk-First Speech Writing",
   description:
     "Insights on why the best wedding speeches start with speaking, not writing. Explore the science, strategy, and practical tips behind talk-first speech writing.",
   openGraph: {

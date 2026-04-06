@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import RoleLandingPage, { RoleLandingConfig } from "@/components/RoleLandingPage";
 
 export const metadata: Metadata = {
-  title: "Maid of Honor Speech Generator | AI Wedding Speech Writer | Nail The Speech",
+  title: "Maid of Honor Speech Generator | AI Wedding Speech Writer",
   description:
     "Write a maid of honor speech in minutes with AI. Heartfelt, funny, or beautifully balanced. Personalized to your friendship, the couple, and your style. Get started for free.",
   keywords: [

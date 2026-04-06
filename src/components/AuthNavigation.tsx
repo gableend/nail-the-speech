@@ -1,20 +1,11 @@
 "use client";
 
-import { useUser, SignedIn, SignedOut, UserButton, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
+import { SignedIn, SignedOut, UserButton, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Users } from 'lucide-react';
 
 export default function AuthNavigation() {
-  const { user } = useUser();
-
-  // DEBUG: Investigate Google profile image issue
-  if (user) {
-    console.log('[DEBUG AuthNav] user.hasImage:', user.hasImage);
-    console.log('[DEBUG AuthNav] user.imageUrl:', user.imageUrl);
-    console.log('[DEBUG AuthNav] user.externalAccounts:', user.externalAccounts);
-  }
-
   return (
     <>
       {/* While Clerk is loading, show default Get Started / Log in buttons */}

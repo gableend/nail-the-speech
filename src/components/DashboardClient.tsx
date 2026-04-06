@@ -80,13 +80,6 @@ const getRoleEmoji = (role: string) => {
 
 export default function DashboardClient() {
   const { user } = useUser();
-
-  // DEBUG: Investigate Google profile image issue
-  if (user) {
-    console.log('[DEBUG] user.hasImage:', user.hasImage);
-    console.log('[DEBUG] user.imageUrl:', user.imageUrl);
-    console.log('[DEBUG] user.externalAccounts:', user.externalAccounts);
-  }
   const { isProUser, proExpired, loading: proStatusLoading } = useProStatus();
   const [speeches, setSpeeches] = useState<Speech[]>([]);
   const [loading, setLoading] = useState(true);

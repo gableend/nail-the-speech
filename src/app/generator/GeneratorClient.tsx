@@ -2418,13 +2418,15 @@ function GeneratorContent() {
         <Card className="border-0 shadow-2xl bg-white/90 backdrop-blur-md relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-[#faf7f4]/30" />
           <CardHeader className="text-center relative z-10">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              {currentStep === 0 && <span className="text-2xl">👋</span>}
-              {currentStep === 1 && <span className="text-2xl">🎭</span>}
-              {currentStep === 2 && <span className="text-2xl">💍</span>}
-              {currentStep === 3 && <span className="text-2xl">🤝</span>}
-              {currentStep === 4 && <span className="text-2xl">📖</span>}
-              {currentStep === 5 && <span className="text-2xl">✏️</span>}
+            <div className="mb-2">
+              <div className="text-2xl mb-1">
+                {currentStep === 0 && "👋"}
+                {currentStep === 1 && "🎭"}
+                {currentStep === 2 && "💍"}
+                {currentStep === 3 && "🤝"}
+                {currentStep === 4 && "📖"}
+                {currentStep === 5 && "✏️"}
+              </div>
               <CardTitle className="text-2xl text-[#181615]">
                 {currentStep === 0 && "First, introduce yourself"}
                 {currentStep === 1 && "What's your role?"}

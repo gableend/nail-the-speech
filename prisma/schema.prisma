@@ -130,3 +130,14 @@ model RateLimit {
 
   @@map("rate_limits")
 }
+
+model AnonToken {
+  id        String   @id @default(cuid())
+  ipHash    String
+  budget    Int      @default(1)  // Number of generations allowed
+  consumed  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([ipHash, createdAt])
+  @@map("anon_tokens")
+}

@@ -5,6 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import { getRoleBySlug } from "@/data/speechRoles";
 import { rateLimit, hashIp, getRequestIp, computeSuspicionScore } from "@/lib/rateLimit";
 import { checkProStatusForRequest, countUserSpeeches } from "@/lib/userStatus";
+import { consumeAnonToken } from "@/lib/anonToken";
 
 function determineDataCompleteness(formData: Record<string, unknown>): 'minimal' | 'enriched' | 'premium' {
   const hasEnrichmentData = !!(
@@ -47,14 +48,35 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.json();
 
-    // If no authenticated user, use the client-sent anonymous user ID
-    if (!userId) {
-      anonUserId = formData.clientAnonUserId || null;
-      console.log('👤 [SPEECH API] Using client anonymous ID:', { anonUserId });
-    }
-
     // Persistent IP-based rate limiting
     const ipHash = hashIp(getRequestIp(request));
+
+    // If no authenticated user, verify server-issued anonymous token
+    if (!userId) {
+      const anonToken = formData.anonToken || null;
+      const legacyAnonId = formData.clientAnonUserId || null;
+
+      if (anonToken) {
+        const tokenResult = await consumeAnonToken(anonToken, ipHash);
+        if (!tokenResult.success) {
+          console.log('🚫 [SPEECH API] Invalid anon token:', tokenResult.error);
+          return NextResponse.json(
+            { error: "Invalid anonymous token. Please refresh the page and try again." },
+            { status: 403 }
+          );
+        }
+        anonUserId = tokenResult.anonUserId;
+        console.log('👤 [SPEECH API] Verified anon token:', { anonUserId });
+      } else if (legacyAnonId) {
+        anonUserId = legacyAnonId;
+        console.log('👤 [SPEECH API] Using legacy client anonymous ID:', { anonUserId });
+      } else {
+        return NextResponse.json(
+          { error: "Please refresh the page and try again." },
+          { status: 401 }
+        );
+      }
+    }
     const rateLimitKey = userId ? `user:${userId}` : `ip:${ipHash}`;
     const { allowed, remaining } = await rateLimit(rateLimitKey, 10, 60);
     if (!allowed) {

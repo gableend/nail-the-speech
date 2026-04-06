@@ -737,6 +737,52 @@ function GeneratorContent() {
   const fullSpeechRef = React.useRef<string>("");
   const speechCardRef = React.useRef<HTMLDivElement>(null);
 
+  // Server-issued anonymous token for abuse prevention
+  const anonTokenRef = React.useRef<string | null>(null);
+  const anonTokenFetchingRef = React.useRef<Promise<string | null> | null>(null);
+
+  /**
+   * Fetch a server-issued anonymous token (cached per session).
+   * Falls back to legacy client ID if fetch fails.
+   */
+  const getAnonToken = async (): Promise<{ anonToken?: string; clientAnonUserId?: string }> => {
+    // Authenticated users don't need an anon token
+    if (isSignedIn) return {};
+
+    // Return cached token if available
+    if (anonTokenRef.current) {
+      return { anonToken: anonTokenRef.current, clientAnonUserId: getOrCreateAnonymousUserId() };
+    }
+
+    // Deduplicate concurrent fetches
+    if (!anonTokenFetchingRef.current) {
+      anonTokenFetchingRef.current = (async () => {
+        try {
+          const res = await fetch('/api/anon-token');
+          if (res.ok) {
+            const data = await res.json();
+            anonTokenRef.current = data.token;
+            return data.token as string;
+          }
+          console.warn('⚠️ [ANON TOKEN] Failed to fetch:', res.status);
+          return null;
+        } catch (err) {
+          console.warn('⚠️ [ANON TOKEN] Fetch error:', err);
+          return null;
+        } finally {
+          anonTokenFetchingRef.current = null;
+        }
+      })();
+    }
+
+    const token = await anonTokenFetchingRef.current;
+    if (token) {
+      return { anonToken: token, clientAnonUserId: getOrCreateAnonymousUserId() };
+    }
+    // Fallback to legacy client-generated ID
+    return { clientAnonUserId: getOrCreateAnonymousUserId() };
+  };
+
   // ── Analytics timing refs ──────────────────────────────────────
   const stepEnteredAtRef = React.useRef<number>(Date.now());
   const generationStartRef = React.useRef<number>(0);
@@ -2100,6 +2146,7 @@ function GeneratorContent() {
           '\n\nModify ONLY the AI-generated paragraphs. Keep all user-edited paragraphs in their current position and exact wording.';
       }
 
+      const anonAuth = await getAnonToken();
       const requestData = {
         ...formData,
         isRefinement: true,
@@ -2107,7 +2154,7 @@ function GeneratorContent() {
         refinementInstruction: finalInstruction,
         existingSpeechContent: generatedSpeech, // send current speech for context
         isRegeneration: true,
-        clientAnonUserId: getOrCreateAnonymousUserId(),
+        ...anonAuth,
         existingSpeechId: speechIdFromUrl || null,
       };
 
@@ -2152,13 +2199,14 @@ function GeneratorContent() {
       setSpeechError("");
       setGeneratedSpeech("");
 
+      const anonAuth = await getAnonToken();
       const requestData = {
         ...formData,
         isRefinement: false,
         isStartOver: true,
         regenerationInstructions: pendingStartOverInstructions || null,
         isRegeneration: true,
-        clientAnonUserId: getOrCreateAnonymousUserId(),
+        ...anonAuth,
         existingSpeechId: speechIdFromUrl || null,
       };
 
@@ -2199,11 +2247,12 @@ function GeneratorContent() {
       setSpeechError("");
       setGeneratedSpeech(""); // Clear previous speech to show streaming
 
+      const anonAuth = await getAnonToken();
       const requestData = {
         ...formData,
         regenerationInstructions: null,
         isRegeneration: false,
-        clientAnonUserId: getOrCreateAnonymousUserId(),
+        ...anonAuth,
         existingSpeechId: speechIdFromUrl || null,
       };
 
@@ -2244,13 +2293,16 @@ function GeneratorContent() {
       // the free-generation limit (e.g. user clicked Previous and re-generates)
       if (!isSignedIn) {
         clearAnonymousUserId();
+        // Clear cached server token so a fresh one is fetched
+        anonTokenRef.current = null;
       }
 
+      const anonAuth = await getAnonToken();
       const requestData = {
         ...formData,
         regenerationInstructions: null,
         isRegeneration: false,
-        clientAnonUserId: getOrCreateAnonymousUserId(),
+        ...anonAuth,
         existingSpeechId: speechIdFromUrl || null,
       };
 

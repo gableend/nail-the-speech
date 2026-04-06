@@ -2370,13 +2370,11 @@ function GeneratorContent() {
         {/* Progress Header */}
         <div className="mb-8">
           <div className="text-center mb-6">
-            <h2 className="text-4xl font-bold text-[#181615] mb-2">
-              {formData.selectedRole ? (
-                <>{getRoleTitle(formData.selectedRole, formData.customRoleLabel)} Speech</>
-              ) : (
-                <>Your Speech</>
-              )}
-            </h2>
+            {formData.selectedRole && (
+              <span className="inline-block bg-[#c44578]/10 text-[#c44578] text-sm font-semibold px-4 py-1.5 rounded-full mb-3">
+                {getRoleTitle(formData.selectedRole, formData.customRoleLabel)} Speech
+              </span>
+            )}
             {currentStep < 5 && (
               <p className="text-lg text-[#756c64]">
                 {formData.selectedRole

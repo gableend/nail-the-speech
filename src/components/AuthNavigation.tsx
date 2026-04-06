@@ -5,14 +5,17 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Users } from 'lucide-react';
 
-export default function AuthNavigation() {
+export default function AuthNavigation({ isGeneratorPage = false }: { isGeneratorPage?: boolean }) {
+  const primaryLink = isGeneratorPage ? "/" : "/generator";
+  const primaryLabel = isGeneratorPage ? "Home" : "Get Started";
+
   return (
     <>
-      {/* While Clerk is loading, show default Get Started / Log in buttons */}
+      {/* While Clerk is loading, show default buttons */}
       <ClerkLoading>
-        <Link href="/generator" aria-label="Get Started">
+        <Link href={primaryLink} aria-label={primaryLabel}>
           <Button className="hidden md:block bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full px-6 py-2 font-medium">
-            Get Started
+            {primaryLabel}
           </Button>
         </Link>
         <Link href="/sign-in" aria-label="Log in">
@@ -25,9 +28,9 @@ export default function AuthNavigation() {
       {/* Once Clerk is loaded, show the appropriate state */}
       <ClerkLoaded>
         <SignedOut>
-          <Link href="/generator" aria-label="Get Started">
+          <Link href={primaryLink} aria-label={primaryLabel}>
             <Button className="hidden md:block bg-[#c44578] hover:bg-[#b33c6c]/90 text-white rounded-full px-6 py-2 font-medium">
-              Get Started
+              {primaryLabel}
             </Button>
           </Link>
           <Link href="/sign-in" aria-label="Log in">

@@ -2377,28 +2377,26 @@ function GeneratorContent() {
           </div>
         )}
         {/* Progress Header */}
-        <div className="mb-8">
-          <div className="text-center mb-6">
-            {formData.selectedRole && (
-              <span className="inline-block bg-[#c44578]/10 text-[#c44578] text-sm font-semibold px-4 py-1.5 rounded-full mb-3">
-                {getRoleTitle(formData.selectedRole, formData.customRoleLabel)} Speech
-              </span>
-            )}
-            {currentStep < 5 && (
-              <p className="text-lg text-[#756c64]">
-                {formData.selectedRole
-                  ? `Answer a few quick questions and we'll write your ${getRoleTitle(formData.selectedRole, formData.customRoleLabel).toLowerCase()} speech`
-                  : 'Answer a few quick questions and we\'ll write your speech'
-                }
-              </p>
-            )}
+        {currentStep < 5 && (
+          <div className="mb-6">
+            <p className="text-center text-lg text-[#756c64]">
+              {formData.selectedRole
+                ? `Answer a few quick questions and we'll write your ${getRoleTitle(formData.selectedRole, formData.customRoleLabel).toLowerCase()} speech`
+                : 'Answer a few quick questions and we\'ll write your speech'
+              }
+            </p>
           </div>
-        </div>
+        )}
 
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
+              {formData.selectedRole && (
+                <span className="inline-flex items-center bg-[#c44578]/10 text-[#c44578] text-xs font-semibold px-2.5 py-0.5 rounded-full">
+                  {getRoleTitle(formData.selectedRole, formData.customRoleLabel)}
+                </span>
+              )}
               {currentStep === 0 && <span className="text-sm font-medium text-[#756c64]">Let's start with you</span>}
               {currentStep === 1 && <span className="text-sm font-medium text-[#756c64]">What's your role?</span>}
               {currentStep === 2 && <span className="text-sm font-medium text-[#756c64]">Tell us about the couple</span>}

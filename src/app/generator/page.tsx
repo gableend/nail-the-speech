@@ -8,7 +8,7 @@ import SiteFooter from "@/components/SiteFooter";
 export default function GeneratorPage() {
   return (
     <>
-      <SiteHeader hideBanner />
+      <SiteHeader hideBanner isGeneratorPage />
 
       {/* Server-rendered intro — gives Google indexable content */}
       <section className="bg-[#faf7f4] pt-6 pb-4">

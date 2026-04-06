@@ -3,7 +3,7 @@ import { ChevronDown, ArrowRight } from "lucide-react";
 import AuthNavigation from "@/components/AuthNavigation";
 import MobileNav from "@/components/MobileNav";
 
-export default function SiteHeader({ hideBanner = false }: { hideBanner?: boolean }) {
+export default function SiteHeader({ hideBanner = false, isGeneratorPage = false }: { hideBanner?: boolean; isGeneratorPage?: boolean }) {
   return (
     <div className="sticky top-0 z-50">
       {/* Top Banner — slimmer on mobile */}
@@ -69,7 +69,7 @@ export default function SiteHeader({ hideBanner = false }: { hideBanner?: boolea
             {/* Right side */}
             <div className="flex items-center space-x-3">
               <div className="hidden md:flex items-center space-x-4">
-                <AuthNavigation />
+                <AuthNavigation isGeneratorPage={isGeneratorPage} />
               </div>
               <MobileNav />
             </div>

@@ -60,6 +60,6 @@ That's the wrong interface for something this personal. And [people can spot the
 
 **Talk-first speech writing** works differently. You speak your memories, and the AI structures *your actual words and stories* into a speech. The input isn't a form. It's you.
 
-That's what [NailTheSpeech](https://nailthespeech.com) does. You talk, it listens, and the speech that comes back sounds like you. Because it *is* you. The AI shapes your material instead of generating from scratch.
+That's what [NailTheSpeech](https://www.nailthespeech.com) does. You talk, it listens, and the speech that comes back sounds like you. Because it *is* you. The AI shapes your material instead of generating from scratch.
 
 The problem was never AI. It was asking you to type.

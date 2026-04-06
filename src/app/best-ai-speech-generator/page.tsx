@@ -25,10 +25,10 @@ export const metadata: Metadata = {
     description:
       "Compare top AI wedding speech generators. Features, pricing, and capabilities compared.",
     type: "website",
-    url: "https://nailthespeech.com/best-ai-speech-generator",
+    url: "https://www.nailthespeech.com/best-ai-speech-generator",
   },
   alternates: {
-    canonical: "https://nailthespeech.com/best-ai-speech-generator",
+    canonical: "https://www.nailthespeech.com/best-ai-speech-generator",
   },
 };
 
@@ -39,7 +39,7 @@ function ComparisonJsonLd() {
     name: "Best AI Wedding Speech Generator 2026 Comparison",
     description:
       "Side-by-side comparison of the best AI wedding speech generators including Nail The Speech, ToastPal, ToastWiz, and SpeechyAI.",
-    url: "https://nailthespeech.com/best-ai-speech-generator",
+    url: "https://www.nailthespeech.com/best-ai-speech-generator",
     mainEntity: {
       "@type": "ItemList",
       itemListElement: [

@@ -75,7 +75,7 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
     description: speech.excerpt,
     author: { '@type': 'Person', name: speech.authorName },
     publisher: { '@type': 'Organization', name: 'Nail The Speech' },
-    url: `https://nailthespeech.com/examples/${categorySlug}/${slug}`,
+    url: `https://www.nailthespeech.com/examples/${categorySlug}/${slug}`,
     articleSection: category.name,
     wordCount: speech.wordCount,
   };

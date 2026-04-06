@@ -14,6 +14,6 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: 'https://nailthespeech.com/sitemap.xml',
+    sitemap: 'https://www.nailthespeech.com/sitemap.xml',
   };
 }

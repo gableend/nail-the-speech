@@ -20,10 +20,10 @@ export const metadata: Metadata = {
     title: "Nail The Speech vs ToastWiz: Which AI Speech Writer Wins?",
     description: "Feature-by-feature comparison of Nail The Speech and ToastWiz.",
     type: "website",
-    url: "https://nailthespeech.com/nailthespeech-vs-toastwiz",
+    url: "https://www.nailthespeech.com/nailthespeech-vs-toastwiz",
   },
   alternates: {
-    canonical: "https://nailthespeech.com/nailthespeech-vs-toastwiz",
+    canonical: "https://www.nailthespeech.com/nailthespeech-vs-toastwiz",
   },
 };
 

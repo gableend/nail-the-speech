@@ -50,7 +50,7 @@ Listen back. You'll hear things you never would have typed.
 
 Talk first. Get the raw stories, the real emotions, the weird specific details out of your head and into the air. Then shape it.
 
-That's what [NailTheSpeech](https://nailthespeech.com) is built for. You talk through your memories and it turns them into a structured, personal speech. One that sounds like you, because it started with you.
+That's what [NailTheSpeech](https://www.nailthespeech.com) is built for. You talk through your memories and it turns them into a structured, personal speech. One that sounds like you, because it started with you.
 
 Great wedding speeches don't start with writing. They start with someone just... talking.
 

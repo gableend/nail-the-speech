@@ -5,7 +5,7 @@ import { helpArticles } from '@/data/helpArticles';
 import { insightArticles } from '@/data/insightArticles';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://nailthespeech.com';
+  const baseUrl = 'https://www.nailthespeech.com';
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [

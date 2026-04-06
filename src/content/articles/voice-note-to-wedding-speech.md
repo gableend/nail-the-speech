@@ -46,7 +46,7 @@ Talk-first speech writing produces better results not because it's faster (thoug
 
 [Your brain recalls memories more vividly when speaking](https://news.uchicago.edu/story/emotion-stories-gets-our-attention-and-attention-affects-our-memories). More emotion. More detail. More of the sensory texture that makes a story feel real. A voice note captures all of that. A text box gets you a fraction.
 
-[NailTheSpeech](https://nailthespeech.com) is built around the full loop: record your thoughts, turn them into a structured speech, listen back, refine, practise. It starts with your voice and keeps you in your voice the whole way through.
+[NailTheSpeech](https://www.nailthespeech.com) is built around the full loop: record your thoughts, turn them into a structured speech, listen back, refine, practise. It starts with your voice and keeps you in your voice the whole way through.
 
 Because the best wedding speeches don't start with writing. They start with someone saying, "OK, let me tell you about the time..."
 

@@ -29,10 +29,10 @@ export async function generateMetadata({
       title: `${article.title} | Nail The Speech`,
       description: article.metaDescription,
       type: "article",
-      url: `https://nailthespeech.com/help/${article.slug}`,
+      url: `https://www.nailthespeech.com/help/${article.slug}`,
     },
     alternates: {
-      canonical: `https://nailthespeech.com/help/${article.slug}`,
+      canonical: `https://www.nailthespeech.com/help/${article.slug}`,
     },
   };
 }

@@ -28,7 +28,7 @@ function AdviceJsonLd() {
     '@type': 'CollectionPage',
     name: 'Wedding Speech Help & Advice',
     description: 'Expert wedding speech advice covering writing tips, structure guides, and delivery practice.',
-    url: 'https://nailthespeech.com/advice',
+    url: 'https://www.nailthespeech.com/advice',
     publisher: {
       '@type': 'Organization',
       name: 'Nail The Speech',
@@ -40,7 +40,7 @@ function AdviceJsonLd() {
         '@type': 'ListItem',
         position: i + 1,
         name: article.title,
-        url: `https://nailthespeech.com/advice/${article.slug}`,
+        url: `https://www.nailthespeech.com/advice/${article.slug}`,
       })),
     },
   };

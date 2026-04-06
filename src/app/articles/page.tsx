@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Articles: Talk-First Speech Writing | Nail The Speech",
     description:
       "Insights on why the best wedding speeches start with speaking, not writing.",
-    url: "https://nailthespeech.com/articles",
+    url: "https://www.nailthespeech.com/articles",
   },
 };
 

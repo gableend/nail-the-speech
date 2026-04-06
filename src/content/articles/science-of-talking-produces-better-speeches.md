@@ -54,6 +54,6 @@ That's your opening. You just don't know it yet.
 
 Most speech-writing tools start with a text box: "Type your memories here." But if speaking and writing use different brain systems, a text box is asking you to translate before you've even started.
 
-[NailTheSpeech](https://nailthespeech.com) starts with your voice instead. You speak your stories, and the tool structures them into a speech that still sounds like you. Because it began with you actually talking.
+[NailTheSpeech](https://www.nailthespeech.com) starts with your voice instead. You speak your stories, and the tool structures them into a speech that still sounds like you. Because it began with you actually talking.
 
 The problem with most speech tools isn't the AI. It's that they ask you to type.

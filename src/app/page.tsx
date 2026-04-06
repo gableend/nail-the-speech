@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Nail The Speech | AI Wedding Speech Writer",
     description: "Create personalized wedding speeches in seconds with AI. Get started for free.",
     type: "website",
-    url: "https://nailthespeech.com",
+    url: "https://www.nailthespeech.com",
   },
 };
 
@@ -32,8 +32,8 @@ function HomeJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Nail The Speech",
-    url: "https://nailthespeech.com",
-    logo: "https://nailthespeech.com/android-chrome-512x512.png",
+    url: "https://www.nailthespeech.com",
+    logo: "https://www.nailthespeech.com/android-chrome-512x512.png",
     description: "AI-powered wedding speech writer that creates personalized, heartfelt speeches in seconds.",
   };
 
@@ -41,10 +41,10 @@ function HomeJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Nail The Speech",
-    url: "https://nailthespeech.com",
+    url: "https://www.nailthespeech.com",
     potentialAction: {
       "@type": "SearchAction",
-      target: "https://nailthespeech.com/examples?search={search_term_string}",
+      target: "https://www.nailthespeech.com/examples?search={search_term_string}",
       "query-input": "required name=search_term_string",
     },
   };
@@ -55,7 +55,7 @@ function HomeJsonLd() {
     name: "Nail The Speech",
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Web",
-    url: "https://nailthespeech.com",
+    url: "https://www.nailthespeech.com",
     description: "AI wedding speech generator. Create personalized best man, maid of honor, and family wedding speeches in seconds.",
     offers: {
       "@type": "Offer",

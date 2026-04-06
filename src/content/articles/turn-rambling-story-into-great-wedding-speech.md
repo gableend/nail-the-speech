@@ -67,7 +67,7 @@ That specificity is what separates a speech that could be about anyone from one 
 
 ## This is exactly how talk-first speech writing works
 
-Talk, capture, shape, refine. That's the whole method. And it's what [NailTheSpeech](https://nailthespeech.com) does for you automatically. You speak your stories, and it builds them into a personal speech with a clear beginning, middle, and end.
+Talk, capture, shape, refine. That's the whole method. And it's what [NailTheSpeech](https://www.nailthespeech.com) does for you automatically. You speak your stories, and it builds them into a personal speech with a clear beginning, middle, and end.
 
 You don't need to be a writer. You just need to be willing to talk about someone you care about.
 

@@ -26,10 +26,10 @@ export const metadata: Metadata = {
     description:
       "Wedding speech FAQs, product guides, and practical advice for every role.",
     type: "website",
-    url: "https://nailthespeech.com/help",
+    url: "https://www.nailthespeech.com/help",
   },
   alternates: {
-    canonical: "https://nailthespeech.com/help",
+    canonical: "https://www.nailthespeech.com/help",
   },
 };
 

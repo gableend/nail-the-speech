@@ -57,7 +57,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     '@type': 'CollectionPage',
     name: `${category.name} Examples`,
     description: category.description,
-    url: `https://nailthespeech.com/examples/${category.slug}`,
+    url: `https://www.nailthespeech.com/examples/${category.slug}`,
     publisher: { '@type': 'Organization', name: 'Nail The Speech' },
     mainEntity: {
       '@type': 'ItemList',
@@ -66,7 +66,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         '@type': 'ListItem',
         position: i + 1,
         name: s.title,
-        url: `https://nailthespeech.com/examples/${category.slug}/${s.slug}`,
+        url: `https://www.nailthespeech.com/examples/${category.slug}/${s.slug}`,
       })),
     },
   };

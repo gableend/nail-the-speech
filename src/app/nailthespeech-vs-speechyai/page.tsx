@@ -20,10 +20,10 @@ export const metadata: Metadata = {
     title: "Nail The Speech vs SpeechyAI: Which AI Speech Writer Wins?",
     description: "Feature-by-feature comparison of Nail The Speech and SpeechyAI.",
     type: "website",
-    url: "https://nailthespeech.com/nailthespeech-vs-speechyai",
+    url: "https://www.nailthespeech.com/nailthespeech-vs-speechyai",
   },
   alternates: {
-    canonical: "https://nailthespeech.com/nailthespeech-vs-speechyai",
+    canonical: "https://www.nailthespeech.com/nailthespeech-vs-speechyai",
   },
 };
 

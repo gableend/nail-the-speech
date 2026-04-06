@@ -29,7 +29,7 @@ function ExamplesJsonLd() {
     '@type': 'CollectionPage',
     name: 'Wedding Speech Examples',
     description: 'Browse hundreds of wedding speech examples across 60+ categories.',
-    url: 'https://nailthespeech.com/examples',
+    url: 'https://www.nailthespeech.com/examples',
     publisher: {
       '@type': 'Organization',
       name: 'Nail The Speech',
@@ -41,7 +41,7 @@ function ExamplesJsonLd() {
         '@type': 'ListItem',
         position: i + 1,
         name: cat.name,
-        url: `https://nailthespeech.com/examples/${cat.slug}`,
+        url: `https://www.nailthespeech.com/examples/${cat.slug}`,
       })),
     },
   };

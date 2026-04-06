@@ -70,7 +70,7 @@ export async function generateMetadata({
     openGraph: {
       title: article.title,
       description: article.metaDescription,
-      url: `https://nailthespeech.com/articles/${article.slug}`,
+      url: `https://www.nailthespeech.com/articles/${article.slug}`,
       images: article.heroImage ? [{ url: article.heroImage }] : undefined,
       type: "article",
     },

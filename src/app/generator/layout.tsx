@@ -12,6 +12,10 @@ export const metadata: Metadata = {
     title: "Wedding Speech Generator | Nail The Speech",
     description: "Generate a personalized wedding speech in seconds. Get started for free.",
     type: "website",
+    url: "https://www.nailthespeech.com/generator",
+  },
+  alternates: {
+    canonical: "/generator",
   },
 };
 

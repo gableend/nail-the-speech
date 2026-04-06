@@ -8,7 +8,7 @@ import FAQ from '@/components/FAQ';
 import { adviceFaqs } from '@/data/faqData';
 
 export const metadata: Metadata = {
-  title: 'Wedding Speech Help & Advice — Tips, Guides & Practice',
+  title: 'Wedding Speech Help & Advice: Tips, Guides & Practice',
   description: 'Expert wedding speech advice: how to write, structure, and deliver the perfect toast. Guides for best man, maid of honor, father of the bride, and more.',
   keywords: [
     'wedding speech tips', 'wedding speech advice', 'how to write a wedding speech',
@@ -78,7 +78,7 @@ export default function AdvicePage() {
   const categories = [
     {
       name: 'Speech Tips',
-      description: 'How to write, structure, and perfect your wedding speech — from opening line to final toast.',
+      description: 'How to write, structure, and perfect your wedding speech, from opening line to final toast.',
       articles: speechTips,
     },
     {

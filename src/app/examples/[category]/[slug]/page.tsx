@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const category = getCategoryBySlug(speech.category);
 
   return {
-    title: `${speech.title} — ${category?.name || 'Wedding Speech'} Example | Nail The Speech`,
+    title: `${speech.title}: ${category?.name || 'Wedding Speech'} Example | Nail The Speech`,
     description: speech.excerpt,
     keywords: [
       speech.weddingRole.toLowerCase(),
@@ -163,7 +163,7 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
             Like this speech? Create your own version.
           </h2>
           <p className="text-sm text-[#756c64] mb-4">
-            Our AI takes your personal details and creates something just as good — but uniquely yours.
+            Our AI takes your personal details and creates something just as good, but uniquely yours.
           </p>
           <Link
             href="/generator"

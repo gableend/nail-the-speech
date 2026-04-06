@@ -9,7 +9,7 @@ import HelpContactForm from "@/components/HelpContactForm";
 import { helpCategories, helpArticles } from "@/data/helpArticles";
 
 export const metadata: Metadata = {
-  title: "Help Centre — FAQs, Speech Writing Tips & Product Guide | Nail The Speech",
+  title: "Help Centre | FAQs, Speech Writing Tips & Product Guide | Nail The Speech",
   description:
     "Get answers to common questions about wedding speeches and the Nail The Speech generator. Speech writing tips, product help, and practical advice for every role.",
   keywords: [
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "wedding speech generator guide",
   ],
   openGraph: {
-    title: "Help Centre — Nail The Speech",
+    title: "Help Centre | Nail The Speech",
     description:
       "Wedding speech FAQs, product guides, and practical advice for every role.",
     type: "website",
@@ -58,7 +58,7 @@ function HelpJsonLd() {
     {
       question: "Will the speech sound like AI wrote it?",
       answer:
-        "No — it uses your specific stories, names, and details. The more personal information you share, the more natural the result.",
+        "No. It uses your specific stories, names, and details. The more personal information you share, the more natural the result.",
     },
   ];
 
@@ -94,19 +94,19 @@ const featuredQuestions = [
   {
     question: "Can I edit the speech after generation?",
     answer:
-      "Yes — click any paragraph to edit it directly. Use AI refinements to adjust tone or length. Your edits are preserved when you regenerate.",
+      "Yes! Click any paragraph to edit it directly. Use AI refinements to adjust tone or length. Your edits are preserved when you regenerate.",
     link: "/help/can-i-edit-my-speech-after-generation",
   },
   {
     question: "Will it sound like me, not a robot?",
     answer:
-      "It uses your real stories, names, and details — not templates. The more specific you are in the questionnaire, the more personal the result.",
+      "It uses your real stories, names, and details, not templates. The more specific you are in the questionnaire, the more personal the result.",
     link: "/help/can-ai-write-a-speech-that-sounds-like-me",
   },
   {
     question: "Why not just use ChatGPT?",
     answer:
-      "ChatGPT is general-purpose. Nail The Speech is built for speeches — with structure, tone control, editing, version history, and export to PDF/Word/MP3.",
+      "ChatGPT is general-purpose. Nail The Speech is built specifically for speeches, with structure, tone control, editing, version history, and export to PDF/Word/MP3.",
     link: "/help/why-use-nailthespeech-instead-of-chatgpt",
   },
   {
@@ -118,7 +118,7 @@ const featuredQuestions = [
   {
     question: "What if I hate public speaking?",
     answer:
-      "Most wedding speakers are nervous — that's normal. Preparation is the best cure. Use text-to-speech to practise, keep it short, and trust that the audience is on your side.",
+      "Most wedding speakers are nervous. That's normal. Preparation is the best cure. Use text-to-speech to practise, keep it short, and trust that the audience is on your side.",
     link: "/help/what-if-i-hate-public-speaking",
   },
 ];
@@ -137,7 +137,7 @@ export default function HelpPage() {
           </h1>
           <p className="text-lg text-[#756c64] max-w-2xl mx-auto">
             Whether you're figuring out the product or figuring out what to say
-            in your speech — we've got you covered.
+            in your speech, we've got you covered.
           </p>
         </div>
       </section>

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import RoleLandingPage, { RoleLandingConfig } from "@/components/RoleLandingPage";
 
 export const metadata: Metadata = {
-  title: "Maid of Honor Speech Generator — AI Wedding Speech Writer | Nail The Speech",
+  title: "Maid of Honor Speech Generator | AI Wedding Speech Writer | Nail The Speech",
   description:
     "Write a maid of honor speech in minutes with AI. Heartfelt, funny, or beautifully balanced. Personalized to your friendship, the couple, and your style. Get started for free.",
   keywords: [
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "matron of honor speech",
   ],
   openGraph: {
-    title: "Maid of Honor Speech Generator — Write Yours in Minutes",
+    title: "Maid of Honor Speech Generator: Write Yours in Minutes",
     description:
       "AI-powered maid of honor speech writer. Personalized, heartfelt, and ready in seconds. Get started for free.",
     type: "website",
@@ -34,7 +34,7 @@ function MaidOfHonorJsonLd() {
   const ld = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Maid of Honor Speech Generator — Nail The Speech",
+    name: "Maid of Honor Speech Generator | Nail The Speech",
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Web",
     url: "https://nailthespeech.com/maid-of-honor-ai-speech-generator",

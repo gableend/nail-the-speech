@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import RoleLandingPage, { RoleLandingConfig } from "@/components/RoleLandingPage";
 
 export const metadata: Metadata = {
-  title: "Best Man Speech Generator — AI Wedding Speech Writer | Nail The Speech",
+  title: "Best Man Speech Generator | AI Wedding Speech Writer | Nail The Speech",
   description:
     "Write a best man speech in minutes with AI. Funny, heartfelt, or a perfect mix. Personalized to your friendship, the couple, and your style. Get started for free.",
   keywords: [
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "best man speech examples",
   ],
   openGraph: {
-    title: "Best Man Speech Generator — Write Yours in Minutes",
+    title: "Best Man Speech Generator: Write Yours in Minutes",
     description:
       "AI-powered best man speech writer. Personalized, funny, heartfelt, and ready in seconds. Get started for free.",
     type: "website",
@@ -33,7 +33,7 @@ function BestManJsonLd() {
   const ld = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Best Man Speech Generator — Nail The Speech",
+    name: "Best Man Speech Generator | Nail The Speech",
     applicationCategory: "LifestyleApplication",
     operatingSystem: "Web",
     url: "https://nailthespeech.com/best-man-ai-speech-generator",

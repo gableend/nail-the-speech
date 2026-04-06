@@ -7,9 +7,9 @@ import SiteFooter from "@/components/SiteFooter";
 import { competitors, ntsFeatures } from "@/data/competitors";
 
 export const metadata: Metadata = {
-  title: "Best AI Wedding Speech Generator 2026 — Comparison | Nail The Speech",
+  title: "Best AI Wedding Speech Generator 2026 Comparison | Nail The Speech",
   description:
-    "Compare the best AI wedding speech generators side by side. Nail The Speech vs ToastPal vs ToastWiz vs SpeechyAI — pricing, features, editing, and export compared.",
+    "Compare the best AI wedding speech generators side by side. Nail The Speech vs ToastPal vs ToastWiz vs SpeechyAI. Pricing, features, editing, and export compared.",
   keywords: [
     "best AI wedding speech generator",
     "AI speech writer comparison",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "best wedding speech writer",
   ],
   openGraph: {
-    title: "Best AI Wedding Speech Generator 2026 — Side-by-Side Comparison",
+    title: "Best AI Wedding Speech Generator 2026: Side-by-Side Comparison",
     description:
       "Compare top AI wedding speech generators. Features, pricing, and capabilities compared.",
     type: "website",
@@ -36,7 +36,7 @@ function ComparisonJsonLd() {
   const ld = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Best AI Wedding Speech Generator 2026 — Comparison",
+    name: "Best AI Wedding Speech Generator 2026 Comparison",
     description:
       "Side-by-side comparison of the best AI wedding speech generators including Nail The Speech, ToastPal, ToastWiz, and SpeechyAI.",
     url: "https://nailthespeech.com/best-ai-speech-generator",
@@ -102,7 +102,7 @@ export default function BestAISpeechGeneratorPage() {
             <span className="text-[#c44578]">2026</span>
           </h1>
           <p className="text-lg sm:text-xl text-[#756c64] max-w-2xl mx-auto mb-8">
-            We compared the top AI wedding speech writers so you don&apos;t have to. Features, pricing, and capabilities — side by side.
+            We compared the top AI wedding speech writers so you don&apos;t have to. Features, pricing, and capabilities, side by side.
           </p>
           <Link href="/generator">
             <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg">
@@ -250,7 +250,7 @@ export default function BestAISpeechGeneratorPage() {
               {
                 icon: "🎭",
                 title: "44 roles, 14 tones",
-                description: "From best man to step-parent to cousin — with tones from clean roast to sentimental. The broadest coverage available.",
+                description: "From best man to step-parent to cousin, with tones from clean roast to sentimental. The broadest coverage available.",
               },
             ].map((item, idx) => (
               <div key={idx} className="bg-[#faf7f4] rounded-xl p-5 border border-[#e8e1d8]">

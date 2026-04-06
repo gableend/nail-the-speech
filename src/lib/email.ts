@@ -151,7 +151,7 @@ export async function sendClaimSpeechEmail(
   await client.sendEmail({
     From: FROM_EMAIL,
     To: email,
-    Subject: "Your speech is ready — here's 20% off 🎁",
+    Subject: "Your speech is ready! Here's 20% off 🎁",
     HtmlBody: emailWrapper(`
       <h1 style="font-size: 22px; color: #181615; margin: 0 0 20px; text-align: center;">Your speech is waiting for you</h1>
 

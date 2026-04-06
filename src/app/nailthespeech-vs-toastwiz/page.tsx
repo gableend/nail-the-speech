@@ -5,7 +5,7 @@ import { getCompetitorBySlug } from "@/data/competitors";
 const competitor = getCompetitorBySlug("toastwiz")!;
 
 export const metadata: Metadata = {
-  title: "Nail The Speech vs ToastWiz — AI Wedding Speech Generator Comparison",
+  title: "Nail The Speech vs ToastWiz | AI Wedding Speech Generator Comparison",
   description:
     "Compare Nail The Speech and ToastWiz side by side. See how pricing, features, editing tools, and speech quality stack up.",
   keywords: [
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     "ToastWiz pricing",
   ],
   openGraph: {
-    title: "Nail The Speech vs ToastWiz — Which AI Speech Writer Wins?",
+    title: "Nail The Speech vs ToastWiz: Which AI Speech Writer Wins?",
     description: "Feature-by-feature comparison of Nail The Speech and ToastWiz.",
     type: "website",
     url: "https://nailthespeech.com/nailthespeech-vs-toastwiz",

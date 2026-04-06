@@ -1304,7 +1304,7 @@ function GeneratorContent() {
     if (currentStep < totalSteps) {
       // Validate relationship field when leaving step 3
       if (currentStep === 3 && formData.relationshipToGroom.trim().length < MIN_RELATIONSHIP_LENGTH) {
-        showToast('Tell us a little more about your connection — or tap the mic and talk us through it!', 'hint');
+        showToast('Tell us a little more about your connection, or tap the mic and talk us through it!', 'hint');
         return;
       }
 
@@ -2068,7 +2068,7 @@ function GeneratorContent() {
     }
     if (!instruction.trim()) return;
     if (aiCreditsExhausted) {
-      showToast('You\'ve used all your AI edits for this speech. Click any paragraph to edit directly — it\'s free!', 'hint');
+      showToast('You\'ve used all your AI edits for this speech. Click any paragraph to edit directly. It\'s free!', 'hint');
       return;
     }
 
@@ -2128,7 +2128,7 @@ function GeneratorContent() {
       return;
     }
     if (aiCreditsExhausted) {
-      showToast('You\'ve used all your AI edits for this speech. Click any paragraph to edit directly — it\'s free!', 'hint');
+      showToast('You\'ve used all your AI edits for this speech. Click any paragraph to edit directly. It\'s free!', 'hint');
       return;
     }
     setPendingStartOverInstructions(customInstructions);
@@ -2215,7 +2215,7 @@ function GeneratorContent() {
   const handleGenerateAndGoToStep2 = async () => {
     if (!formData.greatStoryMemory) return;
     if (formData.greatStoryMemory.trim().length < MIN_STORY_LENGTH) {
-      showToast('Add a bit more detail to your story — or tap the mic and tell it in your own words! The more you share, the better your speech.', 'hint');
+      showToast('Add a bit more detail to your story, or tap the mic and tell it in your own words! The more you share, the better your speech.', 'hint');
       return;
     }
 
@@ -2659,8 +2659,8 @@ function GeneratorContent() {
                     <div className="flex items-center justify-between mt-2">
                       <p className={`text-xs ${formData.relationshipToGroom.trim().length >= MIN_RELATIONSHIP_LENGTH ? 'text-green-600' : 'text-[#756c64]'}`}>
                         {formData.relationshipToGroom.trim().length < MIN_RELATIONSHIP_LENGTH
-                          ? `${MIN_RELATIONSHIP_LENGTH - formData.relationshipToGroom.trim().length} more characters — or tap the mic 🎙️`
-                          : '✓ Nice — that gives us plenty to work with'}
+                          ? `${MIN_RELATIONSHIP_LENGTH - formData.relationshipToGroom.trim().length} more characters, or tap the mic 🎙️`
+                          : '✓ Nice! That gives us plenty to work with'}
                       </p>
                       <VoiceInput
                         onTranscription={(text) => updateFormData('relationshipToGroom', text)}
@@ -2791,8 +2791,8 @@ function GeneratorContent() {
                     <div className="flex items-center justify-between mt-2">
                       <p className={`text-xs ${formData.greatStoryMemory.trim().length >= MIN_STORY_LENGTH ? 'text-green-600' : 'text-[#756c64]'}`}>
                         {formData.greatStoryMemory.trim().length < MIN_STORY_LENGTH
-                          ? `${MIN_STORY_LENGTH - formData.greatStoryMemory.trim().length} more characters — or tap the mic and tell your story 🎙️`
-                          : '✓ Great — enough detail to generate a quality speech'}
+                          ? `${MIN_STORY_LENGTH - formData.greatStoryMemory.trim().length} more characters, or tap the mic and tell your story 🎙️`
+                          : '✓ Great! Enough detail to generate a quality speech'}
                       </p>
                       <VoiceInput
                         onTranscription={(text) => updateFormData('greatStoryMemory', text)}
@@ -3335,7 +3335,7 @@ function GeneratorContent() {
                                 <button
                                   onClick={undoSpeechVersion}
                                   disabled={!canUndo}
-                                  title="Undo — go to previous version"
+                                  title="Undo: go to previous version"
                                   className={`p-1 rounded text-sm transition-colors ${canUndo ? 'text-[#c44578] hover:bg-[#b33c6c]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
                                 >
                                   ↩️
@@ -3351,7 +3351,7 @@ function GeneratorContent() {
                                 <button
                                   onClick={redoSpeechVersion}
                                   disabled={!canRedo}
-                                  title="Redo — go to next version"
+                                  title="Redo: go to next version"
                                   className={`p-1 rounded text-sm transition-colors ${canRedo ? 'text-[#c44578] hover:bg-[#b33c6c]/10' : 'text-[#d1ccc4] cursor-not-allowed'}`}
                                 >
                                   ↪️
@@ -3511,7 +3511,7 @@ function GeneratorContent() {
                               )}
                               {creditsUsed > 0 && creditPercent >= 50 && (
                                 <span className="text-xs text-[#756c64] ml-2">
-                                  — or click any paragraph to edit for free
+                                  Or click any paragraph to edit for free
                                 </span>
                               )}
                             </div>
@@ -3534,7 +3534,7 @@ function GeneratorContent() {
                             {speechParagraphs.some(p => p.source === 'user-edited') && (
                               <span className="flex items-center gap-1">
                                 <span className="inline-block w-3 h-3 bg-[#c44578]/10 border-l-2 border-[#c44578]/30 rounded-sm" />
-                                Your edits — preserved during regeneration
+                                Your edits are preserved during regeneration
                               </span>
                             )}
                             {saveStatus === 'saving' && <span className="text-[#c44578]">Saving...</span>}
@@ -3626,8 +3626,8 @@ function GeneratorContent() {
                           </div>
                           <div className="text-xs text-[#756c64] mt-1">
                             {aiCreditsExhausted
-                              ? 'You can still click any paragraph above to edit it directly — it\'s free'
-                              : 'Quick refinements keep your speech intact — only the relevant parts change'
+                              ? 'You can still click any paragraph above to edit it directly. It\'s free'
+                              : 'Quick refinements keep your speech intact. Only the relevant parts change'
                             }
                           </div>
                         </div>
@@ -3890,7 +3890,7 @@ function GeneratorContent() {
                     <ul className="text-sm text-[#756c64] space-y-1">
                       <li>• Your speech will include the story you shared in Step 1</li>
                       <li>• We'll match the tone and length you selected</li>
-                      <li>• Make it personal — specific details make the best speeches</li>
+                      <li>• Make it personal. Specific details make the best speeches</li>
                     </ul>
                   </div>
                 )}

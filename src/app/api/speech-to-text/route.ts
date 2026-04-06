@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     if (audioFile.size < 1000) {
       return NextResponse.json(
-        { error: 'Audio file too small — recording may have been too short' },
+        { error: 'Audio file too small. Recording may have been too short' },
         { status: 400 }
       );
     }

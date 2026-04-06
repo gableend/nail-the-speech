@@ -37,7 +37,7 @@ export default function HelpContactForm() {
       <div className="text-center py-8">
         <CheckCircle className="h-10 w-10 text-green-600 mx-auto mb-3" />
         <h3 className="text-lg font-semibold text-[#181615] mb-1">
-          Thanks — we got your question
+          Thanks! We got your question
         </h3>
         <p className="text-sm text-[#756c64]">
           We'll get back to you at {email} as soon as we can.

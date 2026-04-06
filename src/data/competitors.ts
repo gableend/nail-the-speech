@@ -49,7 +49,7 @@ export const competitors: Competitor[] = [
       "ToastPal generates four unique speech drafts with varying tones from a questionnaire-based input. It covers common wedding roles and delivers speeches via email with delivery tips included.",
     weaknesses: [
       "You pay before seeing any output",
-      "No in-app editing — speeches delivered via email only",
+      "No in-app editing. Speeches delivered via email only",
       "Limited speech length (max ~500 words / 5 minutes)",
       "No audio preview or text-to-speech",
       "No version history or refinement tools",
@@ -90,7 +90,7 @@ export const competitors: Competitor[] = [
     weaknesses: [
       "Pay upfront with no preview of the experience",
       "Speeches delivered via email only, no in-app experience",
-      "No editing tools — what you get is what you get",
+      "No editing tools. What you get is what you get",
       "No audio preview or export options",
       "Limited to ~600 words maximum",
       "More expensive than Nail The Speech",

@@ -23,7 +23,7 @@ const playfairDisplay = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL('https://nailthespeech.com'),
   title: {
-    default: "Nail The Speech — AI Wedding Speech Writer",
+    default: "Nail The Speech | AI Wedding Speech Writer",
     template: "%s | Nail The Speech",
   },
   description: "Create unforgettable wedding speeches with AI that understands the heart of your message. Perfect for best man, maid of honor, and more.",

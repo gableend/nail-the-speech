@@ -5,7 +5,7 @@ import { getCompetitorBySlug } from "@/data/competitors";
 const competitor = getCompetitorBySlug("speechyai")!;
 
 export const metadata: Metadata = {
-  title: "Nail The Speech vs SpeechyAI — AI Wedding Speech Generator Comparison",
+  title: "Nail The Speech vs SpeechyAI | AI Wedding Speech Generator Comparison",
   description:
     "Compare Nail The Speech and SpeechyAI side by side. See how pricing, features, editing tools, and speech quality stack up.",
   keywords: [
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     "SpeechyAI pricing",
   ],
   openGraph: {
-    title: "Nail The Speech vs SpeechyAI — Which AI Speech Writer Wins?",
+    title: "Nail The Speech vs SpeechyAI: Which AI Speech Writer Wins?",
     description: "Feature-by-feature comparison of Nail The Speech and SpeechyAI.",
     type: "website",
     url: "https://nailthespeech.com/nailthespeech-vs-speechyai",

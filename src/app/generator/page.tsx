@@ -1,4 +1,4 @@
-import { Mic, PenLine, Sparkles } from "lucide-react";
+import { Mic, PenLine } from "lucide-react";
 import GeneratorClient from "./GeneratorClient";
 import FAQ from "@/components/FAQ";
 import { generatorFaqs } from "@/data/faqData";
@@ -8,17 +8,7 @@ import SiteFooter from "@/components/SiteFooter";
 export default function GeneratorPage() {
   return (
     <>
-      <SiteHeader />
-
-      {/* Speech Generator label bar */}
-      <div className="bg-[#faf7f4] border-b border-[#e8e1d8]/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-center">
-          <span className="inline-flex items-center gap-1.5 text-sm text-[#756c64] bg-white border border-[#e8e1d8] px-3 py-1 rounded-full">
-            <Sparkles className="h-3.5 w-3.5" />
-            Speech Generator
-          </span>
-        </div>
-      </div>
+      <SiteHeader hideBanner />
 
       {/* Server-rendered intro — gives Google indexable content */}
       <section className="bg-[#faf7f4] pt-6 pb-4">

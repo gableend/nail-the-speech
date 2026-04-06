@@ -5,7 +5,6 @@ import { auth } from "@clerk/nextjs/server";
 import { checkProStatusForRequest, countUserSpeeches } from "@/lib/userStatus";
 import { getRoleBySlug } from "@/data/speechRoles";
 import { rateLimit, hashIp, getRequestIp, computeSuspicionScore } from "@/lib/rateLimit";
-import { consumeAnonToken } from "@/lib/anonToken";
 
 function determineDataCompleteness(formData: Record<string, unknown>): 'minimal' | 'enriched' | 'premium' {
   const hasEnrichmentData = !!(
@@ -48,55 +47,15 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.json();
 
+    // If no authenticated user, use the client-sent anonymous user ID
+    console.log('👤 [SPEECH STREAM API] userId check:', { userId, hasClientAnonId: !!formData.clientAnonUserId, clientAnonId: formData.clientAnonUserId });
+    if (!userId) {
+      anonUserId = formData.clientAnonUserId || null;
+      console.log('👤 [SPEECH STREAM API] Using client anonymous ID:', { anonUserId });
+    }
+
     // Persistent IP-based rate limiting
     const ipHash = hashIp(getRequestIp(request));
-
-    // If no authenticated user, verify server-issued anonymous token
-    if (!userId) {
-      const anonToken = formData.anonToken || null;
-      // Fallback: also accept legacy clientAnonUserId during migration period
-      const legacyAnonId = formData.clientAnonUserId || null;
-
-      if (anonToken) {
-        // Verify and consume the server-issued token
-        const tokenResult = await consumeAnonToken(anonToken, ipHash);
-        if (!tokenResult.success) {
-          console.log('🚫 [SPEECH STREAM API] Invalid anon token:', tokenResult.error);
-          return new Response(
-            JSON.stringify({
-              error: "invalid_token",
-              message: tokenResult.error === 'token_exhausted'
-                ? "Your free generation has been used. Please sign up or get a new token."
-                : tokenResult.error === 'ip_mismatch'
-                ? "Token cannot be used from this network."
-                : "Invalid anonymous token. Please refresh the page and try again."
-            }),
-            {
-              status: 403,
-              headers: { 'Content-Type': 'application/json' }
-            }
-          );
-        }
-        anonUserId = tokenResult.anonUserId;
-        console.log('👤 [SPEECH STREAM API] Verified anon token:', { anonUserId });
-      } else if (legacyAnonId) {
-        // Legacy fallback — will be removed once all clients are updated
-        anonUserId = legacyAnonId;
-        console.log('👤 [SPEECH STREAM API] Using legacy client anonymous ID:', { anonUserId });
-      } else {
-        console.log('🚫 [SPEECH STREAM API] No auth token or anon token provided');
-        return new Response(
-          JSON.stringify({
-            error: "auth_required",
-            message: "Please refresh the page and try again."
-          }),
-          {
-            status: 401,
-            headers: { 'Content-Type': 'application/json' }
-          }
-        );
-      }
-    }
     const rateLimitKey = userId ? `user:${userId}` : `ip:${ipHash}`;
     const { allowed, remaining } = await rateLimit(rateLimitKey, 10, 60);
     if (!allowed) {

@@ -62,42 +62,52 @@ export const generatorFaqs: FAQItem[] = [
   {
     question: "How long does it take to generate a speech?",
     answer:
-      "About 30 seconds. You answer a few quick questions about your role, the couple, and a story or memory, and the AI builds a full draft in real time. Most people have a complete speech within 2-3 minutes including their inputs.",
+      "It takes less than a minute.\n\nOnce you've shared your details, your speech is generated instantly and ready to edit, listen to, or download.",
   },
   {
     question: "Do I need to know what I want to say before I start?",
     answer:
-      "Not at all. The generator walks you through step by step. Even if you have no idea where to begin, the prompts and examples will help you surface the right stories and memories. That's kind of the whole point.",
+      "No.\n\nYou don't need a plan or structure. Just share whatever comes to mind. You can talk it out or type it in, and we'll help shape it into a complete speech.",
+  },
+  {
+    question: "Can I talk my speech instead of typing?",
+    answer:
+      "Yes. That's actually the easiest way to start.\n\nMost people find it more natural to speak first. You can talk through your thoughts and stories, then turn that into a structured speech.",
   },
   {
     question: "Can I choose the tone of my speech?",
     answer:
-      "Yes. You can pick from 14 different tones including light and funny, sentimental, balanced, clean roast, nostalgic, inspirational, and more. Pick the one that matches how you actually talk.",
+      "Yes.\n\nYou can choose from tones like heartfelt, funny, balanced, or formal, and adjust it as you refine your speech.",
   },
   {
     question: "What if I don't like the speech it generates?",
     answer:
-      "Pro users can regenerate as many times as they like, tweak individual sections, or edit the text directly. You can try the generator to see how it works, then upgrade to Pro for the full experience.",
+      "You can regenerate, edit, and refine as much as you like.\n\nYou're always in control of the final result, so it feels right for you.",
   },
   {
     question: "Will it sound like me or like a robot?",
     answer:
-      "The speech is built around your real stories and the details you provide. The more specific you are with your inputs, the more personal and authentic the output. Nobody will know you had help unless you tell them.",
+      "It's designed to sound like you.\n\nBecause the speech is based on your own input, stories, and tone, it reflects your voice rather than generic AI writing.",
   },
   {
     question: "What roles does the generator support?",
     answer:
-      "Over 40 roles including Best Man, Maid of Honour, Father of the Bride, Mother of the Groom, siblings, grandparents, step-parents, in-laws, friends, and more. If your role isn't listed, there's a custom option where you can describe it.",
+      "You can create speeches for roles like:\n\n• Best man\n• Maid of honor\n• Father or mother of the bride or groom\n\nEach one is tailored to your role and relationship.",
+  },
+  {
+    question: "Can I save my speech and come back later?",
+    answer:
+      "Yes.\n\nYou can save your speech, come back to it, and keep refining it whenever you need.",
   },
   {
     question: "How do I get started?",
     answer:
-      "Just click Get Started and walk through the guided steps. The generator creates a speech outline in seconds. To unlock the full speech text, editing, and export, upgrade to Pro.",
+      "Just start with whatever feels easiest.\n\nTalk it out or type a few notes, and we'll guide you through turning it into a complete speech.",
   },
   {
-    question: "Can I save my speech and come back to it later?",
+    question: "Is this better than writing it myself?",
     answer:
-      "Yes. Your speech is saved to your account automatically. Come back any time to review, edit, or regenerate it. Pro users also get version history so you can compare drafts.",
+      "Most people find it easier to start by speaking.\n\nYou still control the final speech, but starting with your natural voice helps it feel more authentic and less forced.",
   },
 ];
 

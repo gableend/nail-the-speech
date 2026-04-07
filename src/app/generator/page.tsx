@@ -37,7 +37,7 @@ export default function GeneratorPage() {
       <GeneratorClient />
 
       {/* Server-rendered FAQ — indexable by search engines */}
-      <FAQ items={generatorFaqs} title="Questions about the generator" />
+      <FAQ items={generatorFaqs} title="Before you start" />
 
       <SiteFooter />
     </>

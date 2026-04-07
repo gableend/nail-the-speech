@@ -74,11 +74,11 @@
   }
 
   html {
-    @apply bg-background overscroll-none;
+    @apply bg-background overscroll-none overflow-x-hidden;
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased overscroll-none;
+    @apply bg-background text-foreground font-sans antialiased overscroll-none overflow-x-hidden;
     font-family: var(--font-inter), Arial, Helvetica, sans-serif;
   }
 

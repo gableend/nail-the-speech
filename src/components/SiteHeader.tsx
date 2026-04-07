@@ -27,9 +27,9 @@ export default function SiteHeader({ hideBanner = false, isGeneratorPage = false
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14 sm:h-16">
             {/* Logo */}
-            <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
-              <span className="text-2xl sm:text-3xl">🎤</span>
-              <span className="font-bold text-xl sm:text-2xl text-[#181615]">Nail The Speech</span>
+            <Link href="/" className="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0 min-w-0">
+              <span className="text-xl sm:text-3xl flex-shrink-0">🎤</span>
+              <span className="font-bold text-lg sm:text-2xl text-[#181615] truncate">Nail The Speech</span>
             </Link>
 
             {/* Desktop Navigation */}

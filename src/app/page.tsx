@@ -107,7 +107,7 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-start">
             {/* Left Content */}
             <div className="space-y-8">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#181615] leading-[1.1] tracking-tight">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-[#181615] leading-[1.1] tracking-tight">
                 Nail your wedding speech.{" "}
                 <span className="text-[#c44578]">No stress.</span>{" "}
                 <span className="text-[#c44578]">Just magic.</span>
@@ -116,7 +116,7 @@ export default function HomePage() {
               {/* Get Started Button */}
               <div className="space-y-6">
                 <HomeCTALink href="/generator" location="hero">
-                  <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
+                  <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-8 sm:px-10 py-5 text-lg sm:text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
                     Get Started
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
@@ -128,16 +128,16 @@ export default function HomePage() {
 
               {/* Value Props */}
               <div className="flex flex-col sm:flex-row sm:flex-nowrap gap-3 pt-4">
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-5 py-2.5 shadow-sm border border-[#e8e1d8] whitespace-nowrap">
-                  <span className="text-base">🎙️</span>
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 sm:px-5 py-2.5 shadow-sm border border-[#e8e1d8] sm:whitespace-nowrap">
+                  <span className="text-base flex-shrink-0">🎙️</span>
                   <span className="text-sm font-medium text-[#181615]">Start by talking, not typing</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-5 py-2.5 shadow-sm border border-[#e8e1d8] whitespace-nowrap">
-                  <span className="text-base">💬</span>
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 sm:px-5 py-2.5 shadow-sm border border-[#e8e1d8] sm:whitespace-nowrap">
+                  <span className="text-base flex-shrink-0">💬</span>
                   <span className="text-sm font-medium text-[#181615]">Built from your real stories</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-5 py-2.5 shadow-sm border border-[#e8e1d8] whitespace-nowrap">
-                  <span className="text-base">🎧</span>
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 sm:px-5 py-2.5 shadow-sm border border-[#e8e1d8] sm:whitespace-nowrap">
+                  <span className="text-base flex-shrink-0">🎧</span>
                   <span className="text-sm font-medium text-[#181615]">Listen back and refine your delivery</span>
                 </div>
               </div>

@@ -108,18 +108,31 @@ export function generateStaticParams() {
 }
 
 // Dynamic SEO metadata per article
-/** Shorten a title for the <title> tag while keeping the H1 intact. */
-function shortenTitle(title: string): string {
-  // Strip parenthetical asides
-  let short = title.replace(/\s*\([^)]+\)\s*/g, '').trim();
-  // Strip leading quoted phrases  e.g. "I Don't Know What to Say",
-  short = short.replace(/^"[^"]*"[,:]?\s*/g, '').trim();
-  // If still long, trim after colon (keep at least 15 chars)
-  if (short.length > 50) {
-    const colonTrim = short.replace(/:\s+.+$/, '').trim();
-    if (colonTrim.length >= 15) short = colonTrim;
-  }
-  return short || title;
+/** SEO title overrides for advice articles with long titles. H1 stays unchanged. */
+const seoTitles: Record<string, string> = {
+  'drinking-before-wedding-speech': 'Drinking Before Your Wedding Speech?',
+  'forget-wedding-speech': 'Forgot Your Wedding Speech?',
+  'groom-speech-guide': "Groom's Speech Guide",
+  'handle-interruptions-wedding-speech': 'Handling Hecklers at a Wedding Speech',
+  'hate-public-speaking-wedding-speech': 'Hate Public Speaking? Speech Tips',
+  'how-to-write-a-wedding-speech': 'How to Write a Wedding Speech',
+  'introvert-wedding-speech': 'Introvert Wedding Speech Tips',
+  'mention-deceased-loved-one-wedding-speech': 'Honouring a Loved One in a Speech',
+  'project-voice-wedding-speech': 'Project Your Voice in a Speech',
+  'shy-person-wedding-speech': 'Wedding Speech Tips for Shy People',
+  'surprise-wedding-speech': 'Surprise Wedding Speech? No Panic',
+  'wedding-speech-complicated-relationship': 'Speech for a Tricky Relationship',
+  'wedding-speech-couple-you-introduced': 'Speech for a Couple You Introduced',
+  'wedding-speech-dont-know-well': "Speech for Someone You Don't Know",
+  'wedding-speech-english-second-language': 'Speech Tips If English Is Your L2',
+  'wedding-speech-mistakes': '10 Wedding Speech Mistakes to Avoid',
+  'wedding-speech-not-close-to-couple': "Speech When You're Not Close",
+  'wedding-toast-vs-wedding-speech': 'Wedding Toast vs Speech',
+  'what-to-do-with-hands-wedding-speech': 'What to Do With Your Hands',
+};
+
+function getSeoTitle(slug: string, title: string): string {
+  return seoTitles[slug] || title;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -128,7 +141,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!article) return { title: 'Not Found' };
 
   return {
-    title: shortenTitle(article.title),
+    title: getSeoTitle(slug, article.title),
     description: article.metaDescription,
     keywords: [
       article.targetKeyword,

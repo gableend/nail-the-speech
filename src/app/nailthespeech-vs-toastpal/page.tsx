@@ -5,7 +5,7 @@ import { getCompetitorBySlug } from "@/data/competitors";
 const competitor = getCompetitorBySlug("toastpal")!;
 
 export const metadata: Metadata = {
-  title: { absolute: "Nail The Speech vs ToastPal | AI Wedding Speech Generator Comparison" },
+  title: { absolute: "Nail The Speech vs ToastPal | Nail The Speech" },
   description:
     "Compare Nail The Speech and ToastPal side by side. See how pricing, features, editing tools, and speech quality stack up.",
   keywords: [

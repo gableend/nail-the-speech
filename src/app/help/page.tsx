@@ -9,7 +9,7 @@ import HelpContactForm from "@/components/HelpContactForm";
 import { helpCategories, helpArticles } from "@/data/helpArticles";
 
 export const metadata: Metadata = {
-  title: "Help Centre | FAQs, Speech Writing Tips & Product Guide",
+  title: "Help Centre | FAQs & Tips",
   description:
     "Get answers to common questions about wedding speeches and the Nail The Speech generator. Speech writing tips, product help, and practical advice for every role.",
   keywords: [

@@ -482,7 +482,7 @@ export const helpArticles: HelpArticle[] = [
   },
   {
     slug: "how-to-make-a-wedding-speech-funny",
-    title: "How to Make a Wedding Speech Funny Without Overdoing It",
+    title: "How to Make a Speech Funny",
     category: "Speech Writing Basics",
     targetKeyword: "funny wedding speech tips",
     metaDescription:

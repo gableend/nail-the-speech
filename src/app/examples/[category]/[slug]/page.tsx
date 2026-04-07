@@ -31,42 +31,77 @@ const toneMeta: Record<string, string> = {
   roast: 'roast-style with affectionate humor',
 };
 
-// Pre-compute which tone+category combos have duplicates
-const _titleCombos: Record<string, string[]> = {};
+// Pre-compute title uniqueness: theme per category, then theme+tone per category
+const _themeCombos: Record<string, string[]> = {};
+const _themeToneCombos: Record<string, string[]> = {};
 exampleSpeeches.forEach(s => {
   const cat = getCategoryBySlug(s.category);
   if (!cat) return;
-  const key = `${cat.name}|${toneLabel[s.tone] || 'Wedding'}`;
-  (_titleCombos[key] ??= []).push(s.slug);
+  const theme = _extractTheme(s.title, cat.name);
+  const tKey = `${cat.name}|${theme}`;
+  const ttKey = `${cat.name}|${theme}|${toneLabel[s.tone] || 'Wedding'}`;
+  (_themeCombos[tKey] ??= []).push(s.slug);
+  (_themeToneCombos[ttKey] ??= []).push(s.slug);
 });
 
-function extractTheme(title: string, categoryName: string): string {
+function _extractTheme(title: string, categoryName: string): string {
   const rolePart = categoryName.replace(/\s+Speech$/, '');
   let theme = title
     .replace(/^The\s+/i, '')
     .replace(/\s+Speech$/i, '')
-    .replace(new RegExp(rolePart, 'gi'), '')
+    // Handle both US and UK spellings (Honor/Honour)
+    .replace(new RegExp(rolePart.replace(/or\b/g, 'ou?r'), 'gi'), '')
+    // Also strip "maid of honour", "maid of honor" fragments
+    .replace(/\bmaid\s+of\s+honou?r\b/gi, '')
     .replace(/^\s+|\s+$/g, '')
     .replace(/^[-–—]\s*/, '');
   if (!theme || theme.length < 2) theme = title;
   if (theme.length > 25) theme = theme.substring(0, 25).replace(/\s+\S*$/, '');
-  return theme;
+  // Capitalise first letter
+  return theme.charAt(0).toUpperCase() + theme.slice(1);
+}
+
+function shortRole(categoryName: string): string {
+  return categoryName
+    .replace(/ Speech$/, '')
+    .replace(/ of the /g, ' of ');
 }
 
 function buildPageTitle(speech: ExampleSpeech, category: SpeechCategory): string {
   const tone = toneLabel[speech.tone] || 'Wedding';
-  const key = `${category.name}|${tone}`;
+  const role = shortRole(category.name);
+  let theme = _extractTheme(speech.title, category.name);
 
-  if ((_titleCombos[key]?.length ?? 0) <= 1) {
-    return `${category.name} Example, ${tone}`;
-  }
-
-  let theme = extractTheme(speech.title, category.name);
-  // If theme duplicates the tone label, fall back to word count
+  // If theme duplicates tone, use word count
   if (theme.toLowerCase() === tone.toLowerCase()) {
     theme = `${speech.wordCount} Words`;
   }
-  return `${category.name} Example, ${tone} – ${theme}`;
+
+  const themeKey = `${category.name}|${theme}`;
+  // Use colon pattern for any compound role (contains "of") or long names
+  const isCompound = role.includes(' of ') || role.length > 14;
+
+  // Build base title
+  let title: string;
+  if (isCompound) {
+    title = `${role}: ${theme}`;
+  } else {
+    title = `${theme} ${role} Speech`;
+  }
+
+  // If base title is unique, use it
+  if ((_themeCombos[themeKey]?.length ?? 0) <= 1) {
+    return title;
+  }
+
+  // Otherwise add tone to differentiate
+  if (isCompound) {
+    title = `${role}: ${theme} (${tone})`;
+  } else {
+    title = `${theme} ${role} Speech (${tone})`;
+  }
+
+  return title;
 }
 
 function buildH1(speech: ExampleSpeech, category: SpeechCategory): string {

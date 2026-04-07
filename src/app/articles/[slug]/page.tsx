@@ -55,13 +55,14 @@ export function generateStaticParams() {
 
 // ── Metadata ─────────────────────────────────────────────────
 
-function shortenTitle(title: string): string {
-  let short = title.replace(/\s*\([^)]+\)\s*/g, '').trim();
-  if (short.length > 50) {
-    const colonTrim = short.replace(/:\s+.+$/, '').trim();
-    if (colonTrim.length >= 15) short = colonTrim;
-  }
-  return short || title;
+const seoTitles: Record<string, string> = {
+  'science-of-talking-produces-better-speeches': 'Why Talking Beats Writing Speeches',
+  'turn-rambling-story-into-great-wedding-speech': 'Turn a Rambling Story Into a Speech',
+  'why-writing-your-wedding-speech-is-the-hardest-way': 'Why Writing Your Speech Is Hardest',
+};
+
+function getSeoTitle(slug: string, title: string): string {
+  return seoTitles[slug] || title;
 }
 
 export async function generateMetadata({
@@ -74,7 +75,7 @@ export async function generateMetadata({
   if (!article) return {};
 
   return {
-    title: shortenTitle(article.title),
+    title: getSeoTitle(slug, article.title),
     description: article.metaDescription,
     alternates: {
       canonical: `/articles/${slug}`,

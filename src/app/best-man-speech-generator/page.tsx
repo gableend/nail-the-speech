@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import RoleLandingPage, { RoleLandingConfig } from "@/components/RoleLandingPage";
 
 export const metadata: Metadata = {
-  title: "Best Man Speech Generator | AI Wedding Speech Writer",
+  title: "Best Man Speech Generator",
   description:
     "Write a best man speech in minutes with AI. Funny, heartfelt, or a perfect mix. Personalized to your friendship, the couple, and your style. Get started for free.",
   keywords: [

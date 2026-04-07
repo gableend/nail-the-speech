@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   if (!category) return { title: 'Not Found' };
 
   return {
-    title: `${category.name} Examples: Wedding Speech Inspiration`,
+    title: `${category.name} Examples`,
     description: category.description,
     keywords: [
       category.name.toLowerCase(),

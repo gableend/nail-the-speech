@@ -33,20 +33,21 @@ const toneMeta: Record<string, string> = {
 
 function buildPageTitle(speech: ExampleSpeech, category: SpeechCategory): string {
   const tone = toneLabel[speech.tone] || 'Wedding';
-  const role = category.name;
-  const short = speech.wordCount < 400 ? ' (Short)' : '';
-  return `${tone} ${role} Example${short} | Nail The Speech`;
+  return `${tone} ${category.name} Example: ${speech.title}`;
 }
 
 function buildH1(speech: ExampleSpeech, category: SpeechCategory): string {
   const tone = toneLabel[speech.tone] || '';
-  return `${speech.title}: A ${tone} ${category.name} Example`;
+  return `${speech.title}: A ${tone} ${category.name} (${speech.wordCount} Words)`;
 }
 
 function buildMetaDescription(speech: ExampleSpeech, category: SpeechCategory): string {
   const tone = toneMeta[speech.tone] || 'well-crafted';
-  const mins = speech.durationMinutes;
-  return `A ${tone} ${category.name.toLowerCase()} example (${mins} min, ${speech.wordCount} words). Read it, see why it works, then create your own personalised version.`;
+  const maxLen = 90;
+  const excerpt = speech.excerpt.length > maxLen
+    ? speech.excerpt.substring(0, maxLen).replace(/\s+\S*$/, '') + '...'
+    : speech.excerpt;
+  return `${excerpt} A ${tone} ${category.name.toLowerCase()} example (${speech.wordCount} words).`;
 }
 
 function getWhyItWorks(speech: ExampleSpeech, category: SpeechCategory): string {

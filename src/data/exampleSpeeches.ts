@@ -245,25 +245,6 @@ My advice for your marriage: Keep laughing together, never go to bed angry, and 
     tags: ['inspirational', 'best man'],
   },
   {
-    slug: 'the-advice-focused-speech-6',
-    title: `The Advice-Focused Speech`,
-    category: 'best-man-speech',
-    tone: 'heartfelt',
-    durationMinutes: 1.4,
-    wordCount: 176,
-    excerpt: `Good evening! I'm David, [Groom's name]'s best man and someone who's been married for ten years. [Groom's name], you asked me for marriage advice, so here it is: The secret to a...`,
-    content: `Good evening! I'm David, [Groom's name]'s best man and someone who's been married for ten years. [Groom's name], you asked me for marriage advice, so here it is: The secret to a happy marriage is simple – always remember that you're on the same team.
-
-When challenges come up, and they will, face them together. [Bride's name], you're getting a good one. [Groom's name] is loyal, funny, and the kind of person who will drive across town at midnight because you need ice cream.
-
-Trust me, I've been the emergency contact for these missions. Here's what I've learned about marriage: It's not about finding someone you can live with, it's about finding someone you can't live without. And watching you two together, it's clear you've both found that person.
-
-My advice for your marriage: Keep laughing together, never go to bed angry, and remember that "being right" is never as important as being kind to each other. To [Bride's name] and [Groom's name] – may your love continue to grow stronger with each passing year. Congratulations!`,
-    authorName: 'James Hughes',
-    weddingRole: 'Best Man',
-    tags: ['inspirational', 'best man'],
-  },
-  {
     slug: 'the-funny-friend-speech-7',
     title: `The Funny Friend Speech`,
     category: 'best-man-speech',
@@ -277,23 +258,6 @@ That's what I call personal growth. [Bride's name], thank you for teaching [Groo
 
 But in all seriousness, I've watched [Groom's name] become a better person because of you. He now knows the difference between salmon and coral, he can navigate IKEA without having a breakdown, and he's even learned to put the toilet seat down. Miracles do happen! So so here's to [Bride's name] and [Groom's name] – may your WiFi always be strong, your coffee always be hot, and may [Groom's name] finally beat that boss level he's been stuck on for three years!`,
     authorName: 'Chris Mitchell',
-    weddingRole: 'Best Man',
-    tags: ['funny', 'best man'],
-  },
-  {
-    slug: 'the-funny-friend-speech-8',
-    title: `The Funny Friend Speech`,
-    category: 'best-man-speech',
-    tone: 'funny',
-    durationMinutes: 1.4,
-    wordCount: 182,
-    excerpt: `Hi everyone! I'm Mike, and I'm [Groom's name]'s best man, which means I'm legally required to embarrass him today. I've known [Groom's name] since high school, where he was voted...`,
-    content: `Hi everyone! I'm Mike, and I'm [Groom's name]'s best man, which means I'm legally required to embarrass him today. I've known [Groom's name] since high school, where he was voted "Most Likely to Marry His Xbox." Well, congratulations [Groom's name] – you've upgraded from a gaming console to an actual human being.
-
-That's what I call personal growth. [Bride's name], thank you for teaching [Groom's name] that there are other forms of entertainment besides video games and pizza. Though I have to ask – how did you fall for a guy whose idea of dressing up was wearing his lucky underwear?
-
-But in all seriousness, I've watched [Groom's name] become a better person because of you. He now knows the difference between salmon and coral, he can navigate IKEA without having a breakdown, and he's even learned to put the toilet seat down. Miracles do happen! So so here's to [Bride's name] and [Groom's name] – may your WiFi always be strong, your coffee always be hot, and may [Groom's name] finally beat that boss level he's been stuck on for three years!`,
-    authorName: 'Chris Sullivan',
     weddingRole: 'Best Man',
     tags: ['funny', 'best man'],
   },
@@ -313,25 +277,6 @@ That's true love right there. [Groom's name], you've been my brother in every wa
 
 But today, I see you becoming the man you were always meant to be. To [Bride's name] and [Groom's name], may your love story continue to inspire everyone around you. So here's to a lifetime of laughter, adventure, and fitted sheets that actually stay folded!`,
     authorName: 'Grace Morgan',
-    weddingRole: 'Best Man',
-    tags: ['heartfelt', 'best man'],
-  },
-  {
-    slug: 'the-heartfelt-brotherhood-speech-10',
-    title: `The Heartfelt Brotherhood Speech`,
-    category: 'best-man-speech',
-    tone: 'heartfelt',
-    durationMinutes: 1.4,
-    wordCount: 177,
-    excerpt: `Good evening, everyone! I'm Jake, and I've had the privilege of being [Groom's name]'s best friend for over fifteen years. When [Groom's name] first told me about [Bride's name]...`,
-    content: `Good evening, everyone! I'm Jake, and I've had the privilege of being [Groom's name]'s best friend for over fifteen years. When [Groom's name] first told me about [Bride's name], I knew something was different.
-
-He'd text me at 2 AM just to tell me about their conversations, and honestly, I thought he'd lost his mind. But then I met [Bride's name], and I understood. [Bride's name], you brought out a side of [Groom's name] I'd never seen before – the guy who remembers anniversaries, who actually listens during romantic comedies, and who somehow learned to fold fitted sheets properly.
-
-That's true love right there. [Groom's name], you've been my brother in every way that matters. From our college adventures to career changes, you've always been there with terrible advice and even worse jokes.
-
-But today, I see you becoming the man you were always meant to be. To [Bride's name] and [Groom's name], may your love story continue to inspire everyone around you. So here's to a lifetime of laughter, adventure, and fitted sheets that actually stay folded!`,
-    authorName: 'Adam Dixon',
     weddingRole: 'Best Man',
     tags: ['heartfelt', 'best man'],
   },
@@ -357,27 +302,6 @@ So here's to [Bride's name] and [Groom's name], and to finding the person who ma
     tags: ['heartfelt', 'best man'],
   },
   {
-    slug: 'the-personal-journey-speech-12',
-    title: `The Personal Journey Speech`,
-    category: 'best-man-speech',
-    tone: 'heartfelt',
-    durationMinutes: 1.5,
-    wordCount: 196,
-    excerpt: `Hi everyone, I'm Alex, and I'm honored to stand here as [Groom's name]'s best man. [Groom's name] and I have been through everything together – from studying abroad in college to...`,
-    content: `Hi everyone, I'm Alex, and I'm honored to stand here as [Groom's name]'s best man. [Groom's name] and I have been through everything together – from studying abroad in college to navigating our first jobs to questioning every major life decision. But I've never seen him as confident and happy as he is with [Bride's name].
-
-I remember when [Groom's name] first mentioned [Bride's name]. He was nervous about their first date – I mean, really nervous. He changed his shirt three times and asked me to review his text messages.
-
-But when he came back that night, he had this smile I'd never seen before. [Bride's name], you've brought out the best in my best friend. You've encouraged his dreams, supported his goals, and somehow convinced him that karaoke nights are actually fun.
-
-For that alone, we all owe you a debt of gratitude. [Groom's name], watching you with [Bride's name] has taught me what real partnership looks like. You two don't just love each other – you make each other better people.
-
-So here's to [Bride's name] and [Groom's name], and to finding the person who makes you want to be your best self. Cheers!`,
-    authorName: 'Grace Hayes',
-    weddingRole: 'Best Man',
-    tags: ['heartfelt', 'best man'],
-  },
-  {
     slug: 'the-short-and-sweet-speech-13',
     title: `The Short and Sweet Speech`,
     category: 'best-man-speech',
@@ -391,23 +315,6 @@ If that's true, then [Groom's name] must be pretty amazing, because he somehow c
 
 [Groom's name], you found your perfect match. [Bride's name], you found yours too, though I'm still not sure how. To love, laughter, and happily ever after. Cheers!`,
     authorName: 'Fiona Hayes',
-    weddingRole: 'Best Man',
-    tags: ['heartfelt', 'short', 'best man'],
-  },
-  {
-    slug: 'the-short-and-sweet-speech-14',
-    title: `The Short and Sweet Speech`,
-    category: 'best-man-speech',
-    tone: 'heartfelt',
-    durationMinutes: 0.8,
-    wordCount: 100,
-    excerpt: `Good evening! I'm Aidan, [Groom's name]'s best man and oldest friend. They say you can judge a person by the company they keep. If that's true, then [Groom's name] must be pretty...`,
-    content: `Good evening! I'm Aidan, [Groom's name]'s best man and oldest friend. They say you can judge a person by the company they keep.
-
-If that's true, then [Groom's name] must be pretty amazing, because he somehow convinced [Bride's name] to marry him. I've watched these two together, and what strikes me most is how they make each other laugh. Even during stressful moments – like wedding planning – they find reasons to smile.
-
-[Groom's name], you found your perfect match. [Bride's name], you found yours too, though I'm still not sure how. To love, laughter, and happily ever after. Cheers!`,
-    authorName: 'Fiona Rhodes',
     weddingRole: 'Best Man',
     tags: ['heartfelt', 'short', 'best man'],
   },
@@ -509,27 +416,6 @@ So here's to [Bride's name] and [Groom's name], and to finding the person who ma
     tags: ['heartfelt', 'maid of honor'],
   },
   {
-    slug: 'the-college-memories-speech-20',
-    title: `The College Memories Speech`,
-    category: 'maid-of-honor-speech',
-    tone: 'heartfelt',
-    durationMinutes: 1.8,
-    wordCount: 228,
-    excerpt: `Good evening! I'm Amanda, and I've had the privilege of being [Bride's name]'s roommate, study buddy, and partner in crime since our freshman year of college. College was where I...`,
-    content: `Good evening! I'm Amanda, and I've had the privilege of being [Bride's name]'s roommate, study buddy, and partner in crime since our freshman year of college. College was where I really got to know [Bride's name] – through late-night study sessions, terrible cafeteria food, and way too many episodes of reality TV.
-
-But it was also where I learned that [Bride's name] is the most loyal, caring person I've ever met. I remember when [Bride's name] first mentioned [Groom's name]. We were supposed to be studying for finals, but instead, she spent three hours telling me about this amazing guy she'd met.
-
-I'd never seen her so excited about someone, and honestly, I was a little worried she'd fail her exams because she couldn't stop smiling long enough to read her textbook. But then I met [Groom's name], and I understood. He's not just [Bride's name]'s boyfriend – he's her best friend, her biggest supporter, and the person who makes her laugh until she snorts.
-
-Yes, [Bride's name], I'm sharing the snorting thing. Watching you two together has taught me what real partnership looks like. You balance each other perfectly – [Bride's name]'s spontaneity and [Groom's name]'s practicality, [Bride's name]'s optimism and [Groom's name]'s thoughtfulness.
-
-So here's to [Bride's name] and [Groom's name], and to finding the person who makes even studying for finals feel like an adventure. Cheers!`,
-    authorName: 'Amy Dixon',
-    weddingRole: 'Maid of Honor',
-    tags: ['heartfelt', 'maid of honor'],
-  },
-  {
     slug: 'the-funny-best-friend-speech-21',
     title: `The Funny Best Friend Speech`,
     category: 'maid-of-honor-speech',
@@ -545,25 +431,6 @@ So here's to [Bride's name] and [Groom's name], and to finding the person who ma
 
 That's true love right there. To [Bride's name] and [Groom's name] – may your love story be filled with laughter, adventure, and an endless supply of hoodies for [Bride's name] to steal!`,
     authorName: 'Michael Foster',
-    weddingRole: 'Maid of Honor',
-    tags: ['funny', 'maid of honor'],
-  },
-  {
-    slug: 'the-funny-best-friend-speech-22',
-    title: `The Funny Best Friend Speech`,
-    category: 'maid-of-honor-speech',
-    tone: 'funny',
-    durationMinutes: 1.7,
-    wordCount: 224,
-    excerpt: `Hi everyone! I'm Jessica, [Bride's name]'s maid of honor and the person who's been waiting for this day so I could finally share all her embarrassing stories legally. I've known...`,
-    content: `Hi everyone! I'm Jessica, [Bride's name]'s maid of honor and the person who's been waiting for this day so I could finally share all her embarrassing stories legally. I've known [Bride's name] for eight years, and in that time, she's taught me so much – like how to contour my cheekbones, why you should never text your ex, and that it's completely normal to cry during dog food commercials.
-
-[Bride's name] is the kind of friend who will drive two hours to bring you soup when you're sick, even though she can barely make toast without burning it. She's also the person who convinced me that wearing Crocs to a wedding was a "fashion statement." Spoiler alert: it wasn't. [Groom's name], you should know what you're getting into.
-
-[Bride's name] will steal your hoodies, cry at every Disney movie, and somehow use all the hot water in a five-minute shower. But she'll also love you fiercely, support your dreams, and make you laugh until your sides hurt. [Bride's name], I'm so happy you found someone who thinks your weird laugh is cute and who doesn't judge you for eating cereal for dinner.
-
-That's true love right there. To [Bride's name] and [Groom's name] – may your love story be filled with laughter, adventure, and an endless supply of hoodies for [Bride's name] to steal!`,
-    authorName: 'Chloe Phillips',
     weddingRole: 'Maid of Honor',
     tags: ['funny', 'maid of honor'],
   },
@@ -587,25 +454,6 @@ How do you sum up years of friendship and love in just a few minutes? The truth 
     tags: ['heartfelt', 'maid of honor'],
   },
   {
-    slug: 'the-short-and-heartfelt-speech-24',
-    title: `The Short and Heartfelt Speech`,
-    category: 'maid-of-honor-speech',
-    tone: 'heartfelt',
-    durationMinutes: 1.1,
-    wordCount: 141,
-    excerpt: `Hi everyone! I'm Rosie, [Bride's name]'s maid of honor and lifelong friend. When [Bride's name] asked me to be her maid of honor, I was thrilled but also terrified. How do you sum...`,
-    content: `Hi everyone! I'm Rosie, [Bride's name]'s maid of honor and lifelong friend. When [Bride's name] asked me to be her maid of honor, I was thrilled but also terrified.
-
-How do you sum up years of friendship and love in just a few minutes? The truth is, [Bride's name] is one of those rare people who makes everyone around her better. She's kind, generous, and has this amazing ability to find joy in the smallest moments.
-
-[Groom's name], from the moment [Bride's name] started talking about you, I could see the change in her. She glowed in a way I'd never seen before. You make her happy in a way that's beautiful to witness.
-
-[Bride's name] and [Groom's name], your love gives me hope and reminds me that fairy tales do exist. So here's to love, laughter, and happily ever after. Cheers!`,
-    authorName: 'Chris Stewart',
-    weddingRole: 'Maid of Honor',
-    tags: ['heartfelt', 'maid of honor'],
-  },
-  {
     slug: 'the-sisterhood-bond-speech-25',
     title: `The Sisterhood Bond Speech`,
     category: 'maid-of-honor-speech',
@@ -625,25 +473,6 @@ Then [Groom's name] came along, and I'll be honest – I was protective. Nobody 
     tags: ['heartfelt', 'maid of honor'],
   },
   {
-    slug: 'the-sisterhood-bond-speech-26',
-    title: `The Sisterhood Bond Speech`,
-    category: 'maid-of-honor-speech',
-    tone: 'heartfelt',
-    durationMinutes: 1.7,
-    wordCount: 224,
-    excerpt: `Good evening, beautiful people! I'm Orla, and I have the incredible honor of being [Bride's name]'s maid of honor and sister from another mister. [Bride's name] and I have been...`,
-    content: `Good evening, beautiful people! I'm Orla, and I have the incredible honor of being [Bride's name]'s maid of honor and sister from another mister. [Bride's name] and I have been best friends since we bonded over our mutual hatred of math class in seventh grade.
-
-From that moment, I knew she was my person – the one who would laugh at my terrible jokes, cry with me during romantic movies, and always tell me when my outfit was a disaster. I've watched [Bride's name] grow into this amazing woman who lights up every room she enters. She's the friend who shows up with ice cream when you're heartbroken, who remembers every important date, and who somehow always knows exactly what to say.
-
-Then [Groom's name] came along, and I'll be honest – I was protective. Nobody was good enough for my best friend. But watching them together, I realized that [Groom's name] doesn't just love [Bride's name]; he sees her the way I see her – as the incredible, beautiful soul she is.
-
-[Groom's name], thank you for loving my best friend the way she deserves to be loved. And [Bride's name], thank you for showing me what true love looks like. So here's to a lifetime of adventures, inside jokes, and the kind of love that makes everyone around you believe in fairy tales!`,
-    authorName: 'Kate Murphy',
-    weddingRole: 'Maid of Honor',
-    tags: ['heartfelt', 'maid of honor'],
-  },
-  {
     slug: 'the-wisdom-and-advice-speech-27',
     title: `The Wisdom and Advice Speech`,
     category: 'maid-of-honor-speech',
@@ -659,25 +488,6 @@ I've watched you and [Groom's name] navigate challenges together, and what I adm
 
 My advice for your marriage: Always choose kindness over being right, never underestimate the power of a good laugh, and remember that the strongest couples are the ones who can weather storms together and still find reasons to dance. To [Bride's name] and [Groom's name] – may your marriage be filled with endless adventures, deep conversations, and the kind of love that inspires everyone around you. Congratulations!`,
     authorName: 'Chloe Dixon',
-    weddingRole: 'Maid of Honor',
-    tags: ['inspirational', 'maid of honor'],
-  },
-  {
-    slug: 'the-wisdom-and-advice-speech-28',
-    title: `The Wisdom and Advice Speech`,
-    category: 'maid-of-honor-speech',
-    tone: 'heartfelt',
-    durationMinutes: 1.7,
-    wordCount: 221,
-    excerpt: `Hi everyone! I'm Lisa, [Bride's name]'s maid of honor and someone who's been happily married for seven years. [Bride's name], you asked me for marriage advice, and while I'm still...`,
-    content: `Hi everyone! I'm Lisa, [Bride's name]'s maid of honor and someone who's been happily married for seven years. [Bride's name], you asked me for marriage advice, and while I'm still figuring it out myself, here's what I've learned: Marriage isn't just about loving someone on their best days – it's about choosing to love them especially on their worst days.
-
-I've watched you and [Groom's name] navigate challenges together, and what I admire most is how you face everything as a team. You don't just love each other; you like each other, which is actually harder to find than you might think. [Groom's name], you're getting an wonderful woman.
-
-[Bride's name] is the friend who remembers your birthday, sends encouraging texts during tough times, and somehow always knows when you need chocolate. She's also stubborn, terrible at directions, and will rearrange your furniture without asking. But trust me, life is never boring with her.
-
-My advice for your marriage: Always choose kindness over being right, never underestimate the power of a good laugh, and remember that the strongest couples are the ones who can weather storms together and still find reasons to dance. To [Bride's name] and [Groom's name] – may your marriage be filled with endless adventures, deep conversations, and the kind of love that inspires everyone around you. Congratulations!`,
-    authorName: 'Claire Reid',
     weddingRole: 'Maid of Honor',
     tags: ['inspirational', 'maid of honor'],
   },
@@ -1603,7 +1413,7 @@ Most importantly, never stop being friends. The couples who stay happily married
     slug: 'the-humorous-mother-speech-71',
     title: `The Humorous Mother Speech`,
     category: 'mother-of-groom-speech',
-    tone: 'heartfelt',
+    tone: 'funny',
     durationMinutes: 2.3,
     wordCount: 301,
     excerpt: `Hi everyone! I'm Carol, [Groom's name]'s mother, and I've been looking forward to this day for years – not just because I'm gaining a wonderful daughter-in-law, but because I...`,
@@ -1617,25 +1427,6 @@ I remember when you were twelve and decided to "help" with dinner. You measured 
     authorName: 'Helen Barrett',
     weddingRole: 'Mother of the Groom',
     tags: ['mother'],
-  },
-  {
-    slug: 'the-humorous-mother-speech-72',
-    title: `The Humorous Mother Speech`,
-    category: 'mother-of-groom-speech',
-    tone: 'funny',
-    durationMinutes: 2.3,
-    wordCount: 301,
-    excerpt: `Hi everyone! I'm Carol, [Groom's name]'s mother, and I've been looking forward to this day for years – not just because I'm gaining a wonderful daughter-in-law, but because I...`,
-    content: `Hi everyone! I'm Carol, [Groom's name]'s mother, and I've been looking forward to this day for years – not just because I'm gaining a wonderful daughter-in-law, but because I finally have someone else to explain why [Groom's name] keeps every box from every electronic device he's ever bought! [Groom's name], my dear son, you've always been... let's say "particular." You were the child who would organize his toys by color and size, who insisted on reading the instruction manual before assembling anything, and who once created a spreadsheet to track his Halloween candy consumption – yes, at age eight!
-
-I remember when you were twelve and decided to "help" with dinner. You measured every ingredient to the exact gram, timed everything with a stopwatch, and then presented me with a detailed report on how we could "optimize our kitchen efficiency." Your father and I realized then that you were going to be either a very successful engineer or a very demanding husband – thankfully, [Bride's name] seems to appreciate both! [Bride's name], I hope you're prepared for what you've gotten yourself into.
-
-[Groom's name] will label everything in your house, he takes longer to research a restaurant than it takes to actually eat there, and he will definitely reorganize your spice rack alphabetically. But he'll also be your most devoted supporter, your most reliable partner, and the person who remembers every important date and anniversary better than any calendar. I've watched you two together, and what I love most is how you balance each other.
-
-[Bride's name], you're the spontaneous one who keeps life exciting, and [Groom's name], you're the planner who keeps everything running smoothly. So here's to [Groom's name] and [Bride's name] – may your marriage be filled with love, laughter, and someone to appreciate your perfectly organized sock drawer!`,
-    authorName: 'Thomas Crawford',
-    weddingRole: 'Mother of the Groom',
-    tags: ['funny', 'mother'],
   },
   {
     slug: 'the-memory-filled-mother-speech-73',
@@ -1655,25 +1446,6 @@ When [Groom's name] introduced us to [Bride's name], I knew immediately that she
     authorName: 'Ben Coleman',
     weddingRole: 'Mother of the Groom',
     tags: ['mother'],
-  },
-  {
-    slug: 'the-memory-filled-mother-speech-74',
-    title: `The Memory-Filled Mother Speech`,
-    category: 'mother-of-groom-speech',
-    tone: 'heartfelt',
-    durationMinutes: 2.1,
-    wordCount: 279,
-    excerpt: `Good evening, friends and family. I'm Margaret, [Groom's name]'s mother, and I want to share some memories that show you exactly who my son is. When [Groom's name] was nine, we...`,
-    content: `Good evening, friends and family. I'm Margaret, [Groom's name]'s mother, and I want to share some memories that show you exactly who my son is. When [Groom's name] was nine, we were at the grocery store when he noticed an elderly woman struggling with her heavy bags.
-
-Without being asked, he walked over and offered to help carry them to her car. When she tried to give him a dollar for his help, he politely declined and said, "My mom taught me that helping people isn't a job, it's just what good people do." That's [Groom's name] – always thinking of others, always ready to lend a helping hand, always finding ways to make the world a little bit better. I remember his college graduation, when he thanked me in his speech for "teaching him that success means nothing if you don't have people to share it with." What he didn't realize is that he taught me that true success is raising a child who cares more about others than himself.
-
-When [Groom's name] introduced us to [Bride's name], I knew immediately that she was special. Not just because of how wonderful she is, but because of how [Groom's name] changed when he was with her. He became even more confident, more joyful, more himself.
-
-[Bride's name], thank you for seeing my son for the incredible person he is. Thank you for supporting his dreams, celebrating his victories, and being his partner in every sense of the word. To [Groom's name] and [Bride's name], may your marriage be filled with the same kindness, joy, and love that brought you together. So here's to a lifetime of happiness and beautiful memories!`,
-    authorName: 'Jack Chapman',
-    weddingRole: 'Mother of the Groom',
-    tags: ['heartfelt', 'mother'],
   },
   {
     slug: 'the-proud-mother-speech-75',
@@ -1699,29 +1471,6 @@ To [Groom's name] and [Bride's name] – may your marriage be filled with endles
     tags: ['mother'],
   },
   {
-    slug: 'the-proud-mother-speech-76',
-    title: `The Proud Mother Speech`,
-    category: 'mother-of-groom-speech',
-    tone: 'heartfelt',
-    durationMinutes: 2.1,
-    wordCount: 269,
-    excerpt: `Good evening, everyone! I'm Linda, [Groom's name]'s mother, and I couldn't be prouder to be standing here tonight. Twenty-six years ago, [Groom's name] came into our lives and...`,
-    content: `Good evening, everyone! I'm Linda, [Groom's name]'s mother, and I couldn't be prouder to be standing here tonight. Twenty-six years ago, [Groom's name] came into our lives and filled our world with joy, laughter, and endless love.
-
-From his first steps to his first day of school, from his graduation to watching him build his career, he has consistently shown kindness, integrity, and strength that make me proud to call him my son. [Groom's name], you've grown into an wonderful man. You're compassionate, hardworking, loyal, and you have a heart that's always ready to help others.
-
-Watching you navigate life's challenges with grace and determination has been one of my greatest joys as your mother. [Bride's name], when [Groom's name] first told me about you, I could see something magical in his eyes. There was a happiness, a completeness that I'd never seen before.
-
-You brought out the very best in my son, and for that, I will be forever grateful. Thank you for loving him, supporting his dreams, and making him the happiest I've ever seen him. As you begin this beautiful journey together, remember that marriage is built on love, trust, and partnership.
-
-Support each other's dreams, be patient with each other's flaws, and never forget to laugh together through all of life's adventures. [Groom's name], you will always be my little boy, and [Bride's name], today I'm honored to call you my daughter. Welcome to our family with all my love.
-
-To [Groom's name] and [Bride's name] – may your marriage be filled with endless love, laughter, and happiness. So here's to your beautiful future together!`,
-    authorName: 'Eleanor Brooks',
-    weddingRole: 'Mother of the Groom',
-    tags: ['heartfelt', 'mother'],
-  },
-  {
     slug: 'the-short-and-sweet-mother-speech-77',
     title: `The Short and Sweet Mother Speech`,
     category: 'mother-of-groom-speech',
@@ -1739,25 +1488,6 @@ Welcome to the family, [Bride's name]! Cheers to the happy couple!`,
     authorName: 'Lucy Chapman',
     weddingRole: 'Mother of the Groom',
     tags: ['mother'],
-  },
-  {
-    slug: 'the-short-and-sweet-mother-speech-78',
-    title: `The Short and Sweet Mother Speech`,
-    category: 'mother-of-groom-speech',
-    tone: 'heartfelt',
-    durationMinutes: 0.9,
-    wordCount: 116,
-    excerpt: `Good evening! I'm Patricia, [Groom's name]'s mother. As mothers, we raise our sons hoping they'll find someone who sees their worth and loves them for exactly who they are...`,
-    content: `Good evening! I'm Patricia, [Groom's name]'s mother. As mothers, we raise our sons hoping they'll find someone who sees their worth and loves them for exactly who they are.
-
-[Bride's name], you are that person for [Groom's name]. I see how you look at him, how you support his dreams, and how you make him smile. You have my respect, my gratitude, and my blessing.
-
-[Groom's name], you've grown into a man I'm incredibly proud to call my son. Today, I'm thrilled to watch you marry the woman of your dreams. May your marriage be blessed with love, understanding, and a lifetime of happiness together.
-
-Welcome to the family, [Bride's name]! Cheers to the happy couple!`,
-    authorName: 'Sarah Webster',
-    weddingRole: 'Mother of the Groom',
-    tags: ['heartfelt', 'short', 'mother'],
   },
   {
     slug: 'the-wisdom-filled-mother-speech-79',
@@ -1779,27 +1509,6 @@ Most importantly, never stop being friends. The couples who stay happily married
     authorName: 'Eleanor Mitchell',
     weddingRole: 'Mother of the Groom',
     tags: ['mother'],
-  },
-  {
-    slug: 'the-wisdom-filled-mother-speech-80',
-    title: `The Wisdom-Filled Mother Speech`,
-    category: 'mother-of-groom-speech',
-    tone: 'heartfelt',
-    durationMinutes: 2.0,
-    wordCount: 261,
-    excerpt: `Hi everyone! I'm Dorothy, [Groom's name]'s mother, and someone who's been happily married for thirty-four years. [Groom's name], from the moment you were born, you've been...`,
-    content: `Hi everyone! I'm Dorothy, [Groom's name]'s mother, and someone who's been happily married for thirty-four years. [Groom's name], from the moment you were born, you've been teaching me about patience, love, and the incredible joy of being a mother.
-
-Watching you grow into the remarkable man you are today has been my greatest privilege and joy. [Bride's name], you're not just gaining a husband – you're gaining a best friend, a partner, and someone who will love you unconditionally. I know because I've watched him love his family, his friends, and now you with that same unwavering devotion.
-
-Let me share some wisdom about marriage that I've learned over the years: Marriage isn't about finding someone you can live with – it's about finding someone you can't live without. It's about choosing to love each other every single day, especially on the days when it's not easy. Always communicate with honesty and kindness.
-
-Listen not just to respond, but to truly understand each other. Be generous with your appreciation and patient with each other's imperfections. Remember that you're teammates facing life's challenges together, not opponents.
-
-Most importantly, never stop being friends. The couples who stay happily married for decades are those who genuinely enjoy each other's company, who can laugh together, and who continue to choose each other every single day. [Groom's name] and [Bride's name], as you begin this amazing journey together, know that you have our love, our support, and our prayers for a lifetime of happiness. So here's to a marriage filled with love, laughter, and endless adventures together!`,
-    authorName: 'George Sullivan',
-    weddingRole: 'Mother of the Groom',
-    tags: ['inspirational', 'mother'],
   },
   {
     slug: 'the-best-friend-bridesmaid-speech-81',
@@ -3229,7 +2938,7 @@ There's a light in his eyes that wasn't there before. He's happier, more confide
   },
   {
     slug: 'the-grateful-friend-speech-143',
-    title: `The Grateful Friend Speech`,
+    title: `The Grateful Groom's Friend Speech`,
     category: 'close-friend-speech',
     tone: 'balanced',
     durationMinutes: 1.2,
@@ -3248,7 +2957,7 @@ You two are perfect for each other. [Bride's name] and [Groom's name], may your 
   },
   {
     slug: 'the-short-friend-speech-144',
-    title: `The Short Friend Speech`,
+    title: `The Short Groom's Friend Speech`,
     category: 'close-friend-speech',
     tone: 'balanced',
     durationMinutes: 0.4,

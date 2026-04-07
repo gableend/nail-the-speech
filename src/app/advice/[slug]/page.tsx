@@ -12,17 +12,34 @@ import SiteFooter from '@/components/SiteFooter';
 import React from 'react';
 
 // ── Content renderer with markdown-like formatting ──────────
-function renderInline(text: string) {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((part, k) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
+function renderInline(text: string): React.ReactNode[] {
+  // Split on bold (**) and links ([text](url)) while preserving tokens
+  const tokens = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g);
+  return tokens.map((token, k) => {
+    if (token.startsWith('**') && token.endsWith('**')) {
       return (
         <strong key={k} className="font-semibold text-[#181615]">
-          {part.slice(2, -2)}
+          {token.slice(2, -2)}
         </strong>
       );
     }
-    return <span key={k}>{part}</span>;
+    const linkMatch = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (linkMatch) {
+      const [, label, href] = linkMatch;
+      if (href.startsWith('/')) {
+        return (
+          <Link key={k} href={href} className="text-[#c44578] hover:text-[#b33c6c] underline underline-offset-2">
+            {label}
+          </Link>
+        );
+      }
+      return (
+        <a key={k} href={href} className="text-[#c44578] hover:text-[#b33c6c] underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+          {label}
+        </a>
+      );
+    }
+    return <span key={k}>{token}</span>;
   });
 }
 

@@ -47,3 +47,6 @@ bun.lockb
 # clerk configuration (can include secrets)
 /.clerk/
 .env
+
+# Local Netlify folder
+.netlify

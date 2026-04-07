@@ -154,10 +154,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
-              Find speeches for every wedding role
+              Every wedding role. Your voice.
             </h2>
             <p className="text-lg text-[#756c64]">
-              Discover AI-generated speeches for any role and every style.
+              Talk it out, then turn it into a best man, maid of honor, or father speech.
             </p>
           </div>
 

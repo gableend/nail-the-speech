@@ -106,7 +106,7 @@ export default function AdvicePage() {
           <h1 className="text-4xl md:text-5xl font-bold text-[#181615] mb-4">
             Help & Advice
           </h1>
-          <p className="text-lg text-[#756c64] max-w-2xl mx-auto mb-2">
+          <p className="text-lg text-[#756c64] max-w-3xl mx-auto mb-2">
             Everything you need to plan, shape, and deliver a wedding speech that sounds like you. Start with your ideas, talk them out, and turn them into a speech you can actually deliver.
           </p>
           <p className="text-sm text-[#756c64]">
@@ -141,17 +141,25 @@ export default function AdvicePage() {
             <span className="font-semibold text-sm text-[#181615] group-hover:text-[#b33c6c] transition-colors">How to practise your speech</span>
           </Link>
         </div>
+
+        {/* Jump pills */}
+        <div className="flex flex-wrap gap-2 mt-6">
+          <a href="#speech-tips" className="text-sm px-4 py-1.5 rounded-full bg-white border border-[#e8e1d8] text-[#756c64] hover:border-[#c44578] hover:text-[#c44578] transition-colors">Speech Tips</a>
+          <a href="#practice-guide" className="text-sm px-4 py-1.5 rounded-full bg-white border border-[#e8e1d8] text-[#756c64] hover:border-[#c44578] hover:text-[#c44578] transition-colors">Practice Guides</a>
+          <a href="#all-articles" className="text-sm px-4 py-1.5 rounded-full bg-white border border-[#e8e1d8] text-[#756c64] hover:border-[#c44578] hover:text-[#c44578] transition-colors">All Articles</a>
+          <a href="#faq" className="text-sm px-4 py-1.5 rounded-full bg-white border border-[#e8e1d8] text-[#756c64] hover:border-[#c44578] hover:text-[#c44578] transition-colors">Help</a>
+        </div>
       </section>
 
       {/* Category sections */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section id="all-articles" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 scroll-mt-20">
         {categories.map(category => (
           <div key={category.name} id={category.name.toLowerCase().replace(/\s+/g, '-')} className="mb-16 scroll-mt-28">
             <div className="mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-[#181615] mb-2">
                 {category.name}
               </h2>
-              <p className="text-[#756c64] max-w-2xl">
+              <p className="text-[#756c64] max-w-3xl">
                 {category.description}
               </p>
               {category.name === 'Speech Tips' && (
@@ -204,13 +212,10 @@ export default function AdvicePage() {
         ))}
       </section>
 
-      {/* FAQ */}
-      <FAQ items={adviceFaqs} title="Questions about wedding speeches" />
-
       {/* CTA */}
-      <section className="bg-[#181615] text-white py-16">
+      <section className="py-16">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to write yours?</h2>
+          <h2 className="text-3xl font-bold text-[#181615] mb-4">Ready to write yours?</h2>
           <p className="text-[#756c64] mb-8">
             Start by talking your speech out. Turn your ideas into a structured speech in minutes.
           </p>
@@ -222,6 +227,11 @@ export default function AdvicePage() {
           </Link>
         </div>
       </section>
+
+      {/* FAQ */}
+      <div id="faq" className="scroll-mt-20">
+        <FAQ items={adviceFaqs} title="Questions about wedding speeches" />
+      </div>
 
       <SiteFooter />
     </div>

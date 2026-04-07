@@ -10,8 +10,8 @@ export default function SiteHeader({ hideBanner = false, isGeneratorPage = false
       {!hideBanner && (
         <div className="bg-[#000000] text-white text-center py-1.5 sm:py-2.5 text-xs sm:text-sm">
           <div className="flex items-center justify-center gap-2 sm:gap-4 px-4">
-            <span className="hidden sm:inline">Create perfect wedding speeches with AI. Get started for free!</span>
-            <span className="sm:hidden">Get started for free!</span>
+            <span className="hidden sm:inline">Don&apos;t write your speech. Talk it out. Start for free!</span>
+            <span className="sm:hidden">Talk it out. Start free!</span>
             <Link href="/generator">
               <button className="flex items-center gap-1 bg-white/20 hover:bg-white/30 px-3 py-1.5 min-h-[36px] rounded-full text-xs font-medium transition-colors">
                 Get Started

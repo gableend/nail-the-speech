@@ -14,7 +14,15 @@
 
 **Heading:** Great speeches start with speaking, **not writing** *(pink accent on "not writing")*
 
-**Subtext:** Explore the science, strategy, and practical tips behind talk-first speech writing. A better way to prepare your wedding speech.
+**Subtext:** Explore the science, strategy, and practical tips behind talk-first speech writing. A better way to prepare your wedding speech — starting with your voice instead of a blank page.
+
+---
+
+### Start Here
+
+2-column numbered cards:
+1. **Why speaking works better than writing** → /articles/science-of-talking-produces-better-speeches
+2. **How to build a speech by talking it out** → /articles/voice-note-to-wedding-speech
 
 ---
 
@@ -33,15 +41,36 @@ Articles sourced from `insightArticles` in `/src/data/insightArticles.ts`.
 
 ---
 
+### Put This Into Practice
+
+White card with border, 2-column grid:
+- **Browse speech examples** → /examples — "See what great speeches look like for your role"
+- **Learn how to write and practise your speech** → /advice — "Step-by-step guides for every stage"
+
+---
+
 ### CTA Section
 
 **Background:** Gradient from #faf8f5 to #f5f0eb
 
 **Heading:** Ready to try talk-first speech writing?
 
-**Subtext:** Skip the blank page. Talk through your memories and let Nail The Speech turn them into a speech that sounds like you.
+**Subtext:** Talk through your memories and let Nail The Speech turn them into a speech that sounds like you.
 
 **Button:** Start Your Speech → /generator
+
+---
+
+### FAQ Section (NEW)
+
+**Title:** Questions about talk-first speech writing
+
+4 FAQs:
+
+1. **Why is speaking better than writing a speech?** — Speaking activates episodic memory more directly, produces more natural results.
+2. **Does starting with voice actually improve a speech?** — Yes, more personal, natural tone, right length. Links to /generator.
+3. **Can I still edit my speech afterwards?** — Yes, starting by speaking gives better raw material. Links to /advice/how-to-practise-a-wedding-speech.
+4. **How is this different from just writing a speech normally?** — Same output, different starting point. Faster, sounds more like you. Links to /advice.
 
 ---
 

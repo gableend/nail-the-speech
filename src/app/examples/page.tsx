@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { speechCategories, getAllGroups, exampleSpeeches } from '@/data/exampleSpeeches';
 import ExamplesFilterClient from '@/components/ExamplesFilterClient';
 import SiteHeader from '@/components/SiteHeader';
@@ -92,12 +93,52 @@ export default function ExamplesPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-[#181615] mb-4">
             Wedding Speech Examples
           </h1>
-          <p className="text-lg text-[#756c64] max-w-4xl mx-auto mb-2">
-            Browse real examples across {speechCategories.length} speech types.
-            Find your inspiration, then create your own with AI.
+          <p className="text-lg text-[#756c64] max-w-3xl mx-auto mb-2">
+            Find examples that match your role, tone, and style. Then turn your own stories into a speech that sounds like you.
           </p>
           <p className="text-sm text-[#c44578] font-medium">
             {exampleSpeeches.length}+ speeches to inspire yours
+          </p>
+        </div>
+      </section>
+
+      {/* Start here */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-[#181615] mb-6">Start here</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Link
+            href="/examples/best-man-speech"
+            className="group flex items-center gap-3 bg-white border-2 border-[#c44578]/20 rounded-xl p-5 hover:border-[#c44578] hover:shadow-md transition-all"
+          >
+            <span className="text-2xl flex-shrink-0">🤵</span>
+            <span className="font-semibold text-sm text-[#181615] group-hover:text-[#b33c6c] transition-colors">Best man speeches</span>
+          </Link>
+          <Link
+            href="/examples/maid-of-honor-speech"
+            className="group flex items-center gap-3 bg-white border-2 border-[#c44578]/20 rounded-xl p-5 hover:border-[#c44578] hover:shadow-md transition-all"
+          >
+            <span className="text-2xl flex-shrink-0">💐</span>
+            <span className="font-semibold text-sm text-[#181615] group-hover:text-[#b33c6c] transition-colors">Maid of honor speeches</span>
+          </Link>
+          <Link
+            href="/examples/father-of-bride-speech"
+            className="group flex items-center gap-3 bg-white border-2 border-[#c44578]/20 rounded-xl p-5 hover:border-[#c44578] hover:shadow-md transition-all"
+          >
+            <span className="text-2xl flex-shrink-0">👨‍👧</span>
+            <span className="font-semibold text-sm text-[#181615] group-hover:text-[#b33c6c] transition-colors">Father of the bride speeches</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* How to use these examples */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8">
+        <div className="bg-white border border-[#e8e1d8] rounded-xl p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-[#181615] mb-3">How to use these examples</h2>
+          <p className="text-[#4a4543] leading-relaxed mb-3">
+            Don&apos;t copy a speech word for word. Use examples to understand structure, tone, and what works — then make it your own. For guidance on building your speech, see our <Link href="/advice/how-to-write-a-wedding-speech" className="text-[#c44578] hover:text-[#b33c6c] underline underline-offset-2">wedding speech writing guide</Link>.
+          </p>
+          <p className="text-[#4a4543] leading-relaxed">
+            If you&apos;re not sure how to start, you can <Link href="/generator" className="text-[#c44578] hover:text-[#b33c6c] underline underline-offset-2">talk your speech out first</Link> and shape it into a structured version.
           </p>
         </div>
       </section>
@@ -134,25 +175,24 @@ export default function ExamplesPage() {
         })}
       </section>
 
-      {/* FAQ */}
-      <FAQ items={examplesFaqs} title="Questions about speech examples" />
-
       {/* CTA */}
-      <section className="bg-[#181615] text-white py-16">
+      <section className="py-16">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to write yours?</h2>
+          <h2 className="text-3xl font-bold text-[#181615] mb-4">Ready to write yours?</h2>
           <p className="text-[#756c64] mb-8">
-            Use our AI speech generator to create a personalized speech in minutes.
-            Get started for free.
+            Start by talking your speech out. Turn your ideas into a structured speech in minutes.
           </p>
           <Link
             href="/generator"
             className="inline-flex items-center gap-2 bg-[#c44578] hover:bg-[#c4477a] text-white px-8 py-3 rounded-full font-semibold transition-colors"
           >
-            Create Your Speech →
+            Create Your Speech <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>
+
+      {/* FAQ */}
+      <FAQ items={examplesFaqs} title="Questions about speech examples" />
 
       <SiteFooter />
     </div>

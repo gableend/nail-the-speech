@@ -114,39 +114,63 @@ export const generatorFaqs: FAQItem[] = [
 // ── Examples page FAQs ──────────────────────────────────────
 export const examplesFaqs: FAQItem[] = [
   {
-    question: "Are these real wedding speeches?",
+    question: "Should I copy a wedding speech example?",
     answer:
-      "They're curated examples based on real wedding speech styles and structures. Names and places have been changed for privacy, but the tone, pacing, and emotional beats reflect genuine speeches that have been delivered at weddings.",
+      "No. The best speeches are personal — they sound like the person giving them, not like a template. Use examples to understand structure, tone, and pacing, then build your own using your real stories and memories.\n\nIf you're not sure where to start, [talking your speech out first](/generator) is often easier than staring at a blank page.",
   },
   {
-    question: "Can I copy one of these speeches word for word?",
+    question: "How do I turn an example into my own speech?",
     answer:
-      "You could, but we wouldn't recommend it. The best speeches are personal. Use these as inspiration for structure, tone, and pacing, then add your own stories and details. Or use our generator to create something tailored to you from scratch.",
+      "Pay attention to how the example is structured rather than the specific words. Notice the opening, how stories are introduced, and how it closes with a toast.\n\nThen swap in your own details. Your stories, your voice, your relationship with the couple. For a step-by-step guide, see [how to write a wedding speech](/advice/how-to-write-a-wedding-speech).",
+  },
+  {
+    question: "What makes a wedding speech sound natural?",
+    answer:
+      "Speeches that sound natural usually started with speaking, not writing. When you write first, you tend to overthink and end up sounding formal. When you speak first, you sound like yourself.\n\nThat's why starting by talking through your memories — rather than typing them — often produces a better result. The examples here can show you what natural tone sounds like for your role.",
+  },
+  {
+    question: "Can I use AI to create a speech based on these examples?",
+    answer:
+      "Yes, but the best approach is to use your own stories as input, not to copy an example into AI. Read a few examples to get a feel for structure and tone, then [talk your ideas out in the generator](/generator). It will shape your memories into a personalised speech.\n\nFor more on getting good results from AI, see [how to use AI to write a wedding speech](/advice/ai-wedding-speech-writer).",
   },
   {
     question: "How do I find the right example for my role?",
     answer:
-      "Use the filters at the top of the page to narrow by speech type, role, or tone. We have examples for over 60 categories including Best Man, Maid of Honour, Father of the Bride, step-parents, siblings, friends, and more.",
+      "Use the filters at the top of the page to narrow by speech type, role, or tone. We have examples for over 60 categories including best man, maid of honour, father of the bride, step-parents, siblings, friends, and more.",
   },
   {
     question: "What's the ideal length for a wedding speech?",
     answer:
-      "Most great speeches land between 3-5 minutes, which is roughly 400-650 words. Short enough to keep people engaged, long enough to say something meaningful. Our examples range from quick 1-minute toasts to longer 5+ minute speeches.",
+      "Most great speeches land between 3 to 5 minutes, which is roughly 400 to 650 words. Short enough to keep people engaged, long enough to say something meaningful. For detailed guidance by role, see [wedding speech length by role](/advice/wedding-speech-length-by-role).",
   },
   {
     question: "Do you have funny speech examples?",
     answer:
-      "Plenty. You can filter by tone to find funny, heartfelt, balanced, or roast-style speeches. We also have a dedicated Funny Wedding Speech category and a Roast Wedding Speech category if you want to bring the laughs.",
+      "Plenty. You can filter by tone to find funny, heartfelt, balanced, or roast-style speeches. We also have dedicated Funny Wedding Speech and Roast Wedding Speech categories if you want to bring the laughs.",
+  },
+];
+
+// ── Articles page FAQs ──────────────────────────────────────
+export const articlesFaqs: FAQItem[] = [
+  {
+    question: "Why is speaking better than writing a speech?",
+    answer:
+      "When you write, you tend to overthink every sentence and lose your natural voice. When you speak, you relax. Stories come out more naturally, details resurface, and the result sounds like you.\n\nThis is backed by research on how different cognitive pathways handle spoken vs written language. Speaking activates episodic memory — the part of your brain that stores personal experiences — more directly than writing does.",
   },
   {
-    question: "What if my role isn't listed?",
+    question: "Does starting with voice actually improve a speech?",
     answer:
-      "We cover over 60 speech types from traditional roles to less common ones like twin sibling, military buddy, travel buddy, and cultural wedding speeches. If you still can't find yours, our generator has a custom role option.",
+      "Yes. People who talk through their ideas first tend to produce speeches that are more personal, more natural in tone, and the right length. Written-first drafts often sound formal and run long because you add padding without realising it.\n\nYou can [try it yourself in the generator](/generator) — talk through your memories and see how the structured version compares to what you would have written.",
   },
   {
-    question: "Can I use these examples to help write my own speech?",
+    question: "Can I still edit my speech afterwards?",
     answer:
-      "Absolutely. That's what they're here for. Read a few examples in your category, notice which openings, stories, and endings resonate with you, then use our speech generator to create something personal using your own details.",
+      "Absolutely. Starting by speaking doesn't mean you skip editing. It means you start with better raw material. Once you have a first draft, you can refine the wording, cut anything that doesn't land, and [practise it out loud](/advice/how-to-practise-a-wedding-speech) until it feels right.",
+  },
+  {
+    question: "How is this different from just writing a speech normally?",
+    answer:
+      "Traditional speech writing starts with a blank page. Talk-first speech writing starts with your voice. You share your stories and memories naturally, then structure them into a speech.\n\nThe result is the same — a written speech you can hold in your hand — but the process is faster and the output sounds more like you. For practical tips, see our [advice guides](/advice).",
   },
 ];
 

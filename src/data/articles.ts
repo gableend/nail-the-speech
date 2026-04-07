@@ -2755,7 +2755,7 @@ export const articles: Article[] = [
       },
     ],
     ctaSupportingText: "Find the right words, even when it's complicated",
-    relatedExamples: ['blended-family-speech', 'in-law-speech', 'stepfather-of-groom-speech'],
+    relatedExamples: ['blended-family-speech', 'stepfather-of-groom-speech'],
     relatedArticles: ['stepparent-wedding-speech', 'wedding-speech-second-marriage'],
     tags: ['complicated', 'family'],
   },

@@ -63,7 +63,6 @@ export const speechCategories: SpeechCategory[] = [
   { slug: 'cousin-speech', name: 'Cousin Speech', description: 'Cousin wedding speech examples that celebrate growing up together and lifelong family bonds.', shortDescription: 'Cousins, confidants, and celebrations', group: 'Family', icon: '🤙' },
   { slug: 'niece-speech', name: 'Niece Speech', description: 'Niece wedding speech examples that are sweet, genuine, and celebrate a special family relationship.', shortDescription: 'Sweet words from a beloved niece', group: 'Family', icon: '🎀' },
   { slug: 'nephew-speech', name: 'Nephew Speech', description: 'Nephew wedding speech examples that honor your aunt or uncle with humor and heart.', shortDescription: 'A nephew\'s tribute', group: 'Family', icon: '⚡' },
-  { slug: 'in-law-speech', name: 'In-Law Speech', description: 'In-law wedding speech examples. Welcome your new family member with grace and warmth.', shortDescription: 'Welcoming new family with open arms', group: 'Family', icon: '🏠' },
 
   // The Couple
   { slug: 'groom-speech', name: 'Groom Speech', description: 'Groom speech examples, thank your guests, honor your partner, and nail the perfect wedding toast.', shortDescription: 'The groom takes center stage', group: 'The Couple', icon: '🤵‍♂️' },

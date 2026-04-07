@@ -255,7 +255,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
-              We'll walk you through every part of speech writing
+              Talk it out. We'll shape the rest.
             </h2>
           </div>
 
@@ -263,18 +263,18 @@ export default function HomePage() {
             {[
               {
                 step: "1",
-                title: "Your personal details",
-                description: "Tell us about your role, the couple, and your relationship. Share your favorite memories and the tone you want."
+                title: "Start your way",
+                description: "Talk it out or type it in. Share your relationship, stories, and moments in whatever feels natural."
               },
               {
                 step: "2",
-                title: "Your speech style",
-                description: "Choose from heartfelt, funny, balanced, or formal tones. Select your preferred speech length and special moments to include."
+                title: "Shape your speech",
+                description: "We turn your input into a structured speech. Choose your tone, length, and style."
               },
               {
                 step: "3",
-                title: "Your perfect speech",
-                description: "Get your AI-generated speech instantly. Copy to clipboard, export to PDF, or edit to make it uniquely yours."
+                title: "Refine and deliver",
+                description: "Edit, listen back, and download a speech you can actually deliver with confidence."
               }
             ].map((item) => (
               <div key={item.step} className="text-center">

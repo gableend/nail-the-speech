@@ -60,6 +60,7 @@ export default function SiteHeader({ hideBanner = false, isGeneratorPage = false
                   <Link href="/advice" className="block py-2 text-[#181615] hover:text-[#b33c6c]">All Advice</Link>
                   <Link href="/advice#speech-tips" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Speech Tips</Link>
                   <Link href="/advice#practice-guide" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Practice Guide</Link>
+                  <Link href="/advice/wedding-speech-checklist" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Speech Checklist</Link>
                   <Link href="/examples" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Speech Examples</Link>
                   <Link href="/articles" className="block py-2 text-[#181615] hover:text-[#b33c6c]">Articles</Link>
                 </div>

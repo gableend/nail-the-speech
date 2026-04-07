@@ -14,11 +14,11 @@
 
 **Subtext:** Everything you need to plan, shape, and deliver a wedding speech that sounds like you. Start with your ideas, talk them out, and turn them into a speech you can actually deliver.
 
-**Counter:** {X} guides · {Y} published
+**Counter:** 75+ guides to help you prepare your wedding speech *(pink, font-medium)*
 
 ---
 
-### Start Here (NEW — numbered pathway)
+### Start Here (numbered pathway)
 
 1. **How to write your wedding speech** → /advice/how-to-write-a-wedding-speech
 2. **Wedding speech length guide** → /advice/wedding-speech-length-by-role
@@ -26,13 +26,23 @@
 
 Styled as 3-column cards with numbered pink circles, bordered in brand colour.
 
+### Jump Pills
+
+Directly below Start Here:
+- Speech Tips → #speech-tips
+- Practice Guides → #practice-guide
+- All Articles → #all-articles
+- Help → #faq
+
+Styled as rounded pill buttons with border, hover turns pink.
+
 ---
 
 ### Category: Speech Tips
 
 **Description:** How to write, structure, and perfect your wedding speech, from opening line to final toast.
 
-**Guiding sentence:** If you're starting from scratch, begin with how to write your wedding speech.
+**Guiding sentence:** If you're starting from scratch, begin with [how to write your wedding speech](/advice/how-to-write-a-wedding-speech).
 
 Articles in this category (auto-populated from data):
 - All articles where `category === 'Speech Tips'`
@@ -41,7 +51,7 @@ Articles in this category (auto-populated from data):
 
 **Description:** Delivery, nerves, body language, and everything you need to nail the performance.
 
-**Guiding sentence:** Got a draft? Start with how to practise your speech step by step.
+**Guiding sentence:** Got a draft? Start with [how to practise your speech step by step](/advice/how-to-practise-a-wedding-speech).
 
 Articles in this category (auto-populated from data):
 - All articles where `category === 'Practice Guide'`
@@ -59,21 +69,21 @@ Each article displays as a card with:
 
 ---
 
-### FAQ Section
-
-**Title:** Questions about wedding speeches
-
-FAQ items sourced from `adviceFaqs` in `/src/data/faqData.ts` (separate from homepage and generator FAQs).
-
----
-
-### CTA Section
+### CTA Section (above FAQ)
 
 **Heading:** Ready to write yours?
 
 **Subtext:** Start by talking your speech out. Turn your ideas into a structured speech in minutes.
 
 **Button:** Create Your Speech → /generator
+
+---
+
+### FAQ Section
+
+**Title:** Questions about wedding speeches
+
+FAQ items sourced from `adviceFaqs` in `/src/data/faqData.ts` (separate from homepage and generator FAQs).
 
 ---
 
@@ -90,4 +100,4 @@ wedding speech tips, wedding speech advice, how to write a wedding speech, weddi
 - Title: Wedding Speech Help & Advice | Nail The Speech
 - Description: Expert guides for writing and delivering unforgettable wedding speeches.
 - Type: website
-- Image: /og-image.png (1200×630)
+- Image: /og-image.png (1200x630)

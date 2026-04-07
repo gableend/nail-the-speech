@@ -8,52 +8,52 @@ export const faqs: FAQItem[] = [
   {
     question: "How do I write a wedding speech?",
     answer:
-      "Most people start by writing, but that's often what makes it feel hard.\n\nA better approach is to start by talking. Share your thoughts, stories, and memories out loud first. It's more natural and helps you find what you actually want to say.\n\nNail The Speech is built around this. You can talk your speech out, then turn it into a structured, polished version.",
+      "Most people start by writing, but that's often what makes it feel hard.\n\nA better approach is to start by talking. Share your thoughts, stories, and memories out loud first. It's more natural and helps you find what you actually want to say.\n\nNail The Speech is built around this. You can talk your speech out, then turn it into a structured, polished version. For a step-by-step walkthrough, see our [guide to writing a wedding speech](/advice/how-to-write-a-wedding-speech).",
   },
   {
     question: "Is it better to write or speak a wedding speech?",
     answer:
-      "Speaking first is usually easier.\n\nWhen you write, you tend to overthink and lose your natural voice. When you speak, you're more relaxed and remember better stories.\n\nStarting with speaking helps your speech sound more like you, which is what people respond to most.",
+      "Speaking first is usually easier.\n\nWhen you write, you tend to overthink and lose your natural voice. When you speak, you're more relaxed and remember better stories.\n\nStarting with speaking helps your speech sound more like you, which is what people respond to most. We explore this in more detail in [why talking produces better speeches](/articles/science-of-talking-produces-better-speeches).",
   },
   {
     question: "What should I include in a wedding speech?",
     answer:
-      "A good wedding speech usually includes:\n\n• Your relationship with the couple\n• One or two meaningful or funny stories\n• What makes them great together\n• A simple, sincere message\n\nThe key isn't perfect wording. It's making it feel real and personal.",
+      "A good wedding speech usually includes:\n\n• Your relationship with the couple\n• One or two meaningful or funny stories\n• What makes them great together\n• A simple, sincere message\n\nThe key isn't perfect wording. It's making it feel real and personal. For more on structure, see our [wedding speech framework](/advice/wedding-speech-structure).",
   },
   {
     question: "Will my speech sound like it was written by AI?",
     answer:
-      "No. The goal is the opposite.\n\nBecause you start by speaking or sharing your own thoughts, the speech is based on your voice, your stories, and your tone.\n\nYou can also edit and refine it to make sure it sounds exactly how you want.",
+      "No. The goal is the opposite.\n\nBecause you start by speaking or sharing your own thoughts, the speech is based on your voice, your stories, and your tone.\n\nYou can also edit and refine it to make sure it sounds exactly how you want. Read more about [why most AI speeches feel generic and how we avoid it](/articles/why-most-ai-wedding-speeches-feel-generic).",
   },
   {
     question: "What types of wedding speeches can I create?",
     answer:
-      "You can create speeches for any role, including:\n\n• Best man\n• Maid of honor\n• Father of the bride or groom\n• Mother of the bride or groom\n\nEach speech is tailored to your role and your relationship.",
+      "You can create speeches for any role, including:\n\n• [Best man](/advice/best-man-speech-guide)\n• [Maid of honor](/advice/maid-of-honor-speech-guide)\n• [Father of the bride](/advice/father-of-bride-speech-guide) or groom\n• [Mother of the bride](/advice/mother-of-bride-speech-guide) or groom\n\nEach speech is tailored to your role and your relationship. Browse [speech examples](/examples) to see what's possible.",
   },
   {
     question: "How long should a wedding speech be?",
     answer:
-      "Most wedding speeches are between 3–7 minutes.\n\nShorter is usually better. A focused, meaningful speech will always land better than a long one.\n\nYou can choose your preferred length and adjust it easily.",
+      "Most wedding speeches are between 3–7 minutes.\n\nShorter is usually better. A focused, meaningful speech will always land better than a long one.\n\nYou can choose your preferred length and adjust it easily. For more detail, see [how long a wedding speech should be](/advice/how-long-should-a-wedding-speech-be).",
   },
   {
     question: "Can I edit my speech after it's created?",
     answer:
-      "Yes.\n\nYou can edit your speech directly, regenerate sections, and refine it as many times as you need so it feels right.",
+      "Yes.\n\nYou can edit your speech directly, regenerate sections, and refine it as many times as you need so it feels right. Learn more about [how editing and regeneration works](/help/can-i-edit-my-speech-after-generation).",
   },
   {
     question: "How do I practise my wedding speech?",
     answer:
-      "The best way to practise is out loud.\n\nYou can listen back to your speech, adjust the wording, and get comfortable with how it sounds.\n\nThis helps you deliver it naturally on the day.",
+      "The best way to practise is out loud.\n\nYou can listen back to your speech, adjust the wording, and get comfortable with how it sounds.\n\nThis helps you deliver it naturally on the day. If you're nervous about speaking, read our tips on [overcoming wedding speech nerves](/advice/wedding-speech-nerves).",
   },
   {
     question: "Is my data private?",
     answer:
-      "Yes. Your inputs and speech are private and only used to generate your content.",
+      "Yes. Your inputs and speech are private and only used to generate your content. See our [privacy policy](/privacy) for full details.",
   },
   {
     question: "Can I use my voice instead of typing?",
     answer:
-      "Yes. You can talk your speech out instead of writing it. Most people find this easier and more natural.",
+      "Yes. You can talk your speech out instead of writing it. Most people find this easier and more natural. Learn more about our [voice-first approach](/articles/voice-note-to-wedding-speech).",
   },
 ];
 

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { FAQItem, faqs as homeFaqs } from "@/data/faqData";
 
@@ -7,8 +8,48 @@ interface FAQProps {
 }
 
 /**
- * Render an FAQ answer that may contain paragraphs (\n\n) and
- * bullet points (lines starting with •).
+ * Parse inline markdown-style links [text](url) into React elements.
+ * Internal links use Next.js <Link>, external links use <a>.
+ */
+function renderTextWithLinks(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = linkRegex.exec(text)) !== null) {
+    // Text before the link
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    const label = match[1];
+    const href = match[2];
+    const isInternal = href.startsWith("/");
+    parts.push(
+      isInternal ? (
+        <Link key={match.index} href={href} className="text-[#c44578] hover:text-[#b33c6c] underline underline-offset-2">
+          {label}
+        </Link>
+      ) : (
+        <a key={match.index} href={href} className="text-[#c44578] hover:text-[#b33c6c] underline underline-offset-2" target="_blank" rel="noopener noreferrer">
+          {label}
+        </a>
+      )
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  // Remaining text after last link
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : [text];
+}
+
+/**
+ * Render an FAQ answer that may contain paragraphs (\n\n),
+ * bullet points (lines starting with •), and inline links [text](url).
  */
 function FAQAnswer({ text }: { text: string }) {
   const blocks = text.split("\n\n");
@@ -24,17 +65,17 @@ function FAQAnswer({ text }: { text: string }) {
           const intro = lines.filter((l) => !l.startsWith("•")).join(" ").trim();
           return (
             <div key={i}>
-              {intro && <p>{intro}</p>}
+              {intro && <p>{renderTextWithLinks(intro)}</p>}
               <ul className="list-disc list-inside space-y-1 mt-1">
                 {bulletLines.map((line, j) => (
-                  <li key={j}>{line.replace(/^•\s*/, "")}</li>
+                  <li key={j}>{renderTextWithLinks(line.replace(/^•\s*/, ""))}</li>
                 ))}
               </ul>
             </div>
           );
         }
 
-        return <p key={i}>{block}</p>;
+        return <p key={i}>{renderTextWithLinks(block)}</p>;
       })}
     </div>
   );

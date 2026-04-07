@@ -33,7 +33,7 @@ export const faqs: FAQItem[] = [
   {
     question: "How long should a wedding speech be?",
     answer:
-      "Most wedding speeches are between 3–7 minutes.\n\nShorter is usually better. A focused, meaningful speech will always land better than a long one.\n\nYou can choose your preferred length and adjust it easily. For more detail, see [how long a wedding speech should be](/advice/how-long-should-a-wedding-speech-be).",
+      "Most wedding speeches are between 3–7 minutes.\n\nShorter is usually better. A focused, meaningful speech will always land better than a long one.\n\nYou can choose your preferred length and adjust it easily. For more detail, see our [speech length guide by role](/advice/wedding-speech-length-by-role).",
   },
   {
     question: "Can I edit my speech after it's created?",
@@ -43,7 +43,7 @@ export const faqs: FAQItem[] = [
   {
     question: "How do I practise my wedding speech?",
     answer:
-      "The best way to practise is out loud.\n\nYou can listen back to your speech, adjust the wording, and get comfortable with how it sounds.\n\nThis helps you deliver it naturally on the day. If you're nervous about speaking, read our tips on [overcoming wedding speech nerves](/advice/wedding-speech-nerves).",
+      "The best way to practise is out loud.\n\nYou can listen back to your speech, adjust the wording, and get comfortable with how it sounds.\n\nThis helps you deliver it naturally on the day. See our [step-by-step practice guide](/advice/how-to-practise-a-wedding-speech) or read tips on [overcoming wedding speech nerves](/advice/wedding-speech-nerves).",
   },
   {
     question: "Is my data private?",

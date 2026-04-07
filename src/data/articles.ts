@@ -137,7 +137,7 @@ export const articles: Article[] = [
     ],
     ctaSupportingText: 'Get the perfect length on the first try',
     relatedExamples: ['short-sweet-speech', 'best-man-speech', 'father-of-bride-speech'],
-    relatedArticles: ['wedding-speech-structure', 'how-to-write-a-wedding-speech', 'wedding-speech-dos-and-donts'],
+    relatedArticles: ['wedding-speech-length-by-role', 'wedding-speech-structure', 'how-to-write-a-wedding-speech'],
     tags: ['length', 'timing', 'planning'],
   },
 
@@ -164,7 +164,7 @@ export const articles: Article[] = [
     ],
     ctaSupportingText: 'Go from blank page to finished speech',
     relatedExamples: ['best-man-speech', 'maid-of-honor-speech', 'bride-speech'],
-    relatedArticles: ['wedding-speech-structure', 'dont-know-what-to-say-wedding-speech', 'last-minute-wedding-speech'],
+    relatedArticles: ['wedding-speech-structure', 'ai-wedding-speech-writer', 'wedding-speech-for-a-friend'],
     tags: ['writing', 'beginners', 'step-by-step'],
   },
 
@@ -293,7 +293,7 @@ export const articles: Article[] = [
     ],
     ctaSupportingText: "Feel confident with a speech that's ready",
     relatedExamples: ['short-sweet-speech', 'father-of-bride-speech'],
-    relatedArticles: ['hate-public-speaking-wedding-speech', 'public-speaking-anxiety-wedding-speech', 'build-confidence-wedding-speech'],
+    relatedArticles: ['how-to-practise-a-wedding-speech', 'hate-public-speaking-wedding-speech', 'wedding-speech-checklist'],
     tags: ['nerves', 'anxiety', 'delivery', 'confidence'],
   },
 
@@ -4606,6 +4606,324 @@ export const articles: Article[] = [
     relatedExamples: ['best-man-speech', 'maid-of-honor-speech', 'father-of-bride-speech'],
     relatedArticles: ['how-to-write-a-wedding-speech', 'how-to-make-wedding-speech-personal'],
     tags: ['AI', 'product', 'bottom-of-funnel'],
+  },
+
+  // ─── how-to-practise-a-wedding-speech ───
+  {
+    slug: 'how-to-practise-a-wedding-speech',
+    title: 'How to Practise a Wedding Speech (Step by Step)',
+    category: 'Practice Guide',
+    targetKeyword: 'how to practise a wedding speech',
+    metaDescription: 'A step-by-step guide to practising your wedding speech out loud. Build confidence, nail your timing, and deliver it naturally on the day.',
+    searchIntent: 'Has a draft, needs to prepare for delivery',
+    icon: '🎙️',
+    readingTime: 6,
+    sections: [
+      {
+        heading: 'Why Practising Out Loud Changes Everything',
+        level: 2,
+        content:
+          "Reading your speech silently is not practising. It feels like it is, but it is not.\n\nWhen you read silently, you skip over awkward phrasing, gloss past transitions, and imagine a smooth delivery that does not match reality. Speaking out loud is where you discover what actually works.\n\nYou will find sentences that look fine on paper but feel strange to say. You will notice where you naturally pause and where you rush. You will hear which stories land and which ones drag.\n\nThe goal is not to memorise every word. It is to get comfortable enough that you can look up, make eye contact, and sound like yourself.",
+      },
+      {
+        heading: 'Step 1: Read It Through Once, Quietly',
+        level: 2,
+        content:
+          "Before you start speaking, read your speech once to yourself. Just familiarise yourself with the flow.\n\nMark any words or phrases that feel clunky. If something reads awkwardly, it will sound worse out loud. Simplify it now.",
+      },
+      {
+        heading: 'Step 2: Read It Out Loud, Alone',
+        level: 2,
+        content:
+          "Find a private space. Close the door. Read your speech out loud from start to finish.\n\nDo not stop to correct things on the first pass. Just get through it. Notice how long it takes. A good wedding speech is usually 3 to 5 minutes. If yours runs over 7 minutes, it is too long.\n\nAfter the first read-through, go back and adjust anything that felt off. Shorten sentences that made you run out of breath. Cut lines that felt flat when spoken.",
+      },
+      {
+        heading: 'Step 3: Time Yourself',
+        level: 2,
+        content:
+          "Use a timer on your phone. Read at a natural pace, not too fast, not too slow.\n\nMost people speak at roughly 130 to 150 words per minute during a speech. A 4-minute speech is about 500 to 600 words.\n\nIf you are running long, cut content rather than speaking faster. A rushed delivery is worse than a shorter speech.",
+      },
+      {
+        heading: 'Step 4: Practise Standing Up',
+        level: 2,
+        content:
+          "This matters more than you think. Speaking while seated and speaking while standing feel completely different.\n\nStand up. Hold your notes or phone at a comfortable height. Practise looking up from your notes every few sentences. You do not need to memorise the speech, but you should know it well enough to glance up regularly.\n\nIf you will be holding a microphone, practise with something in one hand so you get used to managing notes and a mic at the same time.",
+      },
+      {
+        heading: 'Step 5: Practise in Front of Someone',
+        level: 2,
+        content:
+          "Once you have done 2 to 3 solo run-throughs, practise in front of one person you trust. A partner, a friend, a sibling.\n\nAsk them for honest feedback:\n\n- Did any part drag or feel slow?\n- Was the tone right?\n- Did the stories make sense?\n- Could they hear you clearly?\n\nThis is the closest you will get to simulating the real thing. It will feel awkward. That is the point. The awkwardness fades with repetition.",
+      },
+      {
+        heading: 'Step 6: Listen Back',
+        level: 2,
+        content:
+          "Record yourself on your phone and listen back. You will hear things you cannot catch in the moment.\n\nPay attention to pace, volume, and filler words. If you say \"um\" or \"like\" frequently, slow down and add deliberate pauses instead. A pause is always better than a filler word.\n\nNail The Speech includes a listen-back feature that lets you hear your speech read aloud, which helps you catch awkward phrasing before you practise.",
+      },
+      {
+        heading: 'Step 7: Do 3 to 5 Full Run-Throughs',
+        level: 2,
+        content:
+          "You do not need to practise 20 times. Three to five full run-throughs is enough for most people.\n\n- Run 1: Get familiar with the flow\n- Run 2: Focus on timing and pace\n- Run 3: Practise with notes and standing\n- Runs 4 to 5: Polish delivery and eye contact\n\nAfter 5 runs, you will know your speech well enough to deliver it confidently without reading every word.",
+      },
+      {
+        heading: 'On the Day',
+        level: 2,
+        content:
+          "Bring printed notes or index cards. A phone screen is fine but printed notes look better and do not run out of battery.\n\nTake a breath before you start. Look at the couple. Smile. Then begin.\n\nThe audience is on your side. They want you to do well. If you lose your place, pause, find your line, and carry on. Nobody will notice.",
+      },
+    ],
+    ctaSupportingText: 'Get your speech ready to practise',
+    relatedExamples: ['best-man-speech', 'maid-of-honor-speech', 'father-of-bride-speech'],
+    relatedArticles: ['wedding-speech-nerves', 'hate-public-speaking-wedding-speech', 'how-long-should-a-wedding-speech-be'],
+    tags: ['practice', 'delivery', 'confidence', 'beginners'],
+  },
+
+  // ─── wedding-speech-checklist ───
+  {
+    slug: 'wedding-speech-checklist',
+    title: 'Wedding Speech Checklist: Everything to Prepare Before the Big Day',
+    category: 'Practice Guide',
+    targetKeyword: 'wedding speech checklist',
+    metaDescription: 'A complete wedding speech checklist covering writing, editing, practising, and day-of preparation. Everything you need before you stand up and speak.',
+    searchIntent: 'Wants a simple checklist to make sure nothing is missed',
+    icon: '✅',
+    readingTime: 5,
+    sections: [
+      {
+        heading: 'Why You Need a Checklist',
+        level: 2,
+        content:
+          "Wedding speeches fail for one reason more than any other: lack of preparation.\n\nNot lack of talent. Not lack of stories. Lack of preparation. People leave it too late, skip the editing, never practise out loud, and then wonder why it felt off.\n\nThis checklist covers everything from first draft to the moment you stand up. Work through it and you will feel ready.",
+      },
+      {
+        heading: '2 to 4 Weeks Before: Writing',
+        level: 2,
+        content:
+          "- Decide on your role and what kind of speech you want to give\n- Gather your stories, memories, and key moments\n- Choose your tone: heartfelt, funny, balanced, or something else\n- Write or generate your first draft\n- Keep it between 3 and 5 minutes (roughly 400 to 650 words)\n- Include a clear opening, 1 to 2 stories, a message to the couple, and a toast\n- Remove anything that could embarrass or offend (exes, inside jokes, sensitive topics)",
+      },
+      {
+        heading: '1 to 2 Weeks Before: Editing',
+        level: 2,
+        content:
+          "- Read your speech out loud at least once\n- Cut anything that feels flat, repetitive, or too long\n- Check your speech makes sense to someone who does not know the couple well\n- Make sure your opening grabs attention\n- Make sure your ending is clear and lands with a toast\n- Get feedback from one trusted person\n- Finalise your draft and stop making changes",
+      },
+      {
+        heading: '3 to 5 Days Before: Practising',
+        level: 2,
+        content:
+          "- Do 3 to 5 full run-throughs out loud\n- Time yourself each time\n- Practise standing up and holding your notes\n- Record yourself and listen back at least once\n- Practise looking up from your notes every few sentences\n- If using a microphone, practise holding something in one hand",
+      },
+      {
+        heading: 'The Day Before',
+        level: 2,
+        content:
+          "- Print your speech or write it on index cards\n- Bring a backup copy on your phone\n- Do one final read-through, out loud, at a relaxed pace\n- Lay out your outfit and put your notes in your jacket pocket or bag\n- Get a good night of sleep\n- Limit alcohol at the rehearsal dinner",
+      },
+      {
+        heading: 'On the Day',
+        level: 2,
+        content:
+          "- Eat something before the reception\n- Stay hydrated\n- Limit drinks before your speech\n- Check the microphone works if there is one\n- Take a breath before you start\n- Look at the couple. Smile. Begin.\n- If you lose your place, pause and find your line. Nobody will notice\n- After you finish, raise your glass and sit down. You did it.",
+      },
+      {
+        heading: 'Quick Reference',
+        level: 2,
+        content:
+          "- Length: 3 to 5 minutes\n- Practice runs: 3 to 5 minimum\n- Notes format: printed or index cards (not phone if possible)\n- Key elements: opening, stories, message to couple, toast\n- Things to avoid: exes, inside jokes, anything that needs explaining",
+      },
+    ],
+    ctaSupportingText: 'Start your speech and check it off the list',
+    relatedExamples: ['best-man-speech', 'maid-of-honor-speech', 'short-sweet-speech'],
+    relatedArticles: ['how-to-practise-a-wedding-speech', 'wedding-speech-nerves', 'last-minute-wedding-speech'],
+    tags: ['preparation', 'checklist', 'delivery', 'beginners'],
+  },
+
+  // ─── wedding-speech-for-a-friend ───
+  {
+    slug: 'wedding-speech-for-a-friend',
+    title: 'How to Write a Wedding Speech for a Friend',
+    category: 'Speech Tips',
+    targetKeyword: 'wedding speech for a friend',
+    metaDescription: 'How to write a wedding speech for a friend, whether you are the best man, maid of honor, or just a close friend who has been asked to speak.',
+    searchIntent: 'Friend giving a speech, may or may not be in wedding party',
+    icon: '🫶',
+    readingTime: 6,
+    sections: [
+      {
+        heading: 'The Friend Speech Is Underrated',
+        level: 2,
+        content:
+          "Friend speeches are some of the best speeches at any wedding. Why? Because you chose each other.\n\nFamily speeches carry expectation and tradition. Friend speeches carry something different: proof that someone outside the family thinks this person is worth celebrating. That carries real weight.\n\nWhether you are the best man, maid of honor, or a close friend who has been asked to say a few words, the approach is the same. Make it personal, keep it focused, and say something only you could say.",
+      },
+      {
+        heading: 'Start With How You Met',
+        level: 2,
+        content:
+          "The best opening for a friend speech is almost always the origin story. How did you become friends?\n\nThis does not need to be dramatic. \"We sat next to each other in biology class and bonded over both being terrible at it\" is a great opening. It is specific, visual, and immediately tells the audience who you are.\n\nAvoid generic openings like \"We've been friends for 15 years.\" That is a fact, not a story. Give the audience a scene they can picture.",
+      },
+      {
+        heading: 'Pick One or Two Stories',
+        level: 2,
+        content:
+          "You probably have hundreds of memories. Pick one or two that show who your friend really is.\n\nThe best stories reveal character. Not just \"we had a great time in Barcelona\" but \"when I lost my passport in Barcelona, she spent three hours on the phone to the embassy while I panicked, then bought me dinner and said it would make a great story one day.\"\n\nThat story tells the audience your friend is calm, generous, and loyal. It shows rather than tells.\n\nAvoid stories that:\n\n- Require five minutes of context to understand\n- Involve exes or dating history\n- Would embarrass the couple in front of family\n- Only make sense if you were there",
+      },
+      {
+        heading: 'Talk About Their Partner',
+        level: 2,
+        content:
+          "This is where friend speeches often fall short. You spend the whole speech talking about your friend and barely mention the person they are marrying.\n\nYou do not need to know their partner well to say something meaningful. Focus on what you have observed:\n\n- How your friend changed when they met this person\n- A specific moment you saw them together and thought \"this is the one\"\n- What their partner brings out in your friend\n\nEven a simple line like \"I have never seen her laugh the way she laughs around you\" says more than any grand statement about love.",
+      },
+      {
+        heading: 'Close With Something Direct',
+        level: 2,
+        content:
+          "End by speaking directly to the couple. Drop the performance and say something real.\n\nSomething like: \"You two are brilliant together. I am so glad you found each other. And I am so proud to be standing here today.\"\n\nThen raise your glass, propose a toast, and sit down. Clean ending. No rambling.",
+      },
+      {
+        heading: 'If You Are Not in the Wedding Party',
+        level: 2,
+        content:
+          "Being asked to speak as a friend outside the bridal party is a genuine honour. Keep it shorter than a best man or maid of honor speech. Two to three minutes is perfect.\n\nYou have more freedom because there is less expectation. You do not need to follow a traditional structure. Just speak honestly about your friend, acknowledge the couple, and raise a glass.",
+      },
+      {
+        heading: 'Structure for a Friend Speech',
+        level: 2,
+        content:
+          "1. Introduce yourself and your connection (1 to 2 sentences)\n2. Share how you became friends (the origin story)\n3. Tell one story that shows who they are\n4. Say something about their partner or their relationship\n5. A direct, sincere message to the couple\n6. Toast",
+      },
+    ],
+    ctaSupportingText: 'Start your friend speech now',
+    relatedExamples: ['childhood-friend-speech', 'college-friend-speech', 'close-friend-speech', 'work-friend-speech'],
+    relatedArticles: ['how-to-write-a-wedding-speech', 'how-to-tell-story-wedding-speech', 'how-to-make-wedding-speech-personal'],
+    tags: ['friends', 'role-specific', 'structure', 'beginners'],
+  },
+
+  // ─── ai-wedding-speech-writer ───
+  {
+    slug: 'ai-wedding-speech-writer',
+    title: 'How to Use AI to Write a Wedding Speech (Without It Sounding Generic)',
+    category: 'Speech Tips',
+    targetKeyword: 'AI wedding speech writer',
+    metaDescription: 'How to use AI to write a wedding speech that sounds personal and authentic. Tips for getting the best results from an AI speech generator.',
+    searchIntent: 'Considering using AI, wants to know how to do it well',
+    icon: '🤖',
+    readingTime: 6,
+    sections: [
+      {
+        heading: 'AI Can Write Your Speech. The Question Is How.',
+        level: 2,
+        content:
+          "Typing \"write me a best man speech\" into ChatGPT will give you a speech. It will be grammatically correct, well structured, and completely forgettable.\n\nThe problem is not that AI cannot write. It is that AI without your input writes something generic. It fills in the blanks with safe, predictable content because it does not know your stories, your voice, or the couple.\n\nThe solution is not to avoid AI. It is to use it differently.",
+      },
+      {
+        heading: 'Start With Your Stories, Not a Prompt',
+        level: 2,
+        content:
+          "The single biggest mistake people make with AI speech tools is starting with a prompt instead of starting with their own material.\n\nBefore you touch any tool, spend 5 minutes answering these questions:\n\n- How did you meet the person you are speaking about?\n- What is one story that shows who they really are?\n- What changed when they met their partner?\n- What do you genuinely wish for them?\n\nThese answers are the raw material. Without them, any AI tool will produce filler. With them, it can produce something genuinely personal.",
+      },
+      {
+        heading: 'Why Speaking First Works Better Than Writing',
+        level: 2,
+        content:
+          "Most people find it easier to talk about someone they love than to write about them.\n\nWhen you write, you edit yourself in real time. You second-guess every sentence. When you speak, you relax. Stories come out more naturally. Details you had forgotten resurface.\n\nThis is why Nail The Speech starts with voice input. You talk through your memories and thoughts, and the AI structures them into a speech. The result sounds like you because it started with you.",
+      },
+      {
+        heading: 'What Good AI Speech Tools Do Differently',
+        level: 2,
+        content:
+          "Not all AI tools are the same. A good wedding speech tool should:\n\n- Ask specific questions about your role, the couple, and your relationship\n- Let you choose tone, length, and style\n- Use your actual stories and details in the output\n- Let you edit, refine, and regenerate sections\n- Produce a speech that follows wedding speech conventions (opening, stories, message, toast)\n\nA generic chatbot does none of these things. It gives you a template with names swapped in. A purpose-built tool gives you a personalised first draft you can actually work with.",
+      },
+      {
+        heading: 'How to Edit an AI-Generated Speech',
+        level: 2,
+        content:
+          "The first draft is never the final draft. After the AI generates your speech, read it out loud.\n\nLook for:\n\n- Sentences that sound too formal or too generic. Replace them with how you would actually say it.\n- Missing details. If the AI wrote \"we have had so many great times together,\" replace it with a specific example.\n- Tone mismatches. If something feels too sentimental or too casual, adjust it.\n- Length. Cut anything that feels like filler.\n\nThe goal is a speech that sounds like you on your best day. Structured, polished, and personal.",
+      },
+      {
+        heading: 'The \"Is It Cheating?\" Question',
+        level: 2,
+        content:
+          "No.\n\nUsing AI to help write a wedding speech is exactly as much \"cheating\" as using a recipe to cook dinner. It is a tool. The love, the stories, and the effort are still yours.\n\nProfessional speechwriters have existed for centuries. AI is a more accessible version of the same thing.\n\nThe couple asked you to speak because they want to hear from you. If AI helps you say what you mean more clearly, that is a better outcome for everyone.",
+      },
+    ],
+    ctaSupportingText: 'Try the speech generator for free',
+    relatedExamples: ['best-man-speech', 'maid-of-honor-speech', 'father-of-bride-speech'],
+    relatedArticles: ['how-to-write-a-wedding-speech', 'how-to-make-wedding-speech-personal', 'wedding-speech-structure'],
+    tags: ['AI', 'product', 'bottom-of-funnel', 'beginners'],
+  },
+
+  // ─── wedding-speech-length-by-role ───
+  {
+    slug: 'wedding-speech-length-by-role',
+    title: 'Wedding Speech Length Guide by Role',
+    category: 'Speech Tips',
+    targetKeyword: 'wedding speech length by role',
+    metaDescription: 'How long should a wedding speech be for each role? Best man, maid of honor, father of the bride, and more. Ideal lengths with word counts.',
+    searchIntent: 'Wants to know the right length for their specific role',
+    icon: '⏱️',
+    readingTime: 5,
+    sections: [
+      {
+        heading: 'Length Matters More Than You Think',
+        level: 2,
+        content:
+          "The number one complaint about wedding speeches is that they go on too long.\n\nNobody has ever left a wedding saying \"I wish the speeches were longer.\" Plenty of people have said the opposite.\n\nThe right length depends on your role, the couple's preferences, and the event format. Here is a practical guide for every common role.",
+      },
+      {
+        heading: 'Best Man: 4 to 6 Minutes',
+        level: 2,
+        content:
+          "The best man speech is usually the longest and most anticipated. You have the most room to tell stories and get laughs.\n\n- Word count: 500 to 800 words\n- Sweet spot: 5 minutes\n- Upper limit: 7 minutes (and that is pushing it)\n\nThe best man speech typically includes an introduction, one or two stories about the groom, a mention of the bride, and a toast. Five minutes gives you enough space for all of that without dragging.",
+      },
+      {
+        heading: 'Maid of Honor: 3 to 5 Minutes',
+        level: 2,
+        content:
+          "The maid of honor speech is typically a little shorter and more emotional than the best man speech.\n\n- Word count: 400 to 650 words\n- Sweet spot: 4 minutes\n- Upper limit: 6 minutes\n\nFocus on your friendship with the bride, one meaningful story, something about the couple together, and a heartfelt close. You do not need to match the best man's length.",
+      },
+      {
+        heading: 'Father of the Bride: 3 to 5 Minutes',
+        level: 2,
+        content:
+          "The father of the bride speech is traditionally one of the more emotional speeches. Keep it focused and sincere.\n\n- Word count: 400 to 650 words\n- Sweet spot: 4 minutes\n- Upper limit: 5 minutes\n\nWelcome the guests, share a memory of your daughter, say something about the couple, and close with a toast. Resist the urge to tell her entire life story.",
+      },
+      {
+        heading: 'Father of the Groom: 2 to 4 Minutes',
+        level: 2,
+        content:
+          "The father of the groom speech is usually shorter and less expected, which works in your favour.\n\n- Word count: 300 to 500 words\n- Sweet spot: 3 minutes\n- Upper limit: 4 minutes\n\nWelcome the bride to the family, share a brief story about your son, and close with a warm toast. Short and genuine always wins.",
+      },
+      {
+        heading: 'Mother of the Bride or Groom: 2 to 4 Minutes',
+        level: 2,
+        content:
+          "Mother speeches are becoming more common and they are almost always lovely. Keep them on the shorter side.\n\n- Word count: 300 to 500 words\n- Sweet spot: 3 minutes\n- Upper limit: 4 minutes\n\nSpeak from the heart about your child, welcome their partner, and keep it personal. You do not need to cover everything. One genuine moment is enough.",
+      },
+      {
+        heading: 'Groom or Bride: 3 to 5 Minutes',
+        level: 2,
+        content:
+          "If you are the bride or groom giving a speech, you are usually thanking people and saying something about your partner.\n\n- Word count: 400 to 650 words\n- Sweet spot: 4 minutes\n- Upper limit: 5 minutes\n\nThank your guests, your parents, the wedding party, and say something personal about your partner. Do not try to thank every individual person by name unless the guest list is small.",
+      },
+      {
+        heading: 'Friends, Siblings, and Other Roles: 2 to 3 Minutes',
+        level: 2,
+        content:
+          "If you are a friend, sibling, or other family member giving a speech, keep it short and focused.\n\n- Word count: 250 to 400 words\n- Sweet spot: 2 to 3 minutes\n- Upper limit: 4 minutes\n\nYou do not have the same platform as the best man or maid of honor. That is fine. A short, genuine speech is better than a long, rambling one. Tell one story, say something kind, raise your glass.",
+      },
+      {
+        heading: 'The General Rule',
+        level: 2,
+        content:
+          "When in doubt, go shorter. A 3-minute speech that is tight and personal will always beat a 7-minute speech that wanders.\n\nMost people speak at about 130 to 150 words per minute. Use that to calculate your target word count. And always, always time yourself when you practise.",
+      },
+    ],
+    ctaSupportingText: 'Generate a speech at the right length',
+    relatedExamples: ['best-man-speech', 'maid-of-honor-speech', 'father-of-bride-speech', 'short-sweet-speech'],
+    relatedArticles: ['how-long-should-a-wedding-speech-be', 'wedding-speech-structure', 'how-to-practise-a-wedding-speech'],
+    tags: ['length', 'timing', 'role-specific', 'structure'],
   },
 
 ];

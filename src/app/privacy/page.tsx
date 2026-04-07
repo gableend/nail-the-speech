@@ -6,6 +6,9 @@ import SiteFooter from '@/components/SiteFooter';
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "How Nail The Speech collects, uses, and protects your personal data.",
+  alternates: {
+    canonical: '/privacy',
+  },
 };
 
 export default function PrivacyPolicyPage() {

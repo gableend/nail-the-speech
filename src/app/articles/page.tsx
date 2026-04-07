@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Articles: Talk-First Speech Writing",
   description:
     "Insights on why the best wedding speeches start with speaking, not writing. Explore the science, strategy, and practical tips behind talk-first speech writing.",
+  alternates: {
+    canonical: '/articles',
+  },
   openGraph: {
     title: "Articles: Talk-First Speech Writing | Nail The Speech",
     description:

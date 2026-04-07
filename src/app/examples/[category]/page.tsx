@@ -31,6 +31,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       'wedding speech',
       'wedding toast',
     ],
+    alternates: {
+      canonical: `/examples/${categorySlug}`,
+    },
     openGraph: {
       title: `${category.name} Examples | Nail The Speech`,
       description: category.description,

@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     'father of bride speech', 'wedding toast examples', 'funny wedding speech',
     'heartfelt wedding speech', 'wedding speech inspiration',
   ],
+  alternates: {
+    canonical: '/examples',
+  },
   openGraph: {
     title: 'Wedding Speech Examples: 60+ Types | Nail The Speech',
     description: 'Browse hundreds of real wedding speech examples. Find the perfect inspiration for your toast.',

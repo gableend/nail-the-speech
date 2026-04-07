@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     'wedding speech help', 'wedding speech guide', 'best man speech tips',
     'maid of honor speech tips', 'wedding toast advice',
   ],
+  alternates: {
+    canonical: '/advice',
+  },
   openGraph: {
     title: 'Wedding Speech Help & Advice | Nail The Speech',
     description: 'Expert guides for writing and delivering unforgettable wedding speeches.',

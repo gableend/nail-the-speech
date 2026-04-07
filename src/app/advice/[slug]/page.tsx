@@ -122,6 +122,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       'wedding speech',
       'wedding toast',
     ],
+    alternates: {
+      canonical: `/advice/${slug}`,
+    },
     openGraph: {
       title: `${article.title} | Nail The Speech`,
       description: article.metaDescription,

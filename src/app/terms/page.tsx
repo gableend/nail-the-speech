@@ -6,6 +6,9 @@ import SiteFooter from '@/components/SiteFooter';
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "Terms and conditions for using Nail The Speech, the AI wedding speech generator.",
+  alternates: {
+    canonical: '/terms',
+  },
 };
 
 export default function TermsPage() {

@@ -132,6 +132,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       'wedding speech',
       ...speech.tags,
     ],
+    alternates: {
+      canonical: `/examples/${speech.category}/${slug}`,
+    },
     openGraph: {
       title: buildPageTitle(speech, category!),
       description: buildMetaDescription(speech, category!),

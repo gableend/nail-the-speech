@@ -528,7 +528,7 @@ export const helpArticles: HelpArticle[] = [
   },
   {
     slug: "how-to-end-a-wedding-speech",
-    title: "How to End a Wedding Speech",
+    title: "Ending a Wedding Speech the Right Way",
     category: "Speech Writing Basics",
     targetKeyword: "how to end a wedding speech",
     metaDescription:
@@ -574,7 +574,7 @@ export const helpArticles: HelpArticle[] = [
   },
   {
     slug: "how-to-start-a-wedding-speech",
-    title: "How to Start a Wedding Speech",
+    title: "Opening Lines for a Wedding Speech",
     category: "Speech Writing Basics",
     targetKeyword: "how to start a wedding speech",
     metaDescription:

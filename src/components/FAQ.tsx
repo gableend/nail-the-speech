@@ -6,6 +6,40 @@ interface FAQProps {
   title?: string;
 }
 
+/**
+ * Render an FAQ answer that may contain paragraphs (\n\n) and
+ * bullet points (lines starting with •).
+ */
+function FAQAnswer({ text }: { text: string }) {
+  const blocks = text.split("\n\n");
+
+  return (
+    <div className="text-[#756c64] leading-relaxed space-y-3">
+      {blocks.map((block, i) => {
+        const lines = block.split("\n");
+        const bulletLines = lines.filter((l) => l.startsWith("•"));
+
+        if (bulletLines.length > 0) {
+          // Block contains bullet points
+          const intro = lines.filter((l) => !l.startsWith("•")).join(" ").trim();
+          return (
+            <div key={i}>
+              {intro && <p>{intro}</p>}
+              <ul className="list-disc list-inside space-y-1 mt-1">
+                {bulletLines.map((line, j) => (
+                  <li key={j}>{line.replace(/^•\s*/, "")}</li>
+                ))}
+              </ul>
+            </div>
+          );
+        }
+
+        return <p key={i}>{block}</p>;
+      })}
+    </div>
+  );
+}
+
 export default function FAQ({ items, title = "Frequently asked questions" }: FAQProps) {
   const faqItems = items || homeFaqs;
 
@@ -31,9 +65,7 @@ export default function FAQ({ items, title = "Frequently asked questions" }: FAQ
                 />
               </summary>
               <div className="px-6 pb-5">
-                <p className="text-[#756c64] leading-relaxed">
-                  {faq.answer}
-                </p>
+                <FAQAnswer text={faq.answer} />
               </div>
             </details>
           ))}

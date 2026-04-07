@@ -6,49 +6,54 @@ export interface FAQItem {
 // ── Homepage FAQs ───────────────────────────────────────────
 export const faqs: FAQItem[] = [
   {
-    question: "How does Nail The Speech work?",
+    question: "How do I write a wedding speech?",
     answer:
-      "You tell us about your role, the couple, and your favourite memories together. Our AI uses those personal details to craft a speech that sounds like you, not a robot. You get a full draft in seconds, ready to refine and make your own.",
+      "Most people start by writing, but that's often what makes it feel hard.\n\nA better approach is to start by talking. Share your thoughts, stories, and memories out loud first. It's more natural and helps you find what you actually want to say.\n\nNail The Speech is built around this. You can talk your speech out, then turn it into a structured, polished version.",
   },
   {
-    question: "How do I get started?",
+    question: "Is it better to write or speak a wedding speech?",
     answer:
-      "Just click Get Started and follow the guided steps. Tell us about your role, the couple, and a memory, and the AI generates a speech outline in seconds. To unlock the full speech, editing, and export features, upgrade to Pro.",
+      "Speaking first is usually easier.\n\nWhen you write, you tend to overthink and lose your natural voice. When you speak, you're more relaxed and remember better stories.\n\nStarting with speaking helps your speech sound more like you, which is what people respond to most.",
   },
   {
-    question: "What speech types do you support?",
+    question: "What should I include in a wedding speech?",
     answer:
-      "Best Man, Maid of Honour, Father of the Bride, Mother of the Bride, Groom, and Bride. Each type is tuned for the relationship and expectations that come with the role.",
+      "A good wedding speech usually includes:\n\n• Your relationship with the couple\n• One or two meaningful or funny stories\n• What makes them great together\n• A simple, sincere message\n\nThe key isn't perfect wording. It's making it feel real and personal.",
   },
   {
-    question: "Will the speech sound like it was written by AI?",
+    question: "Will my speech sound like it was written by AI?",
     answer:
-      "That's exactly what we designed against. The speech is built around your real stories and memories, so it sounds personal and authentic. Pro users can also directly edit every paragraph to add their own voice.",
+      "No. The goal is the opposite.\n\nBecause you start by speaking or sharing your own thoughts, the speech is based on your voice, your stories, and your tone.\n\nYou can also edit and refine it to make sure it sounds exactly how you want.",
   },
   {
-    question: "How long is the speech?",
+    question: "What types of wedding speeches can I create?",
     answer:
-      "You choose. We offer short (1-2 minutes), medium (3-4 minutes), and long (5+ minutes) options. Most people go with medium: long enough to say something meaningful, short enough to keep the crowd engaged.",
+      "You can create speeches for any role, including:\n\n• Best man\n• Maid of honor\n• Father of the bride or groom\n• Mother of the bride or groom\n\nEach speech is tailored to your role and your relationship.",
   },
   {
-    question: "Can I edit the speech after it's generated?",
+    question: "How long should a wedding speech be?",
     answer:
-      "Pro users can edit every paragraph directly, regenerate sections with custom instructions, and track all changes with version history. Your personal edits are highlighted and preserved even when you regenerate the rest.",
+      "Most wedding speeches are between 3–7 minutes.\n\nShorter is usually better. A focused, meaningful speech will always land better than a long one.\n\nYou can choose your preferred length and adjust it easily.",
   },
   {
-    question: "What does Pro include?",
+    question: "Can I edit my speech after it's created?",
     answer:
-      "Generate and refine your speech with up to 15 regenerations, direct text editing, version history with undo/redo, export to PDF and Word, and the ability to mark your speech as final when you're ready for the big day.",
+      "Yes.\n\nYou can edit your speech directly, regenerate sections, and refine it as many times as you need so it feels right.",
   },
   {
-    question: "How do I practise delivering my speech?",
+    question: "How do I practise my wedding speech?",
     answer:
-      "Once your speech is finalised, export it to PDF or copy the text. Read it aloud a few times. Most people find 3-5 practice runs is enough to feel confident. Time yourself to make sure you're within your target length.",
+      "The best way to practise is out loud.\n\nYou can listen back to your speech, adjust the wording, and get comfortable with how it sounds.\n\nThis helps you deliver it naturally on the day.",
   },
   {
     question: "Is my data private?",
     answer:
-      "Yes. Your stories and personal details are used only to generate your speech. We don't share your data with third parties or use it to train AI models.",
+      "Yes. Your inputs and speech are private and only used to generate your content.",
+  },
+  {
+    question: "Can I use my voice instead of typing?",
+    answer:
+      "Yes. You can talk your speech out instead of writing it. Most people find this easier and more natural.",
   },
 ];
 

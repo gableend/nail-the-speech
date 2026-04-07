@@ -96,8 +96,8 @@ export default function ExamplesPage() {
             Browse real examples across {speechCategories.length} speech types.
             Find your inspiration, then create your own with AI.
           </p>
-          <p className="text-sm text-[#756c64]">
-            {exampleSpeeches.length} speeches and counting
+          <p className="text-sm text-[#c44578] font-medium">
+            {exampleSpeeches.length}+ speeches to inspire yours
           </p>
         </div>
       </section>

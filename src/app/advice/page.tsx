@@ -109,8 +109,8 @@ export default function AdvicePage() {
           <p className="text-lg text-[#756c64] max-w-3xl mx-auto mb-2">
             Everything you need to plan, shape, and deliver a wedding speech that sounds like you. Start with your ideas, talk them out, and turn them into a speech you can actually deliver.
           </p>
-          <p className="text-sm text-[#756c64]">
-            {articles.length} guides · {publishedArticles.length} published
+          <p className="text-sm text-[#c44578] font-medium">
+            {articles.length}+ guides to help you prepare your wedding speech
           </p>
         </div>
       </section>

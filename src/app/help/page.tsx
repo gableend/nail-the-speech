@@ -255,7 +255,7 @@ export default function HelpPage() {
               <ScreenshotPlaceholder
                 subject="Generator input form"
                 caption="The guided questionnaire captures your stories and details."
-                src="/images/help/user-input.png"
+                src="/images/help/user-input.webp"
                 alt="Nail The Speech generator input form with name fields and questionnaire"
               />
             </div>
@@ -273,7 +273,7 @@ export default function HelpPage() {
               <ScreenshotPlaceholder
                 subject="Generated speech output"
                 caption="A complete speech ready to edit, refine, or export."
-                src="/images/help/generated-speech.png"
+                src="/images/help/generated-speech.webp"
                 alt="Generated best man speech with word count, tone, and speech text"
               />
             </div>
@@ -291,7 +291,7 @@ export default function HelpPage() {
               <ScreenshotPlaceholder
                 subject="Speech refinement controls"
                 caption="Quick refinements, specific prompts, or describe your own changes."
-                src="/images/help/speech-refinement.png"
+                src="/images/help/speech-refinement.webp"
                 alt="Nail The Speech refinement panel with quick prompts, detail options, and custom input"
               />
             </div>

@@ -108,7 +108,7 @@ export const helpArticles: HelpArticle[] = [
           subject: "Generator input form",
           caption:
             "The guided questionnaire: share your stories and details in your own words.",
-          src: "/images/help/user-input.png",
+          src: "/images/help/user-input.webp",
           alt: "Nail The Speech generator input form with name fields and questionnaire",
         },
       },
@@ -127,7 +127,7 @@ export const helpArticles: HelpArticle[] = [
           subject: "Generated speech output",
           caption:
             "A complete, structured speech ready to edit, refine, or export.",
-          src: "/images/help/generated-speech.png",
+          src: "/images/help/generated-speech.webp",
           alt: "Generated best man speech with word count, tone, and speech text",
         },
       },
@@ -168,7 +168,7 @@ export const helpArticles: HelpArticle[] = [
           subject: "Inline editing experience",
           caption:
             "Click any paragraph to edit it directly. Your changes are highlighted and preserved.",
-          src: "/images/help/speech-inline-editing.png",
+          src: "/images/help/speech-inline-editing.webp",
           alt: "Nail The Speech inline paragraph editing with user changes highlighted",
         },
       },
@@ -187,7 +187,7 @@ export const helpArticles: HelpArticle[] = [
           subject: "Speech refinement controls",
           caption:
             "Quick refinements, specific prompts, or describe your own changes.",
-          src: "/images/help/speech-refinement.png",
+          src: "/images/help/speech-refinement.webp",
           alt: "Nail The Speech refinement panel with quick prompts and custom input",
         },
       },
@@ -274,7 +274,7 @@ export const helpArticles: HelpArticle[] = [
           subject: "Structured speech workflow",
           caption:
             "Purpose-built speech structure, not a blank chatbot prompt.",
-          src: "/images/help/generated-speech.png",
+          src: "/images/help/generated-speech.webp",
           alt: "Generated best man speech showing structured paragraphs",
         },
       },

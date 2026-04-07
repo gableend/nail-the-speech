@@ -3314,8 +3314,8 @@ We're using ours to tell you… we're three months pregnant. Yes, tonight you're
   },
   {
     slug: 'child-speech-148',
-    title: `Child Speech`,
-    category: 'in-law-speech',
+    title: `Child of the Couple Speech`,
+    category: 'short-sweet-speech',
     tone: 'heartfelt',
     durationMinutes: 0.5,
     wordCount: 62,

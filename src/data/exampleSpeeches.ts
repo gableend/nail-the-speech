@@ -169,7 +169,7 @@ So let's raise a glass – to Aidan and Marco, who prove that true love is about
   },
   {
     slug: 'funny-best-man-speech-2',
-    title: `Funny best man speech`,
+    title: `The Crowd-Pleaser Best Man Speech`,
     category: 'best-man-speech',
     tone: 'funny',
     durationMinutes: 1.7,
@@ -779,7 +779,7 @@ Everyone, please stand and raise your glasses to my wife, Pam. Now, I'm not goin
   },
   {
     slug: 'funny-groom-speech-42',
-    title: `Funny groom speech`,
+    title: `The Laugh-Out-Loud Groom Speech`,
     category: 'groom-speech',
     tone: 'funny',
     durationMinutes: 2.0,
@@ -1148,7 +1148,7 @@ Tonight, I'm thrilled to be surrounded by grown-ups – and one very patient hus
   },
   {
     slug: 'funny-bride-speech-59',
-    title: `Funny bride speech`,
+    title: `The Laugh-Out-Loud Bride Speech`,
     category: 'bride-speech',
     tone: 'funny',
     durationMinutes: 1.4,

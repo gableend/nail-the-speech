@@ -5,6 +5,8 @@ import { ArrowLeft, Clock, Copy } from 'lucide-react';
 import {
   speechCategories,
   exampleSpeeches,
+  ExampleSpeech,
+  SpeechCategory,
   getCategoryBySlug,
   getSpeechBySlug,
   getSpeechesByCategory,
@@ -12,6 +14,98 @@ import {
 import SpeechCopyButton from '@/components/SpeechCopyButton';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
+
+// ── SEO helpers ──────────────────────────────────────────────
+
+const toneLabel: Record<string, string> = {
+  funny: 'Funny',
+  heartfelt: 'Heartfelt',
+  balanced: 'Balanced',
+  roast: 'Roast-Style',
+};
+
+const toneMeta: Record<string, string> = {
+  funny: 'funny and lighthearted',
+  heartfelt: 'heartfelt and emotional',
+  balanced: 'balanced mix of humor and heart',
+  roast: 'roast-style with affectionate humor',
+};
+
+function buildPageTitle(speech: ExampleSpeech, category: SpeechCategory): string {
+  const tone = toneLabel[speech.tone] || 'Wedding';
+  const role = category.name;
+  const short = speech.wordCount < 400 ? ' (Short)' : '';
+  return `${tone} ${role} Example${short} | Nail The Speech`;
+}
+
+function buildH1(speech: ExampleSpeech, category: SpeechCategory): string {
+  const tone = toneLabel[speech.tone] || '';
+  return `${speech.title}: A ${tone} ${category.name} Example`;
+}
+
+function buildMetaDescription(speech: ExampleSpeech, category: SpeechCategory): string {
+  const tone = toneMeta[speech.tone] || 'well-crafted';
+  const mins = speech.durationMinutes;
+  return `A ${tone} ${category.name.toLowerCase()} example (${mins} min, ${speech.wordCount} words). Read it, see why it works, then create your own personalised version.`;
+}
+
+function getWhyItWorks(speech: ExampleSpeech, category: SpeechCategory): string {
+  const toneDesc: Record<string, string> = {
+    funny: `This speech leads with humor — but it's warm humor, not stand-up comedy. The laughs create trust with the audience, which makes the sincere moments at the end hit harder.`,
+    heartfelt: `This speech works because it's genuinely personal. It avoids generic praise and instead tells specific stories that show who the person really is. That specificity is what moves a room.`,
+    balanced: `This speech balances light moments with real emotion. It doesn't try too hard to be funny or too earnest to be heavy. That balance is what keeps an audience engaged from start to finish.`,
+    roast: `Roast speeches walk a fine line. This one works because every joke comes from a place of obvious affection. The audience laughs because they can feel the love underneath the teasing.`,
+  };
+  const structure = speech.wordCount < 400
+    ? `At ${speech.wordCount} words, it proves you don't need length to make an impact. Every line earns its place.`
+    : `At ${speech.wordCount} words (roughly ${speech.durationMinutes} minutes), it's well within the ideal range — long enough to say something meaningful, short enough to keep the room engaged.`;
+
+  return `${toneDesc[speech.tone] || toneDesc.balanced}\n\n${structure}`;
+}
+
+function getHowToAdapt(speech: ExampleSpeech, category: SpeechCategory): string[] {
+  const base = [
+    `Replace all names and personal details with your own`,
+    `Swap the stories for real moments from your relationship with the ${category.name === 'Groom Speech' || category.name === 'Bride Speech' ? 'couple' : speech.weddingRole.toLowerCase().includes('bride') ? 'bride' : speech.weddingRole.toLowerCase().includes('groom') ? 'groom' : 'couple'}`,
+  ];
+  const toneSpecific: Record<string, string> = {
+    funny: `Adjust the humor to match your natural style — don't force jokes that don't sound like you`,
+    heartfelt: `Keep the emotional moments but use your own words — sincerity can't be borrowed`,
+    balanced: `Shift the ratio of humor to emotion based on your comfort level`,
+    roast: `Calibrate the roast intensity for your audience — what works with close friends may not work with grandparents in the room`,
+  };
+  return [
+    ...base,
+    toneSpecific[speech.tone] || toneSpecific.balanced,
+    `Read it out loud before the day — what looks good on paper doesn't always sound natural when spoken`,
+  ];
+}
+
+function getDeliveryTips(speech: ExampleSpeech): string[] {
+  const tips: Record<string, string[]> = {
+    funny: [
+      `Pause after punchlines — give the room time to laugh before you continue`,
+      `Don't rush through the sincere parts at the end; the contrast is what makes them land`,
+      `Make eye contact with the person you're speaking about during the genuine moments`,
+    ],
+    heartfelt: [
+      `Slow down during emotional moments — if you feel something, the audience will too`,
+      `It's OK to pause if you get emotional; the room will wait for you`,
+      `Look at the couple when you say the most personal parts`,
+    ],
+    balanced: [
+      `Let the transitions between funny and sincere happen naturally — don't announce them`,
+      `Pace yourself; most people speak faster than they think when nervous`,
+      `End on the couple, not on yourself — your last words should be about them`,
+    ],
+    roast: [
+      `Read the room — if a joke doesn't land, move on quickly rather than doubling down`,
+      `The affectionate pivot at the end is the most important part; don't rush it`,
+      `Make sure the person you're roasting is laughing — check in with them visually`,
+    ],
+  };
+  return tips[speech.tone] || tips.balanced;
+}
 
 // Generate all individual speech pages at build time
 export function generateStaticParams() {
@@ -29,18 +123,18 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const category = getCategoryBySlug(speech.category);
 
   return {
-    title: `${speech.title}: ${category?.name || 'Wedding Speech'} Example`,
-    description: speech.excerpt,
+    title: buildPageTitle(speech, category!),
+    description: buildMetaDescription(speech, category!),
     keywords: [
       speech.weddingRole.toLowerCase(),
       `${speech.weddingRole.toLowerCase()} speech example`,
-      speech.tone,
+      `${speech.tone} wedding speech`,
       'wedding speech',
       ...speech.tags,
     ],
     openGraph: {
-      title: `${speech.title} | Nail The Speech`,
-      description: speech.excerpt,
+      title: buildPageTitle(speech, category!),
+      description: buildMetaDescription(speech, category!),
       type: 'article',
       images: [
         {
@@ -115,7 +209,7 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
           </nav>
 
           <h1 className="text-2xl md:text-3xl font-bold text-[#181615] mb-4">
-            {speech.title}
+            {buildH1(speech, category)}
           </h1>
 
           {/* Meta row */}
@@ -163,14 +257,58 @@ export default async function SpeechPage({ params }: { params: Promise<{ categor
         </div>
       </section>
 
+      {/* Supporting content */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+        {/* Why this speech works */}
+        <div>
+          <h2 className="text-lg font-bold text-[#181615] mb-3">Why this speech works</h2>
+          {getWhyItWorks(speech, category).split('\n\n').map((p, i) => (
+            <p key={i} className="text-sm text-[#4a4543] leading-relaxed mb-3 last:mb-0">{p}</p>
+          ))}
+        </div>
+
+        {/* How to adapt */}
+        <div>
+          <h2 className="text-lg font-bold text-[#181615] mb-3">How to make this your own</h2>
+          <ul className="space-y-2">
+            {getHowToAdapt(speech, category).map((tip, i) => (
+              <li key={i} className="text-sm text-[#4a4543] leading-relaxed flex items-start gap-2">
+                <span className="text-[#c44578] mt-0.5 flex-shrink-0">•</span>
+                {tip}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Delivery tips */}
+        <div>
+          <h2 className="text-lg font-bold text-[#181615] mb-3">Delivery tips</h2>
+          <ul className="space-y-2">
+            {getDeliveryTips(speech).map((tip, i) => (
+              <li key={i} className="text-sm text-[#4a4543] leading-relaxed flex items-start gap-2">
+                <span className="text-[#c44578] mt-0.5 flex-shrink-0">•</span>
+                {tip}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Soft product bridge */}
+        <div className="bg-[#faf7f4] border border-[#e8e1d8] rounded-lg p-5">
+          <p className="text-sm text-[#4a4543] leading-relaxed">
+            If you&apos;re not sure how to start your own version, it&apos;s often easier to <Link href="/generator" className="text-[#c44578] hover:text-[#b33c6c] underline underline-offset-2">talk your speech out first</Link> and shape it into a structured version. You can also explore our <Link href="/advice/how-to-write-a-wedding-speech" className="text-[#c44578] hover:text-[#b33c6c] underline underline-offset-2">guide to writing a wedding speech</Link> for a step-by-step approach.
+          </p>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="bg-gradient-to-r from-[#c44578]/10 to-[#c44578]/5 border border-[#c44578]/20 rounded-xl p-6 sm:p-8 text-center">
           <h2 className="text-xl font-bold text-[#181615] mb-2">
-            Like this speech? Create your own version.
+            Ready to write yours?
           </h2>
           <p className="text-sm text-[#756c64] mb-4">
-            Our AI takes your personal details and creates something just as good, but uniquely yours.
+            Talk through your stories and let Nail The Speech turn them into a {category.name.toLowerCase()} that sounds like you.
           </p>
           <Link
             href="/generator"

@@ -108,13 +108,27 @@ export function generateStaticParams() {
 }
 
 // Dynamic SEO metadata per article
+/** Shorten a title for the <title> tag while keeping the H1 intact. */
+function shortenTitle(title: string): string {
+  // Strip parenthetical asides
+  let short = title.replace(/\s*\([^)]+\)\s*/g, '').trim();
+  // Strip leading quoted phrases  e.g. "I Don't Know What to Say",
+  short = short.replace(/^"[^"]*"[,:]?\s*/g, '').trim();
+  // If still long, trim after colon (keep at least 15 chars)
+  if (short.length > 50) {
+    const colonTrim = short.replace(/:\s+.+$/, '').trim();
+    if (colonTrim.length >= 15) short = colonTrim;
+  }
+  return short || title;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const article = getArticleBySlug(slug);
   if (!article) return { title: 'Not Found' };
 
   return {
-    title: article.title,
+    title: shortenTitle(article.title),
     description: article.metaDescription,
     keywords: [
       article.targetKeyword,

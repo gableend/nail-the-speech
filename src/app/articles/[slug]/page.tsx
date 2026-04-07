@@ -55,6 +55,15 @@ export function generateStaticParams() {
 
 // ── Metadata ─────────────────────────────────────────────────
 
+function shortenTitle(title: string): string {
+  let short = title.replace(/\s*\([^)]+\)\s*/g, '').trim();
+  if (short.length > 50) {
+    const colonTrim = short.replace(/:\s+.+$/, '').trim();
+    if (colonTrim.length >= 15) short = colonTrim;
+  }
+  return short || title;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -65,7 +74,7 @@ export async function generateMetadata({
   if (!article) return {};
 
   return {
-    title: article.title,
+    title: shortenTitle(article.title),
     description: article.metaDescription,
     alternates: {
       canonical: `/articles/${slug}`,

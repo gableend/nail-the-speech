@@ -31,9 +31,42 @@ const toneMeta: Record<string, string> = {
   roast: 'roast-style with affectionate humor',
 };
 
+// Pre-compute which tone+category combos have duplicates
+const _titleCombos: Record<string, string[]> = {};
+exampleSpeeches.forEach(s => {
+  const cat = getCategoryBySlug(s.category);
+  if (!cat) return;
+  const key = `${cat.name}|${toneLabel[s.tone] || 'Wedding'}`;
+  (_titleCombos[key] ??= []).push(s.slug);
+});
+
+function extractTheme(title: string, categoryName: string): string {
+  const rolePart = categoryName.replace(/\s+Speech$/, '');
+  let theme = title
+    .replace(/^The\s+/i, '')
+    .replace(/\s+Speech$/i, '')
+    .replace(new RegExp(rolePart, 'gi'), '')
+    .replace(/^\s+|\s+$/g, '')
+    .replace(/^[-–—]\s*/, '');
+  if (!theme || theme.length < 2) theme = title;
+  if (theme.length > 25) theme = theme.substring(0, 25).replace(/\s+\S*$/, '');
+  return theme;
+}
+
 function buildPageTitle(speech: ExampleSpeech, category: SpeechCategory): string {
   const tone = toneLabel[speech.tone] || 'Wedding';
-  return `${tone} ${category.name} Example: ${speech.title}`;
+  const key = `${category.name}|${tone}`;
+
+  if ((_titleCombos[key]?.length ?? 0) <= 1) {
+    return `${category.name} Example, ${tone}`;
+  }
+
+  let theme = extractTheme(speech.title, category.name);
+  // If theme duplicates the tone label, fall back to word count
+  if (theme.toLowerCase() === tone.toLowerCase()) {
+    theme = `${speech.wordCount} Words`;
+  }
+  return `${category.name} Example, ${tone} – ${theme}`;
 }
 
 function buildH1(speech: ExampleSpeech, category: SpeechCategory): string {

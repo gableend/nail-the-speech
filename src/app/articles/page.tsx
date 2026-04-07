@@ -9,7 +9,7 @@ import FAQ from "@/components/FAQ";
 import { articlesFaqs } from "@/data/faqData";
 
 export const metadata: Metadata = {
-  title: "Articles: Talk-First Speech Writing",
+  title: "Wedding Speech Articles",
   description:
     "Insights on why the best wedding speeches start with speaking, not writing. Explore the science, strategy, and practical tips behind talk-first speech writing.",
   alternates: {

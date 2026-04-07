@@ -168,7 +168,7 @@ export const helpArticles: HelpArticle[] = [
           subject: "Inline editing experience",
           caption:
             "Click any paragraph to edit it directly. Your changes are highlighted and preserved.",
-          src: "/images/help/speech-inline-editing.webp",
+          src: "/images/help/speech-inline-editing.png",
           alt: "Nail The Speech inline paragraph editing with user changes highlighted",
         },
       },

@@ -4629,7 +4629,7 @@ export const articles: Article[] = [
         heading: 'Why Practising Out Loud Changes Everything',
         level: 2,
         content:
-          "Reading your speech silently is not practising. It feels like it is, but it is not.\n\nWhen you read silently, you skip over awkward phrasing, gloss past transitions, and imagine a smooth delivery that does not match reality. Speaking out loud is where you discover what actually works.\n\nYou will find sentences that look fine on paper but feel strange to say. You will notice where you naturally pause and where you rush. You will hear which stories land and which ones drag.\n\nThe goal is not to memorise every word. It is to get comfortable enough that you can look up, make eye contact, and sound like yourself. This is why starting with your voice, even when drafting, often produces a better speech. If you built your speech by [talking it out first](/articles/science-of-talking-produces-better-speeches), you are already ahead.",
+          "Most people try to prepare their speech by reading it silently. That is why it feels unnatural when they stand up. Reading silently is not practising. It feels like it is, but it is not.\n\nWhen you read silently, you skip over awkward phrasing, gloss past transitions, and imagine a smooth delivery that does not match reality. Speaking out loud is where you discover what actually works. This is what turns a decent speech into one people actually remember.\n\nYou will find sentences that look fine on paper but feel strange to say. You will notice where you naturally pause and where you rush. You will hear which stories land and which ones drag.\n\nThe goal is not to memorise every word. It is to get comfortable enough that you can look up, make eye contact, and sound like yourself. This is why starting with your voice, even when drafting, often produces a better speech. If you built your speech by [talking it out first](/articles/science-of-talking-produces-better-speeches), you are already ahead.",
       },
       {
         heading: 'Step 1: Read It Through Once, Quietly',
@@ -4653,7 +4653,7 @@ export const articles: Article[] = [
         heading: 'Step 4: Practise Standing Up',
         level: 2,
         content:
-          "This matters more than you think. Speaking while seated and speaking while standing feel completely different.\n\nStand up. Hold your notes or phone at a comfortable height. Practise looking up from your notes every few sentences. You do not need to memorise the speech, but you should know it well enough to glance up regularly.\n\nIf you will be holding a microphone, practise with something in one hand so you get used to managing notes and a mic at the same time.",
+          "This matters more than you think. Speaking while seated and speaking while standing feel completely different.\n\nStand up. Hold your notes or phone at a comfortable height. Practise looking up from your notes every few sentences. You do not need to memorise the speech, but you should know it well enough to glance up regularly. The goal is to sound like yourself having a conversation, not like someone reading an essay.\n\nIf you will be holding a microphone, practise with something in one hand so you get used to managing notes and a mic at the same time.",
       },
       {
         heading: 'Step 5: Practise in Front of Someone',
@@ -4683,7 +4683,7 @@ export const articles: Article[] = [
         heading: 'Next Steps',
         level: 2,
         content:
-          "If nerves are a concern, read our guide on [calming wedding speech anxiety](/advice/wedding-speech-nerves). For a full preparation timeline, see the [wedding speech checklist](/advice/wedding-speech-checklist). And if you do not have a draft yet, you can [talk your speech out using the generator](/generator) and have something ready to practise in minutes.",
+          "- [Calm your wedding speech nerves](/advice/wedding-speech-nerves) — practical techniques for managing anxiety\n- [Wedding speech checklist](/advice/wedding-speech-checklist) — a full preparation timeline from draft to delivery\n- [Wedding speech length by role](/advice/wedding-speech-length-by-role) — make sure your timing is right\n\nIf you do not have a draft yet, [talk your speech out using the generator](/generator) — most people find it easier to start by speaking than writing, and you will have something ready to practise in minutes.",
       },
     ],
     ctaSupportingText: 'Get your speech ready to practise',
@@ -4707,7 +4707,7 @@ export const articles: Article[] = [
         heading: 'Why You Need a Checklist',
         level: 2,
         content:
-          "Wedding speeches fail for one reason more than any other: lack of preparation.\n\nNot lack of talent. Not lack of stories. Lack of preparation. People leave it too late, skip the editing, never practise out loud, and then wonder why it felt off.\n\nThis checklist covers everything from first draft to the moment you stand up. Work through it and you will feel ready.",
+          "Wedding speeches fail for one reason more than any other: lack of preparation.\n\nNot lack of talent. Not lack of stories. Lack of preparation. Most people try to write their speech in one sitting the week before the wedding. That is why it feels hard.\n\nThe difference between a speech that lands and one that falls flat is rarely the words. It is how prepared you feel when you stand up. This checklist covers everything from first draft to the moment you speak. Work through it and you will feel ready.",
       },
       {
         heading: '2 to 4 Weeks Before: Writing',
@@ -4749,7 +4749,7 @@ export const articles: Article[] = [
         heading: 'Next Steps',
         level: 2,
         content:
-          "If you are still working on your draft, our guide on [how to write a wedding speech](/advice/how-to-write-a-wedding-speech) walks you through the full process. For a deep dive into delivery, see [how to practise step by step](/advice/how-to-practise-a-wedding-speech). Or if you would rather talk your speech out than write it from scratch, [try the generator](/generator) — it turns your voice into a structured first draft.",
+          "- [How to write a wedding speech](/advice/how-to-write-a-wedding-speech) — the full process from blank page to final draft\n- [How to practise step by step](/advice/how-to-practise-a-wedding-speech) — a deep dive into delivery and timing\n- [Wedding speech nerves](/advice/wedding-speech-nerves) — practical techniques if anxiety is a concern\n\nIf you would rather talk your speech out than write it from scratch, [try the generator](/generator) — it turns your voice into a structured first draft you can start checking off this list.",
       },
     ],
     ctaSupportingText: 'Start your speech and check it off the list',
@@ -4773,7 +4773,7 @@ export const articles: Article[] = [
         heading: 'The Friend Speech Is Underrated',
         level: 2,
         content:
-          "Friend speeches are some of the best speeches at any wedding. Why? Because you chose each other.\n\nFamily speeches carry expectation and tradition. Friend speeches carry something different: proof that someone outside the family thinks this person is worth celebrating. That carries real weight.\n\nWhether you are the best man, maid of honor, or a close friend who has been asked to say a few words, the approach is the same. Make it personal, keep it focused, and say something only you could say.",
+          "Friend speeches are some of the best speeches at any wedding. Why? Because you chose each other.\n\nFamily speeches carry expectation and tradition. Friend speeches carry something different: proof that someone outside the family thinks this person is worth celebrating. That carries real weight. The difference is not perfect wording. It is how it lands in the room.\n\nMost people try to write a friend speech the way they would write an essay. That is why it feels hard. The best friend speeches sound like someone talking, not someone reading. Whether you are the best man, maid of honor, or a close friend who has been asked to say a few words, the approach is the same. Make it personal, keep it focused, and say something only you could say.",
       },
       {
         heading: 'Start With How You Met',
@@ -4815,7 +4815,7 @@ export const articles: Article[] = [
         heading: 'Next Steps',
         level: 2,
         content:
-          "For deeper guidance on structure, see our [wedding speech framework](/advice/wedding-speech-structure). If you want to make your speech feel more personal, read [how to make a wedding speech personal](/advice/how-to-make-wedding-speech-personal). And if staring at a blank page is the problem, try [talking your speech out instead](/generator) — most people find it easier to start by speaking than writing.",
+          "- [Wedding speech structure](/advice/wedding-speech-structure) — a framework that works for any role\n- [How to make a wedding speech personal](/advice/how-to-make-wedding-speech-personal) — go beyond generic compliments\n- [Wedding speech length by role](/advice/wedding-speech-length-by-role) — how long your friend speech should be\n\nIf staring at a blank page is the problem, [try talking your speech out instead](/generator) — most people find it easier to start by speaking about their friend than writing about them.",
       },
     ],
     ctaSupportingText: 'Start your friend speech now',
@@ -4839,7 +4839,7 @@ export const articles: Article[] = [
         heading: 'AI Can Write Your Speech. The Question Is How.',
         level: 2,
         content:
-          "Typing \"write me a best man speech\" into ChatGPT will give you a speech. It will be grammatically correct, well structured, and completely forgettable.\n\nThe problem is not that AI cannot write. It is that AI without your input writes something generic. It fills in the blanks with safe, predictable content because it does not know your stories, your voice, or the couple.\n\nThe solution is not to avoid AI. It is to use it differently.",
+          "Most people try to write their wedding speech from scratch. That is why it feels hard. So they turn to AI — and type something like \"write me a best man speech\" into ChatGPT. They get a speech. It is grammatically correct, well structured, and completely forgettable.\n\nThe problem is not that AI cannot write. It is that AI without your input writes something generic. It fills in the blanks with safe, predictable content because it does not know your stories, your voice, or the couple. This is what separates a speech people politely clap for from one they actually remember.\n\nThe solution is not to avoid AI. It is to use it differently.",
       },
       {
         heading: 'Generic vs Personal: A Quick Example',
@@ -4881,7 +4881,7 @@ export const articles: Article[] = [
         heading: 'Next Steps',
         level: 2,
         content:
-          "For help structuring your speech, see our [wedding speech framework](/advice/wedding-speech-structure). To see what great speeches look like for your role, browse [best man speech examples](/examples/best-man-speech), [maid of honor examples](/examples/maid-of-honor-speech), or [father of the bride examples](/examples/father-of-bride-speech). And if you want to try the talk-first approach, [start with the generator](/generator) — share your stories by voice or text, and get a personalised draft in under a minute.",
+          "- [Wedding speech structure](/advice/wedding-speech-structure) — a framework for organising your speech\n- [How to make a wedding speech personal](/advice/how-to-make-wedding-speech-personal) — go beyond generic AI output\n- [How to practise a wedding speech](/advice/how-to-practise-a-wedding-speech) — polish your delivery once you have a draft\n\nIf you want to try the talk-first approach, [start with the generator](/generator) — share your stories by voice or text, and get a personalised draft in under a minute.",
       },
     ],
     ctaSupportingText: 'Try the speech generator for free',
@@ -4911,7 +4911,7 @@ export const articles: Article[] = [
         heading: 'Length Matters More Than You Think',
         level: 2,
         content:
-          "The number one complaint about wedding speeches is that they go on too long.\n\nNobody has ever left a wedding saying \"I wish the speeches were longer.\" Plenty of people have said the opposite.\n\nThe right length depends on your role, the couple's preferences, and the event format. Here is a practical guide for every common role.",
+          "The number one complaint about wedding speeches is that they go on too long. Most people try to write everything down, and that is why their speech runs long. Written drafts naturally accumulate padding. Spoken drafts stay lean.\n\nNobody has ever left a wedding saying \"I wish the speeches were longer.\" Plenty of people have said the opposite. Getting the length right is one of the simplest things you can do to make your speech land better.\n\nThe right length depends on your role, the couple's preferences, and the event format. Here is a practical guide for every common role.",
       },
       {
         heading: 'Best Man: 4 to 6 Minutes',
@@ -4965,7 +4965,7 @@ export const articles: Article[] = [
         heading: 'Next Steps',
         level: 2,
         content:
-          "Once you know your target length, the next step is getting your content right. See [wedding speech structure](/advice/wedding-speech-structure) for a framework that works for any role. If you have a draft, follow the [step-by-step practice guide](/advice/how-to-practise-a-wedding-speech) to polish your delivery. Or if you want to generate a speech at the right length for your role, [try the generator](/generator) — you choose your preferred length and it handles the rest.",
+          "- [Wedding speech structure](/advice/wedding-speech-structure) — a framework that works for any role\n- [How to practise a wedding speech](/advice/how-to-practise-a-wedding-speech) — polish your delivery and nail your timing\n- [How to write a wedding speech](/advice/how-to-write-a-wedding-speech) — the full process from start to finish\n\nIf you would rather talk your speech out than write it, [try the generator](/generator) — you choose your role and preferred length, and it shapes your ideas into a speech at the right length.",
       },
     ],
     ctaSupportingText: 'Generate a speech at the right length',

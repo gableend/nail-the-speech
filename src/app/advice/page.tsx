@@ -107,11 +107,39 @@ export default function AdvicePage() {
             Help & Advice
           </h1>
           <p className="text-lg text-[#756c64] max-w-2xl mx-auto mb-2">
-            Everything you need to write and deliver a wedding speech people actually remember.
+            Everything you need to plan, shape, and deliver a wedding speech that sounds like you. Start with your ideas, talk them out, and turn them into a speech you can actually deliver.
           </p>
           <p className="text-sm text-[#756c64]">
             {articles.length} guides · {publishedArticles.length} published
           </p>
+        </div>
+      </section>
+
+      {/* Start here */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-[#181615] mb-6">Start here</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Link
+            href="/advice/how-to-write-a-wedding-speech"
+            className="group flex items-center gap-3 bg-white border-2 border-[#c44578]/20 rounded-xl p-5 hover:border-[#c44578] hover:shadow-md transition-all"
+          >
+            <span className="text-2xl flex-shrink-0 bg-[#c44578]/10 rounded-full w-10 h-10 flex items-center justify-center font-bold text-[#c44578]">1</span>
+            <span className="font-semibold text-sm text-[#181615] group-hover:text-[#b33c6c] transition-colors">How to write your wedding speech</span>
+          </Link>
+          <Link
+            href="/advice/wedding-speech-length-by-role"
+            className="group flex items-center gap-3 bg-white border-2 border-[#c44578]/20 rounded-xl p-5 hover:border-[#c44578] hover:shadow-md transition-all"
+          >
+            <span className="text-2xl flex-shrink-0 bg-[#c44578]/10 rounded-full w-10 h-10 flex items-center justify-center font-bold text-[#c44578]">2</span>
+            <span className="font-semibold text-sm text-[#181615] group-hover:text-[#b33c6c] transition-colors">Wedding speech length guide</span>
+          </Link>
+          <Link
+            href="/advice/how-to-practise-a-wedding-speech"
+            className="group flex items-center gap-3 bg-white border-2 border-[#c44578]/20 rounded-xl p-5 hover:border-[#c44578] hover:shadow-md transition-all"
+          >
+            <span className="text-2xl flex-shrink-0 bg-[#c44578]/10 rounded-full w-10 h-10 flex items-center justify-center font-bold text-[#c44578]">3</span>
+            <span className="font-semibold text-sm text-[#181615] group-hover:text-[#b33c6c] transition-colors">How to practise your speech</span>
+          </Link>
         </div>
       </section>
 
@@ -126,6 +154,16 @@ export default function AdvicePage() {
               <p className="text-[#756c64] max-w-2xl">
                 {category.description}
               </p>
+              {category.name === 'Speech Tips' && (
+                <p className="text-sm text-[#756c64] mt-2">
+                  If you&apos;re starting from scratch, begin with <Link href="/advice/how-to-write-a-wedding-speech" className="text-[#c44578] hover:text-[#b33c6c] underline underline-offset-2">how to write your wedding speech</Link>.
+                </p>
+              )}
+              {category.name === 'Practice Guide' && (
+                <p className="text-sm text-[#756c64] mt-2">
+                  Got a draft? Start with <Link href="/advice/how-to-practise-a-wedding-speech" className="text-[#c44578] hover:text-[#b33c6c] underline underline-offset-2">how to practise your speech step by step</Link>.
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -174,8 +212,7 @@ export default function AdvicePage() {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to write yours?</h2>
           <p className="text-[#756c64] mb-8">
-            Use our AI speech generator to create a personalized speech in minutes.
-            Get started for free.
+            Start by talking your speech out. Turn your ideas into a structured speech in minutes.
           </p>
           <Link
             href="/generator"

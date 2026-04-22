@@ -74,11 +74,11 @@
   }
 
   html {
-    @apply bg-background overscroll-none;
+    @apply bg-background;
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased overscroll-none overflow-x-hidden;
+    @apply bg-background text-foreground font-sans antialiased overscroll-x-none overflow-x-hidden;
     font-family: var(--font-inter), Arial, Helvetica, sans-serif;
   }
 
@@ -87,11 +87,11 @@
   }
 
   /* TikTok oembed blockquote ships with inline min-width:325px which
-     overflows on narrow phones (e.g. Fold 6 cover at 344px). Neutralise
-     the min-width and cap the max so it sits inside the prose column. */
+     overflows on very narrow phones. Neutralise the min-width and cap
+     the max so it sits inside the prose column. Don't force width:100%
+     — that overrides TikTok's own iframe sizing and causes cropping. */
   .tiktok-embed {
     min-width: 0 !important;
-    width: 100% !important;
     max-width: 605px !important;
     margin-inline: auto;
   }

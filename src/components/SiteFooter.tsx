@@ -51,6 +51,7 @@ export default function SiteFooter() {
               <li><Link href="/articles" className="hover:text-[#b33c6c] block py-1.5">Articles</Link></li>
               <li><Link href="/advice#speech-tips" className="hover:text-[#b33c6c] block py-1.5">Speech Tips</Link></li>
               <li><Link href="/advice#practice-guide" className="hover:text-[#b33c6c] block py-1.5">Practice Guide</Link></li>
+              <li><Link href="/compare" className="hover:text-[#b33c6c] block py-1.5">Compare tools</Link></li>
             </ul>
           </div>
         </div>

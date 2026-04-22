@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import fs from "fs";
 import path from "path";
 import { ArrowLeft, ArrowRight, Clock, Calendar } from "lucide-react";
@@ -59,6 +60,7 @@ const seoTitles: Record<string, string> = {
   'science-of-talking-produces-better-speeches': 'Why Talking Beats Writing Speeches',
   'turn-rambling-story-into-great-wedding-speech': 'Turn a Rambling Story Into a Speech',
   'why-writing-your-wedding-speech-is-the-hardest-way': 'Why Writing Your Speech Is Hardest',
+  'best-man-speech-examples-that-work': 'Best Man Speech Examples That Work',
 };
 
 function getSeoTitle(slug: string, title: string): string {
@@ -108,6 +110,7 @@ export default async function InsightArticlePage({
   if (!article) notFound();
 
   const html = getArticleHtml(slug);
+  const hasTikTokEmbed = html?.includes("tiktok-embed") ?? false;
 
   const related = article.relatedSlugs
     .map((s) => insightArticles.find((a) => a.slug === s))
@@ -300,6 +303,14 @@ export default async function InsightArticlePage({
           </div>
         </div>
       </article>
+
+      {hasTikTokEmbed && (
+        <Script
+          src="https://www.tiktok.com/embed.js"
+          strategy="lazyOnload"
+          async
+        />
+      )}
 
       <SiteFooter />
     </>

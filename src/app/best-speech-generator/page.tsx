@@ -57,13 +57,15 @@ function ComparisonJsonLd() {
           applicationCategory: "LifestyleApplication",
           offers: { "@type": "Offer", price: "29.99", priceCurrency: "USD", description: "Get started for free" },
         },
-        ...competitors.map((c, i) => ({
-          "@type": "SoftwareApplication",
-          position: i + 2,
-          name: c.name,
-          applicationCategory: "LifestyleApplication",
-          offers: { "@type": "Offer", price: c.price.replace("$", ""), priceCurrency: "USD" },
-        })),
+        ...competitors
+          .filter((c) => !!c.price)
+          .map((c, i) => ({
+            "@type": "SoftwareApplication",
+            position: i + 2,
+            name: c.name,
+            applicationCategory: "LifestyleApplication",
+            offers: { "@type": "Offer", price: c.price!.replace("$", ""), priceCurrency: "USD" },
+          })),
       ],
     },
   };

@@ -14,6 +14,21 @@ export interface InsightArticle {
 
 export const insightArticles: InsightArticle[] = [
   {
+    slug: 'best-man-speech-examples-that-work',
+    title: 'Best Man Speech Examples That Actually Work (Why They Land)',
+    subtitle: 'Five real best man speeches from TikTok, broken down move by move.',
+    metaDescription: 'Five real best man speech examples broken down: the specific opener, the relatable-setup joke, the pivot, the clean landing. Steal the moves that actually work.',
+    targetKeyword: 'best man speech examples',
+    readingTime: 10,
+    publishedDate: '2026-04-22',
+    heroImageAlt: 'Best man delivering a speech at a wedding reception',
+    tags: ['best man speech', 'wedding speech examples', 'speech structure', 'TikTok'],
+    relatedSlugs: [
+      'why-most-ai-wedding-speeches-feel-generic',
+      'turn-rambling-story-into-great-wedding-speech',
+    ],
+  },
+  {
     slug: 'why-writing-your-wedding-speech-is-the-hardest-way',
     title: 'Why Writing Your Wedding Speech Is the Hardest Way to Do It',
     subtitle: 'Writing forces structure too early. There\'s a better way to start.',

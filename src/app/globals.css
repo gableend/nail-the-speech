@@ -74,7 +74,7 @@
   }
 
   html {
-    @apply bg-background overscroll-none;
+    @apply bg-background overscroll-none overflow-x-hidden;
   }
 
   body {

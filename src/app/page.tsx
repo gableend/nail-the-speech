@@ -127,16 +127,16 @@ export default function HomePage() {
               </div>
 
               {/* Value Props */}
-              <div className="flex flex-col sm:flex-row sm:flex-nowrap gap-3 pt-4">
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 sm:px-5 py-2.5 shadow-sm border border-[#e8e1d8] sm:whitespace-nowrap">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-4">
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 sm:px-5 py-2.5 shadow-sm border border-[#e8e1d8] lg:whitespace-nowrap">
                   <span className="text-base flex-shrink-0">🎙️</span>
                   <span className="text-sm font-medium text-[#181615]">Start by talking, not typing</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 sm:px-5 py-2.5 shadow-sm border border-[#e8e1d8] sm:whitespace-nowrap">
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 sm:px-5 py-2.5 shadow-sm border border-[#e8e1d8] lg:whitespace-nowrap">
                   <span className="text-base flex-shrink-0">💬</span>
                   <span className="text-sm font-medium text-[#181615]">Built from your real stories</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 sm:px-5 py-2.5 shadow-sm border border-[#e8e1d8] sm:whitespace-nowrap">
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 sm:px-5 py-2.5 shadow-sm border border-[#e8e1d8] lg:whitespace-nowrap">
                   <span className="text-base flex-shrink-0">🎧</span>
                   <span className="text-sm font-medium text-[#181615]">Listen back and refine your delivery</span>
                 </div>

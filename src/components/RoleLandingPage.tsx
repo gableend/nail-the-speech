@@ -39,10 +39,10 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
       {/* Hero */}
       <section className="relative py-10 lg:py-16 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-12 lg:gap-20 items-center">
             {/* Left */}
             <div className="space-y-8">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#181615] leading-[1.1] tracking-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold text-[#181615] leading-[1.1] tracking-tight">
                 {config.heroHeading}{" "}
                 <span className="text-[#c44578]">{config.heroAccent}</span>
               </h1>
@@ -89,7 +89,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
                 />
               </div>
               {/* Floating badge */}
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-xl shadow-lg border border-[#e8e1d8] px-4 py-3 flex items-center gap-2">
+              <div className="absolute bottom-2 left-2 md:-bottom-4 md:-left-4 bg-white rounded-xl shadow-lg border border-[#e8e1d8] px-3 py-2 md:px-4 md:py-3 flex items-center gap-2">
                 <div className="flex -space-x-1">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-4 w-4 text-yellow-400 fill-yellow-400" />
@@ -106,7 +106,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#181615] mb-4">
               Why speakers choose Nail The Speech
             </h2>
             <p className="text-lg text-[#756c64] max-w-2xl mx-auto">
@@ -114,7 +114,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {config.valueProps.map((prop, idx) => (
               <div key={idx} className="bg-[#faf7f4] rounded-xl p-6 border border-[#e8e1d8] hover:shadow-md transition-shadow">
                 <div className="text-3xl mb-4">{prop.icon}</div>
@@ -130,7 +130,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
       <section className="py-16 bg-[#faf7f4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#181615] mb-4">
               Choose the perfect tone
             </h2>
             <p className="text-lg text-[#756c64]">
@@ -138,7 +138,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {config.toneHighlights.map((tone, idx) => (
               <Link
                 key={idx}
@@ -158,7 +158,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#181615] mb-4">
               How it works
             </h2>
             <p className="text-lg text-[#756c64]">
@@ -210,7 +210,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
         <section className="py-16 bg-[#faf7f4]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#181615] mb-4">
                 {config.roleLabel} speech examples
               </h2>
               <p className="text-lg text-[#756c64]">
@@ -218,7 +218,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {examples.map((speech) => (
                 <Link
                   key={speech.slug}
@@ -292,7 +292,7 @@ export default function RoleLandingPage({ config }: { config: RoleLandingConfig 
       {/* Bottom CTA */}
       <section className="py-16 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#181615] mb-4">
             Ready to nail your {config.roleLabel.toLowerCase()} speech?
           </h2>
           <p className="text-lg text-[#756c64] mb-8">

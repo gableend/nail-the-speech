@@ -105,7 +105,7 @@ export default function ExamplesFilterClient() {
 
       {/* Filter panel */}
       {showFilters && (
-        <div className="bg-white border border-[#e8e1d8] rounded-xl p-4 mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white border border-[#e8e1d8] rounded-xl p-4 mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {/* Group */}
           <div>
             <label className="block text-xs font-medium text-[#756c64] mb-1.5">Speech Group</label>

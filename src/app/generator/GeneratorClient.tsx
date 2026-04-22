@@ -2885,7 +2885,7 @@ function GeneratorContent() {
                         key={option.value}
                         type="button"
                         onClick={() => updateFormData('lengthPreference', option.value)}
-                        className={`px-6 py-3 rounded-lg border-2 text-center transition-all duration-200 min-w-[140px] ${
+                        className={`px-6 py-3 rounded-lg border-2 text-center transition-all duration-200 flex-1 min-w-0 sm:flex-initial sm:min-w-[140px] ${
                           formData.lengthPreference === option.value
                             ? 'bg-[#c44578] border-[#c44578] text-white shadow-md'
                             : 'bg-white border-[#e8e1d8] text-[#181615] hover:border-[#b33c6c] hover:text-[#b33c6c]'

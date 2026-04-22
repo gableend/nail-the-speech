@@ -104,10 +104,10 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative py-10 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-start">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-12 lg:gap-20 items-start">
             {/* Left Content */}
             <div className="space-y-8">
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-[#181615] leading-[1.1] tracking-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-7xl font-bold text-[#181615] leading-[1.1] tracking-tight">
                 Nail your wedding speech.{" "}
                 <span className="text-[#c44578]">No stress.</span>{" "}
                 <span className="text-[#c44578]">Just magic.</span>
@@ -153,7 +153,7 @@ export default function HomePage() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#181615] mb-4">
               Every wedding role. Your voice.
             </h2>
             <p className="text-lg text-[#756c64]">
@@ -162,7 +162,7 @@ export default function HomePage() {
           </div>
 
           {/* Major Speech Type Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {majorRoles.map((role) => (
               <HomeCTALink key={role.slug} href={`/generator?role=${role.slug}`} location="role_card" className="group">
                 <div className="relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
@@ -173,7 +173,7 @@ export default function HomePage() {
                       fill
                       className="object-cover"
                       style={{ objectPosition: role.objectPosition || 'top' }}
-                      sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) calc(50vw - 24px), 320px"
+                      sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 768px) calc(50vw - 24px), (max-width: 1024px) calc(33vw - 24px), 320px"
                     />
                     {role.popular && (
                       <span className="absolute top-3 right-3 bg-[#c44578] text-white text-sm px-3 py-1 rounded-full font-medium">
@@ -208,7 +208,7 @@ export default function HomePage() {
               Giving a speech at a wedding? We've got you covered, whatever your role.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-6">
               {getMinorRolesByCategory().map((group) => {
                 const hiddenFromHomepage = ['cousin-of-bride', 'cousin-of-groom', 'niece-of-bride', 'niece-of-groom', 'nephew-of-bride', 'nephew-of-groom'];
                 const visibleRoles = group.roles.filter(r => !hiddenFromHomepage.includes(r.slug));
@@ -254,7 +254,7 @@ export default function HomePage() {
       <section className="py-16 bg-[#faf7f4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#181615] mb-4">
               Talk it out. We'll shape the rest.
             </h2>
           </div>

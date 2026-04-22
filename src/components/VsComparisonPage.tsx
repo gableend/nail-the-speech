@@ -139,7 +139,7 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
             What you get with Nail The Speech
           </h2>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { icon: "🆓", title: "Get started for free", description: "Walk through the full experience before you pay." },
               { icon: "✏️", title: "In-app editing", description: "Click to edit any paragraph. Use AI to refine sections." },
@@ -162,7 +162,7 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
       {/* Bottom CTA */}
       <section className="py-16 bg-[#faf7f4]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#181615] mb-4">
             See the difference for yourself
           </h2>
           <p className="text-lg text-[#756c64] mb-8">

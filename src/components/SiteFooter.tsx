@@ -4,9 +4,9 @@ export default function SiteFooter() {
   return (
     <footer className="bg-[#181615] text-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {/* Logo and Description */}
-          <div className="col-span-2 sm:col-span-2 lg:col-span-2">
+          <div className="col-span-2 sm:col-span-2 md:col-span-4 lg:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
               <span className="text-2xl">🎤</span>
               <span className="font-bold text-xl">Nail The Speech</span>

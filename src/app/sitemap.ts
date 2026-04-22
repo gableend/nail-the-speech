@@ -3,6 +3,7 @@ import { speechCategories, exampleSpeeches } from '@/data/exampleSpeeches';
 import { articles } from '@/data/articles';
 import { helpArticles } from '@/data/helpArticles';
 import { insightArticles } from '@/data/insightArticles';
+import { competitors } from '@/data/competitors';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.nailthespeech.com';
@@ -52,19 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/nailthespeech-vs-toastpal`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/nailthespeech-vs-toastwiz`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/nailthespeech-vs-speechyai`,
+      url: `${baseUrl}/compare`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
@@ -123,5 +112,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...categoryPages, ...speechPages, ...advicePages, ...helpPages, ...insightPages];
+  // Comparison pages (/vs/[slug])
+  const comparisonPages: MetadataRoute.Sitemap = competitors.map(c => ({
+    url: `${baseUrl}/vs/${c.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
+  return [...staticPages, ...categoryPages, ...speechPages, ...advicePages, ...helpPages, ...insightPages, ...comparisonPages];
 }

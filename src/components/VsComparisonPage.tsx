@@ -13,28 +13,56 @@ function CellValue({ value }: { value: string | boolean }) {
 
 export default function VsComparisonPage({ competitor }: { competitor: Competitor }) {
   const ntsWins = competitor.features.filter((f) => f.highlight).length;
+  const heroH1 = competitor.heroH1 ?? `Nail The Speech vs ${competitor.name}`;
+  const heroSubtitle = competitor.heroSubtitle ?? competitor.summary;
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: competitor.faqs.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.answer,
+      },
+    })),
+  };
 
   return (
     <div className="min-h-screen bg-[#faf7f4]">
       <SiteHeader />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
 
       {/* Hero */}
       <section className="py-10 lg:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <Link
-              href="/best-speech-generator"
+              href="/compare"
               className="text-sm text-[#c44578] hover:text-[#b33c6c] font-medium inline-flex items-center gap-1 mb-4"
             >
               <ArrowRight className="h-3 w-3 rotate-180" />
               All comparisons
             </Link>
             <h1 className="text-4xl sm:text-5xl font-bold text-[#181615] leading-[1.1] tracking-tight mb-4">
-              Nail The Speech vs {competitor.name}
+              {heroH1}
             </h1>
             <p className="text-lg text-[#756c64] max-w-2xl mx-auto">
-              {competitor.summary}
+              {heroSubtitle}
             </p>
+            <div className="mt-8">
+              <Link href="/generator">
+                <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-8 py-4 text-lg font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Try Nail The Speech Free
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {/* Quick Stats */}
@@ -44,7 +72,7 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
               <div className="text-xs text-[#756c64]">Nail The Speech</div>
             </div>
             <div className="bg-white rounded-xl p-4 border border-[#e8e1d8] text-center">
-              <div className="text-2xl font-bold text-[#181615]">{competitor.price}</div>
+              <div className="text-2xl font-bold text-[#181615]">{competitor.price ?? "—"}</div>
               <div className="text-xs text-[#756c64]">{competitor.name}</div>
             </div>
             <div className="bg-white rounded-xl p-4 border border-[#e8e1d8] text-center">
@@ -159,6 +187,53 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
         </div>
       </section>
 
+      {/* When the alternative may be better */}
+      {competitor.whenAlternativeIsBetter.length > 0 && (
+        <section className="py-16 bg-[#faf7f4]">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#181615] text-center mb-4">
+              When {competitor.name} may be the better choice
+            </h2>
+            <p className="text-lg text-[#756c64] text-center mb-10">
+              We think Nail The Speech is the best option for most wedding speakers — but not all. Here's when we'd steer you elsewhere.
+            </p>
+            <ul className="space-y-3 max-w-2xl mx-auto">
+              {competitor.whenAlternativeIsBetter.map((item, idx) => (
+                <li key={idx} className="bg-white rounded-lg p-4 border border-[#e8e1d8] flex items-start gap-3">
+                  <ArrowRight className="h-5 w-5 text-[#756c64] flex-shrink-0 mt-0.5" />
+                  <span className="text-[#181615]">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {/* FAQ */}
+      {competitor.faqs.length > 0 && (
+        <section className="py-16 bg-white">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#181615] text-center mb-10">
+              Frequently asked questions
+            </h2>
+            <div className="space-y-4">
+              {competitor.faqs.map((faq, idx) => (
+                <details
+                  key={idx}
+                  className="group bg-[#faf7f4] rounded-xl border border-[#e8e1d8] p-5 [&_summary::-webkit-details-marker]:hidden"
+                >
+                  <summary className="cursor-pointer list-none flex items-start justify-between gap-4 font-semibold text-[#181615]">
+                    <span>{faq.question}</span>
+                    <span className="text-[#c44578] text-xl leading-none group-open:rotate-45 transition-transform flex-shrink-0">+</span>
+                  </summary>
+                  <p className="mt-3 text-[#3d3830] leading-relaxed">{faq.answer}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Bottom CTA */}
       <section className="py-16 bg-[#faf7f4]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -175,7 +250,7 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
             </Button>
           </Link>
           <p className="text-sm text-[#756c64] mt-4">
-            Join 10,000+ speakers who chose Nail The Speech over {competitor.name}
+            Join 10,000+ speakers who chose Nail The Speech
           </p>
         </div>
       </section>

@@ -57,13 +57,16 @@ function ComparisonJsonLd() {
           applicationCategory: "LifestyleApplication",
           offers: { "@type": "Offer", price: "29.99", priceCurrency: "USD", description: "Get started for free" },
         },
-        ...competitors.map((c, i) => ({
-          "@type": "SoftwareApplication",
-          position: i + 2,
-          name: c.name,
-          applicationCategory: "LifestyleApplication",
-          offers: { "@type": "Offer", price: c.price.replace("$", ""), priceCurrency: "USD" },
-        })),
+        ...["toastpal", "toastwiz", "speechyai"]
+          .map((slug) => competitors.find((c) => c.slug === slug))
+          .filter((c): c is NonNullable<typeof c> => !!c && !!c.price)
+          .map((c, i) => ({
+            "@type": "SoftwareApplication",
+            position: i + 2,
+            name: c.name,
+            applicationCategory: "LifestyleApplication",
+            offers: { "@type": "Offer", price: c.price!.replace("$", ""), priceCurrency: "USD" },
+          })),
       ],
     },
   };
@@ -77,15 +80,24 @@ function CellValue({ value }: { value: string | boolean }) {
 }
 
 export default function BestAISpeechGeneratorPage() {
+  // This legacy page does a head-to-head vs the three named paid alternatives
+  // (toastpal, toastwiz, speechyai). The generic category pages (ai-speech-writer,
+  // wedding-speech-generator) and ChatGPT live on /compare and /vs/[slug] but
+  // don't fit the "top paid AI wedding speech writers" framing here.
+  const headToHeadSlugs = ["toastpal", "toastwiz", "speechyai"] as const;
+  const headToHead = headToHeadSlugs
+    .map((slug) => competitors.find((c) => c.slug === slug))
+    .filter((c): c is NonNullable<typeof c> => !!c);
+
   // Build unified feature rows for the master comparison table
   const masterFeatures = [
-    { name: "Price", nts: ntsFeatures.price, values: competitors.map((c) => c.price) },
-    { name: "Get started", nts: ntsFeatures.getStarted, values: competitors.map(() => "Pay upfront") },
+    { name: "Price", nts: ntsFeatures.price, values: headToHead.map((c) => c.price ?? "") },
+    { name: "Get started", nts: ntsFeatures.getStarted, values: headToHead.map(() => "Pay upfront") },
     { name: "Money-back guarantee", nts: "Contact us" as string | boolean, values: [false, "100% guarantee", false] as (string | boolean)[] },
     { name: "Wedding roles", nts: ntsFeatures.roles, values: ["~10", "~12", "~8"] },
     { name: "Tone options", nts: ntsFeatures.tones, values: ["4", "~4", "Limited"] },
-    { name: "Speech length", nts: ntsFeatures.speechLength, values: competitors.map((c) => c.speechLength) },
-    { name: "Regenerations", nts: ntsFeatures.drafts, values: competitors.map((c) => c.draftsGenerated) },
+    { name: "Speech length", nts: ntsFeatures.speechLength, values: headToHead.map((c) => c.speechLength ?? "") },
+    { name: "Regenerations", nts: ntsFeatures.drafts, values: headToHead.map((c) => c.draftsGenerated ?? "") },
     { name: "In-app editor", nts: true as string | boolean, values: [false, false, false] as (string | boolean)[] },
     { name: "AI refinements", nts: true as string | boolean, values: [false, false, false] as (string | boolean)[] },
     { name: "Version history", nts: true as string | boolean, values: [false, false, false] as (string | boolean)[] },
@@ -138,7 +150,7 @@ export default function BestAISpeechGeneratorPage() {
                       <span className="font-bold text-[#c44578]">Nail The Speech</span>
                     </div>
                   </th>
-                  {competitors.map((c) => (
+                  {headToHead.map((c) => (
                     <th key={c.slug} className="py-4 px-3 text-center font-semibold text-[#181615]">
                       {c.name}
                     </th>
@@ -176,10 +188,10 @@ export default function BestAISpeechGeneratorPage() {
           </p>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {competitors.map((comp) => (
+            {headToHead.map((comp) => (
               <Link
                 key={comp.slug}
-                href={`/nailthespeech-vs-${comp.slug}`}
+                href={`/vs/${comp.slug}`}
                 className="group bg-white rounded-xl p-6 border border-[#e8e1d8] hover:border-[#b33c6c] hover:shadow-lg transition-all"
               >
                 <h3 className="text-xl font-bold text-[#181615] mb-2 group-hover:text-[#b33c6c] transition-colors">

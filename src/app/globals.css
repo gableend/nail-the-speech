@@ -86,6 +86,16 @@
     font-family: var(--font-playfair), Georgia, serif;
   }
 
+  /* TikTok oembed blockquote ships with inline min-width:325px which
+     overflows on narrow phones (e.g. Fold 6 cover at 344px). Neutralise
+     the min-width and cap the max so it sits inside the prose column. */
+  .tiktok-embed {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 605px !important;
+    margin-inline: auto;
+  }
+
   .font-serif {
     font-family: var(--font-playfair), Georgia, serif;
   }

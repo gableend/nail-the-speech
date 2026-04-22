@@ -87,7 +87,7 @@ export default function FAQ({ items, title = "Frequently asked questions" }: FAQ
   return (
     <section className="py-16 bg-[#faf7f4]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-[#181615] text-center mb-12">
           {title}
         </h2>
 

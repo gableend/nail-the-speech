@@ -273,7 +273,7 @@ export default function BestAISpeechGeneratorPage() {
       {/* Bottom CTA */}
       <section className="py-16 bg-[#faf7f4]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-[#181615] mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#181615] mb-4">
             Ready to write your speech?
           </h2>
           <p className="text-lg text-[#756c64] mb-8">

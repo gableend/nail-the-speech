@@ -152,7 +152,7 @@ export default function HelpPage() {
       {/* Category Cards */}
       <section className="pb-16 bg-[#faf7f4]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
             {helpCategories.map((cat) => {
               const categoryArticles = helpArticles.filter(
                 (a) => a.category === cat.label
@@ -306,7 +306,7 @@ export default function HelpPage() {
             Explore more
           </h2>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {[
               {
                 label: "Best Man Speeches",

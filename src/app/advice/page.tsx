@@ -177,7 +177,7 @@ export default function AdvicePage() {
               )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {category.articles.map(article => {
                 const isPublished = article.sections.length > 1 || article.sections[0]?.heading !== 'Coming Soon';
                 return (

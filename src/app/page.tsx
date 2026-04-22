@@ -8,6 +8,7 @@ import HomeClient from "@/components/HomeClient";
 import FAQ from "@/components/FAQ";
 import { faqs } from "@/data/faqData";
 import { majorRoles, getMinorRolesByCategory } from "@/data/speechRoles";
+import { competitors } from "@/data/competitors";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -325,6 +326,49 @@ export default function HomePage() {
                 <p className="text-sm text-[#756c64]">Chicago, IL</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How we compare */}
+      <section className="py-16 bg-[#faf7f4]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#181615] mb-4">
+              How Nail The Speech compares
+            </h2>
+            <p className="text-lg text-[#756c64] max-w-2xl mx-auto">
+              Shopping around? We put ourselves side-by-side against every major AI wedding speech tool so you don&apos;t have to.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {competitors.map((comp) => (
+              <Link
+                key={comp.slug}
+                href={`/vs/${comp.slug}`}
+                className="group bg-white rounded-xl p-6 border border-[#e8e1d8] hover:border-[#b33c6c] hover:shadow-lg transition-all flex flex-col"
+              >
+                <h3 className="text-lg font-bold text-[#181615] mb-2 group-hover:text-[#b33c6c] transition-colors">
+                  Nail The Speech vs {comp.name}
+                </h3>
+                <p className="text-sm text-[#756c64] leading-relaxed mb-4 flex-1">
+                  {comp.tagline}
+                </p>
+                <div className="inline-flex items-center gap-1 text-sm font-medium text-[#c44578] group-hover:gap-2 transition-all">
+                  Read comparison
+                  <ArrowRight className="h-4 w-4" />
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link
+              href="/compare"
+              className="inline-flex items-center gap-1 text-[#c44578] hover:text-[#b33c6c] font-medium"
+            >
+              See the full side-by-side comparison
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>

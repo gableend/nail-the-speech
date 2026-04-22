@@ -21,7 +21,8 @@ export const insightArticles: InsightArticle[] = [
     targetKeyword: 'best man speech examples',
     readingTime: 9,
     publishedDate: '2026-04-22',
-    heroImageAlt: 'Best man delivering a speech at a wedding reception',
+    heroImage: '/images/articles/best-man-speech-examples-that-work.webp',
+    heroImageAlt: 'Halftone illustration of a best man at a microphone surrounded by laughing wedding guests',
     tags: ['best man speech', 'wedding speech examples', 'speech structure', 'TikTok'],
     relatedSlugs: [
       'why-most-ai-wedding-speeches-feel-generic',

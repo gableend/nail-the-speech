@@ -160,7 +160,7 @@ export const competitors: Competitor[] = [
       },
       {
         question: "Can I edit the speech after it's generated?",
-        answer: "Not in ToastWiz — drafts are delivered by email. Nail The Speech lets you edit any paragraph in-app, apply one-click AI refinements, and keep version history as you iterate.",
+        answer: "Not in ToastWiz. Drafts are delivered by email. Nail The Speech lets you edit any paragraph in-app, apply one-click AI refinements, and keep version history as you iterate.",
       },
       {
         question: "Does ToastWiz support voice input?",
@@ -172,7 +172,7 @@ export const competitors: Competitor[] = [
       },
       {
         question: "How long can each tool's speech be?",
-        answer: "ToastWiz generates speeches in the 350–600 word range. Nail The Speech supports custom lengths from 1 to 10 minutes so you can match your slot in the running order.",
+        answer: "ToastWiz generates speeches in the 350-600 word range. Nail The Speech supports custom lengths from 1 to 10 minutes so you can match your slot in the running order.",
       },
     ],
     features: [
@@ -219,9 +219,9 @@ export const competitors: Competitor[] = [
       "No audio preview feature",
     ],
     whenAlternativeIsBetter: [
-      "You're willing to invest 45–60 minutes in a detailed questionnaire up front",
+      "You're willing to invest 45-60 minutes in a detailed questionnaire up front",
       "You specifically want SpeechyAI's professional-speechwriter-built cliché filter",
-      "You want a longer default speech (700–1,300 words) without adjusting settings",
+      "You want a longer default speech (700-1,300 words) without adjusting settings",
     ],
     faqs: [
       {
@@ -230,7 +230,7 @@ export const competitors: Competitor[] = [
       },
       {
         question: "How long does setup take?",
-        answer: "SpeechyAI's questionnaire is thorough — typically 45 to 60 minutes. Nail The Speech takes about 2 minutes to get started, and you can use voice input to talk through your stories rather than filling in a form.",
+        answer: "SpeechyAI's questionnaire is thorough, typically 45 to 60 minutes. Nail The Speech takes about 2 minutes to get started, and you can use voice input to talk through your stories rather than filling in a form.",
       },
       {
         question: "Can I edit the speech after it's generated?",
@@ -292,7 +292,7 @@ competitors.push({
   summary:
     "ChatGPT is a general-purpose AI chatbot. It can write a wedding speech with the right prompt, but you drive the whole process: prompt engineering, iteration, structure, tone calibration. Nail The Speech is built specifically for wedding speeches, with voice input, 44 roles, 14 tones, in-app editing, and audio rehearsal.",
   weaknesses: [
-    "You have to write and iterate the prompt yourself — no wedding-specific guidance",
+    "You have to write and iterate the prompt yourself. No wedding-specific guidance",
     "Output often sounds generic without heavy, specific prompting",
     "No structured workflow for wedding speech roles, tones, or length",
     "No in-app paragraph editing or one-click refinement prompts (\"make it funnier\")",
@@ -312,23 +312,23 @@ competitors.push({
     },
     {
       question: "What's the best ChatGPT prompt for a wedding speech?",
-      answer: "There's no single best prompt. The most important thing is to feed ChatGPT specific, personal stories — not adjectives about the person. Our article on why AI wedding speeches feel generic covers the prompt patterns that work best. If you'd rather skip prompt engineering entirely, Nail The Speech is built around the same principle (talk through specific stories) with a purpose-built workflow.",
+      answer: "There's no single best prompt. The most important thing is to feed ChatGPT specific, personal stories, not adjectives about the person. Our article on why AI wedding speeches feel generic covers the prompt patterns that work best. If you'd rather skip prompt engineering entirely, Nail The Speech is built around the same principle (talk through specific stories) with a purpose-built workflow.",
     },
     {
       question: "Is ChatGPT or Nail The Speech better for wedding speeches?",
-      answer: "If you want a wedding-specific workflow — role and tone selection, custom speech length, in-app editing, audio preview, MP3 export — Nail The Speech is purpose-built. If you want a general-purpose tool and don't mind writing long prompts and iterating yourself, ChatGPT can work. Nail The Speech is cheaper than a ChatGPT Plus subscription for a one-off speech.",
+      answer: "If you want a wedding-specific workflow (role and tone selection, custom speech length, in-app editing, audio preview, MP3 export), Nail The Speech is purpose-built. If you want a general-purpose tool and don't mind writing long prompts and iterating yourself, ChatGPT can work. Nail The Speech is cheaper than a ChatGPT Plus subscription for a one-off speech.",
     },
     {
       question: "Does ChatGPT support voice input?",
-      answer: "ChatGPT has voice mode in its mobile app, but it's a conversational chatbot — not a structured workflow that turns your spoken stories into a wedding speech. Nail The Speech's voice input is built for exactly that: speak your memories, and it shapes them into a speech.",
+      answer: "ChatGPT has voice mode in its mobile app, but it's a conversational chatbot, not a structured workflow that turns your spoken stories into a wedding speech. Nail The Speech's voice input is built for exactly that: speak your memories, and it shapes them into a speech.",
     },
     {
       question: "Can I hear the speech read back in ChatGPT?",
-      answer: "ChatGPT has a read-aloud button in its app. Nail The Speech includes text-to-speech with six voices and MP3 export so you can rehearse hands-free — built into the speech-preparation workflow rather than as a general chat feature.",
+      answer: "ChatGPT has a read-aloud button in its app. Nail The Speech includes text-to-speech with six voices and MP3 export so you can rehearse hands-free. It's built into the speech-preparation workflow rather than offered as a general chat feature.",
     },
     {
       question: "Is Nail The Speech cheaper than ChatGPT Plus?",
-      answer: "Yes for a one-off speech. Nail The Speech Pro is $29.99 as a one-time payment. ChatGPT Plus is $20/month — worth it if you use it across many tasks, but Nail The Speech is cheaper if you just need to nail one wedding speech.",
+      answer: "Yes for a one-off speech. Nail The Speech Pro is $29.99 as a one-time payment. ChatGPT Plus is $20/month, worth it if you use it across many tasks, but Nail The Speech is cheaper if you just need to nail one wedding speech.",
     },
   ],
   features: [
@@ -357,15 +357,15 @@ competitors.push({
   name: "a generic AI speech writer",
   tagline: "General-purpose AI tools that generate speeches from a form or prompt",
   heroH1: "Nail The Speech vs a Generic AI Speech Writer",
-  heroSubtitle: "What to look for in a wedding speech writer — and where generic AI tools fall short.",
+  heroSubtitle: "What to look for in a wedding speech writer, and where generic AI tools fall short.",
   metaTitle: "Nail The Speech vs AI Speech Writer | Wedding Speech AI Tool Comparison",
   metaDescription: "Looking for an AI speech writer for your wedding? Compare the generic AI speech writer category to Nail The Speech's voice-first, wedding-specific tool. See what to look for.",
   summary:
     "\"AI speech writer\" is a broad category. Some are general-purpose; some are built for best man speeches; some are aimed at corporate presentations. If you're giving a wedding speech, the features that actually matter are specific: wedding-role coverage, tone calibration, voice input, and in-app editing. Here's how Nail The Speech compares to the average tool in the category.",
   weaknesses: [
-    "Most generic AI speech writers aren't purpose-built for weddings — they treat a wedding toast like any other speech",
+    "Most generic AI speech writers aren't purpose-built for weddings. They treat a wedding toast like any other speech",
     "Voice input is rare; most rely on typed forms or prompts",
-    "Wedding role coverage varies wildly — many tools offer only 4–6 roles",
+    "Wedding role coverage varies wildly. Many tools offer only 4-6 roles",
     "In-app editing and one-click refinement prompts are uncommon in generic tools",
     "Audio rehearsal (text-to-speech, MP3 export) is almost never included",
     "Tone control is often binary (funny/heartfelt) rather than nuanced",
@@ -378,11 +378,11 @@ competitors.push({
   faqs: [
     {
       question: "What's the best AI speech writer for a wedding?",
-      answer: "The honest answer: the one built for weddings. Generic AI speech writers tend to miss the specific craft of a wedding toast — the pivot, the calibrated roast, the clean landing. Nail The Speech is built around those moves, with 44 wedding roles, 14 tones, and a voice-first workflow.",
+      answer: "The honest answer: the one built for weddings. Generic AI speech writers tend to miss the specific craft of a wedding toast: the pivot, the calibrated roast, the clean landing. Nail The Speech is built around those moves, with 44 wedding roles, 14 tones, and a voice-first workflow.",
     },
     {
       question: "Are AI speech writers worth it?",
-      answer: "For wedding speeches, yes — if the tool is actually built for weddings. A generic AI speech writer can get you unstuck, but you'll spend more time adjusting the output to the wedding context. A wedding-specific tool like Nail The Speech skips that step.",
+      answer: "For wedding speeches, yes, if the tool is actually built for weddings. A generic AI speech writer can get you unstuck, but you'll spend more time adjusting the output to the wedding context. A wedding-specific tool like Nail The Speech skips that step.",
     },
     {
       question: "What should I look for in an AI speech writer?",
@@ -390,11 +390,11 @@ competitors.push({
     },
     {
       question: "Can I use a generic AI writer for a wedding speech?",
-      answer: "You can, but you'll do more of the work yourself — specifying the wedding context, calibrating the tone, structuring the arc. Nail The Speech handles those by default. If you're already comfortable with AI tools and want flexibility across speech types, a generic writer might suit you.",
+      answer: "You can, but you'll do more of the work yourself: specifying the wedding context, calibrating the tone, structuring the arc. Nail The Speech handles those by default. If you're already comfortable with AI tools and want flexibility across speech types, a generic writer might suit you.",
     },
     {
       question: "How much does a wedding-specific AI speech writer cost?",
-      answer: "Nail The Speech Pro is $29.99 (one-time) and you can try the full flow for free. Subscription-based general AI tools typically run $15–$25 per month, which adds up if you only need one speech.",
+      answer: "Nail The Speech Pro is $29.99 (one-time) and you can try the full flow for free. Subscription-based general AI tools typically run $15-$25 per month, which adds up if you only need one speech.",
     },
     {
       question: "What makes Nail The Speech different from other AI writers?",
@@ -404,9 +404,9 @@ competitors.push({
   features: [
     { name: "Purpose-built for wedding speeches", category: "generation", nts: true, competitor: "Rarely", highlight: true },
     { name: "Voice input for drafting", category: "editing", nts: true, competitor: "Usually no", highlight: true },
-    { name: "Wedding role coverage", category: "generation", nts: "44 roles", competitor: "Typically 4–8", highlight: true },
-    { name: "Tone calibration", category: "generation", nts: "14 tones", competitor: "Usually 2–4" },
-    { name: "Custom speech length", category: "generation", nts: "1–10 minutes", competitor: "Varies" },
+    { name: "Wedding role coverage", category: "generation", nts: "44 roles", competitor: "Typically 4-8", highlight: true },
+    { name: "Tone calibration", category: "generation", nts: "14 tones", competitor: "Usually 2-4" },
+    { name: "Custom speech length", category: "generation", nts: "1-10 minutes", competitor: "Varies" },
     { name: "In-app editing", category: "editing", nts: true, competitor: "Varies", highlight: true },
     { name: "One-click AI refinements", category: "editing", nts: true, competitor: "Rare" },
     { name: "Version history", category: "editing", nts: true, competitor: "Rare" },
@@ -428,32 +428,32 @@ competitors.push({
   metaTitle: "Nail The Speech vs Other Wedding Speech Generators | Comparison",
   metaDescription: "Searching for a wedding speech generator? See how Nail The Speech's voice-first approach, 44 roles, and in-app editing compare to the typical form-based generator.",
   summary:
-    "Most wedding speech generators work the same way: fill in a form, pay, receive a draft. Output quality varies, editing is usually limited, and the resulting speech often sounds like an AI tried its best. Nail The Speech takes a different approach — voice-first input, so the speech is built from your actual stories in your actual voice, with in-app editing to iterate until it sounds like you.",
+    "Most wedding speech generators work the same way: fill in a form, pay, receive a draft. Output quality varies, editing is usually limited, and the resulting speech often sounds like an AI tried its best. Nail The Speech takes a different approach: voice-first input, so the speech is built from your actual stories in your actual voice, with in-app editing to iterate until it sounds like you.",
   weaknesses: [
-    "Most wedding speech generators are form-based — you fill in fields, AI fills in the rest",
+    "Most wedding speech generators are form-based. You fill in fields, AI fills in the rest",
     "Output quality varies. Many produce the \"sounds like an AI wrote it\" result reviewers complain about",
     "Editing is often limited to regenerating the whole speech rather than refining paragraphs",
-    "Voice input is rare — most rely on typed text or multiple-choice questions",
+    "Voice input is rare. Most rely on typed text or multiple-choice questions",
     "Audio rehearsal (text-to-speech, MP3 export) is uncommon",
-    "Pricing can surprise you — several require upfront payment before you see anything",
+    "Pricing can surprise you. Several require upfront payment before you see anything",
   ],
   whenAlternativeIsBetter: [
     "You want the fastest possible first draft and will rewrite it heavily yourself",
     "You prefer a strict form-based input over talking through your stories",
-    "You found a generator that covers your specific role better than Nail The Speech (rare — we support 44 roles)",
+    "You found a generator that covers your specific role better than Nail The Speech (rare, since we support 44 roles)",
   ],
   faqs: [
     {
       question: "What's the best wedding speech generator?",
-      answer: "It depends on how much you want the tool to do vs. how much you want to do yourself. Nail The Speech is built around the observation that a speech is only as good as the stories it's built from — so it starts by letting you talk through your stories rather than filling in a form. Other generators typically use a form-based approach, which is faster to complete but produces more generic output.",
+      answer: "It depends on how much you want the tool to do vs. how much you want to do yourself. Nail The Speech is built around the observation that a speech is only as good as the stories it's built from, so it starts by letting you talk through your stories rather than filling in a form. Other generators typically use a form-based approach, which is faster to complete but produces more generic output.",
     },
     {
       question: "Do wedding speech generators actually work?",
-      answer: "Yes, but quality varies enormously. The honest test: does the output sound like you or like an AI? Most form-based generators produce something inoffensive but generic. Tools that start from your own spoken stories — like Nail The Speech — produce speeches that actually sound like the person giving them.",
+      answer: "Yes, but quality varies enormously. The honest test: does the output sound like you or like an AI? Most form-based generators produce something inoffensive but generic. Tools that start from your own spoken stories, like Nail The Speech, produce speeches that actually sound like the person giving them.",
     },
     {
       question: "How much does a wedding speech generator cost?",
-      answer: "Typical wedding speech generators cost $30–$65 per speech or $15–$25 per month. Nail The Speech Pro is $29.99 (currently 50% off) as a one-time payment, and you can use the full flow for free before paying.",
+      answer: "Typical wedding speech generators cost $30-$65 per speech or $15-$25 per month. Nail The Speech Pro is $29.99 (currently 50% off) as a one-time payment, and you can use the full flow for free before paying.",
     },
     {
       question: "Can I edit the speech the generator gives me?",
@@ -461,25 +461,25 @@ competitors.push({
     },
     {
       question: "Can I practise my speech with the generator?",
-      answer: "Most generators don't include rehearsal tools. Nail The Speech does — built-in text-to-speech with six voices, plus MP3 export so you can rehearse hands-free.",
+      answer: "Most generators don't include rehearsal tools. Nail The Speech does, with built-in text-to-speech in six voices, plus MP3 export so you can rehearse hands-free.",
     },
     {
       question: "Which wedding speech generator has the most roles?",
-      answer: "Nail The Speech supports 44 wedding roles, including step-parents, cousins, siblings, officiants, and less-covered positions. Most other generators focus on the 4–8 most common roles (best man, maid of honor, father of the bride, etc.).",
+      answer: "Nail The Speech supports 44 wedding roles, including step-parents, cousins, siblings, officiants, and less-covered positions. Most other generators focus on the 4-8 most common roles (best man, maid of honor, father of the bride, etc.).",
     },
   ],
   features: [
     { name: "Voice-first workflow", category: "editing", nts: true, competitor: "Rarely", highlight: true },
-    { name: "Wedding roles supported", category: "generation", nts: "44 roles", competitor: "Typically 4–8", highlight: true },
-    { name: "Tone options", category: "generation", nts: "14 tones", competitor: "Usually 2–4", highlight: true },
-    { name: "Custom speech length", category: "generation", nts: "1–10 minutes", competitor: "Often fixed" },
+    { name: "Wedding roles supported", category: "generation", nts: "44 roles", competitor: "Typically 4-8", highlight: true },
+    { name: "Tone options", category: "generation", nts: "14 tones", competitor: "Usually 2-4", highlight: true },
+    { name: "Custom speech length", category: "generation", nts: "1-10 minutes", competitor: "Often fixed" },
     { name: "In-app paragraph editing", category: "editing", nts: true, competitor: "Rare", highlight: true },
     { name: "One-click AI refinements", category: "editing", nts: true, competitor: "Rare", highlight: true },
     { name: "Version history", category: "editing", nts: true, competitor: "Rare" },
     { name: "Text-to-speech audio", category: "output", nts: "6 voices", competitor: "Rare", highlight: true },
     { name: "MP3 export for rehearsal", category: "output", nts: true, competitor: "Rare", highlight: true },
     { name: "Export to PDF / Word", category: "output", nts: true, competitor: "Varies" },
-    { name: "Free preview", category: "pricing", nts: true, competitor: "Varies — many require upfront payment", highlight: true },
-    { name: "Price", category: "pricing", nts: "$29.99 one-time", competitor: "$30–$65 typical" },
+    { name: "Free preview", category: "pricing", nts: true, competitor: "Varies. Many require upfront payment", highlight: true },
+    { name: "Price", category: "pricing", nts: "$29.99 one-time", competitor: "$30-$65 typical" },
   ],
 });

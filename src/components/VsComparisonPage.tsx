@@ -72,7 +72,7 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
               <div className="text-xs text-[#756c64]">Nail The Speech</div>
             </div>
             <div className="bg-white rounded-xl p-4 border border-[#e8e1d8] text-center">
-              <div className="text-2xl font-bold text-[#181615]">{competitor.price ?? "—"}</div>
+              <div className="text-2xl font-bold text-[#181615]">{competitor.price ?? "Varies"}</div>
               <div className="text-xs text-[#756c64]">{competitor.name}</div>
             </div>
             <div className="bg-white rounded-xl p-4 border border-[#e8e1d8] text-center">
@@ -195,7 +195,7 @@ export default function VsComparisonPage({ competitor }: { competitor: Competito
               When {competitor.name} may be the better choice
             </h2>
             <p className="text-lg text-[#756c64] text-center mb-10">
-              We think Nail The Speech is the best option for most wedding speakers — but not all. Here's when we'd steer you elsewhere.
+              We think Nail The Speech is the best option for most wedding speakers, but not all. Here's when we'd steer you elsewhere.
             </p>
             <ul className="space-y-3 max-w-2xl mx-auto">
               {competitor.whenAlternativeIsBetter.map((item, idx) => (

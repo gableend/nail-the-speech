@@ -150,11 +150,11 @@ export default function ComparePage() {
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
             {[
               { title: "Voice-first workflow", description: "Speak your stories, don't fill in a form. Speeches built from how you actually talk about the couple." },
-              { title: "Wedding-specific, not general", description: "Purpose-built for wedding speeches, with 44 roles and 14 tones — not a general-purpose chatbot adapted to the job." },
+              { title: "Wedding-specific, not general", description: "Purpose-built for wedding speeches, with 44 roles and 14 tones. Not a general-purpose chatbot adapted to the job." },
               { title: "Free to try before you pay", description: "Walk through the whole flow, see your draft, then decide. No upfront payment for a speech you haven't seen." },
               { title: "Paragraph-level editing", description: "Click to edit any sentence. One-click refinements make it shorter, funnier, or more heartfelt without starting over." },
               { title: "Rehearsal built in", description: "Text-to-speech with six voices, plus MP3 export. Practise hands-free on your commute before the big day." },
-              { title: "Cheaper than rivals", description: `${ntsFeatures.price} as a one-time payment — less than most competitors and cheaper than a month of ChatGPT Plus.` },
+              { title: "Cheaper than rivals", description: `${ntsFeatures.price} as a one-time payment. Less than most competitors and cheaper than a month of ChatGPT Plus.` },
             ].map((item, idx) => (
               <div key={idx} className="flex items-start gap-3">
                 <div className="w-6 h-6 bg-[#c44578]/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">

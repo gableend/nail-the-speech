@@ -362,7 +362,7 @@ export default function HelpPage() {
           <Link href="/generator">
             <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-10 py-5 text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
               <Sparkles className="mr-2 h-5 w-5" />
-              Get Started Free
+              Start Your Speech
             </Button>
           </Link>
         </div>

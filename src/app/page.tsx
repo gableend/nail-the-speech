@@ -114,11 +114,11 @@ export default function HomePage() {
                 <span className="text-[#c44578]">Just magic.</span>
               </h1>
 
-              {/* Get Started Button */}
+              {/* Start Your Speech Button */}
               <div className="space-y-6">
                 <HomeCTALink href="/generator" location="hero">
                   <Button className="bg-[#c44578] hover:bg-[#b33c6c] text-white px-8 sm:px-10 py-5 text-lg sm:text-xl font-semibold shadow-lg rounded-full transition-all duration-200 transform hover:scale-105 hover:shadow-xl">
-                    Get Started
+                    Start Your Speech
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </HomeCTALink>
@@ -193,7 +193,7 @@ export default function HomePage() {
                     <h3 className="text-[#c44578] text-xl font-bold mb-2">{role.label}</h3>
                     <p className="text-[#6b5b73] text-sm leading-relaxed mb-4">{role.description}</p>
                     <div className="flex items-center text-[#c44578] font-medium">
-                      <span>Get Started</span>
+                      <span>Start Your Speech</span>
                       <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>

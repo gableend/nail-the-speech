@@ -7,7 +7,7 @@ import { Users } from 'lucide-react';
 
 export default function AuthNavigation({ isGeneratorPage = false }: { isGeneratorPage?: boolean }) {
   const primaryLink = isGeneratorPage ? "/" : "/generator";
-  const primaryLabel = isGeneratorPage ? "Home" : "Get Started";
+  const primaryLabel = isGeneratorPage ? "Home" : "Start Your Speech";
 
   return (
     <>

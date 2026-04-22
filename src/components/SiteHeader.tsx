@@ -14,7 +14,7 @@ export default function SiteHeader({ hideBanner = false, isGeneratorPage = false
             <span className="sm:hidden"><strong className="font-semibold">Talk it out.</strong> Start free!</span>
             <Link href="/generator">
               <button className="flex items-center gap-1 bg-white/20 hover:bg-white/30 px-3 py-1.5 min-h-[36px] rounded-full text-xs font-medium transition-colors">
-                Get Started
+                Start Your Speech
                 <ArrowRight className="h-3 w-3" />
               </button>
             </Link>

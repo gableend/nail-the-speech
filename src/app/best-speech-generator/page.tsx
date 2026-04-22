@@ -179,7 +179,7 @@ export default function BestAISpeechGeneratorPage() {
             {competitors.map((comp) => (
               <Link
                 key={comp.slug}
-                href={`/nailthespeech-vs-${comp.slug}`}
+                href={`/vs/${comp.slug}`}
                 className="group bg-white rounded-xl p-6 border border-[#e8e1d8] hover:border-[#b33c6c] hover:shadow-lg transition-all"
               >
                 <h3 className="text-xl font-bold text-[#181615] mb-2 group-hover:text-[#b33c6c] transition-colors">
